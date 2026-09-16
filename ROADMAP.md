@@ -42,6 +42,7 @@
 
 - [ ] **Equation Solving:** Implement `solve(eq, x)` using OSR algebraic isolation rules.
 - [ ] **Trigonometry & Special Functions:** Integrate standard rules for Bessel functions, Gamma, Hypergeometric, etc.
+- [ ] **Matrix and Tensor Algebra:** Define shape- and index-aware OpenMath-aligned heads for matrix multiplication, tensor products, contractions, and axis permutations. Preserve operand order by default; allow commutativity only when scalarity or compatible additive structure is established.
 - [ ] **SMT Solver Delegation:** When rules fail or when simplifying boolean constraints, automatically delegate proofs to SMT solvers (Z3, CVC5) via Julia wrappers.
 - [ ] **SciML Integration:** Register the CAS as a backend for `ModelingToolkit.jl` and `DifferentialEquations.jl` to simplify massive ODE/PDE systems before numerical compilation.
 
@@ -52,4 +53,4 @@
 > Loading 6000 rules via macros can crash the Julia compiler or lead to unacceptable loading times. 
 
 * **Mitigation 1:** Use `RuntimeGeneratedFunctions.jl` or cache rule graphs on disk.
-* **Mitigation 2:** Infinite Loops in Rewriting. AC rules can sometimes cycle. Implement strict term-ordering (e.g., Lexicographic) for commutative rules to guarantee termination.
+* **Mitigation 2:** Infinite Loops in Rewriting. AC rules can sometimes cycle. Implement strict term-ordering (e.g., Lexicographic) for commutative rules to guarantee termination; never infer commutativity for matrix multiplication, tensor products, contractions, or axis permutations.
