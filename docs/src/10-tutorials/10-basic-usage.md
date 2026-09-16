@@ -8,8 +8,8 @@ Rules are stored in JSON files. You can load them at compile-time using the `@lo
 ```julia
 using OpenSymbolicRules
 
-# Assuming you have cloned the Algebra rules into a specific directory
-alg_rules = @load_osr("path/to/Algebra/1.1-basic-exponents.json")
+# Assuming you have cloned the Algebra rule repository
+alg_rules = @load_osr_profile("path/to/Algebra")
 ```
 
 ## Simplifying Expressions
@@ -17,14 +17,14 @@ Once loaded, you can apply rules to `SymbolicUtils.jl` expressions using the `si
 
 ```julia
 using SymbolicUtils
-@syms x Pow(a, b) Mul(a, b)
+@syms x Power(a, b) Multiply(a, b)
 
 # Create an expression: (x^2)^3
-expr = Pow(Pow(x, 2), 3)
+expr = Power(Power(x, 2), 3)
 
 # Simplify it
 res = simplify(expr, alg_rules)
-# -> Pow(x, 6)
+# -> Power(x, Multiply(2, 3))
 ```
 
 ## Step-by-Step Tracing
