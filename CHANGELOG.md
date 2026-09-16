@@ -24,3 +24,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Validate the OpenMath semantic declaration of every mathematical operator at
   rule-load time.
 - Export canonical OpenMath logic and quantifier heads for direct profile use.
+- Normalize canonical n-ary OpenMath associative expressions to binary
+  SymbolicUtils terms while loading rules.

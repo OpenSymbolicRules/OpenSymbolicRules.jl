@@ -16,7 +16,7 @@ using TestItemRunner
     @test inferences[1].conclusion == "False"
     @test_throws ArgumentError load_inference_profile(root, :missing)
 
-    @syms x Pow(a, b) Power(a, b)
+    @syms x y z Pow(a, b) Power(a, b)
     default_rules = @load_osr_profile("data/profiles")
     cnf_rules = @load_osr_profile("data/profiles", :to_cnf)
     @test isequal(default_rules[1](Power(x, 1)), x)
@@ -36,4 +36,7 @@ using TestItemRunner
 
     binder = OpenSymbolicRules.osr_to_expr(["Forall", ["x"], ["Not", "x"]])
     @test binder == :(Forall([:x], Not(x)))
+
+    nary_add = OpenSymbolicRules.osr_to_expr(["Add", "x", "y", "z"])
+    @test isequal(eval(nary_add), Add(Add(x, y), z))
 end

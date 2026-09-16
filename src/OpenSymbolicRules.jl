@@ -17,6 +17,8 @@ export @load_osr, @load_osr_profile, rule_paths, load_inference_profile, OSRInfe
 export FreeQ, is_integer, is_numeric, NotEqual
 export build_simplifier
 
+const _ASSOCIATIVE_OPERATORS = Set(["Add", "Multiply", "And", "Or"])
+
 """
     osr_to_expr(node)
 
@@ -46,9 +48,12 @@ function osr_to_expr(node)
             bound_variables = Expr(:vect, [QuoteNode(Symbol(variable)) for variable in variables]...)
             return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3]))
         end
-        # Function call, e.g. ["Mul", "x", "y"] -> Mul(x, y)
+        # Function call, e.g. ["Multiply", "x", "y"] -> Multiply(x, y)
         op = Symbol(node[1])
         args = map(osr_to_expr, node[2:end])
+        if node[1] in _ASSOCIATIVE_OPERATORS && length(args) > 2
+            return reduce((left, right) -> Expr(:call, op, left, right), args)
+        end
         return Expr(:call, op, args...)
     else
         # Literals like numbers

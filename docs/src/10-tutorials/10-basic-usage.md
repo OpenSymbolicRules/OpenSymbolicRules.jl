@@ -71,3 +71,7 @@ inferences = load_inference_profile("path/to/Logic", :resolution)
 
 Logic profiles use the exported canonical heads `And`, `Or`, `Not`, `Implies`,
 `Equivalent`, `Forall`, and `Exists`.
+
+OpenMath n-ary `Add`, `Multiply`, `And`, and `Or` expressions are normalized
+to left-associated binary SymbolicUtils terms at load time. Commutative
+matching is deliberately not implied by this normalization.
