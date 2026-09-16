@@ -68,3 +68,15 @@ makedocs(;
 )
 
 deploydocs(; repo = "github.com/OpenSymbolicRules/OpenSymbolicRules.jl")
+
+# Generate llms.txt and llms-full.txt
+open(joinpath(@__DIR__, "build", "llms.txt"), "w") do io
+    println(io, "# OpenSymbolicRules.jl")
+    println(io, "> A universal, zero-overhead client for Open Symbolic Rules.")
+    println(io, "\nThis package reads OSR JSON files at compile-time and translates them into native SymbolicUtils.jl rewrite rules.")
+end
+
+open(joinpath(@__DIR__, "build", "llms-full.txt"), "w") do io
+    println(io, "# OpenSymbolicRules.jl - Full Documentation")
+    println(io, read(joinpath(@__DIR__, "src", "index.md"), String))
+end
