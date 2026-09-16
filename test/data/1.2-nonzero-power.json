@@ -1,0 +1,17 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.2",
+  "title": "Nonzero Power Rule",
+  "semantics": {
+    "Power": "openmath:arith1#power"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "description": "A nonzero quantity raised to zero is one.",
+      "pattern": ["Power", "x_", 0],
+      "constraints": [["NonzeroQ", "x_"]],
+      "result": 1
+    }
+  ]
+}

@@ -17,6 +17,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Roadmap entries for binders, piecewise expressions, symbolic sets, units,
   noncommutative algebra, discrete operators, distributions, and coefficient
   domains.
+- Support for the OSR `NonzeroQ` constraint predicate, including explicit
+  symbolic `IsNonzero` assumptions.
 
 ### Changed
 - Mapped bundled fixture operators to canonical OpenMath Content Dictionary identifiers.

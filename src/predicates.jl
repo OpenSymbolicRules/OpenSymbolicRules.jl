@@ -52,8 +52,9 @@ NotEqual(a, b) = !isequal(a, b)
 @syms IsInteger(a)
 @syms IsPositive(a)
 @syms IsNegative(a)
+@syms IsNonzero(a)
 
-export GreaterThan, LessThan, IsInteger, IsPositive, IsNegative
+export GreaterThan, LessThan, IsInteger, IsPositive, IsNegative, IsNonzero
 
 """
     check_assumption(predicate)
@@ -95,6 +96,20 @@ function is_negative(x)
     check_assumption(ElementOf(x, NegativeHalfLine()))
 end
 
+"""
+    is_nonzero(x)
+
+Returns whether `x` is provably nonzero.  For symbolic values, this requires
+an explicit `IsNonzero(x)` assumption or a sign assumption; an unknown value
+is deliberately not treated as nonzero.
+"""
+function is_nonzero(x)
+    if x isa Number
+        return !iszero(x)
+    end
+    check_assumption(IsNonzero(x)) || is_positive(x) || is_negative(x)
+end
+
 function is_real(x)
     if x isa Real || (x isa SymbolicUtils.BasicSymbolic && SymbolicUtils.symtype(x) <: Real)
         return true
@@ -109,7 +124,7 @@ function is_complex(x)
     check_assumption(ElementOf(x, ComplexPlane())) || check_assumption(ElementOf(x, Complex)) || is_real(x)
 end
 
-export is_positive, is_negative, FreeQ, is_integer, is_numeric, NotEqual, is_real, is_complex
+export is_positive, is_negative, is_nonzero, FreeQ, is_integer, is_numeric, NotEqual, is_real, is_complex
 
 """
     assuming(f, assumptions...)

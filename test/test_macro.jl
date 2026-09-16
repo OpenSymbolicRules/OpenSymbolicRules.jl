@@ -5,7 +5,7 @@ using TestItemRunner
     
     # Define our custom predicates and operators
     is_integer(x) = x isa Integer
-    @syms x y Pow(a,b) Mul(a,b) Add(a,b)
+    @syms x y Pow(a,b) Mul(a,b) Add(a,b) Power(a,b)
 
     rules = @load_osr("data/1.1-basic-exponents.json")
     
@@ -18,4 +18,8 @@ using TestItemRunner
     expr = Pow(z, 1)
     res = rules[3](expr)
     @test isequal(res, z)
+
+    nonzero_rules = @load_osr("data/1.2-nonzero-power.json")
+    @test isequal(nonzero_rules[1](Power(2, 0)), 1)
+    @test nonzero_rules[1](Power(x, 0)) === nothing
 end

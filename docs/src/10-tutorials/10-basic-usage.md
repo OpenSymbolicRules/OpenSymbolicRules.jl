@@ -52,6 +52,21 @@ callback instead of relying on the library to print:
 simplify(expr, alg_rules; on_step=step -> @info "rewrite" rule=step.rule.name)
 ```
 
+## Assumptions and Safe Rewrites
+
+Rules carrying a predicate are applied only when it is established.  For
+example, `NonzeroQ` is mapped to `is_nonzero`: it accepts a nonzero literal,
+or a symbolic term explicitly declared nonzero.  This prevents the invalid
+unconditional rewrite `0^0 = 1`.
+
+```julia
+@syms x Power(a, b)
+power_rules = @load_osr("path/to/1.1-basic-exponents.json")
+
+simplify(Power(x, 0), power_rules)                         # unchanged
+simplify(Power(x, 0), power_rules; assumptions=[IsNonzero(x)]) # 1
+```
+
 ## Loading a Profile
 
 An OSR repository can expose an ordered default profile and named rewrite

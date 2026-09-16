@@ -85,6 +85,8 @@ function _compile_rule_exprs(rules_json; section::AbstractString="unknown")
                     :is_positive
                 elseif pred_str == "NegativeQ"
                     :is_negative
+                elseif pred_str == "NonzeroQ"
+                    :is_nonzero
                 elseif pred_str == "IntegerQ"
                     :is_integer
                 elseif pred_str == "RealQ"
