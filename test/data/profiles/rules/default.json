@@ -1,0 +1,16 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.1",
+  "title": "Default profile rule",
+  "semantics": {
+    "Pow": "openmath:arith1#power"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "pattern": ["Pow", "x_", 1],
+      "constraints": [],
+      "result": "x_"
+    }
+  ]
+}

@@ -3,3 +3,4 @@ using TestItemRunner
 include("test_macro.jl")
 include("test_predicates.jl")
 include("test_simplify.jl")
+include("test_manifests.jl")

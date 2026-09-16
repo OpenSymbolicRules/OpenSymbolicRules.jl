@@ -1,0 +1,16 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "5.1",
+  "title": "CNF profile rule",
+  "semantics": {
+    "Pow": "openmath:arith1#power"
+  },
+  "rules": [
+    {
+      "id": 2,
+      "pattern": ["Pow", "x_", 0],
+      "constraints": [],
+      "result": 1
+    }
+  ]
+}

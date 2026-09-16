@@ -1,0 +1,25 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "osr_version": "0.1.0",
+  "domain": "logic",
+  "title": "Profile loader fixtures",
+  "load_order": [
+    "default.json"
+  ],
+  "profiles": {
+    "to_cnf": {
+      "description": "Alternate rewrite manifest.",
+      "load_order": [
+        "cnf.json"
+      ]
+    }
+  },
+  "inference_profiles": {
+    "resolution": {
+      "description": "Inference fixture manifest.",
+      "load_order": [
+        "inferences/unit.json"
+      ]
+    }
+  }
+}

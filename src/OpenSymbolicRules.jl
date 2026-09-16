@@ -68,7 +68,26 @@ function _compile_rule_exprs(rules_json)
         else
             condition_expressions = Expr[]
             for constraint in constraints_json
-                predicate = Symbol(constraint[1])
+                pred_str = constraint[1]
+                predicate = if pred_str == "PositiveQ"
+                    :is_positive
+                elseif pred_str == "NegativeQ"
+                    :is_negative
+                elseif pred_str == "IntegerQ"
+                    :is_integer
+                elseif pred_str == "RealQ"
+                    :is_real
+                elseif pred_str == "ComplexQ"
+                    :is_complex
+                elseif pred_str == "NumericQ"
+                    :is_numeric
+                elseif pred_str == "NotEqual"
+                    :NotEqual
+                elseif pred_str == "FreeQ"
+                    :FreeQ
+                else
+                    Symbol(pred_str)
+                end
                 arguments = map(osr_to_expr, constraint[2:end])
                 push!(condition_expressions, Expr(:call, predicate, arguments...))
             end

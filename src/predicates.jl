@@ -110,3 +110,24 @@ function is_complex(x)
 end
 
 export is_positive, is_negative, FreeQ, is_integer, is_numeric, NotEqual, is_real, is_complex
+
+"""
+    assuming(f, assumptions...)
+
+Executes a function `f` within a context where the provided `assumptions` hold true.
+Useful for providing local hypotheses to the CAS.
+
+Example:
+```julia
+assuming(x > 0) do
+    simplify(Abs(x), rules)
+end
+```
+"""
+function assuming(f, assumptions...)
+    current = get(task_local_storage(), :osr_assumptions, nothing)
+    new_assumptions = current === nothing ? collect(assumptions) : vcat(current, collect(assumptions))
+    task_local_storage(f, :osr_assumptions, new_assumptions)
+end
+
+export assuming

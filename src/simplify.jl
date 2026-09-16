@@ -24,7 +24,15 @@ Supported modes:
 - `:verbose` : prints each step to the standard output and returns the result.
 """
 function simplify(expr, rules::AbstractVector; mode::Symbol=:fast, assumptions=nothing)
-    task_local_storage(:osr_assumptions, assumptions) do
+    current = get(task_local_storage(), :osr_assumptions, nothing)
+    merged_assumptions = if assumptions === nothing
+        current
+    elseif current === nothing
+        assumptions
+    else
+        vcat(current, assumptions)
+    end
+    task_local_storage(:osr_assumptions, merged_assumptions) do
     if mode == :fast
         simplifier = build_simplifier(rules)
         return simplifier(expr)

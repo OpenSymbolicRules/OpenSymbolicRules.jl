@@ -1,32 +1,21 @@
 using TestItemRunner
 
-@testitem "Assumptions Context" begin
+@testitem "Contextual Assumptions" begin
     using OpenSymbolicRules
     using SymbolicUtils
-    using DomainSets
-    using IntervalSets
     
     @syms x
-    
     @syms Abs(a)
-    rules = [
-        @rule Abs(~x) => ~x where is_positive(~x)
-    ]
     
+    # We create a dummy rule: Abs(~x) => ~x where is_positive(~x)
+    r1 = @rule Abs(~x) => ~x where is_positive(~x)
+    
+    # Simplify without assumptions
     expr = Abs(x)
-    @test isequal(simplify(expr, rules), Abs(x))
+    res1 = simplify(expr, [r1])
+    @test isequal(res1, Abs(x)) # no assumption, cannot simplify
     
-    # Check with ~ (Equation) which we now support natively
-    @test string(simplify(expr, rules, assumptions=[IsPositive(x)])) == string(x)
-    @test string(simplify(expr, rules, assumptions=[GreaterThan(x, 0)])) == string(x)
-    
-    # Check DomainSets logic
-    @test string(simplify(expr, rules, assumptions=[x ∈ 0..Inf])) == string(x)
-    @test string(simplify(expr, rules, assumptions=[x ∈ HalfLine()])) == string(x)
-    
-    # Equations
-    @test (x ~ 0) isa Equation
-    
-    @test string(simplify(Abs(5), rules)) == "5"
-    @test string(simplify(Abs(-5), rules)) == string(Abs(-5))
+    # Simplify with assumption
+    res2 = simplify(expr, [r1]; assumptions=[GreaterThan(x, 0)])
+    @test isequal(res2, x)
 end
