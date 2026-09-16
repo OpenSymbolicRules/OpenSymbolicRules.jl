@@ -21,3 +21,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Updated the usage tutorial to use canonical OpenMath-aligned `Power` and
   `Multiply` heads with a complete Algebra profile.
 - Reject duplicate canonical rule identities while compiling a rewrite profile.
+- Validate the OpenMath semantic declaration of every mathematical operator at
+  rule-load time.

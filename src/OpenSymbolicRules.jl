@@ -123,6 +123,52 @@ function _validate_rule_identities(documents)
     return nothing
 end
 
+const _OPENMATH_SYMBOL = r"^openmath:[A-Za-z][A-Za-z0-9_]*#[A-Za-z][A-Za-z0-9_]*$"
+
+function _collect_operators!(operators::Set{String}, expression)
+    expression isa AbstractArray || return nothing
+    isempty(expression) && throw(ArgumentError("OSR expressions cannot be empty arrays"))
+    operator = first(expression)
+    operator isa String || throw(ArgumentError("OSR expression operators must be strings"))
+    push!(operators, operator)
+
+    if operator in ("Forall", "Exists")
+        length(expression) == 3 || throw(ArgumentError("OSR quantifiers require variables and a body"))
+        _collect_operators!(operators, expression[3])
+    else
+        for argument in expression[2:end]
+            _collect_operators!(operators, argument)
+        end
+    end
+    return nothing
+end
+
+function _validate_openmath_semantics(documents)
+    for document in documents
+        semantics = get(document, "semantics", nothing)
+        semantics isa AbstractDict || throw(ArgumentError("Every OSR rule file must declare semantics"))
+        for (operator, symbol) in semantics
+            operator isa String || throw(ArgumentError("OSR semantics keys must be strings"))
+            symbol isa String && occursin(_OPENMATH_SYMBOL, symbol) || throw(ArgumentError("Invalid OpenMath symbol for $(operator)"))
+        end
+
+        operators = Set{String}()
+        for rule in get(document, "rules", Any[])
+            _collect_operators!(operators, rule["pattern"])
+            _collect_operators!(operators, rule["result"])
+            for constraint in get(rule, "constraints", Any[])
+                constraint isa AbstractArray && !isempty(constraint) || throw(ArgumentError("OSR constraints must be non-empty arrays"))
+                for argument in constraint[2:end]
+                    _collect_operators!(operators, argument)
+                end
+            end
+        end
+        missing = sort!(collect(setdiff(operators, Set(String.(keys(semantics))))))
+        isempty(missing) || throw(ArgumentError("Missing OpenMath semantics for: $(join(missing, ", "))"))
+    end
+    return nothing
+end
+
 """
     @load_osr("path/to/rule.json")
 
@@ -137,6 +183,7 @@ macro load_osr(filepath)
     data = JSON.parsefile(full_path)
     section = get(data, "section", nothing)
     section isa String || error("@load_osr requires a rule file with a string section")
+    _validate_openmath_semantics([data])
     rule_exprs = _compile_rule_exprs(data["rules"]; section=section)
     
     # Return a block that constructs the array of rules
@@ -166,6 +213,7 @@ macro load_osr_profile(rootpath, profile=nothing)
     
     documents = [JSON.parsefile(path) for path in rule_paths(full_root; profile=profile_symbol)]
     _validate_rule_identities(documents)
+    _validate_openmath_semantics(documents)
 
     rule_exprs = Expr[]
     for data in documents

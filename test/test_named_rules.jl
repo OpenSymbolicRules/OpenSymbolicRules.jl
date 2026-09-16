@@ -19,6 +19,12 @@ using TestItemRunner
         Dict("section" => "1.1", "rules" => [Dict("id" => 1)]),
     ]
     @test_throws ArgumentError OpenSymbolicRules._validate_rule_identities(duplicate_documents)
+    missing_semantics = Dict(
+        "section" => "1.1",
+        "semantics" => Dict("Power" => "openmath:arith1#power"),
+        "rules" => [Dict("id" => 1, "pattern" => ["Power", "x_", 1], "result" => ["Add", "x_", 1], "constraints" => Any[])],
+    )
+    @test_throws ArgumentError OpenSymbolicRules._validate_openmath_semantics([missing_semantics])
 
     result, steps = simplify(Pow(x, 1), rules; mode=:trace)
     @test isequal(result, x)

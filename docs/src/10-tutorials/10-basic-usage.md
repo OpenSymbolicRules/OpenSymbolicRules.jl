@@ -12,6 +12,10 @@ using OpenSymbolicRules
 alg_rules = @load_osr_profile("path/to/Algebra")
 ```
 
+The loader verifies that every mathematical operator used by the selected rule
+files has an `openmath:<content-dictionary>#<symbol>` declaration in its
+`semantics` object. Constraint predicates are intentionally exempt.
+
 ## Simplifying Expressions
 Once loaded, you can apply rules to `SymbolicUtils.jl` expressions using the `simplify` function.
 

@@ -2,6 +2,17 @@
   "$schema": "open-symbolic-rules/v0.1",
   "section": "2.2",
   "title": "Advanced Derivatives (Linearity, Product, Chain Rules)",
+  "semantics": {
+    "Derivative": "openmath:calculus1#diff",
+    "Add": "openmath:arith1#plus",
+    "Mul": "openmath:arith1#times",
+    "Div": "openmath:arith1#divide",
+    "Pow": "openmath:arith1#power",
+    "Exp": "openmath:transc1#exp",
+    "Log": "openmath:transc1#ln",
+    "Sin": "openmath:transc1#sin",
+    "Cos": "openmath:transc1#cos"
+  },
   "rules": [
     {
       "id": 1,
