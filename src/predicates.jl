@@ -5,11 +5,18 @@ using IntervalSets
 """
     FreeQ(expr, var)
 
-Returns true if `expr` does not contain the variable `var`.
-Equivalent to Mathematica's FreeQ. Used primarily to identify constants
-relative to an integration or differentiation variable.
+Returns true if `expr` has no free occurrence of `var`.  Equivalent to
+Mathematica's FreeQ, and used primarily to identify constants relative to an
+integration or differentiation variable.
+
+Binders are respected: an occurrence bound by an enclosing `Lambda`, `Forall`,
+or `Exists` is not an occurrence of the free variable, so `Lambda(x, Sin(x))`
+is free of `x`.  When `var` is not a variable, `expr` is searched for it
+structurally instead.
 """
 function FreeQ(expr, var)
+    name = _variable_name(var)
+    name === nothing || return !occurs_free(expr, name)
     if isequal(expr, var)
         return false
     elseif iscall(expr)

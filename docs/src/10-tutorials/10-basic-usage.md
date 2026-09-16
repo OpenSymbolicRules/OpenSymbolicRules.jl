@@ -161,6 +161,46 @@ rules = @load_osr("path/to/6.1-negation.json")
 simplify(Not(Forall([:x, :y], p)), rules) # Exists([:x, :y], Not(p))
 ```
 
+## Binders and lexical scope
+
+`Lambda`, `Forall`, and `Exists` introduce a lexical scope. Every other binding
+construct — an integral, a sum, a product, a derivative — carries its bound
+variable inside a `Lambda`, as the OpenMath `fns1#lambda` symbol prescribes, so
+the Calculus profile writes a derivative as `Derivative(Lambda(x, body))`:
+
+```julia
+@syms x c
+rules = @load_osr_profile("path/to/Calculus")
+
+simplify(Derivative(Lambda(x, c)), rules)             # Lambda(x, 0)
+simplify(Derivative(Lambda(x, Power(x, 2))), rules)   # Lambda(x, Multiply(2, Power(x, Add(2, -1))))
+```
+
+A bound occurrence is not an occurrence of the free variable, and `FreeQ`
+respects that:
+
+```julia
+FreeQ(Lambda(x, Sin(x)), x) # true
+free_variables(Lambda(x, Add(x, y))) # Set([:y])
+```
+
+`osr_substitute` substitutes for the free occurrences of a variable and is
+capture-avoiding: a binder whose variable occurs free in the replacement is
+alpha-renamed first, so the replacement keeps referring to the same variable it
+did outside the binder.
+
+```julia
+osr_substitute(Lambda(y, Add(x, y)), x => y) # Lambda(y1, Add(y, y1))
+```
+
+Two expressions that differ only in the names of their bound variables are
+compared with `alpha_equivalent`:
+
+```julia
+alpha_equivalent(Lambda(x, Sin(x)), Lambda(y, Sin(y))) # true
+alpha_equivalent(Lambda(x, Sin(x)), Lambda(y, Sin(x))) # false
+```
+
 ## Associativity and commutativity
 
 Associativity and commutativity are properties of the OpenMath symbol a head is

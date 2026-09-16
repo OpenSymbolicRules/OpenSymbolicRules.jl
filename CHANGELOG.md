@@ -37,6 +37,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `osr_number` and `osr_degree`, which evaluate a closed OSR arithmetic
   expression exactly and measure the degree of an OSR polynomial.
 - OSR `List` expressions, compiled to Julia vectors.
+- Lexical scope for the `Lambda`, `Forall`, and `Exists` binders:
+  `bound_variables`, `binder_body`, `free_variables`, and `occurs_free`.
+- `osr_substitute`, a capture-avoiding substitution that alpha-renames a binder
+  whose variable occurs free in the replacement.
+- `alpha_equivalent`, comparing two expressions up to a consistent renaming of
+  their bound variables.
 
 ### Changed
 - Make `NotEqual` conservative for symbolic terms, preventing guarded rules
@@ -72,3 +78,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Conjoin three or more constraints correctly.  A rule with more than two
   constraints previously compiled to an invalid `&&` expression.
+- Respect binders in `FreeQ`.  A bound occurrence is not an occurrence of the
+  free variable, so `Lambda(x, Sin(x))` is now correctly reported free of `x`.

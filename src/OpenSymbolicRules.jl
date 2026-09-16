@@ -7,6 +7,7 @@ using SymbolicUtils: iscall, arguments
 
 include("predicates.jl")
 include("constraints.jl")
+include("binders.jl")
 include("simplify.jl")
 include("equations.jl")
 include("domains.jl")
