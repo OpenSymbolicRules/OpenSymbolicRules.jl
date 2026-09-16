@@ -19,6 +19,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   domains.
 - Support for the OSR `NonzeroQ` constraint predicate, including explicit
   symbolic `IsNonzero` assumptions.
+- First-order quantifier rewrites with sequence captures (`xs__`) that
+  preserve one or more bound variables.
 
 ### Changed
 - Mapped bundled fixture operators to canonical OpenMath Content Dictionary identifiers.

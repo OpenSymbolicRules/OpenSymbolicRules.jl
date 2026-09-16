@@ -46,6 +46,12 @@ function osr_to_expr(node)
             variables = node[2]
             variables isa AbstractArray || throw(ArgumentError("Quantifier variables must be an array"))
             all(variable -> variable isa String, variables) || throw(ArgumentError("Quantifier variables must be strings"))
+            if length(variables) == 1 && endswith(only(variables), "__")
+                sequence_name = only(variables)
+                isempty(sequence_name[1:end-2]) && throw(ArgumentError("Quantifier sequence variables must have a name"))
+                bound_variables = Expr(:call, :~, Symbol(sequence_name[1:end-2]))
+                return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3]))
+            end
             bound_variables = Expr(:vect, [QuoteNode(Symbol(variable)) for variable in variables]...)
             return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3]))
         end

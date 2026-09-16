@@ -40,6 +40,10 @@ using TestItemRunner
     binder = OpenSymbolicRules.osr_to_expr(["Forall", ["x"], ["Not", "x"]])
     @test binder == :(Forall([:x], Not(x)))
 
+    quantified_rules = @load_osr("data/logic/1.2-quantifier-negation.json")
+    quantified_expr = Not(Forall([:x, :y], x))
+    @test isequal(simplify(quantified_expr, quantified_rules), Exists([:x, :y], Not(x)))
+
     nary_add = OpenSymbolicRules.osr_to_expr(["Add", "x", "y", "z"])
     @test isequal(eval(nary_add), Add(Add(x, y), z))
 end

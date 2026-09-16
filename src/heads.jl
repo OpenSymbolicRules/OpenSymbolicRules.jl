@@ -7,9 +7,11 @@ using SymbolicUtils
 # Basic Arithmetic and Transcendentals (Uninterpreted to prevent implicit simplifications)
 @syms Add(a, b) Multiply(a, b) Power(a, b) Divide(a, b) Subtract(a, b)
 @syms Sin(a) Cos(a) Tan(a) Exp(a) Log(a)
-@syms And(a, b) Or(a, b) Not(a) Implies(a, b) Equivalent(a, b)
-@syms Nand(a, b) Nor(a, b) Xor(a, b) Xnor(a, b)
-@syms Forall(variables, body) Exists(variables, body)
+@syms And(::Any, ::Any)::Any Or(::Any, ::Any)::Any Not(::Any)::Any
+@syms Implies(::Any, ::Any)::Any Equivalent(::Any, ::Any)::Any
+@syms Nand(::Any, ::Any)::Any Nor(::Any, ::Any)::Any
+@syms Xor(::Any, ::Any)::Any Xnor(::Any, ::Any)::Any
+@syms Forall(::Any, ::Any)::Any Exists(::Any, ::Any)::Any
 
 # Export them so they are available in users' scopes
 export Derivative, Integral, Limit, BothSides, Lambda

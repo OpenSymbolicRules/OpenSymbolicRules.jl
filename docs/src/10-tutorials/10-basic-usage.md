@@ -87,6 +87,17 @@ inferences = load_inference_profile("path/to/Logic", :resolution)
 Logic profiles use the exported canonical heads `And`, `Or`, `Not`, `Implies`,
 `Equivalent`, `Forall`, and `Exists`.
 
+Quantifier heads accept a vector of bound variable names.  A rule declaration
+using `xs__` captures and preserves the complete vector, so a first-order
+rewrite can handle one or many bound variables without treating that vector as
+a scalar expression:
+
+```julia
+@syms p
+rules = @load_osr("path/to/6.1-negation.json")
+simplify(Not(Forall([:x, :y], p)), rules) # Exists([:x, :y], Not(p))
+```
+
 OpenMath n-ary `Add`, `Multiply`, `And`, and `Or` expressions are normalized
 to left-associated binary SymbolicUtils terms at load time. Commutative
 matching is supported for binary `Add`, `And`, and `Or` forms; `Multiply` is
