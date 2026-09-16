@@ -1,0 +1,18 @@
+{
+  "$schema": "open-symbolic-rules/v0.1/inference",
+  "section": "1.2",
+  "title": "Unit inference fixture",
+  "system": "propositional-resolution",
+  "semantics": {
+    "Not": "openmath:logic1#not"
+  },
+  "inferences": [
+    {
+      "id": 1,
+      "premises": ["p", ["Not", "p"]],
+      "constraints": [],
+      "conclusion": "False",
+      "description": "Unit conflict."
+    }
+  ]
+}
