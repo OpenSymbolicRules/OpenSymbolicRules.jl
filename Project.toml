@@ -1,0 +1,10 @@
+name = "OpenSymbolicRules"
+uuid = "63eaa7ab-c3ed-50ea-9f8d-8b348c7d3525"
+authors = ["Sébastien Celles"]
+version = "0.1.0"
+
+[workspace]
+projects = ["test", "docs"]
+
+[compat]
+julia = "1.10"

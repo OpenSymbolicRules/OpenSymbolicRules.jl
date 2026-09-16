@@ -1,0 +1,12 @@
+# Changes here will be overwritten by Copier
+Authors: Sébastien Celles
+JuliaMinVersion: '1.10'
+License: MIT
+LicenseCopyrightHolders: Sébastien Celles
+PackageName: OpenSymbolicRules
+PackageOwner: OpenSymbolicRules
+PackageUUID: 63eaa7ab-c3ed-50ea-9f8d-8b348c7d3525
+StrategyConfirmIncluded: false
+StrategyLevel: 1
+StrategyReviewExcluded: false
+_src_path: /home/scelles-admin/.julia/packages/BestieTemplate/MPEqY
