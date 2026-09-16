@@ -3,11 +3,9 @@
   "section": "1.1",
   "title": "Basic Exponent Rules",
   "semantics": {
-    "Add": "openmath:arith1.plus",
-    "Mul": "openmath:arith1.times",
-    "Pow": "openmath:arith1.power",
-    "is_integer": "local:predicate.is_integer",
-    "is_numeric": "local:predicate.is_numeric"
+    "Add": "openmath:arith1#plus",
+    "Mul": "openmath:arith1#times",
+    "Pow": "openmath:arith1#power"
   },
   "rules": [
     {

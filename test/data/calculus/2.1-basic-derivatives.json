@@ -3,10 +3,10 @@
   "section": "2.1",
   "title": "Basic Derivatives",
   "semantics": {
-    "Derivative": "openmath:calculus1.diff",
-    "Pow": "openmath:arith1.power",
-    "Mul": "openmath:arith1.times",
-    "Add": "openmath:arith1.plus"
+    "Derivative": "openmath:calculus1#diff",
+    "Pow": "openmath:arith1#power",
+    "Mul": "openmath:arith1#times",
+    "Add": "openmath:arith1#plus"
   },
   "rules": [
     {

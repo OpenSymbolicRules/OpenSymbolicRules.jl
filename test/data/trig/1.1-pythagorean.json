@@ -3,11 +3,11 @@
   "section": "1.1",
   "title": "Basic Trigonometric Identities",
   "semantics": {
-    "Add": "openmath:arith1.plus",
-    "Mul": "openmath:arith1.times",
-    "Pow": "openmath:arith1.power",
-    "Sin": "openmath:transc1.sin",
-    "Cos": "openmath:transc1.cos"
+    "Add": "openmath:arith1#plus",
+    "Mul": "openmath:arith1#times",
+    "Pow": "openmath:arith1#power",
+    "Sin": "openmath:transc1#sin",
+    "Cos": "openmath:transc1#cos"
   },
   "rules": [
     {

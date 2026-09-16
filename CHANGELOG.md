@@ -10,3 +10,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Initial project scaffolding using BestieTemplate.jl
 - Setup Documenter.jl and testing framework
 - GitHub Actions validation of bundled OSR rule fixtures against the specification schemas.
+
+### Changed
+- Mapped bundled fixture operators to canonical OpenMath Content Dictionary identifiers.

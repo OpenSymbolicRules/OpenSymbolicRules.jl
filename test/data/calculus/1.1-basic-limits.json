@@ -3,10 +3,10 @@
   "section": "1.1",
   "title": "Basic Limits",
   "semantics": {
-    "Limit": "local:calculus.limit",
-    "Sin": "openmath:transc1.sin",
-    "Div": "openmath:arith1.divide",
-    "Add": "openmath:arith1.plus"
+    "Limit": "openmath:limit1#limit",
+    "Sin": "openmath:transc1#sin",
+    "Div": "openmath:arith1#divide",
+    "Add": "openmath:arith1#plus"
   },
   "rules": [
     {
