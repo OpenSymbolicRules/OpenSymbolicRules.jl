@@ -33,3 +33,28 @@ using TestItemRunner
     res4 = osr_simplify(expr4, all_rules)
     @test string(res4) == "1"
 end
+
+@testitem "Step-by-step Simplifier" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+    
+    @syms x Pow(a,b) Mul(a,b) Add(a,b) Sin(a) Cos(a)
+    
+    alg_rules = @load_osr("data/1.1-basic-exponents.json")
+    trig_rules = @load_osr("data/trig/1.1-pythagorean.json")
+    all_rules = vcat(alg_rules, trig_rules)
+    
+    expr = Pow(Add(Pow(Sin(x), 2), Pow(Cos(x), 2)), 0)
+    res, steps = step_simplify(expr, all_rules)
+    
+    @test string(res) == "1"
+    @test length(steps) > 0
+    
+    # The first step should be Pythagoras: Sin^2 + Cos^2 -> 1
+    @test string(steps[1].before) == "Add(Pow(Sin(x), 2), Pow(Cos(x), 2))"
+    @test string(steps[1].after) == "1"
+    
+    # The second step should be Pow(1, 0) -> 1
+    @test string(steps[2].before) == "Pow(1, 0)"
+    @test string(steps[2].after) == "1"
+end
