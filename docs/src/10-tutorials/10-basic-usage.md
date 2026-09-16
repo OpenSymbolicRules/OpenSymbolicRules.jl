@@ -68,3 +68,6 @@ search and clause management to the host engine:
 ```julia
 inferences = load_inference_profile("path/to/Logic", :resolution)
 ```
+
+Logic profiles use the exported canonical heads `And`, `Or`, `Not`, `Implies`,
+`Equivalent`, `Forall`, and `Exists`.

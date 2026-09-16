@@ -1,0 +1,17 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.1",
+  "title": "Boolean identity fixture",
+  "semantics": {
+    "And": "openmath:logic1#and",
+    "True": "openmath:logic1#true"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "pattern": ["And", "p_", "True"],
+      "constraints": [],
+      "result": "p_"
+    }
+  ]
+}

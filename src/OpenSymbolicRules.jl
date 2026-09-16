@@ -70,7 +70,7 @@ function _compile_rule_exprs(rules_json; section::AbstractString="unknown")
         constraints_json = get(rule, "constraints", [])
 
         rewrite = if isempty(constraints_json)
-            :(@rule($pattern => $result))
+            Expr(:macrocall, GlobalRef(SymbolicUtils, Symbol("@rule")), LineNumberNode(0), :($pattern => $result))
         else
             condition_expressions = Expr[]
             for constraint in constraints_json
@@ -98,7 +98,7 @@ function _compile_rule_exprs(rules_json; section::AbstractString="unknown")
                 push!(condition_expressions, Expr(:call, predicate, arguments...))
             end
             condition = length(condition_expressions) == 1 ? condition_expressions[1] : Expr(:&&, condition_expressions...)
-            :(@rule($pattern => $result where $condition))
+            Expr(:macrocall, GlobalRef(SymbolicUtils, Symbol("@rule")), LineNumberNode(0), :($pattern => $result where $condition))
         end
         name = "$(section):$(id)"
         description = get(rule, "description", nothing)

@@ -3,12 +3,12 @@
   "section": "1.1",
   "title": "Default profile rule",
   "semantics": {
-    "Pow": "openmath:arith1#power"
+    "Power": "openmath:arith1#power"
   },
   "rules": [
     {
       "id": 1,
-      "pattern": ["Pow", "x_", 1],
+      "pattern": ["Power", "x_", 1],
       "constraints": [],
       "result": "x_"
     }
