@@ -1,0 +1,29 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.1",
+  "title": "Basic Limits",
+  "semantics": {
+    "Limit": "local:calculus.limit",
+    "Sin": "openmath:transc1.sin",
+    "Div": "openmath:arith1.divide",
+    "Add": "openmath:arith1.plus"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "description": "Limit of a constant: lim_{x->a} c = c",
+      "pattern": ["Limit", "~c", "~x", "~a"],
+      "constraints": [
+        ["FreeQ", "~c", "~x"]
+      ],
+      "result": "~c"
+    },
+    {
+      "id": 2,
+      "description": "Fundamental sine limit: lim_{x->0} sin(x)/x = 1",
+      "pattern": ["Limit", ["Div", ["Sin", "~x"], "~x"], "~x", 0],
+      "constraints": [],
+      "result": 1
+    }
+  ]
+}
