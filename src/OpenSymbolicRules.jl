@@ -89,28 +89,115 @@ _is_associative(head, semantics) = _openmath_symbol(head, semantics) in _ASSOCIA
 _is_commutative(head, semantics) = _openmath_symbol(head, semantics) in _COMMUTATIVE_SYMBOLS
 
 """
-    osr_to_expr(node, semantics=_DEFAULT_SEMANTICS)
+    _nonempty_match(matched)
+
+Return whether a sequence wildcard bound at least one expression.  OSR's `__`
+spelling requires a non-empty match, whereas `___` accepts an empty one.
+"""
+_nonempty_match(matched) = !isempty(matched)
+
+"""
+    _WILDCARD_DOMAINS
+
+Predicate guarding a typed blank such as `m_integer`.
+"""
+const _WILDCARD_DOMAINS = Dict{String,Symbol}(
+    "integer" => :IntegerQ,
+    "rational" => :RationalQ,
+    "real" => :is_real,
+    "complex" => :is_complex,
+    "number" => :is_numeric,
+    "numeric" => :is_numeric,
+)
+
+"""
+    _wildcard_to_expr(node; reference=false)
+
+Compile an OSR v0.1 wildcard spelling into a `SymbolicUtils` matcher pattern, or
+return `nothing` when `node` names an ordinary symbol.  A `reference` wildcard
+stands for a binding the pattern already made — as in a rule's result or in a
+constraint argument — so it carries no predicate of its own.
+
+| spelling | meaning | pattern |
+| --- | --- | --- |
+| `~x` | slot | `~x` |
+| `x_` | blank | `~x` |
+| `x_<domain>` | typed blank | `~x::<predicate>` |
+| `xs__` | sequence, at least one | `~~xs::_nonempty_match` |
+| `xs___` | sequence, possibly empty | `~~xs` |
+
+OSR also spells an optional operand `a.`, which needs a matcher that knows the
+identity element of the enclosing operation.  `SymbolicUtils` offers that only
+for the native `+`, `*`, and `^`, never for the uninterpreted heads an OSR rule
+file declares, so such a wildcard is rejected instead of being compiled into a
+rule that could never fire.
+"""
+function _wildcard_to_expr(node::AbstractString; reference::Bool=false)
+    if startswith(node, "~")
+        name = node[2:end]
+        isempty(name) && throw(ArgumentError("OSR wildcard `$(node)` has no name"))
+        return Expr(:call, :~, Symbol(name))
+    end
+
+    if endswith(node, ".")
+        throw(ArgumentError(
+            "OSR optional wildcard `$(node)` is not supported: matching an " *
+            "optional operand requires the identity element of the enclosing " *
+            "operation, which SymbolicUtils provides only for the native `+`, " *
+            "`*`, and `^`, not for a declared OSR head"))
+    end
+
+    if endswith(node, "___")
+        name = node[1:end-3]
+        isempty(name) && throw(ArgumentError("OSR wildcard `$(node)` has no name"))
+        return Expr(:call, :~, Expr(:call, :~, Symbol(name)))
+    end
+
+    if endswith(node, "__")
+        name = node[1:end-2]
+        isempty(name) && throw(ArgumentError("OSR wildcard `$(node)` has no name"))
+        reference && return Expr(:call, :~, Expr(:call, :~, Symbol(name)))
+        guard = Expr(:(::), Symbol(name), GlobalRef(@__MODULE__, :_nonempty_match))
+        return Expr(:call, :~, Expr(:call, :~, guard))
+    end
+
+    if endswith(node, "_")
+        name = node[1:end-1]
+        isempty(name) && throw(ArgumentError("OSR wildcard `$(node)` has no name"))
+        return Expr(:call, :~, Symbol(name))
+    end
+
+    separator = findlast('_', node)
+    separator === nothing && return nothing
+    name = node[1:separator-1]
+    domain = node[separator+1:end]
+    isempty(name) && throw(ArgumentError("OSR wildcard `$(node)` has no name"))
+    all(islowercase, domain) || return nothing
+
+    predicate = get(_WILDCARD_DOMAINS, domain, nothing)
+    predicate === nothing && throw(ArgumentError(
+        "OSR typed wildcard `$(node)` declares the unknown domain `$(domain)`"))
+    reference && return Expr(:call, :~, Symbol(name))
+    return Expr(:call, :~, Expr(:(::), Symbol(name), GlobalRef(@__MODULE__, predicate)))
+end
+
+"""
+    osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference=false)
 
 Recursively parse an OSR JSON node into a Julia expression for SymbolicUtils.
 `semantics` is the rule file's head-to-OpenMath-symbol map; it decides which
-n-ary expressions are normalized to left-associated binary terms.
+n-ary expressions are normalized to left-associated binary terms.  Set
+`reference` when compiling a rule's result or a constraint argument, where a
+wildcard refers to a binding the pattern already made.
 """
-function osr_to_expr(node, semantics=_DEFAULT_SEMANTICS)
+function osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference::Bool=false)
     if node isa String
-        if startswith(node, "~")
-            # Pattern variable
-            return Expr(:call, :~, Symbol(node[2:end]))
-        elseif endswith(node, "_")
-            # OSR v0.1 wildcard syntax
-            return Expr(:call, :~, Symbol(node[1:end-1]))
-        elseif node == "True"
-            return true
-        elseif node == "False"
-            return false
-        else
-            # Normal symbol/function
-            return Symbol(node)
-        end
+        node == "True" && return true
+        node == "False" && return false
+        wildcard = _wildcard_to_expr(node; reference)
+        wildcard === nothing || return wildcard
+        # Normal symbol/function
+        return Symbol(node)
     elseif node isa AbstractArray
         if length(node) == 3 && node[1] isa String && node[1] in ("Forall", "Exists")
             variables = node[2]
@@ -120,19 +207,19 @@ function osr_to_expr(node, semantics=_DEFAULT_SEMANTICS)
                 sequence_name = only(variables)
                 isempty(sequence_name[1:end-2]) && throw(ArgumentError("Quantifier sequence variables must have a name"))
                 bound_variables = Expr(:call, :~, Symbol(sequence_name[1:end-2]))
-                return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3], semantics))
+                return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3], semantics; reference))
             end
             bound_variables = Expr(:vect, [QuoteNode(Symbol(variable)) for variable in variables]...)
-            return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3], semantics))
+            return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3], semantics; reference))
         end
         if node[1] == "List"
             # A list is a collection of expressions, not a mathematical
             # operation, so it compiles to a Julia vector.
-            return Expr(:vect, map(element -> osr_to_expr(element, semantics), node[2:end])...)
+            return Expr(:vect, map(element -> osr_to_expr(element, semantics; reference), node[2:end])...)
         end
         # Function call, e.g. ["Multiply", "x", "y"] -> Multiply(x, y)
         op = Symbol(node[1])
-        args = map(argument -> osr_to_expr(argument, semantics), node[2:end])
+        args = map(argument -> osr_to_expr(argument, semantics; reference), node[2:end])
         if length(args) > 2 && _is_associative(node[1], semantics)
             return reduce((left, right) -> Expr(:call, op, left, right), args)
         end
@@ -205,7 +292,7 @@ function _compile_constraint(constraint, semantics)
 
     predicate = get(_OSR_PREDICATES, name, nothing)
     callee = predicate === nothing ? Symbol(name) : GlobalRef(@__MODULE__, predicate)
-    return Expr(:call, callee, map(operand -> osr_to_expr(operand, semantics), operands)...)
+    return Expr(:call, callee, map(operand -> osr_to_expr(operand, semantics; reference=true), operands)...)
 end
 
 """
@@ -234,7 +321,7 @@ function _compile_rule_exprs(rules_json; section::AbstractString="unknown", sema
         push!(seen_ids, id)
 
         pattern = osr_to_expr(rule["pattern"], semantics)
-        result = osr_to_expr(rule["result"], semantics)
+        result = osr_to_expr(rule["result"], semantics; reference=true)
         constraints_json = get(rule, "constraints", [])
         rule_macro = _rule_macro(pattern, semantics)
 

@@ -80,6 +80,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   point.
 
 ### Fixed
+- Compile every OSR v0.1 wildcard spelling.  `xs__`, `xs___`, and a typed blank
+  such as `m_integer` were each read as an ordinary symbol, silently producing a
+  rule that could never fire; they now compile to the sequence and guarded slot
+  patterns they denote.
+- Reject the OSR optional wildcard `a.` with a diagnostic instead of reading it
+  as a symbol named `a.`.  Matching an optional operand requires the identity
+  element of the enclosing operation, which `SymbolicUtils` provides only for
+  the native `+`, `*`, and `^`.
 - Conjoin three or more constraints correctly.  A rule with more than two
   constraints previously compiled to an invalid `&&` expression.
 - Respect binders in `FreeQ`.  A bound occurrence is not an occurrence of the

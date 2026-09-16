@@ -68,6 +68,29 @@ simplify(Power(x, 0), power_rules)                         # unchanged
 simplify(Power(x, 0), power_rules; assumptions=[IsNonzero(x)]) # 1
 ```
 
+## Wildcards
+
+A rule's pattern declares its wildcards; its result and its constraints refer to
+the bindings the pattern made.
+
+| Spelling | Meaning | Compiles to |
+| --- | --- | --- |
+| `~x` | slot | `~x` |
+| `x_` | blank | `~x` |
+| `x_integer` | typed blank | `~x::IntegerQ` |
+| `xs__` | sequence of at least one expression | `~~xs`, guarded non-empty |
+| `xs___` | sequence, possibly empty | `~~xs` |
+
+A typed blank accepts the domains `integer`, `rational`, `real`, `complex`, and
+`number`; any other domain is a rule-file error rather than a silently inert
+rule.
+
+OSR also spells an optional operand `a.`, as in RUBI's `(a_. + b_.*x_)^m_`.
+Matching one requires knowing the identity element of the enclosing operation,
+which `SymbolicUtils` provides only for the native `+`, `*`, and `^`, never for
+the uninterpreted heads a rule file declares. The loader therefore rejects such
+a wildcard instead of compiling it into a rule that could never fire.
+
 ## The constraint predicate library
 
 A rule's `constraints` array is compiled into a Julia guard. Each entry names a

@@ -1,0 +1,39 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.1",
+  "title": "Wildcard form fixture",
+  "semantics": {
+    "Gcd": "openmath:arith1#gcd",
+    "Pow": "openmath:arith1#power"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "description": "A null sequence wildcard accepts an empty trailing match",
+      "pattern": ["Gcd", "a_", "b_", "c_", "ws___"],
+      "constraints": [],
+      "result": "a_"
+    },
+    {
+      "id": 2,
+      "description": "A sequence wildcard requires a non-empty trailing match",
+      "pattern": ["Gcd", "a_", "b_", "c_", "ws__"],
+      "constraints": [],
+      "result": "a_"
+    },
+    {
+      "id": 3,
+      "description": "A sequence wildcard binds the remaining arguments",
+      "pattern": ["Gcd", "a_", "ws__"],
+      "constraints": [],
+      "result": "a_"
+    },
+    {
+      "id": 4,
+      "description": "A typed blank only matches its declared domain",
+      "pattern": ["Pow", "x_", "m_integer"],
+      "constraints": [],
+      "result": "m_integer"
+    }
+  ]
+}
