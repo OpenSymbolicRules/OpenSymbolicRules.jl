@@ -1,0 +1,498 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "calculus",
+  "title": "Calculus (Derivatives & Integrals)",
+  "rules": [
+    {
+      "id": 1,
+      "description": "Derivative of variable w.r.t itself",
+      "pattern": [
+        "Derivative",
+        "~x",
+        "~x"
+      ],
+      "result": 1
+    },
+    {
+      "id": 2,
+      "description": "Derivative of a constant",
+      "pattern": [
+        "Derivative",
+        "~c",
+        "~x"
+      ],
+      "constraints": [
+        [
+          "FreeQ",
+          "~c",
+          "~x"
+        ]
+      ],
+      "result": 0
+    },
+    {
+      "id": 3,
+      "description": "Linearity: d/dx(u + v)",
+      "pattern": [
+        "Derivative",
+        [
+          "Add",
+          "~u",
+          "~v"
+        ],
+        "~x"
+      ],
+      "result": [
+        "Add",
+        [
+          "Derivative",
+          "~u",
+          "~x"
+        ],
+        [
+          "Derivative",
+          "~v",
+          "~x"
+        ]
+      ]
+    },
+    {
+      "id": 4,
+      "description": "Constant multiple: d/dx(c * u)",
+      "pattern": [
+        "Derivative",
+        [
+          "Mul",
+          "~c",
+          "~u"
+        ],
+        "~x"
+      ],
+      "constraints": [
+        [
+          "FreeQ",
+          "~c",
+          "~x"
+        ]
+      ],
+      "result": [
+        "Mul",
+        "~c",
+        [
+          "Derivative",
+          "~u",
+          "~x"
+        ]
+      ]
+    },
+    {
+      "id": 5,
+      "description": "Product rule: d/dx(u * v)",
+      "pattern": [
+        "Derivative",
+        [
+          "Mul",
+          "~u",
+          "~v"
+        ],
+        "~x"
+      ],
+      "result": [
+        "Add",
+        [
+          "Mul",
+          [
+            "Derivative",
+            "~u",
+            "~x"
+          ],
+          "~v"
+        ],
+        [
+          "Mul",
+          "~u",
+          [
+            "Derivative",
+            "~v",
+            "~x"
+          ]
+        ]
+      ]
+    },
+    {
+      "id": 6,
+      "description": "Quotient rule: d/dx(u / v)",
+      "pattern": [
+        "Derivative",
+        [
+          "Div",
+          "~u",
+          "~v"
+        ],
+        "~x"
+      ],
+      "result": [
+        "Div",
+        [
+          "Add",
+          [
+            "Mul",
+            [
+              "Derivative",
+              "~u",
+              "~x"
+            ],
+            "~v"
+          ],
+          [
+            "Mul",
+            -1,
+            [
+              "Mul",
+              "~u",
+              [
+                "Derivative",
+                "~v",
+                "~x"
+              ]
+            ]
+          ]
+        ],
+        [
+          "Pow",
+          "~v",
+          2
+        ]
+      ]
+    },
+    {
+      "id": 7,
+      "description": "Power rule (Chain): d/dx(u^n)",
+      "pattern": [
+        "Derivative",
+        [
+          "Pow",
+          "~u",
+          "~n"
+        ],
+        "~x"
+      ],
+      "constraints": [
+        [
+          "FreeQ",
+          "~n",
+          "~x"
+        ]
+      ],
+      "result": [
+        "Mul",
+        [
+          "Mul",
+          "~n",
+          [
+            "Pow",
+            "~u",
+            [
+              "Add",
+              "~n",
+              -1
+            ]
+          ]
+        ],
+        [
+          "Derivative",
+          "~u",
+          "~x"
+        ]
+      ]
+    },
+    {
+      "id": 8,
+      "description": "Exponential rule (Chain): d/dx(exp(u))",
+      "pattern": [
+        "Derivative",
+        [
+          "Exp",
+          "~u"
+        ],
+        "~x"
+      ],
+      "result": [
+        "Mul",
+        [
+          "Exp",
+          "~u"
+        ],
+        [
+          "Derivative",
+          "~u",
+          "~x"
+        ]
+      ]
+    },
+    {
+      "id": 9,
+      "description": "Logarithm rule (Chain): d/dx(log(u))",
+      "pattern": [
+        "Derivative",
+        [
+          "Log",
+          "~u"
+        ],
+        "~x"
+      ],
+      "result": [
+        "Mul",
+        [
+          "Div",
+          1,
+          "~u"
+        ],
+        [
+          "Derivative",
+          "~u",
+          "~x"
+        ]
+      ]
+    },
+    {
+      "id": 10,
+      "description": "Sine rule (Chain): d/dx(sin(u))",
+      "pattern": [
+        "Derivative",
+        [
+          "Sin",
+          "~u"
+        ],
+        "~x"
+      ],
+      "result": [
+        "Mul",
+        [
+          "Cos",
+          "~u"
+        ],
+        [
+          "Derivative",
+          "~u",
+          "~x"
+        ]
+      ]
+    },
+    {
+      "id": 11,
+      "description": "Cosine rule (Chain): d/dx(cos(u))",
+      "pattern": [
+        "Derivative",
+        [
+          "Cos",
+          "~u"
+        ],
+        "~x"
+      ],
+      "result": [
+        "Mul",
+        [
+          "Mul",
+          -1,
+          [
+            "Sin",
+            "~u"
+          ]
+        ],
+        [
+          "Derivative",
+          "~u",
+          "~x"
+        ]
+      ]
+    },
+    {
+      "id": 12,
+      "description": "Integral of constant",
+      "pattern": [
+        "Integral",
+        "~c",
+        "~x"
+      ],
+      "constraints": [
+        [
+          "FreeQ",
+          "~c",
+          "~x"
+        ]
+      ],
+      "result": [
+        "Mul",
+        "~c",
+        "~x"
+      ]
+    },
+    {
+      "id": 13,
+      "description": "Linearity of Integration: I(u + v)",
+      "pattern": [
+        "Integral",
+        [
+          "Add",
+          "~u",
+          "~v"
+        ],
+        "~x"
+      ],
+      "result": [
+        "Add",
+        [
+          "Integral",
+          "~u",
+          "~x"
+        ],
+        [
+          "Integral",
+          "~v",
+          "~x"
+        ]
+      ]
+    },
+    {
+      "id": 14,
+      "description": "Constant multiple of Integration: I(c * u)",
+      "pattern": [
+        "Integral",
+        [
+          "Mul",
+          "~c",
+          "~u"
+        ],
+        "~x"
+      ],
+      "constraints": [
+        [
+          "FreeQ",
+          "~c",
+          "~x"
+        ]
+      ],
+      "result": [
+        "Mul",
+        "~c",
+        [
+          "Integral",
+          "~u",
+          "~x"
+        ]
+      ]
+    },
+    {
+      "id": 15,
+      "description": "Power rule of Integration: I(x^n)",
+      "pattern": [
+        "Integral",
+        [
+          "Pow",
+          "~x",
+          "~n"
+        ],
+        "~x"
+      ],
+      "constraints": [
+        [
+          "FreeQ",
+          "~n",
+          "~x"
+        ],
+        [
+          "NotEqual",
+          "~n",
+          -1
+        ]
+      ],
+      "result": [
+        "Div",
+        [
+          "Pow",
+          "~x",
+          [
+            "Add",
+            "~n",
+            1
+          ]
+        ],
+        [
+          "Add",
+          "~n",
+          1
+        ]
+      ]
+    },
+    {
+      "id": 16,
+      "description": "Integration of 1/x",
+      "pattern": [
+        "Integral",
+        [
+          "Pow",
+          "~x",
+          -1
+        ],
+        "~x"
+      ],
+      "result": [
+        "Log",
+        "~x"
+      ]
+    },
+    {
+      "id": 17,
+      "description": "Integration of exp(x)",
+      "pattern": [
+        "Integral",
+        [
+          "Exp",
+          "~x"
+        ],
+        "~x"
+      ],
+      "result": [
+        "Exp",
+        "~x"
+      ]
+    },
+    {
+      "id": 18,
+      "description": "Integration of sin(x)",
+      "pattern": [
+        "Integral",
+        [
+          "Sin",
+          "~x"
+        ],
+        "~x"
+      ],
+      "result": [
+        "Mul",
+        -1,
+        [
+          "Cos",
+          "~x"
+        ]
+      ]
+    },
+    {
+      "id": 19,
+      "description": "Integration of cos(x)",
+      "pattern": [
+        "Integral",
+        [
+          "Cos",
+          "~x"
+        ],
+        "~x"
+      ],
+      "result": [
+        "Sin",
+        "~x"
+      ]
+    }
+  ]
+}

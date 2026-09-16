@@ -1,0 +1,10 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "osr_version": "0.1.0",
+  "domain": "mathematics",
+  "title": "OpenSymbolicRules Mathematics Profile",
+  "load_order": [
+    "algebra.json",
+    "calculus.json"
+  ]
+}
