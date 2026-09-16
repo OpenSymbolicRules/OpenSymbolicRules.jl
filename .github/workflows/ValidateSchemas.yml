@@ -1,0 +1,32 @@
+name: Validate JSON schemas
+
+on:
+  push:
+    paths:
+      - "test/data/**"
+      - ".github/workflows/ValidateSchemas.yml"
+  pull_request:
+    paths:
+      - "test/data/**"
+      - ".github/workflows/ValidateSchemas.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate bundled rule fixtures
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/checkout@v4
+        with:
+          repository: OpenSymbolicRules/Specification
+          path: specification
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install check-jsonschema==0.38.0
+      - run: check-jsonschema --check-metaschema specification/schemas/*.schema.json
+      - run: find test/data -name '*.json' -print0 | xargs -0 check-jsonschema --schemafile specification/schemas/rule-file.schema.json --base-uri "file://${PWD}/specification/schemas/"
