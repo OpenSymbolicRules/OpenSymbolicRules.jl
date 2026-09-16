@@ -8,6 +8,7 @@ DomainSets = "0.8.2"
 IntervalSets = "0.7.14"
 JSON = "1.8.0"
 SymbolicUtils = "4.46.6"
+Symbolics = "7.39.2"
 julia = "1.10"
 
 [deps]
