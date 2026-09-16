@@ -1,0 +1,28 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.1",
+  "title": "Constraint combinator fixture",
+  "semantics": {
+    "Pow": "openmath:arith1#power"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "description": "Exposes the exponent of a non-integer power",
+      "pattern": ["Pow", "~x", "~m"],
+      "constraints": [
+        ["Not", ["IntegerQ", "~m"]]
+      ],
+      "result": "~m"
+    },
+    {
+      "id": 2,
+      "description": "Exposes the exponent of a positive or integer power",
+      "pattern": ["Pow", "~x", "~m"],
+      "constraints": [
+        ["Or", ["IntegerQ", "~m"], ["And", ["PosQ", "~m"], ["Not", ["EqQ", "~m", 0]]]]
+      ],
+      "result": "~m"
+    }
+  ]
+}

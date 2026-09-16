@@ -68,6 +68,61 @@ simplify(Power(x, 0), power_rules)                         # unchanged
 simplify(Power(x, 0), power_rules; assumptions=[IsNonzero(x)]) # 1
 ```
 
+## The constraint predicate library
+
+A rule's `constraints` array is compiled into a Julia guard. Each entry names a
+predicate and applies it to OSR expressions:
+
+```json
+"constraints": [
+  ["FreeQ", "~m", "x"],
+  ["Not", ["EqQ", "~m", -1]],
+  ["Or", ["IntegerQ", "~m"], ["And", ["GtQ", "~a", 0], ["GtQ", "~c", 0]]]
+]
+```
+
+`Not`, `And`, and `Or` are combinators: they nest constraints and compile to
+Julia control flow, never to a symbolic `Not`/`And`/`Or` term. Every other
+entry is a predicate application, and all entries of the array must hold.
+
+The library implements the predicates below, covering 97% of the constraint
+applications in the RUBI dataset:
+
+| Group | Predicates |
+| --- | --- |
+| Comparison | `EqQ`, `NeQ`, `GtQ`, `LtQ`, `GeQ`, `LeQ` |
+| Integer-qualified | `IntegerQ`, `IntegersQ`, `IGtQ`, `ILtQ`, `IGeQ`, `ILeQ` |
+| Numeric domain | `RationalQ`, `FractionQ`, `HalfIntegerQ`, `PosQ`, `NegQ`, `FalseQ`, `NumericQ`, `RealQ`, `ComplexQ` |
+| Structural | `FreeQ`, `AtomQ`, `SumQ`, `ProductQ`, `PowerQ`, `MemberQ` |
+| Polynomial | `PolynomialQ`, `PolyQ`, `LinearQ`, `QuadraticQ` |
+
+`GtQ`, `LtQ`, `GeQ`, and `LeQ` accept RUBI's chained form, so `GtQ(u, v, w)`
+means `u > v > w`.
+
+Every predicate is conservative: it answers `true` only when the property is
+established, so an unproved guard leaves its rewrite unapplied rather than
+risking an invalid one. A closed arithmetic expression is evaluated exactly,
+which is what makes a guard such as `["PosQ", ["Power", 2, -1]]` decidable:
+
+```julia
+OpenSymbolicRules.osr_number(Power(2, -1)) # 1//2
+```
+
+Folding only recognises the canonical `Add`, `Multiply`, `Subtract`, `Divide`,
+and `Power` heads. A rule file that renames them still loads, but its
+arithmetic becomes opaque and its guarded rewrites stay inactive.
+
+A predicate the library does not define is resolved in the module that loads
+the rule file, so a host can supply its own:
+
+```julia
+module Host
+    using OpenSymbolicRules
+    EvenIntegerQ(value) = value isa Integer && iseven(value)
+    const rules = @load_osr("path/to/rules.json") # may use ["EvenIntegerQ", "~m"]
+end
+```
+
 ## Symbolics.jl Interoperability
 
 When Symbolics.jl is loaded, `to_osr` converts its differential operator into

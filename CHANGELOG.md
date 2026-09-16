@@ -23,6 +23,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   preserve one or more bound variables.
 - A Symbolics.jl bridge for canonical `Derivative(Lambda(variable, expression))`
   terms.
+- A standard library of OSR constraint predicates covering 97% of the
+  constraint applications in the RUBI dataset: the comparison predicates
+  `EqQ`, `NeQ`, `GtQ`, `LtQ`, `GeQ`, and `LeQ` including RUBI's chained form,
+  the integer-qualified `IntegerQ`, `IntegersQ`, `IGtQ`, `ILtQ`, `IGeQ`, and
+  `ILeQ`, the numeric-domain `RationalQ`, `FractionQ`, `HalfIntegerQ`, `PosQ`,
+  `NegQ`, and `FalseQ`, the structural `AtomQ`, `SumQ`, `ProductQ`, `PowerQ`,
+  and `MemberQ`, and the polynomial `PolynomialQ`, `PolyQ`, `LinearQ`, and
+  `QuadraticQ`.
+- `Not`, `And`, and `Or` constraint combinators, compiled to Julia control flow
+  so that nested constraints guard a rewrite instead of building a symbolic
+  logic term.
+- `osr_number` and `osr_degree`, which evaluate a closed OSR arithmetic
+  expression exactly and measure the degree of an OSR polynomial.
+- OSR `List` expressions, compiled to Julia vectors.
 
 ### Changed
 - Make `NotEqual` conservative for symbolic terms, preventing guarded rules
@@ -46,3 +60,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Derive associativity and commutativity from the OpenMath symbol a head is
   bound to in a rule file's `semantics` block, rather than from the head's
   spelling, so a rule file may name its heads freely.
+- Decide `is_integer`, `is_numeric`, `is_positive`, `is_negative`,
+  `is_nonzero`, `is_real`, and `is_complex` by evaluating a closed arithmetic
+  expression, so a guard spelled as `["PositiveQ", ["Power", 2, -1]]` no longer
+  blocks its rewrite.
+- Resolve a predicate the library defines inside the library itself, so a rule
+  file can no longer reach an unrelated name of the loading module by accident;
+  an unknown predicate is still resolved in that module as a host extension
+  point.
+
+### Fixed
+- Conjoin three or more constraints correctly.  A rule with more than two
+  constraints previously compiled to an invalid `&&` expression.

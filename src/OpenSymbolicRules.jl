@@ -6,6 +6,7 @@ using SymbolicUtils: @rule, Sym, Term
 using SymbolicUtils: iscall, arguments
 
 include("predicates.jl")
+include("constraints.jl")
 include("simplify.jl")
 include("equations.jl")
 include("domains.jl")
@@ -30,6 +31,7 @@ const _DEFAULT_SEMANTICS = Dict(
     "Multiply" => "openmath:arith1#times",
     "And" => "openmath:logic1#and",
     "Or" => "openmath:logic1#or",
+    "List" => "openmath:list1#list",
 )
 
 """
@@ -121,6 +123,11 @@ function osr_to_expr(node, semantics=_DEFAULT_SEMANTICS)
             bound_variables = Expr(:vect, [QuoteNode(Symbol(variable)) for variable in variables]...)
             return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3], semantics))
         end
+        if node[1] == "List"
+            # A list is a collection of expressions, not a mathematical
+            # operation, so it compiles to a Julia vector.
+            return Expr(:vect, map(element -> osr_to_expr(element, semantics), node[2:end])...)
+        end
         # Function call, e.g. ["Multiply", "x", "y"] -> Multiply(x, y)
         op = Symbol(node[1])
         args = map(argument -> osr_to_expr(argument, semantics), node[2:end])
@@ -132,6 +139,71 @@ function osr_to_expr(node, semantics=_DEFAULT_SEMANTICS)
         # Literals like numbers
         return node
     end
+end
+
+"""
+    _OSR_PREDICATES
+
+Julia function implementing each OSR constraint predicate.  A predicate that is
+not listed here is resolved in the module that loads the rule file, so a host
+can supply its own without changing this library.
+"""
+const _OSR_PREDICATES = Dict{String,Symbol}(
+    # Spellings inherited from the OSR fixtures.
+    "PositiveQ" => :is_positive,
+    "NegativeQ" => :is_negative,
+    "NonzeroQ" => :is_nonzero,
+    "RealQ" => :is_real,
+    "ComplexQ" => :is_complex,
+    "NumericQ" => :is_numeric,
+    "NotEqual" => :NeQ,
+    # Mathematica spellings used by the RUBI dataset.
+    "Equal" => :EqQ,
+    "Unequal" => :NeQ,
+    "Greater" => :GtQ,
+    "Less" => :LtQ,
+    "GreaterEqual" => :GeQ,
+    "LessEqual" => :LeQ,
+    # RUBI spellings, each implemented under its own name.
+    (name => Symbol(name) for name in (
+        "FreeQ",
+        "EqQ", "NeQ", "GtQ", "LtQ", "GeQ", "LeQ",
+        "IntegerQ", "IntegersQ", "IGtQ", "ILtQ", "IGeQ", "ILeQ",
+        "RationalQ", "FractionQ", "HalfIntegerQ", "PosQ", "NegQ", "FalseQ",
+        "AtomQ", "SumQ", "ProductQ", "PowerQ", "MemberQ",
+        "PolynomialQ", "PolyQ", "LinearQ", "QuadraticQ",
+    ))...,
+)
+
+_conjoin(conditions) = foldr((left, right) -> Expr(:&&, left, right), conditions)
+
+"""
+    _compile_constraint(constraint, semantics)
+
+Compile one OSR constraint into a Julia expression that evaluates to a `Bool`.
+`Not`, `And`, and `Or` are constraint combinators: they nest constraints and
+compile to Julia control flow, never to a symbolic logic term.
+"""
+function _compile_constraint(constraint, semantics)
+    constraint isa AbstractArray && !isempty(constraint) ||
+        throw(ArgumentError("OSR constraints must be non-empty arrays"))
+    name = first(constraint)
+    name isa String || throw(ArgumentError("OSR constraint predicates must be named by a string"))
+    operands = constraint[2:end]
+
+    if name == "Not"
+        length(operands) == 1 || throw(ArgumentError("The `Not` constraint takes exactly one constraint"))
+        return Expr(:call, :!, _compile_constraint(only(operands), semantics))
+    elseif name == "And" || name == "Or"
+        isempty(operands) && throw(ArgumentError("The `$(name)` constraint takes at least one constraint"))
+        compiled = [_compile_constraint(operand, semantics) for operand in operands]
+        head = name == "And" ? :&& : :||
+        return foldr((left, right) -> Expr(head, left, right), compiled)
+    end
+
+    predicate = get(_OSR_PREDICATES, name, nothing)
+    callee = predicate === nothing ? Symbol(name) : GlobalRef(@__MODULE__, predicate)
+    return Expr(:call, callee, map(operand -> osr_to_expr(operand, semantics), operands)...)
 end
 
 """
@@ -167,34 +239,7 @@ function _compile_rule_exprs(rules_json; section::AbstractString="unknown", sema
         rewrite = if isempty(constraints_json)
             Expr(:macrocall, GlobalRef(SymbolicUtils, rule_macro), LineNumberNode(0), :($pattern => $result))
         else
-            condition_expressions = Expr[]
-            for constraint in constraints_json
-                pred_str = constraint[1]
-                predicate = if pred_str == "PositiveQ"
-                    :is_positive
-                elseif pred_str == "NegativeQ"
-                    :is_negative
-                elseif pred_str == "NonzeroQ"
-                    :is_nonzero
-                elseif pred_str == "IntegerQ"
-                    :is_integer
-                elseif pred_str == "RealQ"
-                    :is_real
-                elseif pred_str == "ComplexQ"
-                    :is_complex
-                elseif pred_str == "NumericQ"
-                    :is_numeric
-                elseif pred_str == "NotEqual"
-                    :NotEqual
-                elseif pred_str == "FreeQ"
-                    :FreeQ
-                else
-                    Symbol(pred_str)
-                end
-                arguments = map(argument -> osr_to_expr(argument, semantics), constraint[2:end])
-                push!(condition_expressions, Expr(:call, predicate, arguments...))
-            end
-            condition = length(condition_expressions) == 1 ? condition_expressions[1] : Expr(:&&, condition_expressions...)
+            condition = _conjoin([_compile_constraint(constraint, semantics) for constraint in constraints_json])
             Expr(:macrocall, GlobalRef(SymbolicUtils, rule_macro), LineNumberNode(0), :($pattern => $result where $condition))
         end
         name = "$(section):$(id)"
@@ -240,6 +285,32 @@ function _collect_operators!(operators::Set{String}, expression)
     return nothing
 end
 
+"""
+    _collect_constraint_operators!(operators, constraint)
+
+Collect the mathematical operators a constraint applies its predicates to.  A
+predicate name is not a mathematical operator and needs no OpenMath binding,
+and `Not`, `And`, and `Or` nest constraints rather than expressions.
+"""
+function _collect_constraint_operators!(operators::Set{String}, constraint)
+    constraint isa AbstractArray && !isempty(constraint) ||
+        throw(ArgumentError("OSR constraints must be non-empty arrays"))
+    name = first(constraint)
+    name isa String || throw(ArgumentError("OSR constraint predicates must be named by a string"))
+
+    if name in ("Not", "And", "Or")
+        for operand in constraint[2:end]
+            _collect_constraint_operators!(operators, operand)
+        end
+        return nothing
+    end
+
+    for argument in constraint[2:end]
+        _collect_operators!(operators, argument)
+    end
+    return nothing
+end
+
 function _validate_openmath_semantics(documents)
     for document in documents
         semantics = get(document, "semantics", nothing)
@@ -254,10 +325,7 @@ function _validate_openmath_semantics(documents)
             _collect_operators!(operators, rule["pattern"])
             _collect_operators!(operators, rule["result"])
             for constraint in get(rule, "constraints", Any[])
-                constraint isa AbstractArray && !isempty(constraint) || throw(ArgumentError("OSR constraints must be non-empty arrays"))
-                for argument in constraint[2:end]
-                    _collect_operators!(operators, argument)
-                end
+                _collect_constraint_operators!(operators, constraint)
             end
         end
         missing = sort!(collect(setdiff(operators, Set(String.(keys(semantics))))))

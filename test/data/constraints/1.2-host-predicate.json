@@ -1,0 +1,19 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.2",
+  "title": "Host-defined predicate fixture",
+  "semantics": {
+    "Pow": "openmath:arith1#power"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "description": "Exposes an even integer exponent using a host predicate",
+      "pattern": ["Pow", "~x", "~m"],
+      "constraints": [
+        ["EvenIntegerQ", "~m"]
+      ],
+      "result": "~m"
+    }
+  ]
+}

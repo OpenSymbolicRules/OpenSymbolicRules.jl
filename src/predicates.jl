@@ -22,10 +22,12 @@ end
 """
     is_integer(x)
 
-Predicate to check if `x` is an integer.
+Predicate to check if `x` is an integer, by value or by hypothesis.
 """
 function is_integer(x)
-    if x isa Integer || (x isa SymbolicUtils.BasicSymbolic && SymbolicUtils.symtype(x) <: Integer)
+    value = osr_number(x)
+    value === nothing || return value isa Integer
+    if x isa SymbolicUtils.BasicSymbolic && SymbolicUtils.symtype(x) <: Integer
         return true
     end
     check_assumption(ElementOf(x, Integers())) || check_assumption(ElementOf(x, Int))
@@ -34,18 +36,19 @@ end
 """
     is_numeric(x)
 
-Predicate to check if `x` is a numeric constant.
+Predicate to check if `x` denotes a numeric constant.  A closed arithmetic
+expression such as `Add(1, 2)` is numeric; an expression containing a symbol is
+not.
 """
-is_numeric(x) = x isa Number
+is_numeric(x) = osr_number(x) !== nothing
 
 """
     NotEqual(a, b)
 
-Predicate to check whether an inequality is established.  Symbolic terms are
-not considered unequal merely because their structures differ: in the absence
-of a proof, the predicate returns `false` and the guarded rewrite is skipped.
+Predicate to check whether an inequality is established.  This is the OSR
+spelling of RUBI's [`NeQ`](@ref) and shares its conservative semantics.
 """
-NotEqual(a, b) = a isa Number && b isa Number && !isequal(a, b)
+NotEqual(a, b) = NeQ(a, b)
 
 # Mathematical logic / Hypothesis predicates
 
@@ -76,9 +79,10 @@ function check_assumption(predicate)
 end
 
 function is_positive(x)
-    if x isa Number
-        return x > 0
-    end
+    value = osr_number(x)
+    value isa Real && return value > 0
+    # A complex number has no sign, so its positivity is settled, not unknown.
+    value === nothing || return false
     # Check both old-style predicates and DomainSets
     check_assumption(IsPositive(x)) || 
     check_assumption(GreaterThan(x, 0)) ||
@@ -88,9 +92,9 @@ function is_positive(x)
 end
 
 function is_negative(x)
-    if x isa Number
-        return x < 0
-    end
+    value = osr_number(x)
+    value isa Real && return value < 0
+    value === nothing || return false
     check_assumption(IsNegative(x)) || 
     check_assumption(LessThan(x, 0)) ||
     check_assumption(ElementOf(x, -Inf..0)) ||
@@ -106,21 +110,24 @@ an explicit `IsNonzero(x)` assumption or a sign assumption; an unknown value
 is deliberately not treated as nonzero.
 """
 function is_nonzero(x)
-    if x isa Number
-        return !iszero(x)
-    end
+    value = osr_number(x)
+    value === nothing || return !iszero(value)
     check_assumption(IsNonzero(x)) || is_positive(x) || is_negative(x)
 end
 
 function is_real(x)
-    if x isa Real || (x isa SymbolicUtils.BasicSymbolic && SymbolicUtils.symtype(x) <: Real)
+    value = osr_number(x)
+    value === nothing || return value isa Real
+    if x isa SymbolicUtils.BasicSymbolic && SymbolicUtils.symtype(x) <: Real
         return true
     end
     check_assumption(ElementOf(x, Reals())) || check_assumption(ElementOf(x, Real))
 end
 
 function is_complex(x)
-    if x isa Complex || (x isa SymbolicUtils.BasicSymbolic && SymbolicUtils.symtype(x) <: Complex)
+    # Every number is a complex number.
+    osr_number(x) === nothing || return true
+    if x isa SymbolicUtils.BasicSymbolic && SymbolicUtils.symtype(x) <: Complex
         return true
     end
     check_assumption(ElementOf(x, ComplexPlane())) || check_assumption(ElementOf(x, Complex)) || is_real(x)
