@@ -15,7 +15,7 @@ include("heads.jl")
 
 export @load_osr, @load_osr_profile, rule_paths, load_inference_profile, OSRInference, OSRRule
 export FreeQ, is_integer, is_numeric, NotEqual
-export build_simplifier, osr_simplify
+export build_simplifier
 
 """
     osr_to_expr(node)

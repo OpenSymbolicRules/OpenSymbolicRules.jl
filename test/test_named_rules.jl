@@ -4,6 +4,9 @@ using TestItemRunner
     using OpenSymbolicRules
     using SymbolicUtils
 
+    @test isdefined(OpenSymbolicRules, :simplify)
+    @test !isdefined(OpenSymbolicRules, :osr_simplify)
+
     @syms x Pow(a, b) Mul(a, b) Add(a, b)
     rules = @load_osr("data/1.1-basic-exponents.json")
 
