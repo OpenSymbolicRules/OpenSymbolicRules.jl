@@ -36,6 +36,31 @@ res, steps = simplify(expr, alg_rules; mode=:trace)
 for step in steps
     println("Before: ", step.before)
     println("After:  ", step.after)
-    println("Rule used: ", step.rule)
+    println("Rule used: ", step.rule.name)
 end
+```
+
+Rules loaded from JSON retain their stable OSR name (`section:id`) and their
+description. For streaming output, logging, or a graphical interface, pass a
+callback instead of relying on the library to print:
+
+```julia
+simplify(expr, alg_rules; on_step=step -> @info "rewrite" rule=step.rule.name)
+```
+
+## Loading a Profile
+
+An OSR repository can expose an ordered default profile and named rewrite
+profiles in `rules/meta.json`:
+
+```julia
+rules = @load_osr_profile("path/to/Logic")
+cnf_rules = @load_osr_profile("path/to/Logic", :to_cnf)
+```
+
+Multi-premise inference profiles are read as structured data, leaving proof
+search and clause management to the host engine:
+
+```julia
+inferences = load_inference_profile("path/to/Logic", :resolution)
 ```

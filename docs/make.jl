@@ -61,13 +61,15 @@ end
 makedocs(;
     modules = [OpenSymbolicRules],
     authors = "Sébastien Celles",
-    repo = "https://github.com/OpenSymbolicRules/OpenSymbolicRules.jl/blob/{commit}{path}#{line}",
+    repo = Remotes.GitHub("OpenSymbolicRules", "OpenSymbolicRules.jl"),
     sitename = "OpenSymbolicRules.jl",
-    format = Documenter.HTML(; canonical = "https://OpenSymbolicRules.github.io/OpenSymbolicRules.jl"),
+    format = Documenter.HTML(; canonical = "https://OpenSymbolicRules.github.io/OpenSymbolicRules.jl", edit_link = "main", repolink = "https://github.com/OpenSymbolicRules/OpenSymbolicRules.jl"),
     pages = list_pages(),
 )
 
-deploydocs(; repo = "github.com/OpenSymbolicRules/OpenSymbolicRules.jl")
+if get(ENV, "CI", "false") == "true"
+    deploydocs(; repo = "github.com/OpenSymbolicRules/OpenSymbolicRules.jl", devbranch = "main")
+end
 
 # Generate llms.txt and llms-full.txt
 open(joinpath(@__DIR__, "build", "llms.txt"), "w") do io

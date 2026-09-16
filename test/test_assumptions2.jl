@@ -8,8 +8,9 @@ using TestItemRunner
     @syms Abs(a)
     
     # We will just construct the JSON data structure directly since we can't easily mock a file right now
-    data = Dict("rules" => [
+    data = Dict("section" => "test", "rules" => [
         Dict(
+            "id" => 1,
             "pattern" => ["Abs", "~x"],
             "result" => "~x",
             "constraints" => [
@@ -19,7 +20,7 @@ using TestItemRunner
     ])
     
     # Let's compile it manually to get the rules
-    rule_exprs = OpenSymbolicRules._compile_rule_exprs(data["rules"])
+    rule_exprs = OpenSymbolicRules._compile_rule_exprs(data["rules"]; section=data["section"])
     
     # The rule expressions need to be evaluated in a module where Abs is defined
     # We evaluate them here in the test scope

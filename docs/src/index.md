@@ -7,4 +7,4 @@ Documentation for [OpenSymbolicRules.jl](https://github.com/OpenSymbolicRules/Op
 ## Features
 - **AOT Compilation:** Parses JSON rules at macro expansion time (`@load_osr`) to emit pure Julia code with zero runtime overhead.
 - **Unified Engine:** Combines rules from different domains (Algebra, Trigonometry, Calculus) into a single rewrite engine.
-- **Pedagogical Tracer:** Includes an interactive `mode=:trace` and `mode=:verbose` to intercept and explain every mathematical operation applied to an expression.
+- **Observable Tracing:** `mode=:trace` records every rewrite with its stable OSR rule name; `on_step` can send those events to a notebook, logger, or user interface.

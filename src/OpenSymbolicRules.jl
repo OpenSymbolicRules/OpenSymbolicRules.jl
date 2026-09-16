@@ -13,7 +13,7 @@ include("bridge.jl")
 include("manifests.jl")
 include("heads.jl")
 
-export @load_osr, @load_osr_profile, rule_paths, load_inference_profile, OSRInference
+export @load_osr, @load_osr_profile, rule_paths, load_inference_profile, OSRInference, OSRRule
 export FreeQ, is_integer, is_numeric, NotEqual
 export build_simplifier, osr_simplify
 
@@ -56,15 +56,21 @@ function osr_to_expr(node)
     end
 end
 
-function _compile_rule_exprs(rules_json)
+function _compile_rule_exprs(rules_json; section::AbstractString="unknown")
     rule_exprs = Expr[]
+    seen_ids = Set{Int}()
     for rule in rules_json
+        id = get(rule, "id", nothing)
+        id isa Integer || throw(ArgumentError("Every OSR rule must have an integer id"))
+        id in seen_ids && throw(ArgumentError("Duplicate OSR rule id $(id) in section $(section)"))
+        push!(seen_ids, id)
+
         pattern = osr_to_expr(rule["pattern"])
         result = osr_to_expr(rule["result"])
         constraints_json = get(rule, "constraints", [])
 
-        if isempty(constraints_json)
-            push!(rule_exprs, :(@rule($pattern => $result)))
+        rewrite = if isempty(constraints_json)
+            :(@rule($pattern => $result))
         else
             condition_expressions = Expr[]
             for constraint in constraints_json
@@ -92,8 +98,11 @@ function _compile_rule_exprs(rules_json)
                 push!(condition_expressions, Expr(:call, predicate, arguments...))
             end
             condition = length(condition_expressions) == 1 ? condition_expressions[1] : Expr(:&&, condition_expressions...)
-            push!(rule_exprs, :(@rule($pattern => $result where $condition)))
+            :(@rule($pattern => $result where $condition))
         end
+        name = "$(section):$(id)"
+        description = get(rule, "description", nothing)
+        push!(rule_exprs, :(OSRRule($name, $description, $rewrite)))
     end
     return rule_exprs
 end
@@ -110,7 +119,9 @@ macro load_osr(filepath)
 
     # Read the JSON file at compile time
     data = JSON.parsefile(full_path)
-    rule_exprs = _compile_rule_exprs(data["rules"])
+    section = get(data, "section", nothing)
+    section isa String || error("@load_osr requires a rule file with a string section")
+    rule_exprs = _compile_rule_exprs(data["rules"]; section=section)
     
     # Return a block that constructs the array of rules
     return esc(Expr(:vect, rule_exprs...))
@@ -139,7 +150,10 @@ macro load_osr_profile(rootpath, profile=nothing)
     
     rule_exprs = Expr[]
     for path in rule_paths(full_root; profile=profile_symbol)
-        append!(rule_exprs, _compile_rule_exprs(JSON.parsefile(path)["rules"]))
+        data = JSON.parsefile(path)
+        section = get(data, "section", nothing)
+        section isa String || error("@load_osr_profile requires rule files with a string section")
+        append!(rule_exprs, _compile_rule_exprs(data["rules"]; section=section))
     end
     
     return esc(Expr(:vect, rule_exprs...))
