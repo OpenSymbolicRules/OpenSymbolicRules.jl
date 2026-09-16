@@ -106,11 +106,40 @@ rules = @load_osr("path/to/6.1-negation.json")
 simplify(Not(Forall([:x, :y], p)), rules) # Exists([:x, :y], Not(p))
 ```
 
-OpenMath n-ary `Add`, `Multiply`, `And`, and `Or` expressions are normalized
-to left-associated binary SymbolicUtils terms at load time. Commutative
-matching is supported for binary `Add`, `And`, and `Or` forms; `Multiply` is
-not reordered because symbolic operands may be matrices. Full
-associative-commutative matching remains a separate optimisation.
+## Associativity and commutativity
+
+Associativity and commutativity are properties of the OpenMath symbol a head is
+bound to, never of the head's spelling. A rule file declares those bindings in
+its `semantics` block, so the file below gets commutative matching for `Plus`
+without having to be named `Add`:
+
+```json
+{
+  "semantics": { "Plus": "openmath:arith1#plus" },
+  "rules": [
+    { "id": 1, "pattern": ["Plus", "~x", 0], "constraints": [], "result": "~x" }
+  ]
+}
+```
+
+An n-ary expression headed by an associative symbol (`arith1#plus`,
+`arith1#times`, `logic1#and`, `logic1#or`, `logic1#xor`) is normalized to
+left-associated binary SymbolicUtils terms at load time.
+
+A pattern headed by a commutative symbol (`arith1#plus` and the Boolean
+connectives `logic1#and`, `logic1#or`, `logic1#xor`, `logic1#xnor`,
+`logic1#nand`, `logic1#nor`, `logic1#equivalent`) compiles to a
+`SymbolicUtils.ACRule`, which matches every operand order with a single rule.
+A rule file therefore never needs a mirrored copy of a commutative pattern:
+
+```julia
+simplify(Plus(x, 0), rules) # x
+simplify(Plus(0, x), rules) # x
+```
+
+`arith1#times` is deliberately excluded. An OSR expression carries no shape
+information, so a `times` operand may be a matrix and reordering it would be
+unsound.
 
 With Symbolics.jl, symbolic arrays can be declared with
 `@variables A[1:m, 1:n]`. Matrix addition may use `Add` when dimensions are

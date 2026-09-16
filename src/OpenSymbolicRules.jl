@@ -17,15 +17,81 @@ export @load_osr, @load_osr_profile, rule_paths, load_inference_profile, OSRInfe
 export FreeQ, is_integer, is_numeric, NotEqual
 export build_simplifier
 
-const _ASSOCIATIVE_OPERATORS = Set(["Add", "Multiply", "And", "Or"])
-const _COMMUTATIVE_OPERATORS = Set(["Add", "And", "Or"])
+"""
+    _DEFAULT_SEMANTICS
+
+OpenMath Content Dictionary symbol of every canonical OSR head.  A rule file
+declares its own `semantics` block, and that declaration always wins; this map
+only resolves heads used outside a rule file, for example when `osr_to_expr` is
+called directly.
+"""
+const _DEFAULT_SEMANTICS = Dict(
+    "Add" => "openmath:arith1#plus",
+    "Multiply" => "openmath:arith1#times",
+    "And" => "openmath:logic1#and",
+    "Or" => "openmath:logic1#or",
+)
 
 """
-    osr_to_expr(node)
+    _ASSOCIATIVE_SYMBOLS
+
+OpenMath symbols denoting associative operations.  An n-ary OSR expression with
+such a head is normalized to left-associated binary `SymbolicUtils` terms.
+"""
+const _ASSOCIATIVE_SYMBOLS = Set([
+    "openmath:arith1#plus",
+    "openmath:arith1#times",
+    "openmath:logic1#and",
+    "openmath:logic1#or",
+    "openmath:logic1#xor",
+])
+
+"""
+    _COMMUTATIVE_SYMBOLS
+
+OpenMath symbols denoting operations whose operands may be reordered.  Patterns
+headed by one of these compile to a `SymbolicUtils.ACRule`, so a single rule
+matches every operand order instead of requiring a mirrored copy per order.
+
+`openmath:arith1#times` is deliberately absent.  An OSR expression carries no
+shape information, so a `times` operand may be a matrix or a tensor and
+reordering it would be unsound.  The same applies to tensor products,
+contractions, and axis permutations, which must use dedicated heads.
+"""
+const _COMMUTATIVE_SYMBOLS = Set([
+    "openmath:arith1#plus",
+    "openmath:logic1#and",
+    "openmath:logic1#or",
+    "openmath:logic1#xor",
+    "openmath:logic1#xnor",
+    "openmath:logic1#nand",
+    "openmath:logic1#nor",
+    "openmath:logic1#equivalent",
+])
+
+"""
+    _openmath_symbol(head, semantics)
+
+Return the OpenMath symbol bound to `head`, or `nothing` when the head has no
+declared and no canonical binding.
+"""
+function _openmath_symbol(head::AbstractString, semantics)
+    symbol = get(semantics, head, nothing)
+    symbol isa AbstractString && return String(symbol)
+    return get(_DEFAULT_SEMANTICS, head, nothing)
+end
+
+_is_associative(head, semantics) = _openmath_symbol(head, semantics) in _ASSOCIATIVE_SYMBOLS
+_is_commutative(head, semantics) = _openmath_symbol(head, semantics) in _COMMUTATIVE_SYMBOLS
+
+"""
+    osr_to_expr(node, semantics=_DEFAULT_SEMANTICS)
 
 Recursively parse an OSR JSON node into a Julia expression for SymbolicUtils.
+`semantics` is the rule file's head-to-OpenMath-symbol map; it decides which
+n-ary expressions are normalized to left-associated binary terms.
 """
-function osr_to_expr(node)
+function osr_to_expr(node, semantics=_DEFAULT_SEMANTICS)
     if node isa String
         if startswith(node, "~")
             # Pattern variable
@@ -50,15 +116,15 @@ function osr_to_expr(node)
                 sequence_name = only(variables)
                 isempty(sequence_name[1:end-2]) && throw(ArgumentError("Quantifier sequence variables must have a name"))
                 bound_variables = Expr(:call, :~, Symbol(sequence_name[1:end-2]))
-                return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3]))
+                return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3], semantics))
             end
             bound_variables = Expr(:vect, [QuoteNode(Symbol(variable)) for variable in variables]...)
-            return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3]))
+            return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3], semantics))
         end
         # Function call, e.g. ["Multiply", "x", "y"] -> Multiply(x, y)
         op = Symbol(node[1])
-        args = map(osr_to_expr, node[2:end])
-        if node[1] in _ASSOCIATIVE_OPERATORS && length(args) > 2
+        args = map(argument -> osr_to_expr(argument, semantics), node[2:end])
+        if length(args) > 2 && _is_associative(node[1], semantics)
             return reduce((left, right) -> Expr(:call, op, left, right), args)
         end
         return Expr(:call, op, args...)
@@ -68,7 +134,23 @@ function osr_to_expr(node)
     end
 end
 
-function _compile_rule_exprs(rules_json; section::AbstractString="unknown")
+"""
+    _rule_macro(pattern, semantics)
+
+Return the `SymbolicUtils` rule macro a pattern must be compiled with.  A
+pattern headed by a commutative operation becomes an `@acrule`, which matches
+every operand order with a single rule instead of one rule per order.
+"""
+function _rule_macro(pattern, semantics)
+    pattern isa Expr || return Symbol("@rule")
+    pattern.head === :call || return Symbol("@rule")
+    length(pattern.args) >= 3 || return Symbol("@rule")
+    head = pattern.args[1]
+    head isa Symbol || return Symbol("@rule")
+    return _is_commutative(String(head), semantics) ? Symbol("@acrule") : Symbol("@rule")
+end
+
+function _compile_rule_exprs(rules_json; section::AbstractString="unknown", semantics=_DEFAULT_SEMANTICS)
     rule_exprs = Expr[]
     seen_ids = Set{Int}()
     for rule in rules_json
@@ -77,12 +159,13 @@ function _compile_rule_exprs(rules_json; section::AbstractString="unknown")
         id in seen_ids && throw(ArgumentError("Duplicate OSR rule id $(id) in section $(section)"))
         push!(seen_ids, id)
 
-        pattern = osr_to_expr(rule["pattern"])
-        result = osr_to_expr(rule["result"])
+        pattern = osr_to_expr(rule["pattern"], semantics)
+        result = osr_to_expr(rule["result"], semantics)
         constraints_json = get(rule, "constraints", [])
+        rule_macro = _rule_macro(pattern, semantics)
 
         rewrite = if isempty(constraints_json)
-            Expr(:macrocall, GlobalRef(SymbolicUtils, Symbol("@rule")), LineNumberNode(0), :($pattern => $result))
+            Expr(:macrocall, GlobalRef(SymbolicUtils, rule_macro), LineNumberNode(0), :($pattern => $result))
         else
             condition_expressions = Expr[]
             for constraint in constraints_json
@@ -108,27 +191,15 @@ function _compile_rule_exprs(rules_json; section::AbstractString="unknown")
                 else
                     Symbol(pred_str)
                 end
-                arguments = map(osr_to_expr, constraint[2:end])
+                arguments = map(argument -> osr_to_expr(argument, semantics), constraint[2:end])
                 push!(condition_expressions, Expr(:call, predicate, arguments...))
             end
             condition = length(condition_expressions) == 1 ? condition_expressions[1] : Expr(:&&, condition_expressions...)
-            Expr(:macrocall, GlobalRef(SymbolicUtils, Symbol("@rule")), LineNumberNode(0), :($pattern => $result where $condition))
+            Expr(:macrocall, GlobalRef(SymbolicUtils, rule_macro), LineNumberNode(0), :($pattern => $result where $condition))
         end
         name = "$(section):$(id)"
         description = get(rule, "description", nothing)
-        compiled_rule = if pattern isa Expr && pattern.head === :call && length(pattern.args) == 3 &&
-                           pattern.args[1] isa Symbol && String(pattern.args[1]) in _COMMUTATIVE_OPERATORS
-            swapped_pattern = Expr(:call, pattern.args[1], pattern.args[3], pattern.args[2])
-            swapped_rewrite = if isempty(constraints_json)
-                Expr(:macrocall, GlobalRef(SymbolicUtils, Symbol("@rule")), LineNumberNode(0), :($swapped_pattern => $result))
-            else
-                Expr(:macrocall, GlobalRef(SymbolicUtils, Symbol("@rule")), LineNumberNode(0), :($swapped_pattern => $result where $condition))
-            end
-            Expr(:call, GlobalRef(@__MODULE__, :OSRAlternatives), Expr(:tuple, rewrite, swapped_rewrite))
-        else
-            rewrite
-        end
-        push!(rule_exprs, :(OSRRule($name, $description, $compiled_rule)))
+        push!(rule_exprs, :(OSRRule($name, $description, $rewrite)))
     end
     return rule_exprs
 end
@@ -210,7 +281,7 @@ macro load_osr(filepath)
     section = get(data, "section", nothing)
     section isa String || error("@load_osr requires a rule file with a string section")
     _validate_openmath_semantics([data])
-    rule_exprs = _compile_rule_exprs(data["rules"]; section=section)
+    rule_exprs = _compile_rule_exprs(data["rules"]; section=section, semantics=data["semantics"])
     
     # Return a block that constructs the array of rules
     return esc(Expr(:vect, rule_exprs...))
@@ -244,7 +315,7 @@ macro load_osr_profile(rootpath, profile=nothing)
     rule_exprs = Expr[]
     for data in documents
         section = data["section"]
-        append!(rule_exprs, _compile_rule_exprs(data["rules"]; section=section))
+        append!(rule_exprs, _compile_rule_exprs(data["rules"]; section=section, semantics=data["semantics"]))
     end
     
     return esc(Expr(:vect, rule_exprs...))

@@ -1,0 +1,36 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.2",
+  "title": "OpenMath-driven commutative matching fixture",
+  "semantics": {
+    "Plus": "openmath:arith1#plus",
+    "Times": "openmath:arith1#times",
+    "Log": "openmath:transc1#ln"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "description": "Additive identity declared under a non-canonical head name",
+      "pattern": ["Plus", "~x", 0],
+      "constraints": [],
+      "result": "~x"
+    },
+    {
+      "id": 2,
+      "description": "Multiplicative identity, matched in operand order only",
+      "pattern": ["Times", "~x", 1],
+      "constraints": [],
+      "result": "~x"
+    },
+    {
+      "id": 3,
+      "description": "Product rule for logarithms: log(x) + log(y) = log(x*y) for x, y > 0",
+      "pattern": ["Plus", ["Log", "~x"], ["Log", "~y"]],
+      "constraints": [
+        ["PositiveQ", "~x"],
+        ["PositiveQ", "~y"]
+      ],
+      "result": ["Log", ["Times", "~x", "~y"]]
+    }
+  ]
+}

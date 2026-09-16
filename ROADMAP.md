@@ -16,9 +16,9 @@
 ## Phase 2: Core Algebra & Expression Engine 🧮
 **Goal:** Build the CAS front-end and fundamental algebraic simplification engine.
 
-- [ ] **AST Interoperability:** Ensure seamless compatibility with `Symbolics.jl` variables (`@variables`) and `Term` structures.
-- [ ] **Algebraic Simplifier:** Implement `osr_simplify(expr)` powered exclusively by the `OpenSymbolicRules/Algebra` repositories.
-- [ ] **AC-Matching (Associative-Commutative):** Upgrade `@load_osr` to automatically generate `@acrule` for known AC operators (like `Add`, `Mul`), avoiding combinatoric explosion of rules.
+- [x] **AST Interoperability:** Ensure seamless compatibility with `Symbolics.jl` variables (`@variables`) and `Term` structures.
+- [x] **Algebraic Simplifier:** Provide `simplify(expr, rules)` for rules loaded from the `OpenSymbolicRules/Algebra` repositories.
+- [x] **AC-Matching (Associative-Commutative):** Upgrade `@load_osr` to automatically generate `@acrule` for known AC operators (like `Add`, `Mul`), avoiding combinatoric explosion of rules.
 - [ ] **Remote Rule Syncing:** Implement an Artifact or Pkg based mechanism to automatically download the latest version of the OSR specifications from GitHub.
 
 ## Phase 3: Calculus & The RUBI Integration Challenge 🚀

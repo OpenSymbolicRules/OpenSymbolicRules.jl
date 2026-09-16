@@ -38,6 +38,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Export canonical OpenMath logic and quantifier heads for direct profile use.
 - Normalize canonical n-ary OpenMath associative expressions to binary
   SymbolicUtils terms while loading rules.
-- Match binary canonical `Add`, `And`, and `Or` rule patterns in either
-  operand order, while preserving the order of possibly matrix-valued
-  `Multiply` operands.
+- Compile commutative rule patterns to a single `SymbolicUtils.ACRule` instead
+  of a mirrored copy per operand order.  Commutative and associative
+  connectives (`xor`, `xnor`, `nand`, `nor`, `equivalent`) are now matched in
+  any operand order too, while the order of possibly matrix-valued
+  `arith1#times` operands is preserved.
+- Derive associativity and commutativity from the OpenMath symbol a head is
+  bound to in a rule file's `semantics` block, rather than from the head's
+  spelling, so a rule file may name its heads freely.
