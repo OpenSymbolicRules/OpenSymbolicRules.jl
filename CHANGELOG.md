@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - OSR v0.1 trailing-underscore wildcards and lexical `Forall`/`Exists` binders in the JSON parser.
 - Named `OSRRule` values and an `on_step` callback for observable rewriting without library output.
 - A roadmap for shape- and index-aware matrix and tensor algebra.
+- Roadmap entries for binders, piecewise expressions, symbolic sets, units,
+  noncommutative algebra, discrete operators, distributions, and coefficient
+  domains.
 
 ### Changed
 - Mapped bundled fixture operators to canonical OpenMath Content Dictionary identifiers.
