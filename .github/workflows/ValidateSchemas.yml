@@ -29,4 +29,9 @@ jobs:
           python-version: "3.12"
       - run: python -m pip install check-jsonschema==0.38.0
       - run: check-jsonschema --check-metaschema specification/schemas/*.schema.json
-      - run: find test/data -name '*.json' -print0 | xargs -0 check-jsonschema --schemafile specification/schemas/rule-file.schema.json --base-uri "file://${PWD}/specification/schemas/"
+      - name: Validate bundled rule fixtures
+        run: find test/data -name '*.json' ! -name meta.json ! -path '*/inferences/*' -print0 | xargs -0 check-jsonschema --schemafile specification/schemas/rule-file.schema.json --base-uri "file://${PWD}/specification/schemas/"
+      - name: Validate bundled profile manifests
+        run: find test/data -name meta.json -print0 | xargs -0 check-jsonschema --schemafile specification/schemas/meta.schema.json --base-uri "file://${PWD}/specification/schemas/"
+      - name: Validate bundled inference profiles
+        run: find test/data -path '*/inferences/*.json' -print0 | xargs -0 check-jsonschema --schemafile specification/schemas/inference-file.schema.json --base-uri "file://${PWD}/specification/schemas/"

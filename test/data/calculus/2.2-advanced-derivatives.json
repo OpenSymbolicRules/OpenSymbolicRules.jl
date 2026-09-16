@@ -18,6 +18,7 @@
       "id": 1,
       "description": "Derivative of variable w.r.t itself",
       "pattern": ["Derivative", "~x", "~x"],
+      "constraints": [],
       "result": 1
     },
     {
@@ -33,6 +34,7 @@
       "id": 3,
       "description": "Linearity: d/dx(u + v)",
       "pattern": ["Derivative", ["Add", "~u", "~v"], "~x"],
+      "constraints": [],
       "result": ["Add", ["Derivative", "~u", "~x"], ["Derivative", "~v", "~x"]]
     },
     {
@@ -48,6 +50,7 @@
       "id": 5,
       "description": "Product rule: d/dx(u * v)",
       "pattern": ["Derivative", ["Mul", "~u", "~v"], "~x"],
+      "constraints": [],
       "result": ["Add", 
         ["Mul", ["Derivative", "~u", "~x"], "~v"], 
         ["Mul", "~u", ["Derivative", "~v", "~x"]]
@@ -57,6 +60,7 @@
       "id": 6,
       "description": "Quotient rule: d/dx(u / v)",
       "pattern": ["Derivative", ["Div", "~u", "~v"], "~x"],
+      "constraints": [],
       "result": ["Div",
         ["Add", 
           ["Mul", ["Derivative", "~u", "~x"], "~v"],
@@ -81,24 +85,28 @@
       "id": 8,
       "description": "Exponential rule (Chain): d/dx(exp(u))",
       "pattern": ["Derivative", ["Exp", "~u"], "~x"],
+      "constraints": [],
       "result": ["Mul", ["Exp", "~u"], ["Derivative", "~u", "~x"]]
     },
     {
       "id": 9,
       "description": "Logarithm rule (Chain): d/dx(log(u))",
       "pattern": ["Derivative", ["Log", "~u"], "~x"],
+      "constraints": [],
       "result": ["Mul", ["Div", 1, "~u"], ["Derivative", "~u", "~x"]]
     },
     {
       "id": 10,
       "description": "Sine rule (Chain): d/dx(sin(u))",
       "pattern": ["Derivative", ["Sin", "~u"], "~x"],
+      "constraints": [],
       "result": ["Mul", ["Cos", "~u"], ["Derivative", "~u", "~x"]]
     },
     {
       "id": 11,
       "description": "Cosine rule (Chain): d/dx(cos(u))",
       "pattern": ["Derivative", ["Cos", "~u"], "~x"],
+      "constraints": [],
       "result": ["Mul", ["Mul", -1, ["Sin", "~u"]], ["Derivative", "~u", "~x"]]
     }
   ]
