@@ -1,10 +1,16 @@
 name = "OpenSymbolicRules"
 uuid = "63eaa7ab-c3ed-50ea-9f8d-8b348c7d3525"
-authors = ["Sébastien Celles"]
 version = "0.1.0"
+authors = ["Sébastien Celles"]
 
 [workspace]
 projects = ["test", "docs"]
 
+[deps]
+JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
+SymbolicUtils = "d1185830-fcd6-423d-90d6-eec64667417b"
+
 [compat]
+JSON = "1.8.0"
+SymbolicUtils = "4.46.6"
 julia = "1.10"

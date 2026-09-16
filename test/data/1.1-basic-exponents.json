@@ -1,0 +1,49 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.1",
+  "title": "Basic Exponent Rules",
+  "semantics": {
+    "Add": "openmath:arith1.plus",
+    "Mul": "openmath:arith1.times",
+    "Pow": "openmath:arith1.power",
+    "is_integer": "local:predicate.is_integer",
+    "is_numeric": "local:predicate.is_numeric"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "description": "Power of a power: (x^p)^q = x^(p*q) for integer powers",
+      "pattern": ["Pow", ["Pow", "~x", "~p"], "~q"],
+      "constraints": [
+        ["is_integer", "~p"],
+        ["is_integer", "~q"]
+      ],
+      "result": ["Pow", "~x", ["Mul", "~p", "~q"]],
+      "comment": "Fundamental rule of exponents. Integer constraint prevents multivalued complex branches."
+    },
+    {
+      "id": 2,
+      "description": "Product of powers: x^p * x^q = x^(p+q)",
+      "pattern": ["Mul", ["Pow", "~x", "~p"], ["Pow", "~x", "~q"]],
+      "constraints": [],
+      "result": ["Pow", "~x", ["Add", "~p", "~q"]],
+      "comment": "Base must be strictly identical."
+    },
+    {
+      "id": 3,
+      "description": "Identity power: x^1 = x",
+      "pattern": ["Pow", "~x", 1],
+      "constraints": [],
+      "result": "~x"
+    },
+    {
+      "id": 4,
+      "description": "Zero power: x^0 = 1 for x != 0",
+      "pattern": ["Pow", "~x", 0],
+      "constraints": [
+        ["NotEqual", "~x", 0]
+      ],
+      "result": 1
+    }
+  ]
+}
