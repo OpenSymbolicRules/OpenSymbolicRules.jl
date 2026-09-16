@@ -17,7 +17,7 @@
 **Goal:** Build the CAS front-end and fundamental algebraic simplification engine.
 
 - [ ] **AST Interoperability:** Ensure seamless compatibility with `Symbolics.jl` variables (`@variables`) and `Term` structures.
-- [ ] **Algebraic & Trigonometric Simplifier:** Implement `osr_simplify(expr)` powered exclusively by the `OpenSymbolicRules/Algebra` and `OpenSymbolicRules/Trigonometry` repositories.
+- [ ] **Algebraic Simplifier:** Implement `osr_simplify(expr)` powered exclusively by the `OpenSymbolicRules/Algebra` repositories.
 - [ ] **AC-Matching (Associative-Commutative):** Upgrade `@load_osr` to automatically generate `@acrule` for known AC operators (like `Add`, `Mul`), avoiding combinatoric explosion of rules.
 - [ ] **Remote Rule Syncing:** Implement an Artifact or Pkg based mechanism to automatically download the latest version of the OSR specifications from GitHub.
 
@@ -29,18 +29,27 @@
 - [ ] **Heuristic Rule Dispatcher:** `SymbolicUtils.jl` evaluates rules sequentially. For 6000+ rules, a naive `Chain` is too slow. Implement a Decision Tree or leverage `Metatheory.jl` (e-graphs) for $O(1)$ or $O(\log N)$ rule application.
 - [ ] **Validation Suite:** Run the official RUBI test suite natively in Julia to guarantee correctness against Mathematica.
 
-## Phase 4: Equation Solving & Advanced Domains 🔍
+## Phase 4: Formal Proof Engine & Step-by-Step Resolution 🎓
+**Goal:** Exploit the purely declarative nature of OSR to provide trackable, formal proofs of equivalence and step-by-step educational solutions.
+
+- [ ] **Step-by-Step Output:** Intercept the rule application engine (e.g., via `Metatheory.jl` E-Graphs or a custom `Postwalk` logger) to return a sequential list of all rules applied during a simplification (resolving user needs like Symbolics.jl#703).
+- [ ] **Formal Context & Assumptions:** Implement a rigorous context system (`x ∈ Reals`, `x > 0`) using `task_local_storage` or `DomainSets.jl` so that rules are only applied when formally valid.
+- [ ] **Equivalence Verifier:** Build an API `prove(A == B, context)` that searches for a valid rewrite path between A and B and returns the formal proof.
+- [ ] **Proof Assistant Exporter:** Export the generated rewrite traces into formats verifiable by formal assistants like Lean 4 or Coq.
+
+## Phase 5: Equation Solving & Advanced Domains 🔍
 **Goal:** Expand the CAS capabilities beyond rewriting into solving and logic.
 
 - [ ] **Equation Solving:** Implement `solve(eq, x)` using OSR algebraic isolation rules.
-- [ ] **Trigonometry & Special Functions:** Extend beyond basic Algebra, Calculus, and Trigonometry to Special Functions (Bessel, Gamma, Hypergeometric, etc.).
+- [ ] **Trigonometry & Special Functions:** Integrate standard rules for Bessel functions, Gamma, Hypergeometric, etc.
 - [ ] **SMT Solver Delegation:** When rules fail or when simplifying boolean constraints, automatically delegate proofs to SMT solvers (Z3, CVC5) via Julia wrappers.
 - [ ] **SciML Integration:** Register the CAS as a backend for `ModelingToolkit.jl` and `DifferentialEquations.jl` to simplify massive ODE/PDE systems before numerical compilation.
 
 ---
 
 ## Technical Challenges & Mitigations
-1. **Compile-Time Overhead:** Loading 6000 rules via macros can crash the compiler. 
-   *Mitigation:* Use `RuntimeGeneratedFunctions.jl` or cache rule graphs on disk.
-2. **Infinite Loops in Rewriting:** AC rules can sometimes cycle.
-   *Mitigation:* Implement strict term-ordering (e.g., Lexicographic) for commutative rules.
+> [!WARNING]
+> Loading 6000 rules via macros can crash the Julia compiler or lead to unacceptable loading times. 
+
+* **Mitigation 1:** Use `RuntimeGeneratedFunctions.jl` or cache rule graphs on disk.
+* **Mitigation 2:** Infinite Loops in Rewriting. AC rules can sometimes cycle. Implement strict term-ordering (e.g., Lexicographic) for commutative rules to guarantee termination.
