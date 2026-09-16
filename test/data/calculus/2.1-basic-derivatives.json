@@ -1,0 +1,31 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "2.1",
+  "title": "Basic Derivatives",
+  "semantics": {
+    "Derivative": "openmath:calculus1.diff",
+    "Pow": "openmath:arith1.power",
+    "Mul": "openmath:arith1.times",
+    "Add": "openmath:arith1.plus"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "description": "Derivative of a constant: d/dx(c) = 0",
+      "pattern": ["Derivative", "~c", "~x"],
+      "constraints": [
+        ["FreeQ", "~c", "~x"]
+      ],
+      "result": 0
+    },
+    {
+      "id": 2,
+      "description": "Power rule: d/dx(x^n) = n*x^(n-1)",
+      "pattern": ["Derivative", ["Pow", "~x", "~n"], "~x"],
+      "constraints": [
+        ["FreeQ", "~n", "~x"]
+      ],
+      "result": ["Mul", "~n", ["Pow", "~x", ["Add", "~n", -1]]]
+    }
+  ]
+}
