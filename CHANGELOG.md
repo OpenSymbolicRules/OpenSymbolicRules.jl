@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   preserve one or more bound variables.
 
 ### Changed
+- Make `NotEqual` conservative for symbolic terms, preventing guarded rules
+  from treating an unproved symbolic inequality as true.
 - Mapped bundled fixture operators to canonical OpenMath Content Dictionary identifiers.
 - Kept `simplify` as the sole public simplification API; removed the stale,
   undefined `osr_simplify` export.

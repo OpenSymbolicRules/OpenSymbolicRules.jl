@@ -39,7 +39,7 @@
       "description": "Zero power: x^0 = 1 for x != 0",
       "pattern": ["Pow", "~x", 0],
       "constraints": [
-        ["NotEqual", "~x", 0]
+        ["NonzeroQ", "~x"]
       ],
       "result": 1
     }

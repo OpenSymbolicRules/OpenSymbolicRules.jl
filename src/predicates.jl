@@ -41,9 +41,11 @@ is_numeric(x) = x isa Number
 """
     NotEqual(a, b)
 
-Predicate to check if `a` is not equal to `b`.
+Predicate to check whether an inequality is established.  Symbolic terms are
+not considered unequal merely because their structures differ: in the absence
+of a proof, the predicate returns `false` and the guarded rewrite is skipped.
 """
-NotEqual(a, b) = !isequal(a, b)
+NotEqual(a, b) = a isa Number && b isa Number && !isequal(a, b)
 
 # Mathematical logic / Hypothesis predicates
 

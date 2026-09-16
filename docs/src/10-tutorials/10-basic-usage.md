@@ -57,7 +57,8 @@ simplify(expr, alg_rules; on_step=step -> @info "rewrite" rule=step.rule.name)
 Rules carrying a predicate are applied only when it is established.  For
 example, `NonzeroQ` is mapped to `is_nonzero`: it accepts a nonzero literal,
 or a symbolic term explicitly declared nonzero.  This prevents the invalid
-unconditional rewrite `0^0 = 1`.
+unconditional rewrite `0^0 = 1`.  Likewise, `NotEqual` does not infer a
+mathematical inequality from two structurally different symbolic terms.
 
 ```julia
 @syms x Power(a, b)

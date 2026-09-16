@@ -23,6 +23,12 @@ using TestItemRunner
     @test is_numeric(2.5) == true
     @test is_numeric(x) == false
 
+    # A symbolic inequality is not a proof.  Conditional rewrites must remain
+    # inactive until their condition can be established.
+    @test NotEqual(2, 0) == true
+    @test NotEqual(0, 0) == false
+    @test NotEqual(x, 0) == false
+
     # `NonzeroQ` is required by Algebra's x^0 rule.  It must be decidable for
     # literals and from a local mathematical hypothesis.
     @test is_nonzero(2) == true

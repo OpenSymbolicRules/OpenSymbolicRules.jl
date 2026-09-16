@@ -18,10 +18,10 @@ using TestItemRunner
     res1 = simplify(expr1, all_rules)
     @test isequal(res1, Pow(x, Mul(2, 3)))
     
-    # Test Algebra: x^0 -> 1
+    # Test Algebra: x^0 remains guarded when x is not known to be nonzero.
     expr2 = Pow(x, 0)
     res2 = simplify(expr2, all_rules)
-    @test string(res2) == "1"
+    @test isequal(res2, expr2)
     
     # Test Trigonometry: sin^2(x) + cos^2(x) -> 1
     expr3 = Add(Pow(Sin(x), 2), Pow(Cos(x), 2))
