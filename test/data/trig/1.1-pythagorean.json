@@ -1,0 +1,22 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.1",
+  "title": "Basic Trigonometric Identities",
+  "semantics": {
+    "Add": "openmath:arith1.plus",
+    "Mul": "openmath:arith1.times",
+    "Pow": "openmath:arith1.power",
+    "Sin": "openmath:transc1.sin",
+    "Cos": "openmath:transc1.cos"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "description": "Pythagorean Identity: sin^2(x) + cos^2(x) = 1",
+      "pattern": ["Add", ["Pow", ["Sin", "~x"], 2], ["Pow", ["Cos", "~x"], 2]],
+      "constraints": [],
+      "result": 1,
+      "comment": "Fundamental trigonometric identity."
+    }
+  ]
+}

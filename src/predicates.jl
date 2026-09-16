@@ -28,3 +28,10 @@ is_integer(x) = x isa Integer
 Predicate to check if `x` is a numeric constant.
 """
 is_numeric(x) = x isa Number
+
+"""
+    NotEqual(a, b)
+
+Predicate to check if `a` is not equal to `b`.
+"""
+NotEqual(a, b) = !isequal(a, b)

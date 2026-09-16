@@ -6,9 +6,11 @@ using SymbolicUtils: @rule, Sym, Term
 using SymbolicUtils: iscall, arguments
 
 include("predicates.jl")
+include("simplify.jl")
 
 export @load_osr
-export FreeQ, is_integer, is_numeric
+export FreeQ, is_integer, is_numeric, NotEqual
+export build_simplifier, osr_simplify
 
 """
     osr_to_expr(node)
@@ -70,7 +72,7 @@ macro load_osr(filepath)
                 args = map(osr_to_expr, c[2:end])
                 # We want `pred(arg1, arg2)` instead of pattern vars like `~arg1`
                 # So we strip the `~` macro call
-                clean_args = [a isa Expr && a.head == :call && a.args[1] == :~ ? a.args[2] : a for a in args]
+                clean_args = args
                 push!(cond_exprs, Expr(:call, pred, clean_args...))
             end
             
