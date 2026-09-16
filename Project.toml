@@ -5,6 +5,7 @@ version = "0.1.0"
 
 [compat]
 DomainSets = "0.8.2"
+Giac = "0.14.3"
 IntervalSets = "0.7.14"
 JSON = "1.8.0"
 SymbolicUtils = "4.46.6"
