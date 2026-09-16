@@ -14,6 +14,11 @@ using TestItemRunner
     @test rules[3].name == "1.1:3"
     @test rules[3].description == "Identity power: x^1 = x"
     @test_throws ArgumentError OpenSymbolicRules._compile_rule_exprs([Dict("pattern" => "x_", "result" => "x_")])
+    duplicate_documents = [
+        Dict("section" => "1.1", "rules" => [Dict("id" => 1)]),
+        Dict("section" => "1.1", "rules" => [Dict("id" => 1)]),
+    ]
+    @test_throws ArgumentError OpenSymbolicRules._validate_rule_identities(duplicate_documents)
 
     result, steps = simplify(Pow(x, 1), rules; mode=:trace)
     @test isequal(result, x)

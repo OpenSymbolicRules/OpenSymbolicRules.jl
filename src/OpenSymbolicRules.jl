@@ -107,6 +107,22 @@ function _compile_rule_exprs(rules_json; section::AbstractString="unknown")
     return rule_exprs
 end
 
+function _validate_rule_identities(documents)
+    identities = Set{String}()
+    for document in documents
+        section = get(document, "section", nothing)
+        section isa String || throw(ArgumentError("Every OSR rule file must have a string section"))
+        for rule in get(document, "rules", Any[])
+            id = get(rule, "id", nothing)
+            id isa Integer || throw(ArgumentError("Every OSR rule must have an integer id"))
+            identity = "$(section):$(id)"
+            identity in identities && throw(ArgumentError("Duplicate OSR rule identity $(identity)"))
+            push!(identities, identity)
+        end
+    end
+    return nothing
+end
+
 """
     @load_osr("path/to/rule.json")
 
@@ -148,11 +164,12 @@ macro load_osr_profile(rootpath, profile=nothing)
     caller_dir = dirname(String(__source__.file))
     full_root = joinpath(caller_dir, rootpath)
     
+    documents = [JSON.parsefile(path) for path in rule_paths(full_root; profile=profile_symbol)]
+    _validate_rule_identities(documents)
+
     rule_exprs = Expr[]
-    for path in rule_paths(full_root; profile=profile_symbol)
-        data = JSON.parsefile(path)
-        section = get(data, "section", nothing)
-        section isa String || error("@load_osr_profile requires rule files with a string section")
+    for data in documents
+        section = data["section"]
         append!(rule_exprs, _compile_rule_exprs(data["rules"]; section=section))
     end
     

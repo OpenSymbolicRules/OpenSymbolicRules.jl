@@ -20,3 +20,4 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   undefined `osr_simplify` export.
 - Updated the usage tutorial to use canonical OpenMath-aligned `Power` and
   `Multiply` heads with a complete Algebra profile.
+- Reject duplicate canonical rule identities while compiling a rewrite profile.
