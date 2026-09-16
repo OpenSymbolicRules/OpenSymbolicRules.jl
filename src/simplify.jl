@@ -23,10 +23,11 @@ Base.show(io::IO, rule::OSRRule) = print(io, rule.name)
     build_simplifier(rules::AbstractVector)
 
 Builds a fixed-point bottom-up rewriter from a vector of `SymbolicUtils` rules.
+Rules are applied through an [`OSRDispatch`](@ref), which skips the rules whose
+pattern is headed by a different operation than the term at hand.
 """
 function build_simplifier(rules::AbstractVector)
-    chain = Rewriters.Chain(rules)
-    walker = Rewriters.Postwalk(chain)
+    walker = Rewriters.Postwalk(OSRDispatch(rules))
     return Rewriters.Fixpoint(walker)
 end
 
@@ -70,9 +71,8 @@ function simplify(expr, rules::AbstractVector; mode::Symbol=:fast, assumptions=n
             end
         end
 
-        raw_chain = Rewriters.Chain(rules)
-        traced_chain = Rewriters.instrument(raw_chain, observe_rule)
-        walker = Rewriters.Postwalk(traced_chain)
+        traced_dispatch = Rewriters.instrument(OSRDispatch(rules), observe_rule)
+        walker = Rewriters.Postwalk(traced_dispatch)
         simplifier = Rewriters.Fixpoint(walker)
         result = simplifier(expr)
         return mode == :trace ? (result, steps_array) : result

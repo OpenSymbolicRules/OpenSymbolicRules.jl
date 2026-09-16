@@ -27,7 +27,7 @@
 
 - [ ] **Limits & Derivatives:** Implement `Limit(expr, x, a)` and `Derivative(expr, x)` using the `OpenSymbolicRules/Calculus` specifications.
 - [ ] **The RUBI Milestone:** Successfully parse and load the 6000+ RUBI integration rules.
-- [ ] **Heuristic Rule Dispatcher:** `SymbolicUtils.jl` evaluates rules sequentially. For 6000+ rules, a naive `Chain` is too slow. Implement a Decision Tree or leverage `Metatheory.jl` (e-graphs) for $O(1)$ or $O(\log N)$ rule application.
+- [x] **Heuristic Rule Dispatcher:** `SymbolicUtils.jl` evaluates rules sequentially. For 6000+ rules, a naive `Chain` is too slow. `OSRDispatch` indexes rules by the operation their pattern requires at the root of a term, selecting candidates with a single dictionary lookup. A deeper index, or `Metatheory.jl` e-graphs, remains an option if root dispatch stops being selective enough.
 - [ ] **Validation Suite:** Run the official RUBI test suite natively in Julia to guarantee correctness against Mathematica.
 
 ## Phase 4: Formal Proof Engine & Step-by-Step Resolution 🎓

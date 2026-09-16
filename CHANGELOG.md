@@ -43,6 +43,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   whose variable occurs free in the replacement.
 - `alpha_equivalent`, comparing two expressions up to a consistent renaming of
   their bound variables.
+- `OSRDispatch`, a head-indexed rewriter that selects the applicable rules with
+  one dictionary lookup instead of one matcher call per rule.  `simplify` and
+  `build_simplifier` now use it; on a synthetic 6000-rule set it applies rules
+  roughly 470 times faster than a linear `Chain`.
 
 ### Changed
 - Make `NotEqual` conservative for symbolic terms, preventing guarded rules

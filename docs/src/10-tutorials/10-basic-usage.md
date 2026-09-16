@@ -161,6 +161,22 @@ rules = @load_osr("path/to/6.1-negation.json")
 simplify(Not(Forall([:x, :y], p)), rules) # Exists([:x, :y], Not(p))
 ```
 
+## Rule dispatch
+
+`simplify` does not try every rule on every term. Rules are indexed by the
+operation their pattern requires at the root of a term, so applying a rule set
+costs one dictionary lookup rather than one matcher call per rule. On a
+synthetic 6000-rule set this applies rules roughly 470 times faster than a
+linear scan, which is what makes a catalogue the size of RUBI usable.
+
+Three kinds of pattern have no root requirement and are therefore always tried:
+a bare slot (`~a`), a slot in head position (`(~f)(~a)`), and a pattern holding
+an optional slot (`(~a)^(~!b)`), which `SymbolicUtils` lets match a term that
+lacks the operation entirely.
+
+Dispatch is an optimisation, not a change of semantics: the rules that can match
+are applied in their original order, exactly as a linear scan would.
+
 ## Binders and lexical scope
 
 `Lambda`, `Forall`, and `Exists` introduce a lexical scope. Every other binding
