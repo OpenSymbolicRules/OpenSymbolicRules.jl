@@ -17,7 +17,7 @@
 **Goal:** Build the CAS front-end and fundamental algebraic simplification engine.
 
 - [ ] **AST Interoperability:** Ensure seamless compatibility with `Symbolics.jl` variables (`@variables`) and `Term` structures.
-- [ ] **Algebraic Simplifier:** Implement `osr_simplify(expr)` powered exclusively by the `OpenSymbolicRules/Algebra` repositories.
+- [ ] **Algebraic & Trigonometric Simplifier:** Implement `osr_simplify(expr)` powered exclusively by the `OpenSymbolicRules/Algebra` and `OpenSymbolicRules/Trigonometry` repositories.
 - [ ] **AC-Matching (Associative-Commutative):** Upgrade `@load_osr` to automatically generate `@acrule` for known AC operators (like `Add`, `Mul`), avoiding combinatoric explosion of rules.
 - [ ] **Remote Rule Syncing:** Implement an Artifact or Pkg based mechanism to automatically download the latest version of the OSR specifications from GitHub.
 
@@ -33,7 +33,7 @@
 **Goal:** Expand the CAS capabilities beyond rewriting into solving and logic.
 
 - [ ] **Equation Solving:** Implement `solve(eq, x)` using OSR algebraic isolation rules.
-- [ ] **Trigonometry & Special Functions:** Integrate standard rules for Bessel functions, Gamma, Hypergeometric, etc.
+- [ ] **Trigonometry & Special Functions:** Extend beyond basic Algebra, Calculus, and Trigonometry to Special Functions (Bessel, Gamma, Hypergeometric, etc.).
 - [ ] **SMT Solver Delegation:** When rules fail or when simplifying boolean constraints, automatically delegate proofs to SMT solvers (Z3, CVC5) via Julia wrappers.
 - [ ] **SciML Integration:** Register the CAS as a backend for `ModelingToolkit.jl` and `DifferentialEquations.jl` to simplify massive ODE/PDE systems before numerical compilation.
 
