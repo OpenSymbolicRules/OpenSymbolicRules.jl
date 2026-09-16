@@ -25,7 +25,7 @@ end
 Predicate to check if `x` is an integer.
 """
 function is_integer(x)
-    if x isa Integer
+    if x isa Integer || (x isa SymbolicUtils.BasicSymbolic && SymbolicUtils.symtype(x) <: Integer)
         return true
     end
     check_assumption(ElementOf(x, Integers())) || check_assumption(ElementOf(x, Int))
