@@ -95,4 +95,18 @@ function is_negative(x)
     check_assumption(ElementOf(x, NegativeHalfLine()))
 end
 
-export is_positive, is_negative, FreeQ, is_integer, is_numeric, NotEqual
+function is_real(x)
+    if x isa Real || (x isa SymbolicUtils.BasicSymbolic && SymbolicUtils.symtype(x) <: Real)
+        return true
+    end
+    check_assumption(ElementOf(x, Reals())) || check_assumption(ElementOf(x, Real))
+end
+
+function is_complex(x)
+    if x isa Complex || (x isa SymbolicUtils.BasicSymbolic && SymbolicUtils.symtype(x) <: Complex)
+        return true
+    end
+    check_assumption(ElementOf(x, ComplexPlane())) || check_assumption(ElementOf(x, Complex)) || is_real(x)
+end
+
+export is_positive, is_negative, FreeQ, is_integer, is_numeric, NotEqual, is_real, is_complex
