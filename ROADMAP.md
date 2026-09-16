@@ -44,7 +44,7 @@
 
 - [ ] **Equation Solving:** Implement `solve(eq, x)` using OSR algebraic isolation rules.
 - [ ] **Sets, Relations, and Intervals:** Add membership, inclusion, unions, intersections, inequalities, and solution-set expressions as first-class symbolic structures.
-- [ ] **Units and Dimensional Analysis:** Track physical units and dimensions so that dimensionally invalid rewrites are rejected.
+- [ ] **Units, Dimensions, and Uncertainties:** Track physical dimensions as semantic properties of expressions, rejecting dimensionally invalid rewrites. Build a `DynamicQuantities.jl` integration first, aligned with `SymbolicUncertainties.jl`, so values and their uncertainty terms retain compatible dimensions; provide `Unitful.jl` interoperability at the boundary rather than duplicating dimensional semantics.
 - [ ] **Trigonometry & Special Functions:** Integrate standard rules for Bessel functions, Gamma, Hypergeometric, etc.
 - [ ] **Matrix and Tensor Algebra:** Define shape- and index-aware OpenMath-aligned heads for matrix multiplication, tensor products, contractions, and axis permutations. Preserve operand order by default; allow commutativity only when scalarity or compatible additive structure is established.
 - [ ] **Noncommutative Algebra:** Model operator composition, Lie products, and quantum-style noncommutative multiplication separately from scalar arithmetic.
