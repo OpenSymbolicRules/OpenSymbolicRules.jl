@@ -6,7 +6,7 @@ using SymbolicUtils
 using SymbolicUtils: operation, arguments, iscall
 using SymbolicUtils.Rewriters: Postwalk
 
-function OpenSymbolicRules.bridge_to_osr(expr)
+function OpenSymbolicRules.to_osr(expr)
     Postwalk(x -> begin
         if iscall(x)
             op = operation(x)
@@ -19,7 +19,7 @@ function OpenSymbolicRules.bridge_to_osr(expr)
     end)(expr)
 end
 
-function OpenSymbolicRules.bridge_from_osr(expr)
+function OpenSymbolicRules.to_symbolics(expr)
     Postwalk(x -> begin
         if iscall(x)
             op = operation(x)

@@ -1,22 +1,22 @@
 using SymbolicUtils
 
-export bridge_to_osr, bridge_from_osr, Derivative
+export to_osr, to_symbolics, Derivative
 
 # We define the canonical pedagogical Derivative symbol used in OSR Calculus
 @syms Derivative(expr, var)
 
 """
-    bridge_to_osr(expr)
+    to_osr(expr)
 
 Converts `Symbolics.jl` operations into `OpenSymbolicRules.jl` pedagogical format.
 Requires loading `Symbolics` first (`using Symbolics`).
 """
-function bridge_to_osr end
+function to_osr end
 
 """
-    bridge_from_osr(expr)
+    to_symbolics(expr)
 
 Converts `OpenSymbolicRules.jl` pedagogical format back into `Symbolics.jl` operations.
 Requires loading `Symbolics` first (`using Symbolics`).
 """
-function bridge_from_osr end
+function to_symbolics end
