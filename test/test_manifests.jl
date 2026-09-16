@@ -34,6 +34,9 @@ using TestItemRunner
     end
     @test isequal(BareLogicLoader.rules[1](And(x, true)), x)
 
+    commutative_rules = @load_osr("data/commutative/1.1-additive-identity.json")
+    @test isequal(simplify(Add(0, x), commutative_rules), x)
+
     binder = OpenSymbolicRules.osr_to_expr(["Forall", ["x"], ["Not", "x"]])
     @test binder == :(Forall([:x], Not(x)))
 

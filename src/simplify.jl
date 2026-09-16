@@ -19,6 +19,18 @@ end
 (rule::OSRRule)(expr) = rule.rule(expr)
 Base.show(io::IO, rule::OSRRule) = print(io, rule.name)
 
+struct OSRAlternatives{R}
+    rules::R
+end
+
+function (alternatives::OSRAlternatives)(expr)
+    for rule in alternatives.rules
+        result = rule(expr)
+        result === nothing || return result
+    end
+    return nothing
+end
+
 """
     build_simplifier(rules::AbstractVector)
 

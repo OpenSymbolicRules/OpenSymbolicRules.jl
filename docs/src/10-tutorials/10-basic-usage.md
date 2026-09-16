@@ -74,4 +74,17 @@ Logic profiles use the exported canonical heads `And`, `Or`, `Not`, `Implies`,
 
 OpenMath n-ary `Add`, `Multiply`, `And`, and `Or` expressions are normalized
 to left-associated binary SymbolicUtils terms at load time. Commutative
-matching is deliberately not implied by this normalization.
+matching is supported for binary `Add`, `And`, and `Or` forms; `Multiply` is
+not reordered because symbolic operands may be matrices. Full
+associative-commutative matching remains a separate optimisation.
+
+With Symbolics.jl, symbolic arrays can be declared with
+`@variables A[1:m, 1:n]`. Matrix addition may use `Add` when dimensions are
+compatible, but matrix multiplication must retain its operand order. A future
+matrix profile will need explicit shape constraints and matrix-product
+semantics rather than scalar `arith1#times` assumptions.
+
+The same rule is stricter for tensors: addition is commutative only for equal
+shapes, whereas tensor product, contraction, and axis permutation are ordered
+operations. They must be represented by dedicated heads with explicit index
+and shape metadata; they must never be silently encoded as `Multiply`.

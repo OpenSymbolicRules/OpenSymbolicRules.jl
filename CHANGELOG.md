@@ -26,3 +26,6 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Export canonical OpenMath logic and quantifier heads for direct profile use.
 - Normalize canonical n-ary OpenMath associative expressions to binary
   SymbolicUtils terms while loading rules.
+- Match binary canonical `Add`, `And`, and `Or` rule patterns in either
+  operand order, while preserving the order of possibly matrix-valued
+  `Multiply` operands.

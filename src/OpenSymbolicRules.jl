@@ -18,6 +18,7 @@ export FreeQ, is_integer, is_numeric, NotEqual
 export build_simplifier
 
 const _ASSOCIATIVE_OPERATORS = Set(["Add", "Multiply", "And", "Or"])
+const _COMMUTATIVE_OPERATORS = Set(["Add", "And", "Or"])
 
 """
     osr_to_expr(node)
@@ -107,7 +108,19 @@ function _compile_rule_exprs(rules_json; section::AbstractString="unknown")
         end
         name = "$(section):$(id)"
         description = get(rule, "description", nothing)
-        push!(rule_exprs, :(OSRRule($name, $description, $rewrite)))
+        compiled_rule = if pattern isa Expr && pattern.head === :call && length(pattern.args) == 3 &&
+                           pattern.args[1] isa Symbol && String(pattern.args[1]) in _COMMUTATIVE_OPERATORS
+            swapped_pattern = Expr(:call, pattern.args[1], pattern.args[3], pattern.args[2])
+            swapped_rewrite = if isempty(constraints_json)
+                Expr(:macrocall, GlobalRef(SymbolicUtils, Symbol("@rule")), LineNumberNode(0), :($swapped_pattern => $result))
+            else
+                Expr(:macrocall, GlobalRef(SymbolicUtils, Symbol("@rule")), LineNumberNode(0), :($swapped_pattern => $result where $condition))
+            end
+            Expr(:call, GlobalRef(@__MODULE__, :OSRAlternatives), Expr(:tuple, rewrite, swapped_rewrite))
+        else
+            rewrite
+        end
+        push!(rule_exprs, :(OSRRule($name, $description, $compiled_rule)))
     end
     return rule_exprs
 end
