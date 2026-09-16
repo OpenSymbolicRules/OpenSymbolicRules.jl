@@ -45,7 +45,7 @@ end
     all_rules = vcat(alg_rules, trig_rules)
     
     expr = Pow(Add(Pow(Sin(x), 2), Pow(Cos(x), 2)), 0)
-    res, steps = simplify(expr, all_rules, steps=true)
+    res, steps = simplify(expr, all_rules, mode=:trace)
     
     @test string(res) == "1"
     @test length(steps) > 0
