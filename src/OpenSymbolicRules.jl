@@ -3,8 +3,12 @@ module OpenSymbolicRules
 using JSON
 using SymbolicUtils
 using SymbolicUtils: @rule, Sym, Term
+using SymbolicUtils: iscall, arguments
+
+include("predicates.jl")
 
 export @load_osr
+export FreeQ, is_integer, is_numeric
 
 """
     osr_to_expr(node)
