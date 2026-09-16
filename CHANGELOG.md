@@ -21,6 +21,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   symbolic `IsNonzero` assumptions.
 - First-order quantifier rewrites with sequence captures (`xs__`) that
   preserve one or more bound variables.
+- A Symbolics.jl bridge for canonical `Derivative(Lambda(variable, expression))`
+  terms.
 
 ### Changed
 - Make `NotEqual` conservative for symbolic terms, preventing guarded rules

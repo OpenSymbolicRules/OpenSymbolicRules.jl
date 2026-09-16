@@ -68,6 +68,13 @@ simplify(Power(x, 0), power_rules)                         # unchanged
 simplify(Power(x, 0), power_rules; assumptions=[IsNonzero(x)]) # 1
 ```
 
+## Symbolics.jl Interoperability
+
+When Symbolics.jl is loaded, `to_osr` converts its differential operator into
+the canonical OpenMath-aligned representation `Derivative(Lambda(x, f))`.
+`to_symbolics` performs the inverse conversion, preserving the differentiation
+variable and expression.
+
 ## Loading a Profile
 
 An OSR repository can expose an ordered default profile and named rewrite

@@ -12,7 +12,9 @@ function OpenSymbolicRules.to_osr(expr)
             op = operation(x)
             if op isa Symbolics.Differential
                 var = op.x
-                return term(OpenSymbolicRules.Derivative, arguments(x)[1], var)
+                # Symbolics.jl represents diff as Differential(x)(expr)
+                # OSR represents it as Derivative(Lambda(x, expr))
+                return term(OpenSymbolicRules.Derivative, term(OpenSymbolicRules.Lambda, var, arguments(x)[1]))
             end
         end
         return x
@@ -24,9 +26,12 @@ function OpenSymbolicRules.to_symbolics(expr)
         if iscall(x)
             op = operation(x)
             if isequal(op, OpenSymbolicRules.Derivative)
-                expr_arg = arguments(x)[1]
-                var_arg = arguments(x)[2]
-                return term(Symbolics.Differential(var_arg), expr_arg)
+                lambda_term = arguments(x)[1]
+                if iscall(lambda_term) && isequal(operation(lambda_term), OpenSymbolicRules.Lambda)
+                    var_arg = arguments(lambda_term)[1]
+                    expr_arg = arguments(lambda_term)[2]
+                    return term(Symbolics.Differential(var_arg), expr_arg)
+                end
             end
         end
         return x
