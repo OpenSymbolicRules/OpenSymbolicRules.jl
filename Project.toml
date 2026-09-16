@@ -14,3 +14,9 @@ SymbolicUtils = "d1185830-fcd6-423d-90d6-eec64667417b"
 JSON = "1.8.0"
 SymbolicUtils = "4.46.6"
 julia = "1.10"
+
+[weakdeps]
+Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
+
+[extensions]
+OpenSymbolicRulesSymbolicsExt = "Symbolics"
