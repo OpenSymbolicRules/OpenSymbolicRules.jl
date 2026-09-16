@@ -3,6 +3,8 @@ using TestItemRunner
 @testitem "Assumptions Context" begin
     using OpenSymbolicRules
     using SymbolicUtils
+    using DomainSets
+    using IntervalSets
     
     @syms x
     
@@ -16,10 +18,13 @@ using TestItemRunner
     
     # Check with ~ (Equation) which we now support natively
     @test string(simplify(expr, rules, assumptions=[IsPositive(x)])) == string(x)
-    
     @test string(simplify(expr, rules, assumptions=[GreaterThan(x, 0)])) == string(x)
     
-    # We could also support equation assumptions if needed
+    # Check DomainSets logic
+    @test string(simplify(expr, rules, assumptions=[x ∈ 0..Inf])) == string(x)
+    @test string(simplify(expr, rules, assumptions=[x ∈ HalfLine()])) == string(x)
+    
+    # Equations
     @test (x ~ 0) isa Equation
     
     @test string(simplify(Abs(5), rules)) == "5"

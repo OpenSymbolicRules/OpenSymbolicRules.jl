@@ -8,6 +8,7 @@ using SymbolicUtils: iscall, arguments
 include("predicates.jl")
 include("simplify.jl")
 include("equations.jl")
+include("domains.jl")
 include("bridge.jl")
 
 export @load_osr

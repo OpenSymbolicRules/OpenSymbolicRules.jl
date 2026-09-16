@@ -1,3 +1,7 @@
+using SymbolicUtils
+using DomainSets
+using IntervalSets
+
 """
     FreeQ(expr, var)
 
@@ -20,7 +24,12 @@ end
 
 Predicate to check if `x` is an integer.
 """
-is_integer(x) = x isa Integer
+function is_integer(x)
+    if x isa Integer
+        return true
+    end
+    check_assumption(ElementOf(x, Integers())) || check_assumption(ElementOf(x, Int))
+end
 
 """
     is_numeric(x)
@@ -35,6 +44,7 @@ is_numeric(x) = x isa Number
 Predicate to check if `a` is not equal to `b`.
 """
 NotEqual(a, b) = !isequal(a, b)
+
 # Mathematical logic / Hypothesis predicates
 
 @syms GreaterThan(a, b)
@@ -66,15 +76,23 @@ function is_positive(x)
     if x isa Number
         return x > 0
     end
-    check_assumption(IsPositive(x)) || check_assumption(GreaterThan(x, 0))
+    # Check both old-style predicates and DomainSets
+    check_assumption(IsPositive(x)) || 
+    check_assumption(GreaterThan(x, 0)) ||
+    check_assumption(ElementOf(x, 0..Inf)) ||
+    check_assumption(ElementOf(x, OpenInterval(0, Inf))) ||
+    check_assumption(ElementOf(x, HalfLine()))
 end
 
 function is_negative(x)
     if x isa Number
         return x < 0
     end
-    check_assumption(IsNegative(x)) || check_assumption(LessThan(x, 0))
+    check_assumption(IsNegative(x)) || 
+    check_assumption(LessThan(x, 0)) ||
+    check_assumption(ElementOf(x, -Inf..0)) ||
+    check_assumption(ElementOf(x, OpenInterval(-Inf, 0))) ||
+    check_assumption(ElementOf(x, NegativeHalfLine()))
 end
 
-export is_positive, is_negative
-
+export is_positive, is_negative, FreeQ, is_integer, is_numeric, NotEqual
