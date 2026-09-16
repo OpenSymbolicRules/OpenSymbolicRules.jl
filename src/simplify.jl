@@ -1,6 +1,7 @@
 using SymbolicUtils.Rewriters
+import SymbolicUtils: simplify
 
-export build_simplifier, osr_simplify, step_simplify
+export build_simplifier, simplify
 
 """
     build_simplifier(rules::AbstractVector)
@@ -14,37 +15,29 @@ function build_simplifier(rules::AbstractVector)
 end
 
 """
-    osr_simplify(expr, rules::AbstractVector)
+    simplify(expr, rules::AbstractVector; steps::Bool=false)
 
 Applies a set of OSR rules to an expression until it stops changing.
+If `steps=true`, returns a tuple `(result, steps_array)` where each step 
+is a NamedTuple `(rule, before, after)`. Otherwise, returns only the `result`.
 """
-function osr_simplify(expr, rules::AbstractVector)
-    simplifier = build_simplifier(rules)
-    return simplifier(expr)
-end
-
-"""
-    step_simplify(expr, rules::AbstractVector)
-
-Applies a set of OSR rules to an expression, recording each transformation step.
-Returns `(result, steps)` where `steps` is an array of NamedTuples `(rule, before, after)`.
-"""
-function step_simplify(expr, rules::AbstractVector)
-    steps = []
-    
-    # Wrap each rule to log its application
-    logged_rules = map(rules) do r
-        return function(x)
-            res = r(x)
-            if res !== nothing && !isequal(res, x)
-                push!(steps, (rule=r, before=x, after=res))
+function simplify(expr, rules::AbstractVector; steps::Bool=false)
+    if steps
+        steps_array = []
+        logged_rules = map(rules) do r
+            return function(x)
+                res = r(x)
+                if res !== nothing && !isequal(res, x)
+                    push!(steps_array, (rule=r, before=x, after=res))
+                end
+                return res
             end
-            return res
         end
+        simplifier = build_simplifier(logged_rules)
+        result = simplifier(expr)
+        return result, steps_array
+    else
+        simplifier = build_simplifier(rules)
+        return simplifier(expr)
     end
-    
-    simplifier = build_simplifier(logged_rules)
-    result = simplifier(expr)
-    
-    return result, steps
 end
