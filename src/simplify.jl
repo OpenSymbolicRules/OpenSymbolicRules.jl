@@ -23,7 +23,8 @@ Supported modes:
 - `:trace` : returns a tuple `(result, steps_array)` where each step is a NamedTuple `(rule, before, after)`.
 - `:verbose` : prints each step to the standard output and returns the result.
 """
-function simplify(expr, rules::AbstractVector; mode::Symbol=:fast)
+function simplify(expr, rules::AbstractVector; mode::Symbol=:fast, assumptions=nothing)
+    task_local_storage(:osr_assumptions, assumptions) do
     if mode == :fast
         simplifier = build_simplifier(rules)
         return simplifier(expr)
@@ -71,5 +72,6 @@ function simplify(expr, rules::AbstractVector; mode::Symbol=:fast)
         
     else
         throw(ArgumentError("Unknown mode: $mode. Use :fast, :trace, or :verbose."))
+    end
     end
 end

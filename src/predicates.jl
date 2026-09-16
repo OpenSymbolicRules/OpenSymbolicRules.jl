@@ -35,3 +35,46 @@ is_numeric(x) = x isa Number
 Predicate to check if `a` is not equal to `b`.
 """
 NotEqual(a, b) = !isequal(a, b)
+# Mathematical logic / Hypothesis predicates
+
+@syms GreaterThan(a, b)
+@syms LessThan(a, b)
+@syms IsInteger(a)
+@syms IsPositive(a)
+@syms IsNegative(a)
+
+export GreaterThan, LessThan, IsInteger, IsPositive, IsNegative
+
+"""
+    check_assumption(predicate)
+
+Checks if `predicate` is in the `task_local_storage(:osr_assumptions)`.
+"""
+function check_assumption(predicate)
+    ctx = get(task_local_storage(), :osr_assumptions, nothing)
+    if ctx !== nothing
+        for asm in ctx
+            if isequal(asm, predicate)
+                return true
+            end
+        end
+    end
+    return false
+end
+
+function is_positive(x)
+    if x isa Number
+        return x > 0
+    end
+    check_assumption(IsPositive(x)) || check_assumption(GreaterThan(x, 0))
+end
+
+function is_negative(x)
+    if x isa Number
+        return x < 0
+    end
+    check_assumption(IsNegative(x)) || check_assumption(LessThan(x, 0))
+end
+
+export is_positive, is_negative
+
