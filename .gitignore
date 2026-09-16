@@ -1,12 +1,39 @@
-*.jl.*.cov
-*.jl.cov
-*.jl.mem
-*.rej
+# --- Gitallow Pattern ---
+# 1. Ignore everything by default
+*
+
+# 2. Allow descending into directories
+!*/
+
+# 3. Allow specific file extensions and hidden files
+!.*
+!*.jl
+!*.md
+!*.toml
+!*.yml
+!*.yaml
+!*.json
+!*.txt
+
+# 4. Allow specific files without extension
+!LICENSE
+!justfile
+
+# 5. Re-ignore specific things we definitely don't want
+.git/
 .DS_Store
-.benchmarkci
+.vscode/
+.idea/
+.claude/
+.specify/
+CLAUDE.md
+AGENTS.md
+spec.md
+specs/
 Manifest.toml
-benchmark/*.json
-coverage
 docs/build/
-env
-node_modules
+docs/site/
+coverage/
+*.cov
+*.tar.gz
+*.swp
