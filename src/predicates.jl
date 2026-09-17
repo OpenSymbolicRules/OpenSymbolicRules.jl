@@ -11,10 +11,18 @@ integration or differentiation variable.
 
 Binders are respected: an occurrence bound by an enclosing `Lambda`, `Forall`,
 or `Exists` is not an occurrence of the free variable, so `Lambda(x, Sin(x))`
-is free of `x`.  When `var` is not a variable, `expr` is searched for it
-structurally instead.
+is free of `x`.
+
+Either side may be a collection.  A quantifier binds a list, so `var` may be the
+whole binder and the predicate then asks about every variable it declares; and
+RUBI writes `FreeQ[{a, b, m}, x]`, so `expr` may be a list whose every element
+must be free of the variable.  When `var` is neither a variable nor a
+collection, `expr` is searched for it structurally instead.
 """
 function FreeQ(expr, var)
+    variables = osr_collection(var)
+    variables === nothing || return all(variable -> FreeQ(expr, variable), variables)
+
     name = _variable_name(var)
     name === nothing || return !occurs_free(expr, name)
     if isequal(expr, var)

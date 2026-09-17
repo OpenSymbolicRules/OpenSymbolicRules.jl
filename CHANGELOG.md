@@ -98,6 +98,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   point.
 
 ### Fixed
+- Answer `FreeQ` correctly when either side is a collection.  A quantifier binds
+  a list, and asking whether a body was free of that list compared the body to
+  the list itself, so `FreeQ(Sin(x), [:x])` reported that `Sin(x)` is free of
+  `x`.  RUBI's `FreeQ[{a, b, m}, x]` spelling is accepted on the other side.
 - Decide `is_real` and `is_complex` for a symbolic argument.  Both referred to
   `Reals()` and `ComplexPlane()`, which `DomainSets.jl` does not define, so any
   rule constrained by `RealQ` or `ComplexQ` raised an `UndefVarError` instead of

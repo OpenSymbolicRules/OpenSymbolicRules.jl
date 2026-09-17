@@ -233,6 +233,10 @@ applications in the RUBI dataset:
 | Integer-qualified | `IntegerQ`, `IntegersQ`, `IGtQ`, `ILtQ`, `IGeQ`, `ILeQ` |
 | Numeric domain | `RationalQ`, `FractionQ`, `HalfIntegerQ`, `PosQ`, `NegQ`, `FalseQ`, `NumericQ`, `RealQ`, `ComplexQ` |
 | Structural | `FreeQ`, `AtomQ`, `SumQ`, `ProductQ`, `PowerQ`, `MemberQ` |
+
+`FreeQ` accepts a collection on either side. A quantifier binds a list, so a
+side condition about its scope can ask about the whole binder, and RUBI's
+`FreeQ[{a, b, m}, x]` spelling asks about every element of a list.
 | Polynomial | `PolynomialQ`, `PolyQ`, `LinearQ`, `QuadraticQ` |
 
 `GtQ`, `LtQ`, `GeQ`, and `LeQ` accept RUBI's chained form, so `GtQ(u, v, w)`

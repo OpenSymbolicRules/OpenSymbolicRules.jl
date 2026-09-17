@@ -96,3 +96,32 @@ end
     @test !alpha_equivalent(Add(x, y), Add(y, x))
     @test alpha_equivalent(Sin(z), Sin(z))
 end
+
+@testitem "FreeQ accepts a collection on either side" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms x y z a b
+
+    # A quantifier binds a list, so a side condition about its scope asks about
+    # every variable the binder declares.
+    @test FreeQ(z, [:x, :y])
+    @test !FreeQ(Sin(x), [:x])
+    @test !FreeQ(Sin(y), [:x, :y])
+    @test FreeQ(Sin(z), [:x, :y])
+    @test FreeQ(Add(x, y), Symbol[])
+
+    # A bound occurrence still does not count.
+    @test FreeQ(Lambda(x, Sin(x)), [:x])
+    @test !FreeQ(Lambda(y, Sin(x)), [:x, :y])
+
+    # RUBI writes `FreeQ[{a, b, m}, x]`, so a collection is equally accepted as
+    # the subject: every element must be free of the variable.
+    @test FreeQ([a, b], x)
+    @test !FreeQ([a, Sin(x)], x)
+    @test FreeQ([a, b], [:x, :y])
+
+    # A symbolic variable is still accepted on its own.
+    @test FreeQ(Sin(y), x)
+    @test !FreeQ(Sin(x), x)
+end
