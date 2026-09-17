@@ -522,6 +522,15 @@ linear_smt_satisfiable([[1, 2]], atoms) # x ≤ 0 ∨ x > 1; true
 linear_smt_satisfiable([[1], [2]], atoms) # false
 ```
 
+`linear_smt_model` returns both the Boolean choices and the rational assignment
+for the selected theory branch.
+
+```julia
+model = linear_smt_model([[1, 2]], atoms)
+model.booleans
+model.rationals
+```
+
 Negated equalities are expanded exactly as `a < b ∨ a > b`; the solver keeps
 those alternatives as explicit theory branches. Proof-producing explanations
 remain the next SMT milestone.

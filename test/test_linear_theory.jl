@@ -74,3 +74,19 @@ end
     # x ≠ 0, x ≤ 0, and x ≥ 0 is contradictory.
     @test !linear_smt_satisfiable([[-1], [2], [3]], atoms)
 end
+
+@testitem "DPLL(T) returns Boolean and rational model witnesses" begin
+    using OpenSymbolicRules
+
+    atoms = Dict(
+        1 => LinearConstraint(Dict(:x => 1), :le, 0),
+        2 => LinearConstraint(Dict(:x => -1), :lt, -1),
+    )
+    model = linear_smt_model([[1, 2]], atoms)
+
+    @test model !== nothing
+    @test any(literal -> model.booleans[abs(literal)] == (literal > 0), [1, 2])
+    @test (model.booleans[1] && model.rationals[:x] <= 0) ||
+          (model.booleans[2] && model.rationals[:x] > 1)
+    @test linear_smt_model([[1], [2]], atoms) === nothing
+end

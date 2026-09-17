@@ -241,6 +241,33 @@ function _linear_smt_dpll(clauses::Vector{Vector{Int}}, atoms, assignment::Dict{
     false
 end
 
+function _linear_smt_model(clauses::Vector{Vector{Int}}, atoms,
+                           assignment::Dict{Int,Bool})
+    branches = _theory_branches(assignment, atoms)
+    any(linear_satisfiable, branches) || return nothing
+    if isempty(clauses)
+        for branch in branches
+            rationals = linear_model(branch)
+            rationals === nothing || return (booleans=copy(assignment), rationals=rationals)
+        end
+        return nothing
+    end
+    any(isempty, clauses) && return nothing
+
+    literal = something(_unit_literal(clauses), first(first(clauses)))
+    variable = abs(literal)
+    assignment[variable] = literal > 0
+    model = _linear_smt_model(_assign_literal(clauses, literal), atoms, assignment)
+    model !== nothing && return model
+
+    assignment[variable] = literal < 0
+    model = _linear_smt_model(_assign_literal(clauses, -literal), atoms, assignment)
+    model !== nothing && return model
+
+    delete!(assignment, variable)
+    nothing
+end
+
 """
     linear_smt_satisfiable(clauses, atoms) -> Bool
 
@@ -260,4 +287,25 @@ function linear_smt_satisfiable(clauses::AbstractVector{<:AbstractVector{<:Integ
     _linear_smt_dpll(normalized, atoms, Dict{Int,Bool}())
 end
 
-export LinearConstraint, linear_satisfiable, linear_model, linear_smt_satisfiable
+"""
+    linear_smt_model(clauses, atoms) -> Union{NamedTuple, Nothing}
+
+Return a checkable model for a satisfiable linear DPLL(T) problem. The result
+has `booleans`, a DIMACS-variable assignment, and `rationals`, the exact
+rational assignment for the selected linear-theory branch. Return `nothing`
+when the problem is unsatisfiable.
+"""
+function linear_smt_model(clauses::AbstractVector{<:AbstractVector{<:Integer}},
+                          atoms::AbstractDict{<:Integer,<:LinearConstraint})
+    normalized = _normalize_clauses(clauses)
+    all(literal -> haskey(atoms, abs(literal)), Iterators.flatten(normalized)) ||
+        throw(ArgumentError("every SMT literal must have a linear theory atom"))
+    model = _linear_smt_model(normalized, atoms, Dict{Int,Bool}())
+    model === nothing && return nothing
+    for literal in Iterators.flatten(normalized)
+        get!(model.booleans, abs(literal), false)
+    end
+    model
+end
+
+export LinearConstraint, linear_satisfiable, linear_model, linear_smt_satisfiable, linear_smt_model
