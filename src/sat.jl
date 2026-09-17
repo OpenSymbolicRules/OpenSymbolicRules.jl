@@ -41,6 +41,24 @@ function _dpll(clauses::Vector{Vector{Int}})::Bool
         _dpll(_assign_literal(clauses, -literal))
 end
 
+function _dpll_model(clauses::Vector{Vector{Int}}, assignment::Dict{Int,Bool})
+    isempty(clauses) && return copy(assignment)
+    any(isempty, clauses) && return nothing
+
+    literal = something(_unit_literal(clauses), first(first(clauses)))
+    variable = abs(literal)
+    assignment[variable] = literal > 0
+    model = _dpll_model(_assign_literal(clauses, literal), assignment)
+    model !== nothing && return model
+
+    assignment[variable] = literal < 0
+    model = _dpll_model(_assign_literal(clauses, -literal), assignment)
+    model !== nothing && return model
+
+    delete!(assignment, variable)
+    nothing
+end
+
 """
     satisfiable(clauses) -> Bool
 
@@ -56,4 +74,22 @@ rational arithmetic, and other theory solvers with explicit proof evidence.
 satisfiable(clauses::AbstractVector{<:AbstractVector{<:Integer}}) =
     _dpll(_normalize_clauses(clauses))
 
-export satisfiable
+"""
+    sat_model(clauses) -> Union{Dict{Int,Bool}, Nothing}
+
+Return a Boolean model for a satisfiable DIMACS CNF formula, or `nothing` when
+it is unsatisfiable. The returned dictionary is a directly checkable witness:
+every input clause contains at least one literal whose variable has the stated
+truth value.
+"""
+function sat_model(clauses::AbstractVector{<:AbstractVector{<:Integer}})
+    normalized = _normalize_clauses(clauses)
+    model = _dpll_model(normalized, Dict{Int,Bool}())
+    model === nothing && return nothing
+    for literal in Iterators.flatten(normalized)
+        get!(model, abs(literal), false)
+    end
+    model
+end
+
+export satisfiable, sat_model

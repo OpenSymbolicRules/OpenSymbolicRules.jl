@@ -474,6 +474,14 @@ This is the Boolean component of a planned pure-Julia DPLL(T) architecture.
 Theory reasoning, such as equality and rational linear arithmetic, is added
 only when its result can retain explicit assumptions and proof obligations.
 
+For a satisfiable CNF problem, `sat_model` returns a dictionary that witnesses
+the decision and can be checked directly against every clause. It returns
+`nothing` for an unsatisfiable formula.
+
+```julia
+sat_model([[1, 2], [-1, 2]]) # Dict(1 => true, 2 => true)
+```
+
 ### Exact rational linear theory
 
 `linear_satisfiable` decides a conjunction of linear constraints over ℚ using
