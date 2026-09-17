@@ -35,11 +35,11 @@
 ## Phase 4: Formal Proof Engine & Step-by-Step Resolution 🎓
 **Goal:** Exploit the purely declarative nature of OSR to provide trackable, formal proofs of equivalence and step-by-step educational solutions.
 
-- [ ] **Step-by-Step Output:** Intercept the rule application engine (e.g., via `Metatheory.jl` E-Graphs or a custom `Postwalk` logger) to return a sequential list of all rules applied during a simplification (resolving user needs like Symbolics.jl#703).
+- [x] **Step-by-Step Output:** Intercept the rule application engine (e.g., via `Metatheory.jl` E-Graphs or a custom `Postwalk` logger) to return a sequential list of all rules applied during a simplification (resolving user needs like Symbolics.jl#703).
 - [ ] **Formal Context & Assumptions:** Implement a rigorous context system (`x ∈ Reals`, `x > 0`) using `task_local_storage` or `DomainSets.jl` so that rules are only applied when formally valid.
 - [x] **Binders and Capture-Avoiding Substitution:** Complete lexical `Lambda`, quantifier, sum, product, integral, and derivative handling with alpha-renaming and capture-avoiding substitution.
 - [ ] **Piecewise Expressions:** Represent `Piecewise` branches and their conditions so that real/complex domains, absolute values, roots, and logarithms retain their validity conditions.
-- [ ] **Equivalence Verifier:** Build an API `prove(A == B, context)` that searches for a valid rewrite path between A and B and returns the formal proof.
+- [x] **Equivalence Verifier:** `prove(A, B, rules; assumptions)` and `prove(A ~ B, rules)` search for a rewrite path between A and B and return an `OSRProof`. Joining the two normal forms is sound but incomplete, so a failure reads "not proved" rather than "unequal"; equality saturation would be the way to close that gap.
 - [ ] **Proof Assistant Exporter:** Export the generated rewrite traces into formats verifiable by formal assistants like Lean 4 or Coq.
 
 ## Phase 5: Equation Solving & Advanced Domains 🔍

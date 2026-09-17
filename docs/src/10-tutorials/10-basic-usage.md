@@ -52,6 +52,49 @@ callback instead of relying on the library to print:
 simplify(expr, alg_rules; on_step=step -> @info "rewrite" rule=step.rule.name)
 ```
 
+## Proving an equivalence
+
+`prove` searches for a rewrite path between two expressions and returns the
+proof that records it:
+
+```julia
+@syms x
+rules = @load_osr_profile("path/to/Trigonometry")
+
+proof = prove(Add(Power(Sin(x), 2), Power(Cos(x), 2)), 1, rules)
+verified(proof) # true
+```
+
+```
+OSRProof: verified
+  left:  Add(Power(Sin(x), 2), Power(Cos(x), 2))
+    Add(Power(Sin(x), 2), Power(Cos(x), 2))  =  1   [1.1:1] Pythagorean Identity
+    ⇒ 1
+  right: 1
+    ⇒ 1
+  both sides reduce to 1
+```
+
+An equation written with `~` can be proved directly, and hypotheses are carried
+into the proof:
+
+```julia
+prove(Add(Power(Sin(x), 2), Power(Cos(x), 2)) ~ 1, rules)
+prove(Power(x, 0), 1, power_rules; assumptions=[IsNonzero(x)])
+```
+
+Both sides are normalised with the rule set and the normal forms are compared up
+to a renaming of bound variables, so the search succeeds exactly when the two
+sides are joinable. Each recorded step is local, which is what a rewrite tactic
+in a proof assistant consumes; every OSR rule is an oriented instance of an
+equation, so the steps on the right read backwards complete the derivation.
+
+The search is sound but incomplete. A verified proof means every step is a rule
+application whose constraints held where it fired. A failure means the rule set
+offered no path, which is not a proof of inequivalence — a rule set that is not
+confluent can fail to join two equivalent expressions — so the result reads
+"not proved" rather than "unequal".
+
 ## Assumptions and Safe Rewrites
 
 Rules carrying a predicate are applied only when it is established.  For
