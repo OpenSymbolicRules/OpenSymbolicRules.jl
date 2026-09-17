@@ -52,6 +52,20 @@ callback instead of relying on the library to print:
 simplify(expr, alg_rules; on_step=step -> @info "rewrite" rule=step.rule.name)
 ```
 
+## Loading an OSR rule-set profile
+
+`@load_osr_profile` compiles the ordered manifest of a rule-set repository.
+The repository can be a sibling checkout of this package or any local clone
+with a `rules/meta.json` manifest:
+
+```julia
+calculus_rules = @load_osr_profile("../../Calculus")
+```
+
+The package provides the OpenMath heads used by the current Calculus profile,
+including circular, hyperbolic, and inverse functions. No caller-side symbolic
+declarations are required merely to load that profile.
+
 ## Piecewise expressions
 
 A rewrite that is only valid on part of a domain keeps its validity conditions

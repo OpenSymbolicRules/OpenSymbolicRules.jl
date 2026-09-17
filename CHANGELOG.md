@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Built-in symbolic heads for the current OpenMath Calculus profile and an
+  end-to-end profile-loading test against the real Calculus repository.
 - Canonical `identity:id` rule names and source provenance on loaded
   `OSRRule` values, exposing specification-level traceability in rewrite
   traces.
