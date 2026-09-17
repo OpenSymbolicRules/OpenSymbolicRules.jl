@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Exact sparse multivariate polynomial normal forms over rational coefficients,
+  including `:lex`, `:grlex`, and `:grevlex` orders, S-polynomials,
+  Buchberger bases, and ideal-membership checks.
 - A roadmap for opt-in domain modules: `Core`, `Algebra`, `Calculus`,
   `Trigonometry`, `Integration`, and `Logic`, with `Integration` covering both
   integral representations and procedural/rule-based integration backends.

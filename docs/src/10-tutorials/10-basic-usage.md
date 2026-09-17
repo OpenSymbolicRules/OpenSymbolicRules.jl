@@ -419,3 +419,26 @@ The same rule is stricter for tensors: addition is commutative only for equal
 shapes, whereas tensor product, contraction, and axis permutation are ordered
 operations. They must be represented by dedicated heads with explicit index
 and shape metadata; they must never be silently encoded as `Multiply`.
+
+## Exact polynomial normal forms
+
+`SparsePolynomial` is an opt-in exact backend for algorithms over
+multivariate polynomials with rational coefficients. It is intentionally
+separate from general symbolic expressions: callers supply the polynomial ring
+variables and its sparse monomial map explicitly.
+
+```julia
+p = SparsePolynomial([:x, :y], Dict((2, 0) => 1, (0, 1) => 1)) # x² + y
+q = SparsePolynomial([:x, :y], Dict((1, 1) => 1, (0, 0) => -1)) # xy - 1
+
+spoly(p, q; ordering=:lex)              # y² + x
+normal_form(p, [q]; ordering=:grevlex)  # normal form modulo q
+g = groebner_basis([p, q]; ordering=:lex)
+ideal_membership(p, g; ordering=:lex)   # true
+```
+
+The available orders are `:lex`, `:grlex`, and `:grevlex`. This foundation is
+for exact algebraic algorithms; conversion from `SymbolicUtils` expressions
+and equation solving remain separate planned layers. For implementation
+inspection, low-level leading-term and S-polynomial primitives stay qualified
+as `OpenSymbolicRules.leading_monomial` and `OpenSymbolicRules.spoly`.

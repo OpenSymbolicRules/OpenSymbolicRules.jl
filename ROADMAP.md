@@ -72,6 +72,14 @@
 ## Phase 5: Equation Solving & Advanced Domains 🔍
 **Goal:** Expand the CAS capabilities beyond rewriting into solving and logic.
 
+- [x] **Exact sparse polynomial core:** Provide coefficient-normalized
+  multivariate polynomial terms, monomial orders, S-polynomials, and normal
+  forms over `Rational{BigInt}` without imposing a private expression tree.
+- [x] **Gröbner bases:** Provide Buchberger completion, inter-reduction, and
+  ideal-membership checks on the exact polynomial core in pure Julia.
+- [ ] **Symbolic polynomial boundary:** Add explicit `SymbolicUtils`
+  conversion and polynomial-system solving APIs without weakening exact-domain
+  guarantees.
 - [ ] **Equation Solving:** Implement `solve(eq, x)` using OSR algebraic isolation rules.
 - [ ] **Sets, Relations, and Intervals:** Add membership, inclusion, unions, intersections, inequalities, and solution-set expressions as first-class symbolic structures.
 - [ ] **Units, Dimensions, and Uncertainties:** Track physical dimensions as semantic properties of expressions, rejecting dimensionally invalid rewrites. Build a `DynamicQuantities.jl` integration first, aligned with `SymbolicUncertainties.jl`, so values and their uncertainty terms retain compatible dimensions; provide `Unitful.jl` interoperability at the boundary rather than duplicating dimensional semantics.
