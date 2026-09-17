@@ -142,4 +142,62 @@ function entailed(subject, property::Symbol)
     return false
 end
 
-export entailed, normalize_fact
+function _rational_assumption_variable(expression)
+    expression = _literal(expression)
+    iscall(expression) && return nothing
+    try
+        SymbolicUtils.getname(expression)
+    catch error
+        error isa ErrorException || rethrow()
+        nothing
+    end
+end
+
+function _rational_assumption_constraint(fact)
+    fact = _literal(fact)
+    iscall(fact) || return nothing
+    head = _operation_name(operation(fact))
+    operands = arguments(fact)
+    isempty(operands) && return nothing
+    variable = _rational_assumption_variable(operands[1])
+    variable isa Symbol || return nothing
+
+    if head === :IsPositive
+        length(operands) == 1 || return nothing
+        return LinearConstraint(Dict(variable => -1), :lt, 0)
+    elseif head === :IsNegative
+        length(operands) == 1 || return nothing
+        return LinearConstraint(Dict(variable => 1), :lt, 0)
+    elseif head === :GreaterThan || head === :LessThan
+        length(operands) == 2 || return nothing
+        bound = osr_number(operands[2])
+        _is_rational(bound) || return nothing
+        if head === :GreaterThan
+            return LinearConstraint(Dict(variable => -1), :lt, -bound)
+        end
+        return LinearConstraint(Dict(variable => 1), :lt, bound)
+    end
+    nothing
+end
+
+"""
+    rational_assumptions_satisfiable(facts) -> Union{Bool, Nothing}
+
+Check a supported collection of CAS hypotheses with the exact rational linear
+theory. `true` means the converted hypotheses have a rational model, `false`
+means they are contradictory, and `nothing` means at least one hypothesis is
+outside this deliberately conservative fragment. Supported facts are
+`IsPositive(x)`, `IsNegative(x)`, `GreaterThan(x, c)`, and `LessThan(x, c)`
+for a named symbolic variable `x` and an exact rational constant `c`.
+"""
+function rational_assumptions_satisfiable(facts)
+    constraints = LinearConstraint[]
+    for fact in _normalize_facts(facts)
+        constraint = _rational_assumption_constraint(fact)
+        constraint === nothing && return nothing
+        push!(constraints, constraint)
+    end
+    linear_satisfiable(constraints)
+end
+
+export entailed, normalize_fact, rational_assumptions_satisfiable

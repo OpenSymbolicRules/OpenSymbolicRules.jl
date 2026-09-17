@@ -573,3 +573,15 @@ numeric_atoms = Dict{Int,Union{LinearConstraint,EqualityConstraint}}(
 
 rational_smt_satisfiable([[1], [2], [3]], numeric_atoms) # false
 ```
+
+## Checking assumption consistency
+
+The same exact rational engine can reject contradictory CAS hypotheses before
+they are used to justify a conditional rewrite. It reports `nothing` rather
+than guessing when a fact is outside its supported fragment.
+
+```julia
+@syms x
+rational_assumptions_satisfiable([GreaterThan(x, 0), LessThan(x, 0)]) # false
+rational_assumptions_satisfiable([IsNonzero(x)]) # nothing
+```

@@ -23,6 +23,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   equality DPLL(T) problems.
 - A sort-explicit rational SMT entry point combining variable equalities,
   disequalities, and exact linear arithmetic.
+- Conservative exact consistency checks for CAS sign and bound assumptions.
 - Exact sparse multivariate polynomial normal forms over rational coefficients,
   including `:lex`, `:grlex`, and `:grevlex` orders, S-polynomials,
   Buchberger bases, and ideal-membership checks.
