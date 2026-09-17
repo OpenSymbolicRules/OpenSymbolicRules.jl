@@ -21,3 +21,15 @@ end
     @test length(logic_rules) == 35
     @test logic_rules[1].name == "logic:1-identities/1.1-boolean-identities:1"
 end
+
+@testitem "Current named algebra and trigonometry profiles load" begin
+    using OpenSymbolicRules
+
+    factor_rules = @load_osr_profile("../../Algebra", :factor_polynomials)
+    trigonometry_rules = @load_osr_profile("../../Trigonometry", :sum_to_product)
+
+    @test length(factor_rules) == 10
+    @test factor_rules[1].name == "algebra:3-polynomials/3.2-common-factor:1"
+    @test length(trigonometry_rules) == 11
+    @test trigonometry_rules[1].name == "trigonometry:1-basic-identities/1.1-pythagorean:1"
+end

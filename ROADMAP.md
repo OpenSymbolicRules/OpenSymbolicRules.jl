@@ -7,6 +7,13 @@
 ## Phase 1: Rule Engine Foundation 🏗️ *(In Progress)*
 **Goal:** Establish a robust translation layer between OSR JSON patterns and Julia's `SymbolicUtils.jl`.
 
+- [ ] **Domain modules:** Split the public API into a small `Core` module and
+  opt-in `Algebra`, `Calculus`, `Trigonometry`, `Integration`, and `Logic`
+  modules. Each module shall export only its OpenMath heads, profile loader,
+  and domain-specific operations. `Integration` covers indefinite and defined
+  integrals and can orchestrate rule profiles with procedural backends such as
+  Risch-family methods; it is deliberately broader than a single `Integral`
+  constructor.
 - [x] Basic parsing of OSR JSON into Julia AST.
 - [x] `@load_osr` macro for Ahead-Of-Time (AOT) rule compilation.
 - [x] Mapping of primitive constraints (e.g., `is_integer`) to Julia `where` clauses.
