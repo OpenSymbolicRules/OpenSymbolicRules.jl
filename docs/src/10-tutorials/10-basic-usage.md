@@ -473,3 +473,19 @@ satisfiable([[1], [-1]])                # false
 This is the Boolean component of a planned pure-Julia DPLL(T) architecture.
 Theory reasoning, such as equality and rational linear arithmetic, is added
 only when its result can retain explicit assumptions and proof obligations.
+
+### Exact rational linear theory
+
+`linear_satisfiable` decides a conjunction of linear constraints over ℚ using
+exact Fourier--Motzkin elimination. A constraint uses `:le`, `:lt`, or `:eq`
+for ≤, <, or = respectively.
+
+```julia
+x_at_least_one = LinearConstraint(Dict(:x => -1), :le, -1)
+x_less_than_one = LinearConstraint(Dict(:x => 1), :lt, 1)
+
+linear_satisfiable([x_at_least_one, x_less_than_one]) # false
+```
+
+It is a theory component, not yet a complete DPLL(T) integration: Boolean
+choices and theory literals will be connected in the next stage.

@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - A dependency-free, pure-Julia DPLL SAT kernel for CNF constraints, as the
   Boolean foundation for future DPLL(T) theory solving.
+- Exact rational linear-constraint feasibility by Fourier--Motzkin
+  elimination, including strict inequalities and equality.
 - Exact sparse multivariate polynomial normal forms over rational coefficients,
   including `:lex`, `:grlex`, and `:grevlex` orders, S-polynomials,
   Buchberger bases, and ideal-membership checks.

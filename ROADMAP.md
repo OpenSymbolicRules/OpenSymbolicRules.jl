@@ -92,12 +92,13 @@
 - [ ] **Distributions and Generalized Functions:** Add domain-safe representations for Dirac, Heaviside, and probability distributions.
 - [ ] **Parameterized Algebraic Structures:** Carry the coefficient domain (for example `ℤ`, `ℚ`, `ℝ`, `ℂ`, finite fields, rings, and modules) required to validate polynomial and linear-algebra rules.
 - [~] **Pure-Julia SMT foundation:** A DPLL SAT kernel now decides
-  propositional CNF without external solvers. Extend it as DPLL(T), beginning
-  with equality and exact rational linear arithmetic, and return checkable
-  proof evidence. The default engine shall remain pure Julia with no native
-  solver dependency. Interoperability with SMT-LIB and explicit adapters to
-  external solvers may be added later, but must remain opt-in and never change
-  the result status or proof obligations silently.
+  propositional CNF without external solvers, and an exact rational
+  Fourier--Motzkin theory solver decides conjunctions of linear constraints.
+  Integrate the two as DPLL(T), add equality propagation and checkable proof
+  evidence. The default engine shall remain pure Julia with no native solver
+  dependency. Interoperability with SMT-LIB and explicit adapters to external
+  solvers may be added later, but must remain opt-in and never change the
+  result status or proof obligations silently.
 - [ ] **SciML Integration:** Register the CAS as a backend for `ModelingToolkit.jl` and `DifferentialEquations.jl` to simplify massive ODE/PDE systems before numerical compilation.
 
 ---
