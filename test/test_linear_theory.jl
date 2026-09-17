@@ -25,3 +25,19 @@ end
     @test linear_satisfiable([x_equals_one])
     @test_throws ArgumentError LinearConstraint(Dict(:x => 1), :ge, 1)
 end
+
+@testitem "DPLL(T) combines SAT clauses with linear constraints" begin
+    using OpenSymbolicRules
+
+    atoms = Dict(
+        1 => LinearConstraint(Dict(:x => 1), :le, 0),
+        2 => LinearConstraint(Dict(:x => -1), :lt, -1),
+    )
+
+    # x ≤ 0 ∨ x > 1 is satisfiable.
+    @test linear_smt_satisfiable([[1, 2]], atoms)
+    # Requiring both sides is contradictory.
+    @test !linear_smt_satisfiable([[1], [2]], atoms)
+    # Negating x ≤ 0 means x > 0, which is represented exactly.
+    @test linear_smt_satisfiable([[-1], [2]], atoms)
+end

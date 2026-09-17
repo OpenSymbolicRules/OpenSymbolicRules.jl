@@ -93,12 +93,13 @@
 - [ ] **Parameterized Algebraic Structures:** Carry the coefficient domain (for example `ℤ`, `ℚ`, `ℝ`, `ℂ`, finite fields, rings, and modules) required to validate polynomial and linear-algebra rules.
 - [~] **Pure-Julia SMT foundation:** A DPLL SAT kernel now decides
   propositional CNF without external solvers, and an exact rational
-  Fourier--Motzkin theory solver decides conjunctions of linear constraints.
-  Integrate the two as DPLL(T), add equality propagation and checkable proof
-  evidence. The default engine shall remain pure Julia with no native solver
-  dependency. Interoperability with SMT-LIB and explicit adapters to external
-  solvers may be added later, but must remain opt-in and never change the
-  result status or proof obligations silently.
+  Fourier--Motzkin theory solver decides conjunctions of linear constraints;
+  the two are now connected through DPLL(T). Add equality propagation,
+  disjunctive negated-equality encoding, and checkable proof evidence. The
+  default engine shall remain pure Julia with no native solver dependency.
+  Interoperability with SMT-LIB and explicit adapters to external solvers may
+  be added later, but must remain opt-in and never change the result status or
+  proof obligations silently.
 - [ ] **SciML Integration:** Register the CAS as a backend for `ModelingToolkit.jl` and `DifferentialEquations.jl` to simplify massive ODE/PDE systems before numerical compilation.
 
 ---

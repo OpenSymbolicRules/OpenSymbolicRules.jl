@@ -487,5 +487,24 @@ x_less_than_one = LinearConstraint(Dict(:x => 1), :lt, 1)
 linear_satisfiable([x_at_least_one, x_less_than_one]) # false
 ```
 
-It is a theory component, not yet a complete DPLL(T) integration: Boolean
-choices and theory literals will be connected in the next stage.
+It is the exact rational theory component used by the DPLL(T) integration
+below.
+
+### Combining Boolean and linear constraints
+
+`linear_smt_satisfiable` now joins the local DPLL engine to linear theory
+atoms. CNF clauses refer to positive atom numbers; a negative literal is the
+exact logical negation of a non-strict or strict inequality.
+
+```julia
+atoms = Dict(
+    1 => LinearConstraint(Dict(:x => 1), :le, 0),
+    2 => LinearConstraint(Dict(:x => -1), :lt, -1), # x > 1
+)
+
+linear_smt_satisfiable([[1, 2]], atoms) # x ≤ 0 ∨ x > 1; true
+linear_smt_satisfiable([[1], [2]], atoms) # false
+```
+
+Negated equalities are deliberately rejected for now: their correct encoding
+is disjunctive, and will be introduced with proof-producing clause generation.

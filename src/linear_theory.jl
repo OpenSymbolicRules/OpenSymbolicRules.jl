@@ -111,4 +111,64 @@ function linear_satisfiable(constraints::AbstractVector{<:LinearConstraint})
     true
 end
 
-export LinearConstraint, linear_satisfiable
+function _negate(constraint::LinearConstraint)
+    relation = if constraint.relation === :le
+        :lt
+    elseif constraint.relation === :lt
+        :le
+    else
+        throw(ArgumentError("a negated equality requires a disjunction and cannot be one linear theory literal"))
+    end
+    LinearConstraint(_negated_coefficients(constraint.coefficients), relation, -constraint.bound)
+end
+
+function _theory_constraints(assignment::Dict{Int,Bool}, atoms::AbstractDict{<:Integer,<:LinearConstraint})
+    constraints = LinearConstraint[]
+    for (variable, value) in assignment
+        atom = get(atoms, variable, nothing)
+        atom === nothing && continue
+        push!(constraints, value ? atom : _negate(atom))
+    end
+    constraints
+end
+
+function _linear_smt_dpll(clauses::Vector{Vector{Int}}, atoms, assignment::Dict{Int,Bool})
+    linear_satisfiable(_theory_constraints(assignment, atoms)) || return false
+    isempty(clauses) && return true
+    any(isempty, clauses) && return false
+
+    literal = something(_unit_literal(clauses), first(first(clauses)))
+    variable = abs(literal)
+    value = literal > 0
+    assignment[variable] = value
+    if _linear_smt_dpll(_assign_literal(clauses, literal), atoms, assignment)
+        return true
+    end
+    assignment[variable] = !value
+    if _linear_smt_dpll(_assign_literal(clauses, -literal), atoms, assignment)
+        return true
+    end
+    delete!(assignment, variable)
+    false
+end
+
+"""
+    linear_smt_satisfiable(clauses, atoms) -> Bool
+
+Decide a propositional CNF formula whose atoms are exact rational linear
+constraints. `clauses` uses DIMACS literals and `atoms` maps each positive atom
+number to a `LinearConstraint`. The solver combines the local pure-Julia DPLL
+search with Fourier--Motzkin theory consistency checks.
+
+Negating `:le` and `:lt` atoms is supported exactly. Negated equality is not
+accepted yet because it is a disjunction rather than one linear literal.
+"""
+function linear_smt_satisfiable(clauses::AbstractVector{<:AbstractVector{<:Integer}},
+                                atoms::AbstractDict{<:Integer,<:LinearConstraint})
+    normalized = _normalize_clauses(clauses)
+    all(literal -> haskey(atoms, abs(literal)), Iterators.flatten(normalized)) ||
+        throw(ArgumentError("every SMT literal must have a linear theory atom"))
+    _linear_smt_dpll(normalized, atoms, Dict{Int,Bool}())
+end
+
+export LinearConstraint, linear_satisfiable, linear_smt_satisfiable

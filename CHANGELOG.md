@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   Boolean foundation for future DPLL(T) theory solving.
 - Exact rational linear-constraint feasibility by Fourier--Motzkin
   elimination, including strict inequalities and equality.
+- A pure-Julia DPLL(T) entry point combining CNF Boolean search with exact
+  rational linear theory atoms.
 - Exact sparse multivariate polynomial normal forms over rational coefficients,
   including `:lex`, `:grlex`, and `:grevlex` orders, S-polynomials,
   Buchberger bases, and ideal-membership checks.
