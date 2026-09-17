@@ -498,6 +498,14 @@ linear_satisfiable([x_at_least_one, x_less_than_one]) # false
 It is the exact rational theory component used by the DPLL(T) integration
 below.
 
+For a feasible system, `linear_model` reconstructs rational variable values
+from the elimination layers. Its result is an ordinary dictionary and can be
+checked against the original constraints without numerical tolerances.
+
+```julia
+linear_model([x_at_least_one]) # Dict(:x => 1)
+```
+
 ### Combining Boolean and linear constraints
 
 `linear_smt_satisfiable` now joins the local DPLL engine to linear theory

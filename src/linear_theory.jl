@@ -82,6 +82,68 @@ function _eliminate(inequalities::Vector{_LinearInequality}, variable::Symbol)
     remaining
 end
 
+function _linear_inequalities(constraints::AbstractVector{<:LinearConstraint})
+    inequalities = _LinearInequality[]
+    for constraint in constraints
+        append!(inequalities, _inequalities(constraint))
+    end
+    inequalities
+end
+
+function _linear_variables(inequalities::Vector{_LinearInequality})
+    variables = Set{Symbol}()
+    for inequality in inequalities
+        union!(variables, keys(inequality.coefficients))
+    end
+    sort!(collect(variables))
+end
+
+function _tighter_lower(current, current_strict, candidate, candidate_strict)
+    current === nothing && return candidate, candidate_strict
+    candidate > current && return candidate, candidate_strict
+    candidate == current && return current, current_strict || candidate_strict
+    current, current_strict
+end
+
+function _tighter_upper(current, current_strict, candidate, candidate_strict)
+    current === nothing && return candidate, candidate_strict
+    candidate < current && return candidate, candidate_strict
+    candidate == current && return current, current_strict || candidate_strict
+    current, current_strict
+end
+
+function _choose_rational(lower, lower_strict, upper, upper_strict)
+    if lower !== nothing && upper !== nothing
+        lower > upper && return nothing
+        lower == upper && return (lower_strict || upper_strict) ? nothing : lower
+        return (lower + upper) / 2
+    elseif lower !== nothing
+        return lower_strict ? lower + 1 : lower
+    elseif upper !== nothing
+        return upper_strict ? upper - 1 : upper
+    end
+    zero(Rational{BigInt})
+end
+
+function _reconstruct_value(inequalities::Vector{_LinearInequality}, variable::Symbol,
+                            model::Dict{Symbol,Rational{BigInt}})
+    lower = upper = nothing
+    lower_strict = upper_strict = false
+    for inequality in inequalities
+        coefficient = get(inequality.coefficients, variable, 0)
+        iszero(coefficient) && continue
+        remainder = sum((factor * model[name] for (name, factor) in inequality.coefficients
+                         if name != variable); init=zero(Rational{BigInt}))
+        bound = (inequality.bound - remainder) / coefficient
+        if coefficient > 0
+            upper, upper_strict = _tighter_upper(upper, upper_strict, bound, inequality.strict)
+        else
+            lower, lower_strict = _tighter_lower(lower, lower_strict, bound, inequality.strict)
+        end
+    end
+    _choose_rational(lower, lower_strict, upper, upper_strict)
+end
+
 """
     linear_satisfiable(constraints) -> Bool
 
@@ -94,21 +156,42 @@ This is a theory solver for a future pure-Julia DPLL(T) engine; it does not use
 floating point arithmetic, a native library, or an external SMT process.
 """
 function linear_satisfiable(constraints::AbstractVector{<:LinearConstraint})
-    inequalities = _LinearInequality[]
-    for constraint in constraints
-        append!(inequalities, _inequalities(constraint))
-    end
+    inequalities = _linear_inequalities(constraints)
     all(_constant_satisfiable, inequalities) || return false
 
-    variables = Set{Symbol}()
-    for inequality in inequalities
-        union!(variables, keys(inequality.coefficients))
-    end
-    for variable in sort!(collect(variables))
+    for variable in _linear_variables(inequalities)
         inequalities = _eliminate(inequalities, variable)
         all(_constant_satisfiable, inequalities) || return false
     end
     true
+end
+
+"""
+    linear_model(constraints) -> Union{Dict{Symbol,Rational{BigInt}}, Nothing}
+
+Return an exact rational model for a satisfiable conjunction of linear
+constraints, or `nothing` if it is inconsistent. The model is reconstructed
+from the Fourier--Motzkin elimination layers and satisfies strict bounds
+without floating point approximation.
+"""
+function linear_model(constraints::AbstractVector{<:LinearConstraint})
+    inequalities = _linear_inequalities(constraints)
+    all(_constant_satisfiable, inequalities) || return nothing
+    variables = _linear_variables(inequalities)
+    layers = Vector{Vector{_LinearInequality}}()
+    for variable in variables
+        push!(layers, inequalities)
+        inequalities = _eliminate(inequalities, variable)
+        all(_constant_satisfiable, inequalities) || return nothing
+    end
+
+    model = Dict{Symbol,Rational{BigInt}}()
+    for (variable, layer) in zip(reverse(variables), reverse(layers))
+        value = _reconstruct_value(layer, variable, model)
+        value === nothing && return nothing
+        model[variable] = value
+    end
+    model
 end
 
 function _negated_alternatives(constraint::LinearConstraint)
@@ -177,4 +260,4 @@ function linear_smt_satisfiable(clauses::AbstractVector{<:AbstractVector{<:Integ
     _linear_smt_dpll(normalized, atoms, Dict{Int,Bool}())
 end
 
-export LinearConstraint, linear_satisfiable, linear_smt_satisfiable
+export LinearConstraint, linear_satisfiable, linear_model, linear_smt_satisfiable

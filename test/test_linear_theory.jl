@@ -26,6 +26,24 @@ end
     @test_throws ArgumentError LinearConstraint(Dict(:x => 1), :ge, 1)
 end
 
+@testitem "Exact linear theory returns rational models" begin
+    using OpenSymbolicRules
+
+    constraints = [
+        LinearConstraint(Dict(:x => -1), :le, -1), # x ≥ 1
+        LinearConstraint(Dict(:x => 1), :lt, 2),   # x < 2
+        LinearConstraint(Dict(:x => 1, :y => 1), :le, 3),
+    ]
+    model = linear_model(constraints)
+
+    @test model !== nothing
+    @test model[:x] >= 1
+    @test model[:x] < 2
+    @test model[:x] + model[:y] <= 3
+    @test linear_model([LinearConstraint(Dict(:x => 1), :lt, 0),
+                        LinearConstraint(Dict(:x => -1), :le, 0)]) === nothing
+end
+
 @testitem "DPLL(T) combines SAT clauses with linear constraints" begin
     using OpenSymbolicRules
 

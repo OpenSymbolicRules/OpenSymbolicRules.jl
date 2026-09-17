@@ -17,6 +17,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Ground equality and disequality theory with pure-Julia union-find propagation
   and a dedicated DPLL(T) entry point.
 - Checkable Boolean model witnesses for satisfiable CNF problems.
+- Exact rational model reconstruction for satisfiable linear theory problems.
 - Exact sparse multivariate polynomial normal forms over rational coefficients,
   including `:lex`, `:grlex`, and `:grevlex` orders, S-polynomials,
   Buchberger bases, and ideal-membership checks.

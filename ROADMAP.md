@@ -99,9 +99,9 @@
   through union-find; integrate shared terms between equality and arithmetic
   theories before accepting mixed-sort problems. Negated equalities are now
   encoded as their exact strict-order alternatives. Satisfiable Boolean cores
-  now return checkable models; add theory-model construction and unsatisfiable
-  certificates next. The default engine shall remain pure Julia with no native
-  solver dependency.
+  and rational linear theory now return checkable models; add model production
+  for combined theories and unsatisfiable certificates next. The default engine
+  shall remain pure Julia with no native solver dependency.
   Interoperability with SMT-LIB and explicit adapters to external solvers may
   be added later, but must remain opt-in and never change the result status or
   proof obligations silently.
