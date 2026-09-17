@@ -153,7 +153,28 @@ function _rational_assumption_variable(expression)
     end
 end
 
-function _rational_assumption_constraint(fact)
+function _rational_interval_constraints(fact::ElementOf)
+    variable = _rational_assumption_variable(fact.var)
+    variable isa Symbol || return nothing
+    domain = fact.domain
+    applicable(infimum, domain) && applicable(supremum, domain) || return nothing
+    lower, upper = infimum(domain), supremum(domain)
+    constraints = LinearConstraint[]
+    if lower isa Real && isfinite(lower)
+        _is_rational(lower) || return nothing
+        relation = isleftopen(domain) ? :lt : :le
+        push!(constraints, LinearConstraint(Dict(variable => -1), relation, -lower))
+    end
+    if upper isa Real && isfinite(upper)
+        _is_rational(upper) || return nothing
+        relation = isrightopen(domain) ? :lt : :le
+        push!(constraints, LinearConstraint(Dict(variable => 1), relation, upper))
+    end
+    constraints
+end
+
+function _rational_assumption_constraints(fact)
+    fact isa ElementOf && return _rational_interval_constraints(fact)
     fact = _literal(fact)
     iscall(fact) || return nothing
     head = _operation_name(operation(fact))
@@ -164,18 +185,18 @@ function _rational_assumption_constraint(fact)
 
     if head === :IsPositive
         length(operands) == 1 || return nothing
-        return LinearConstraint(Dict(variable => -1), :lt, 0)
+        return LinearConstraint[LinearConstraint(Dict(variable => -1), :lt, 0)]
     elseif head === :IsNegative
         length(operands) == 1 || return nothing
-        return LinearConstraint(Dict(variable => 1), :lt, 0)
+        return LinearConstraint[LinearConstraint(Dict(variable => 1), :lt, 0)]
     elseif head === :GreaterThan || head === :LessThan
         length(operands) == 2 || return nothing
         bound = osr_number(operands[2])
         _is_rational(bound) || return nothing
         if head === :GreaterThan
-            return LinearConstraint(Dict(variable => -1), :lt, -bound)
+            return LinearConstraint[LinearConstraint(Dict(variable => -1), :lt, -bound)]
         end
-        return LinearConstraint(Dict(variable => 1), :lt, bound)
+        return LinearConstraint[LinearConstraint(Dict(variable => 1), :lt, bound)]
     end
     nothing
 end
@@ -193,9 +214,9 @@ for a named symbolic variable `x` and an exact rational constant `c`.
 function rational_assumptions_satisfiable(facts)
     constraints = LinearConstraint[]
     for fact in _normalize_facts(facts)
-        constraint = _rational_assumption_constraint(fact)
-        constraint === nothing && return nothing
-        push!(constraints, constraint)
+        converted = _rational_assumption_constraints(fact)
+        converted === nothing && return nothing
+        append!(constraints, converted)
     end
     linear_satisfiable(constraints)
 end

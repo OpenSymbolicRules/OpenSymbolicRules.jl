@@ -585,3 +585,10 @@ than guessing when a fact is outside its supported fragment.
 rational_assumptions_satisfiable([GreaterThan(x, 0), LessThan(x, 0)]) # false
 rational_assumptions_satisfiable([IsNonzero(x)]) # nothing
 ```
+
+Exact interval memberships participate in the same check, including open and
+closed endpoints.
+
+```julia
+rational_assumptions_satisfiable([x ∈ 1..2, LessThan(x, 1)]) # false
+```

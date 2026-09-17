@@ -20,3 +20,14 @@ end
     @test rational_assumptions_satisfiable([IsNonzero(x)]) === nothing
     @test rational_assumptions_satisfiable([GreaterThan(x, sin(x))]) === nothing
 end
+
+@testitem "Rational assumption consistency understands interval membership" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+    using IntervalSets
+
+    @syms x
+
+    @test rational_assumptions_satisfiable([x ∈ 1..2, LessThan(x, 1)]) === false
+    @test rational_assumptions_satisfiable([x ∈ OpenInterval(0, 2), GreaterThan(x, 1)]) === true
+end
