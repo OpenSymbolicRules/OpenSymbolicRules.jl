@@ -166,6 +166,112 @@ end
 ideal_membership(polynomial::SparsePolynomial, basis::AbstractVector{<:SparsePolynomial}; ordering::Symbol=:grevlex) =
     iszero(normal_form(polynomial, basis; ordering))
 
+function _constant_polynomial(variables, value)
+    SparsePolynomial(variables, Dict(ntuple(_ -> 0, length(variables)) => value))
+end
+
+function _multiply(left::SparsePolynomial, right::SparsePolynomial)
+    _same_ring(left, right)
+    terms = Dict{Tuple{Vararg{Int}},Rational{BigInt}}()
+    for (left_exponent, left_coefficient) in left.terms,
+        (right_exponent, right_coefficient) in right.terms
+        exponent = Tuple(a + b for (a, b) in zip(left_exponent, right_exponent))
+        terms[exponent] = get(terms, exponent, zero(left_coefficient)) +
+                          left_coefficient * right_coefficient
+        iszero(terms[exponent]) && delete!(terms, exponent)
+    end
+    SparsePolynomial(left.variables, terms)
+end
+
+function _power(polynomial::SparsePolynomial, exponent::Integer)
+    exponent >= 0 || throw(ArgumentError("polynomial exponents must be non-negative integers"))
+    result = _constant_polynomial(polynomial.variables, 1)
+    factor = polynomial
+    remaining = exponent
+    while remaining > 0
+        isodd(remaining) && (result = _multiply(result, factor))
+        remaining = div(remaining, 2)
+        remaining > 0 && (factor = _multiply(factor, factor))
+    end
+    result
+end
+
+function _exact_coefficient(expression)
+    try
+        Rational{BigInt}(SymbolicUtils.unwrap_const(expression))
+    catch error
+        error isa MethodError || rethrow()
+        nothing
+    end
+end
+
+function _to_sparse_polynomial(expression, variables::Tuple{Vararg{Symbol}})
+    coefficient = _exact_coefficient(expression)
+    coefficient !== nothing && return _constant_polynomial(variables, coefficient)
+
+    if !SymbolicUtils.iscall(expression)
+        name = try
+            SymbolicUtils.getname(expression)
+        catch error
+            error isa ArgumentError || rethrow()
+            nothing
+        end
+        index = findfirst(==(name), variables)
+        index === nothing && throw(ArgumentError("expression contains a variable outside the polynomial ring"))
+        exponent = ntuple(position -> position == index ? 1 : 0, length(variables))
+        return SparsePolynomial(variables, Dict(exponent => 1))
+    end
+
+    operator = SymbolicUtils.operation(expression)
+    operands = SymbolicUtils.arguments(expression)
+    if operator === +
+        return foldl(+, (_to_sparse_polynomial(operand, variables) for operand in operands);
+                     init=SparsePolynomial(variables, Dict()))
+    elseif operator === *
+        return foldl(_multiply, (_to_sparse_polynomial(operand, variables) for operand in operands);
+                     init=_constant_polynomial(variables, 1))
+    elseif operator === (^) && length(operands) == 2
+        exponent = _exact_coefficient(operands[2])
+        exponent !== nothing && denominator(exponent) == 1 ||
+            throw(ArgumentError("polynomial exponents must be exact integers"))
+        return _power(_to_sparse_polynomial(operands[1], variables), numerator(exponent))
+    end
+    throw(ArgumentError("expression is not a polynomial over the requested ring"))
+end
+
+"""
+    to_sparse_polynomial(expression, variables) -> SparsePolynomial
+
+Convert a `SymbolicUtils` expression to an exact polynomial over `ℚ`. Variables
+are explicitly named to prevent accidental conversion of parameters or
+non-polynomial subexpressions. Only addition, multiplication, non-negative
+integer powers, and exact rational coefficients are admitted.
+"""
+to_sparse_polynomial(expression, variables::AbstractVector{Symbol}) =
+    _to_sparse_polynomial(expression, Tuple(variables))
+
+"""
+    to_symbolic_polynomial(polynomial, variables)
+
+Rebuild a `SymbolicUtils` expression from an exact sparse polynomial. The map
+must associate every polynomial variable name with its symbolic expression.
+"""
+function to_symbolic_polynomial(polynomial::SparsePolynomial, variables::AbstractDict{Symbol})
+    all(variable -> haskey(variables, variable), polynomial.variables) ||
+        throw(ArgumentError("the symbolic variable map does not cover the polynomial ring"))
+    result = 0
+    for (exponents, coefficient) in polynomial.terms
+        monomial = coefficient
+        for (variable, exponent) in zip(polynomial.variables, exponents)
+            exponent == 0 && continue
+            monomial *= variables[variable]^exponent
+        end
+        result += monomial
+    end
+    result
+end
+
 # Keep low-level leading-term and S-polynomial primitives qualified.  They are
 # useful for inspecting an algorithm, but are not part of the everyday API.
 export SparsePolynomial, normal_form, groebner_basis, ideal_membership
+export to_sparse_polynomial, to_symbolic_polynomial

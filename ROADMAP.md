@@ -77,9 +77,11 @@
   forms over `Rational{BigInt}` without imposing a private expression tree.
 - [x] **Gröbner bases:** Provide Buchberger completion, inter-reduction, and
   ideal-membership checks on the exact polynomial core in pure Julia.
-- [ ] **Symbolic polynomial boundary:** Add explicit `SymbolicUtils`
-  conversion and polynomial-system solving APIs without weakening exact-domain
-  guarantees.
+- [x] **Symbolic polynomial boundary:** Convert exact `SymbolicUtils`
+  polynomials explicitly to and from the sparse core, rejecting coefficients,
+  variables, and operators outside the requested ring.
+- [ ] **Polynomial-system solving:** Build elimination and solution-set APIs on
+  the exact sparse core without weakening exact-domain guarantees.
 - [ ] **Equation Solving:** Implement `solve(eq, x)` using OSR algebraic isolation rules.
 - [ ] **Sets, Relations, and Intervals:** Add membership, inclusion, unions, intersections, inequalities, and solution-set expressions as first-class symbolic structures.
 - [ ] **Units, Dimensions, and Uncertainties:** Track physical dimensions as semantic properties of expressions, rejecting dimensionally invalid rewrites. Build a `DynamicQuantities.jl` integration first, aligned with `SymbolicUncertainties.jl`, so values and their uncertainty terms retain compatible dimensions; provide `Unitful.jl` interoperability at the boundary rather than duplicating dimensional semantics.

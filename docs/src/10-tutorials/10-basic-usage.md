@@ -443,6 +443,18 @@ and equation solving remain separate planned layers. For implementation
 inspection, low-level leading-term and S-polynomial primitives stay qualified
 as `OpenSymbolicRules.leading_monomial` and `OpenSymbolicRules.spoly`.
 
+An explicit boundary retains the exact coefficient domain when exchanging
+polynomials with `SymbolicUtils`. The requested variables define the ring;
+functions, negative powers, and undeclared parameters are rejected.
+
+```julia
+using SymbolicUtils
+@syms x y
+
+p = to_sparse_polynomial(x^2 * y + 3 // 2, [:x, :y])
+to_symbolic_polynomial(p, Dict(:x => x, :y => y))
+```
+
 ## Propositional satisfiability
 
 The Boolean kernel includes a small pure-Julia DPLL solver for finite CNF
