@@ -550,5 +550,13 @@ smt_satisfiable([[1, 2]], atoms) # true
 smt_satisfiable([[1], [2]], atoms) # false
 ```
 
+`smt_model` returns the Boolean choices and a map from every ground term to its
+equivalence-class representative.
+
+```julia
+model = smt_model([[1, 2]], atoms)
+model.classes[:a] == model.classes[:b]
+```
+
 This equality theory is separate from rational linear arithmetic for now.
 Mixed terms will require an explicit shared-sort and combination discipline.

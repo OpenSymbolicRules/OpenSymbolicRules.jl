@@ -101,9 +101,9 @@
   encoded as their exact strict-order alternatives. Satisfiable Boolean cores
   and rational linear theory now return checkable models; add model production
   for combined theories and unsatisfiable certificates next. Linear DPLL(T)
-  now returns combined Boolean/rational models; add equality and mixed-theory
-  model production next. The default engine shall remain pure Julia with no
-  native solver dependency.
+  now returns combined Boolean/rational models and equality DPLL(T) returns
+  Boolean/equivalence-class models; add mixed-theory model production next.
+  The default engine shall remain pure Julia with no native solver dependency.
   Interoperability with SMT-LIB and explicit adapters to external solvers may
   be added later, but must remain opt-in and never change the result status or
   proof obligations silently.
