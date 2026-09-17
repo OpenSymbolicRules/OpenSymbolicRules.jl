@@ -442,3 +442,22 @@ for exact algebraic algorithms; conversion from `SymbolicUtils` expressions
 and equation solving remain separate planned layers. For implementation
 inspection, low-level leading-term and S-polynomial primitives stay qualified
 as `OpenSymbolicRules.leading_monomial` and `OpenSymbolicRules.spoly`.
+
+## Propositional satisfiability
+
+The Boolean kernel includes a small pure-Julia DPLL solver for finite CNF
+problems. It has no native-library or solver-package dependency. Clauses use
+the standard DIMACS literal convention: a positive integer denotes a variable,
+and its negative denotes the variable's negation.
+
+```julia
+# (a ∨ b) ∧ (¬a ∨ b) ∧ (a ∨ ¬b)
+satisfiable([[1, 2], [-1, 2], [1, -2]]) # true
+
+# a ∧ ¬a
+satisfiable([[1], [-1]])                # false
+```
+
+This is the Boolean component of a planned pure-Julia DPLL(T) architecture.
+Theory reasoning, such as equality and rational linear arithmetic, is added
+only when its result can retain explicit assumptions and proof obligations.
