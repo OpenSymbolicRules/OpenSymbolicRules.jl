@@ -26,7 +26,12 @@
 **Goal:** Achieve state-of-the-art symbolic integration and calculus features.
 
 - [ ] **Limits & Derivatives:** Implement `Limit(expr, x, a)` and `Derivative(expr, x)` using the `OpenSymbolicRules/Calculus` specifications.
-- [ ] **The RUBI Milestone:** Successfully parse and load the 6000+ RUBI integration rules. Two blockers remain, both measured against the converted dataset in the `Integration` repository:
+- [ ] **The RUBI Milestone:** Successfully parse and load the 6000+ RUBI integration rules. Three blockers remain, measured against the converted dataset in the `Integration` repository:
+    - *Globally stable rule identities.* Two Integration leaf files currently
+      share section `1.1.2` and rule IDs `1`--`3`, so their required
+      `section:id` identities collide before compilation. This is tracked in
+      [`upstream-bugs.md`](upstream-bugs.md); the source data must distinguish
+      the leaf sections or IDs rather than weakening proof and trace identities.
     - *Complete `semantics` declarations.* The rules use 146 distinct operators and declare 6. The schema's `openmath:<cd>#<symbol>` pattern also cannot express a RUBI-specific utility such as `Simp`, `Dist`, or `Rt`, so the specification needs a decision before the converter can emit a complete block.
     - *Optional wildcards.* 36,485 operands are spelled `a.`, as in `(a_. + b_.*x_)^m_`. Matching one needs the identity element of the enclosing operation, which `SymbolicUtils` supplies only for the native `+`, `*`, and `^`. The loader currently rejects them with a diagnostic.
 - [x] **Heuristic Rule Dispatcher:** `SymbolicUtils.jl` evaluates rules sequentially. For 6000+ rules, a naive `Chain` is too slow. `OSRDispatch` indexes rules by the operation their pattern requires at the root of a term, selecting candidates with a single dictionary lookup. A deeper index, or `Metatheory.jl` e-graphs, remains an option if root dispatch stops being selective enough.
