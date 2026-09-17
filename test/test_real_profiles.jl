@@ -9,3 +9,15 @@ using TestItemRunner
     @test rules[1].name == "calculus:1-limits/1.1-basic-limits:1"
     @test rules[1].provenance["method"] == "authored"
 end
+
+@testitem "Current Algebra and Logic profiles load" begin
+    using OpenSymbolicRules
+
+    algebra_rules = @load_osr_profile("../../Algebra")
+    logic_rules = @load_osr_profile("../../Logic")
+
+    @test length(algebra_rules) == 16
+    @test algebra_rules[1].name == "algebra:1-powers/1.1-basic-exponents:1"
+    @test length(logic_rules) == 35
+    @test logic_rules[1].name == "logic:1-identities/1.1-boolean-identities:1"
+end
