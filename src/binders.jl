@@ -30,7 +30,7 @@ function _variable_names(value)
     name = _variable_name(value)
     name === nothing || return [name]
     value = _literal(value)
-    value isa AbstractVector || return nothing
+    value isa AbstractVector && !isempty(value) || return nothing
     names = Symbol[]
     for element in value
         element_name = _variable_name(element)
@@ -81,6 +81,14 @@ free_variables(expr) = _free_variables!(Set{Symbol}(), expr)
 
 function _free_variables!(names::Set{Symbol}, expr)
     expr = _literal(expr)
+    if expr isa AbstractVector
+        # A collection argument, such as a piecewise branch list, is part of the
+        # expression, so its variables are free in it.
+        for element in expr
+            _free_variables!(names, element)
+        end
+        return names
+    end
     if !iscall(expr)
         name = _variable_name(expr)
         name === nothing || push!(names, name)
@@ -111,6 +119,7 @@ occurs_free(expr, name::Symbol) = _occurs_free(expr, name)
 
 function _occurs_free(expr, name::Symbol)
     expr = _literal(expr)
+    expr isa AbstractVector && return any(element -> _occurs_free(element, name), expr)
     iscall(expr) || return _variable_name(expr) === name
 
     bound = bound_variables(expr)
@@ -201,6 +210,9 @@ end
 
 function _substitute(expr, name::Symbol, replacement, replacement_free::Set{Symbol})
     expr = _literal(expr)
+    if expr isa AbstractVector
+        return map(element -> _substitute(element, name, replacement, replacement_free), expr)
+    end
     if !iscall(expr)
         return _variable_name(expr) === name ? replacement : expr
     end
@@ -253,6 +265,15 @@ alpha_equivalent(left, right) = _alpha_equivalent(left, right, Dict{Symbol,Int}(
 
 function _alpha_equivalent(left, right, left_depths, right_depths, depth)
     left, right = _literal(left), _literal(right)
+
+    if left isa AbstractVector || right isa AbstractVector
+        left isa AbstractVector && right isa AbstractVector || return false
+        length(left) == length(right) || return false
+        return all(eachindex(left)) do index
+            _alpha_equivalent(left[index], right[index], left_depths, right_depths, depth)
+        end
+    end
+
     left_call, right_call = iscall(left), iscall(right)
     left_call == right_call || return false
 

@@ -52,6 +52,45 @@ callback instead of relying on the library to print:
 simplify(expr, alg_rules; on_step=step -> @info "rewrite" rule=step.rule.name)
 ```
 
+## Piecewise expressions
+
+A rewrite that is only valid on part of a domain keeps its validity conditions
+instead of discarding them. `Piecewise` holds a list of branches, each a `Piece`
+carrying a value and its condition, optionally closed by an `Otherwise`:
+
+```json
+["Piecewise", ["List",
+  ["Piece", "x_", ["IsPositive", "x_"]],
+  ["Otherwise", ["Multiply", -1, "x_"]]
+]]
+```
+
+```julia
+@syms x
+absolute = Piecewise([Piece(x, IsPositive(x)), Otherwise(Multiply(-1, x))])
+piecewise_pieces(absolute) # the branches, with `nothing` as the Otherwise condition
+```
+
+`select_piece` reduces a piecewise to the value of the branch that applies.
+Branches are examined in order, and a branch is taken once its condition is
+decided true and every earlier one is decided false. An undecided condition
+stops the search, because a later branch may not overtake one that might yet
+apply:
+
+```julia
+select_piece(absolute)                                  # unchanged: nothing is known about x
+assuming(IsPositive(x)) do select_piece(absolute) end   # x
+```
+
+`decide_condition` is the three-valued judgement behind it: `true`, `false`, or
+`nothing` when undecided. A condition is decided when it is a Boolean literal,
+when it is a relation over closed arithmetic expressions, or when it is an
+active hypothesis; `And`, `Or`, and `Not` combine those answers, so a
+conjunction with one false operand is false even when the other is unknown.
+
+A symbolic predicate answering `false` means "not proved", which is why an
+unproved condition leaves the piecewise intact rather than skipping the branch.
+
 ## Proving an equivalence
 
 `prove` searches for a rewrite path between two expressions and returns the

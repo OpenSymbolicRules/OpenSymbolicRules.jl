@@ -1,0 +1,27 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.1",
+  "title": "Piecewise validity conditions",
+  "semantics": {
+    "Sqrt": "openmath:arith1#root",
+    "Pow": "openmath:arith1#power",
+    "Multiply": "openmath:arith1#times",
+    "Piecewise": "openmath:piece1#piecewise",
+    "Piece": "openmath:piece1#piece",
+    "Otherwise": "openmath:piece1#otherwise",
+    "IsPositive": "openmath:relation1#gt",
+    "List": "openmath:list1#list"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "description": "The principal square root of a square is the absolute value",
+      "pattern": ["Sqrt", ["Pow", "x_", 2]],
+      "constraints": [],
+      "result": ["Piecewise", ["List",
+        ["Piece", "x_", ["IsPositive", "x_"]],
+        ["Otherwise", ["Multiply", -1, "x_"]]
+      ]]
+    }
+  ]
+}

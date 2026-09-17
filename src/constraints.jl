@@ -311,7 +311,28 @@ Return whether `u` is a canonical `Power` term.
 """
 PowerQ(u) = _has_head(u, :Power)
 
-_elements(collection) = _has_head(collection, :List) ? arguments(collection) : collection
+"""
+    osr_collection(expr)
+
+Return the elements of a collection expression, or `nothing` when `expr` is not
+one.  `SymbolicUtils` keeps a vector of plain values as a literal but wraps a
+vector holding symbolic expressions in an `array_literal` term, so a collection
+reaches this library in either shape.
+"""
+function osr_collection(expr)
+    literal = _literal(expr)
+    literal isa AbstractVector && return collect(literal)
+    iscall(literal) || return nothing
+    operation(literal) === SymbolicUtils.array_literal || return nothing
+    # The first argument of an array literal is its shape.
+    return collect(arguments(literal)[2:end])
+end
+
+function _elements(collection)
+    _has_head(collection, :List) && return arguments(_literal(collection))
+    elements = osr_collection(collection)
+    return elements === nothing ? collection : elements
+end
 
 """
     MemberQ(collection, u)
@@ -408,4 +429,4 @@ export EqQ, NeQ, GtQ, LtQ, GeQ, LeQ
 export IntegerQ, IntegersQ, IGtQ, ILtQ, IGeQ, ILeQ
 export RationalQ, FractionQ, HalfIntegerQ, PosQ, NegQ, FalseQ
 export AtomQ, SumQ, ProductQ, PowerQ, MemberQ
-export PolynomialQ, PolyQ, LinearQ, QuadraticQ, osr_degree, osr_number
+export PolynomialQ, PolyQ, LinearQ, QuadraticQ, osr_degree, osr_number, osr_collection

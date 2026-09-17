@@ -43,6 +43,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   whose variable occurs free in the replacement.
 - `alpha_equivalent`, comparing two expressions up to a consistent renaming of
   their bound variables.
+- `Piecewise`, `Piece`, and `Otherwise` heads bound to the OpenMath `piece1`
+  content dictionary, with `piecewise_pieces` to read the branches,
+  `decide_condition` for the three-valued judgement of a condition, and
+  `select_piece` to reduce a piecewise once the applicable branch is settled.
+- `osr_collection`, which reads the elements of a collection expression whether
+  `SymbolicUtils` kept it as a literal vector or wrapped it in an array literal.
 - `prove`, an equivalence verifier that searches for a rewrite path between two
   expressions and returns an `OSRProof` recording the steps, the common normal
   form, and the hypotheses it was established under.  The search is sound but
@@ -84,6 +90,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   point.
 
 ### Fixed
+- Traverse collection arguments in `free_variables`, `occurs_free`,
+  `osr_substitute`, and `alpha_equivalent`.  A branch or element list was
+  invisible to scope analysis, so its variables were reported as neither free
+  nor substitutable.
+- Accept any operand on the `Lambda`, `Derivative`, `Integral`, `Limit`, and
+  `Piecewise` heads.  Typing them as `Number` rejected a lambda over a
+  proposition or a piecewise, which are well-formed OSR terms.
 - Compile every OSR v0.1 wildcard spelling.  `xs__`, `xs___`, and a typed blank
   such as `m_integer` were each read as an ordinary symbol, silently producing a
   rule that could never fire; they now compile to the sequence and guarded slot

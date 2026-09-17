@@ -12,6 +12,7 @@ include("simplify.jl")
 include("dispatch.jl")
 include("equations.jl")
 include("prove.jl")
+include("piecewise.jl")
 include("domains.jl")
 include("bridge.jl")
 include("manifests.jl")
@@ -35,6 +36,9 @@ const _DEFAULT_SEMANTICS = Dict(
     "And" => "openmath:logic1#and",
     "Or" => "openmath:logic1#or",
     "List" => "openmath:list1#list",
+    "Piecewise" => "openmath:piece1#piecewise",
+    "Piece" => "openmath:piece1#piece",
+    "Otherwise" => "openmath:piece1#otherwise",
 )
 
 """
