@@ -10,6 +10,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A roadmap for opt-in domain modules: `Core`, `Algebra`, `Calculus`,
   `Trigonometry`, `Integration`, and `Logic`, with `Integration` covering both
   integral representations and procedural/rule-based integration backends.
+- Roadmap requirements for explicit operation-result status and structured,
+  serializable operation traces with configurable detail and renderers.
 - Roadmap coverage for canonical symbolic rendering, including parentheses,
   rational-unit normalization, and redundant-sign elimination.
 - Built-in symbolic heads for the current OpenMath Calculus profile and an

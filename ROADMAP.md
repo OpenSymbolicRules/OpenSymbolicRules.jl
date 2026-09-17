@@ -35,6 +35,10 @@
   and eliminate superfluous unary-minus forms without changing precedence,
   associativity, domains, or noncommutative factor order. Add round-trip and
   regression tests for parsing, display, simplification, and proof traces.
+- [ ] **Operation result status:** Make high-level operations distinguish a
+  proved closed form, a conditional result, an unevaluated symbolic operation,
+  an inapplicable operation, and divergence. An unknown result must never be
+  rendered as a proved equality.
 
 ## Phase 3: Calculus & The RUBI Integration Challenge 🚀
 **Goal:** Achieve state-of-the-art symbolic integration and calculus features.
@@ -54,6 +58,11 @@
 **Goal:** Exploit the purely declarative nature of OSR to provide trackable, formal proofs of equivalence and step-by-step educational solutions.
 
 - [x] **Step-by-Step Output:** Intercept the rule application engine (e.g., via `Metatheory.jl` E-Graphs or a custom `Postwalk` logger) to return a sequential list of all rules applied during a simplification (resolving user needs like Symbolics.jl#703).
+- [ ] **Structured operation traces:** Generalize rewrite traces into a
+  serializable tree whose nodes record input, output, assumptions, OSR rule
+  identity or procedural method, and child steps. Provide minimal, normal, and
+  detailed views plus text, LaTeX/MathML, and JSON renderers without emitting
+  library output directly.
 - [x] **Formal Context & Assumptions:** Implement a rigorous context system (`x ∈ Reals`, `x > 0`) using `task_local_storage` or `DomainSets.jl` so that rules are only applied when formally valid. Each hypothesis is weighed on its own, so the context does not yet combine two hypotheses into a third; that is what SMT delegation in Phase 5 is for.
 - [x] **Binders and Capture-Avoiding Substitution:** Complete lexical `Lambda`, quantifier, sum, product, integral, and derivative handling with alpha-renaming and capture-avoiding substitution.
 - [x] **Piecewise Expressions:** Represent `Piecewise` branches and their conditions so that real/complex domains, absolute values, roots, and logarithms retain their validity conditions.
