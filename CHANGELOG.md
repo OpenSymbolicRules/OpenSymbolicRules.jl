@@ -43,6 +43,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   whose variable occurs free in the replacement.
 - `alpha_equivalent`, comparing two expressions up to a consistent renaming of
   their bound variables.
+- A `PrecompileTools.jl` workload covering the matcher, the dispatcher, the
+  rewriter, and the scope and proof helpers, which cuts the time to a first
+  `simplify`, `trace`, and `prove` from about 1.5 s to about 0.8 s.
 - `entailed`, which decides a property of a term from the hypotheses in scope by
   what their domains imply rather than by a literal match, so `x ∈ 2..5` proves
   positivity, nonzeroness, and realness at once.

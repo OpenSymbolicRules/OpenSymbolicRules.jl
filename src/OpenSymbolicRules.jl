@@ -1,6 +1,7 @@
 module OpenSymbolicRules
 
 using JSON
+using PrecompileTools: @setup_workload, @compile_workload
 using SymbolicUtils
 using SymbolicUtils: @rule, Sym, Term
 using SymbolicUtils: iscall, arguments
@@ -482,6 +483,41 @@ macro load_osr_profile(rootpath, profile=nothing)
     end
     
     return esc(Expr(:vect, rule_exprs...))
+end
+
+# Exercise the rewriting paths at build time so that the first `simplify`,
+# `prove`, or `select_piece` of a session does not pay for compiling them.
+#
+# The workload uses hand-written rules rather than a rule file, because what it
+# needs to reach is the matcher, the dispatcher, and the rewriter — the code
+# every rule set runs through, whatever the rules are.
+@setup_workload begin
+    @syms _w_x _w_p
+    @syms _w_Pow(a, b) _w_Add(a, b) _w_Sin(a)
+
+    @compile_workload begin
+        rules = OSRRule[
+            OSRRule("workload:1", "identity power",
+                    @rule _w_Pow(~a, 1) => ~a),
+            OSRRule("workload:2", "guarded zero power",
+                    @rule _w_Pow(~a, 0) => 1 where is_nonzero(~a)),
+            OSRRule("workload:3", "commutative additive identity",
+                    @acrule _w_Add(~a, 0) => ~a),
+        ]
+
+        expression = _w_Add(_w_Pow(_w_Sin(_w_x), 1), 0)
+        simplify(expression, rules)
+        simplify(expression, rules; mode=:trace)
+        simplify(_w_Pow(_w_x, 0), rules; assumptions=[IsNonzero(_w_x)])
+        prove(expression, _w_Sin(_w_x), rules)
+
+        FreeQ(expression, _w_x)
+        free_variables(Lambda(_w_x, _w_Sin(_w_x)))
+        osr_substitute(_w_Sin(_w_x), _w_x => _w_p)
+        alpha_equivalent(Lambda(_w_x, _w_x), Lambda(_w_p, _w_p))
+        select_piece(Piecewise([Piece(_w_x, IsPositive(_w_x)), Otherwise(_w_p)]))
+        osr_number(_w_Pow(2, -1))
+    end
 end
 
 end # module

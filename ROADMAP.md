@@ -12,7 +12,7 @@
 - [x] Mapping of primitive constraints (e.g., `is_integer`) to Julia `where` clauses.
 - [x] **Advanced Predicates Mapping:** A standard library of Julia predicates for the OSR constraint vocabulary — comparison, integer-qualified, numeric-domain, structural, and polynomial predicates plus the `Not`/`And`/`Or` combinators — covering 97% of the constraint applications in the RUBI dataset.
 - [ ] **RUBI-specific Predicates:** Implement the remaining catalogue needed by the full 6000-rule dataset (`MatchQ` and the `*MatchQ` family, `BinomialQ`, `TrinomialQ`, `SumSimplerQ`, the `FunctionOf*` family, and the `Known*IntegrandQ` heuristics).
-- [ ] **Rule Precompilation:** Optimize the macro to handle thousands of rules (like RUBI) without blowing up Julia's compile time (e.g., splitting into sub-modules or using `PrecompileTools.jl`).
+- [ ] **Rule Precompilation:** Optimize the macro to handle thousands of rules (like RUBI) without blowing up Julia's compile time (e.g., splitting into sub-modules or using `PrecompileTools.jl`). A `PrecompileTools.jl` workload now covers the rewriting paths, roughly halving the time to a first `simplify`. What remains is the macro itself: `@load_osr` emits one `@rule` per rule, and expanding thousands of them in one module has not been measured against a real RUBI profile because the dataset does not load yet.
 
 ## Phase 2: Core Algebra & Expression Engine 🧮
 **Goal:** Build the CAS front-end and fundamental algebraic simplification engine.
