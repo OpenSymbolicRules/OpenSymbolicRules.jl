@@ -42,3 +42,14 @@ end
     @test rational_assumptions_satisfiable([IsNonzero(x), x ∈ 0..0]) === false
     @test rational_assumptions_satisfiable([IsNonzero(x), x ∈ -1..1]) === true
 end
+
+@testitem "Simplify rejects assumptions proved contradictory by SMT" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms x
+    rule = OSRRule("test:identity", "identity", nothing, @rule ~a => ~a)
+
+    @test_throws ArgumentError simplify(x, [rule];
+        assumptions=[GreaterThan(x, 0), LessThan(x, 0)])
+end

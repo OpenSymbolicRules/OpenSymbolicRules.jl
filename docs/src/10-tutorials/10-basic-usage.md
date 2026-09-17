@@ -592,3 +592,7 @@ closed endpoints.
 ```julia
 rational_assumptions_satisfiable([x ∈ 1..2, LessThan(x, 1)]) # false
 ```
+
+`simplify` performs this consistency check for supplied assumptions. A context
+proven contradictory raises `ArgumentError`; an unsupported fact remains
+conservative and does not block rewriting.

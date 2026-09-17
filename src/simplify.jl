@@ -52,6 +52,9 @@ function simplify(expr, rules::AbstractVector; mode::Symbol=:fast, assumptions=n
     else
         vcat(current, _normalize_facts(assumptions))
     end
+    merged_assumptions !== nothing &&
+        rational_assumptions_satisfiable(merged_assumptions) === false &&
+        throw(ArgumentError("simplify received contradictory rational assumptions"))
     task_local_storage(:osr_assumptions, merged_assumptions) do
     if mode == :fast && on_step === nothing
         simplifier = build_simplifier(rules)
