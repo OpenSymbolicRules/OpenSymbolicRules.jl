@@ -4,15 +4,15 @@ import SymbolicUtils: simplify
 export build_simplifier, simplify
 
 """
-    OSRRule(name, description, rule)
+    OSRRule(name, description, provenance, rule)
 
-A callable SymbolicUtils rewrite rule annotated with its stable OSR identity.
-`name` defaults to the source document's `section:id` when rules are loaded
-from JSON.
+A callable SymbolicUtils rewrite rule annotated with its stable OSR
+`identity:id` and optional machine-readable provenance from the source rule.
 """
 struct OSRRule{R}
     name::String
     description::Union{Nothing,String}
+    provenance::Union{Nothing,AbstractDict}
     rule::R
 end
 

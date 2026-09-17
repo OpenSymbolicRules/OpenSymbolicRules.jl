@@ -318,13 +318,13 @@ function _rule_macro(pattern, semantics)
     return _is_commutative(String(head), semantics) ? Symbol("@acrule") : Symbol("@rule")
 end
 
-function _compile_rule_exprs(rules_json; section::AbstractString="unknown", semantics=_DEFAULT_SEMANTICS)
+function _compile_rule_exprs(rules_json; identity::AbstractString="unknown", semantics=_DEFAULT_SEMANTICS)
     rule_exprs = Expr[]
     seen_ids = Set{Int}()
     for rule in rules_json
         id = get(rule, "id", nothing)
         id isa Integer || throw(ArgumentError("Every OSR rule must have an integer id"))
-        id in seen_ids && throw(ArgumentError("Duplicate OSR rule id $(id) in section $(section)"))
+        id in seen_ids && throw(ArgumentError("Duplicate OSR rule id $(id) in rule file $(identity)"))
         push!(seen_ids, id)
 
         pattern = osr_to_expr(rule["pattern"], semantics)
@@ -338,9 +338,11 @@ function _compile_rule_exprs(rules_json; section::AbstractString="unknown", sema
             condition = _conjoin([_compile_constraint(constraint, semantics) for constraint in constraints_json])
             Expr(:macrocall, GlobalRef(SymbolicUtils, rule_macro), LineNumberNode(0), :($pattern => $result where $condition))
         end
-        name = "$(section):$(id)"
+        name = "$(identity):$(id)"
         description = get(rule, "description", nothing)
-        push!(rule_exprs, :(OSRRule($name, $description, $rewrite)))
+        provenance = get(rule, "provenance", nothing)
+        provenance === nothing || provenance isa AbstractDict || throw(ArgumentError("Rule $(name) has invalid provenance"))
+        push!(rule_exprs, :(OSRRule($name, $description, $(QuoteNode(provenance)), $rewrite)))
     end
     return rule_exprs
 end
@@ -348,14 +350,14 @@ end
 function _validate_rule_identities(documents)
     identities = Set{String}()
     for document in documents
-        section = get(document, "section", nothing)
-        section isa String || throw(ArgumentError("Every OSR rule file must have a string section"))
+        file_identity = get(document, "identity", get(document, "section", nothing))
+        file_identity isa String || throw(ArgumentError("Every OSR rule file must have a string identity"))
         for rule in get(document, "rules", Any[])
             id = get(rule, "id", nothing)
             id isa Integer || throw(ArgumentError("Every OSR rule must have an integer id"))
-            identity = "$(section):$(id)"
-            identity in identities && throw(ArgumentError("Duplicate OSR rule identity $(identity)"))
-            push!(identities, identity)
+            rule_identity = "$(file_identity):$(id)"
+            rule_identity in identities && throw(ArgumentError("Duplicate OSR rule identity $(rule_identity)"))
+            push!(identities, rule_identity)
         end
     end
     return nothing
@@ -442,10 +444,10 @@ macro load_osr(filepath)
 
     # Read the JSON file at compile time
     data = JSON.parsefile(full_path)
-    section = get(data, "section", nothing)
-    section isa String || error("@load_osr requires a rule file with a string section")
+    identity = get(data, "identity", get(data, "section", nothing))
+    identity isa String || error("@load_osr requires a rule file with a string identity")
     _validate_openmath_semantics([data])
-    rule_exprs = _compile_rule_exprs(data["rules"]; section=section, semantics=data["semantics"])
+    rule_exprs = _compile_rule_exprs(data["rules"]; identity=identity, semantics=data["semantics"])
     
     # Return a block that constructs the array of rules
     return esc(Expr(:vect, rule_exprs...))
@@ -478,8 +480,8 @@ macro load_osr_profile(rootpath, profile=nothing)
 
     rule_exprs = Expr[]
     for data in documents
-        section = data["section"]
-        append!(rule_exprs, _compile_rule_exprs(data["rules"]; section=section, semantics=data["semantics"]))
+        identity = get(data, "identity", data["section"])
+        append!(rule_exprs, _compile_rule_exprs(data["rules"]; identity=identity, semantics=data["semantics"]))
     end
     
     return esc(Expr(:vect, rule_exprs...))
@@ -497,11 +499,11 @@ end
 
     @compile_workload begin
         rules = OSRRule[
-            OSRRule("workload:1", "identity power",
+            OSRRule("workload:1", "identity power", nothing,
                     @rule _w_Pow(~a, 1) => ~a),
-            OSRRule("workload:2", "guarded zero power",
+            OSRRule("workload:2", "guarded zero power", nothing,
                     @rule _w_Pow(~a, 0) => 1 where is_nonzero(~a)),
-            OSRRule("workload:3", "commutative additive identity",
+            OSRRule("workload:3", "commutative additive identity", nothing,
                     @acrule _w_Add(~a, 0) => ~a),
         ]
 

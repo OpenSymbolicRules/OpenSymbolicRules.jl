@@ -1,5 +1,6 @@
 {
   "$schema": "open-symbolic-rules/v0.1",
+  "identity": "test:basic-exponents",
   "section": "1.1",
   "title": "Basic Exponent Rules",
   "semantics": {
@@ -32,7 +33,16 @@
       "description": "Identity power: x^1 = x",
       "pattern": ["Pow", "~x", 1],
       "constraints": [],
-      "result": "~x"
+      "result": "~x",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules Julia test fixture",
+            "locator": "test:basic-exponents:3"
+          }
+        ]
+      }
     },
     {
       "id": 4,

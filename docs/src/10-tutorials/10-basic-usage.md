@@ -44,7 +44,7 @@ for step in steps
 end
 ```
 
-Rules loaded from JSON retain their stable OSR name (`section:id`) and their
+Rules loaded from JSON retain their stable OSR name (`identity:id`) and their
 description. For streaming output, logging, or a graphical interface, pass a
 callback instead of relying on the library to print:
 

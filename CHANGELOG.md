@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Canonical `identity:id` rule names and source provenance on loaded
+  `OSRRule` values, exposing specification-level traceability in rewrite
+  traces.
 - Initial project scaffolding using BestieTemplate.jl
 - Setup Documenter.jl and testing framework
 - GitHub Actions validation of bundled OSR rule fixtures against the specification schemas.

@@ -93,5 +93,5 @@ end
     # Tracing still reports every rewrite with its stable OSR name.
     result, steps = simplify(expr, all_rules; mode=:trace)
     @test string(result) == "1"
-    @test [step.rule.name for step in steps] == ["1.1:1", "1.1:4"]
+    @test [step.rule.name for step in steps] == ["1.1:1", "test:basic-exponents:4"]
 end

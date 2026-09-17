@@ -20,7 +20,7 @@ using TestItemRunner
     ])
     
     # Let's compile it manually to get the rules
-    rule_exprs = OpenSymbolicRules._compile_rule_exprs(data["rules"]; section=data["section"])
+    rule_exprs = OpenSymbolicRules._compile_rule_exprs(data["rules"]; identity=get(data, "identity", data["section"]))
     
     # The rule expressions need to be evaluated in a module where Abs is defined
     # We evaluate them here in the test scope
