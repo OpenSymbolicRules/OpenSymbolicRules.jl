@@ -509,3 +509,21 @@ linear_smt_satisfiable([[1], [2]], atoms) # false
 Negated equalities are expanded exactly as `a < b ∨ a > b`; the solver keeps
 those alternatives as explicit theory branches. Proof-producing explanations
 remain the next SMT milestone.
+
+### Equality theory
+
+For ground, uninterpreted symbols, `smt_satisfiable` uses union-find to close
+equalities transitively before checking disequalities.
+
+```julia
+atoms = Dict(
+    1 => EqualityConstraint(:a, :b, :eq),
+    2 => EqualityConstraint(:a, :b, :ne),
+)
+
+smt_satisfiable([[1, 2]], atoms) # true
+smt_satisfiable([[1], [2]], atoms) # false
+```
+
+This equality theory is separate from rational linear arithmetic for now.
+Mixed terms will require an explicit shared-sort and combination discipline.
