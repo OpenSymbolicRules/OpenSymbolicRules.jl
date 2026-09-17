@@ -21,6 +21,13 @@
 - [x] **Algebraic Simplifier:** Provide `simplify(expr, rules)` for rules loaded from the `OpenSymbolicRules/Algebra` repositories.
 - [x] **AC-Matching (Associative-Commutative):** Upgrade `@load_osr` to automatically generate `@acrule` for known AC operators (like `Add`, `Mul`), avoiding combinatoric explosion of rules.
 - [ ] **Remote Rule Syncing:** Implement an Artifact or Pkg based mechanism to automatically download the latest version of the OSR specifications from GitHub.
+- [ ] **Canonical expression form and rendering:** Define a deterministic
+  normalization and pretty-printing layer shared by OSR and Symbolics terms.
+  It must preserve required parentheses while removing redundant ones,
+  normalize rational unit values such as `1//1` to integer `1` where sound,
+  and eliminate superfluous unary-minus forms without changing precedence,
+  associativity, domains, or noncommutative factor order. Add round-trip and
+  regression tests for parsing, display, simplification, and proof traces.
 
 ## Phase 3: Calculus & The RUBI Integration Challenge 🚀
 **Goal:** Achieve state-of-the-art symbolic integration and calculus features.
