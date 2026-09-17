@@ -559,4 +559,17 @@ model.classes[:a] == model.classes[:b]
 ```
 
 This equality theory is separate from rational linear arithmetic for now.
-Mixed terms will require an explicit shared-sort and combination discipline.
+For symbols interpreted as rational variables, use the explicitly sorted
+`rational_smt_satisfiable` entry point instead: it combines equality,
+disequality, and linear arithmetic by translating `x = y` into `x - y = 0`.
+It is intentionally distinct from the uninterpreted equality solver above.
+
+```julia
+numeric_atoms = Dict{Int,Union{LinearConstraint,EqualityConstraint}}(
+    1 => EqualityConstraint(:x, :y, :eq),
+    2 => LinearConstraint(Dict(:x => 1), :le, 0),
+    3 => LinearConstraint(Dict(:y => -1), :le, -1),
+)
+
+rational_smt_satisfiable([[1], [2], [3]], numeric_atoms) # false
+```

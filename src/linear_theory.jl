@@ -308,4 +308,60 @@ function linear_smt_model(clauses::AbstractVector{<:AbstractVector{<:Integer}},
     model
 end
 
+function _numeric_linear_problem(clauses, atoms::AbstractDict{<:Integer,<:Union{LinearConstraint,EqualityConstraint}})
+    linear_atoms = Dict{Int,LinearConstraint}()
+    disequality_atoms = Set{Int}()
+    for (identifier, atom) in atoms
+        identifier > 0 || throw(ArgumentError("SMT atom identifiers must be positive"))
+        id = Int(identifier)
+        if atom isa LinearConstraint
+            linear_atoms[id] = atom
+        else
+            coefficients = Dict{Symbol,Rational{BigInt}}(atom.left => 1)
+            coefficients[atom.right] = get(coefficients, atom.right, 0) - 1
+            iszero(coefficients[atom.right]) && delete!(coefficients, atom.right)
+            linear_atoms[id] = LinearConstraint(coefficients, :eq, 0)
+            atom.relation === :ne && push!(disequality_atoms, id)
+        end
+    end
+    transformed = [Int[(abs(literal) in disequality_atoms) ? -literal : literal
+                       for literal in clause] for clause in clauses]
+    transformed, linear_atoms, disequality_atoms
+end
+
+"""
+    rational_smt_satisfiable(clauses, atoms) -> Bool
+
+Decide a DPLL(T) problem containing exact rational linear atoms and equality or
+disequality atoms over the same rational variables. Equality atoms are
+translated to `x - y = 0`; disequality atoms are translated with the exact
+strict-order branching already used by the linear theory. This entry point is
+not for uninterpreted equality terms, which belong to `smt_satisfiable`.
+"""
+function rational_smt_satisfiable(clauses::AbstractVector{<:AbstractVector{<:Integer}},
+                                  atoms::AbstractDict{<:Integer,<:Union{LinearConstraint,EqualityConstraint}})
+    transformed, linear_atoms, _ = _numeric_linear_problem(clauses, atoms)
+    linear_smt_satisfiable(transformed, linear_atoms)
+end
+
+"""
+    rational_smt_model(clauses, atoms) -> Union{NamedTuple, Nothing}
+
+Return Boolean and exact rational witnesses for `rational_smt_satisfiable`.
+The Boolean assignments use the caller's equality/disequality atom semantics,
+not the internal equality normalization.
+"""
+function rational_smt_model(clauses::AbstractVector{<:AbstractVector{<:Integer}},
+                            atoms::AbstractDict{<:Integer,<:Union{LinearConstraint,EqualityConstraint}})
+    transformed, linear_atoms, disequality_atoms = _numeric_linear_problem(clauses, atoms)
+    model = linear_smt_model(transformed, linear_atoms)
+    model === nothing && return nothing
+    booleans = copy(model.booleans)
+    for identifier in disequality_atoms
+        booleans[identifier] = !booleans[identifier]
+    end
+    (booleans=booleans, rationals=model.rationals)
+end
+
 export LinearConstraint, linear_satisfiable, linear_model, linear_smt_satisfiable, linear_smt_model
+export rational_smt_satisfiable, rational_smt_model
