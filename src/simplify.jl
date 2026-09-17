@@ -48,9 +48,9 @@ function simplify(expr, rules::AbstractVector; mode::Symbol=:fast, assumptions=n
     merged_assumptions = if assumptions === nothing
         current
     elseif current === nothing
-        assumptions
+        _normalize_facts(assumptions)
     else
-        vcat(current, assumptions)
+        vcat(current, _normalize_facts(assumptions))
     end
     task_local_storage(:osr_assumptions, merged_assumptions) do
     if mode == :fast && on_step === nothing

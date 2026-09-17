@@ -37,7 +37,7 @@ function is_integer(x)
     if x isa SymbolicUtils.BasicSymbolic && SymbolicUtils.symtype(x) <: Integer
         return true
     end
-    check_assumption(ElementOf(x, Integers())) || check_assumption(ElementOf(x, Int))
+    return entailed(x, :integer)
 end
 
 """
@@ -71,7 +71,9 @@ export GreaterThan, LessThan, IsInteger, IsPositive, IsNegative, IsNonzero
 """
     check_assumption(predicate)
 
-Checks if `predicate` is in the `task_local_storage(:osr_assumptions)`.
+Checks whether `predicate` is one of the hypotheses in scope, comparing it
+literally.  The domain predicates use [`entailed`](@ref) instead, which also
+accepts a hypothesis that merely implies the property.
 """
 function check_assumption(predicate)
     ctx = get(task_local_storage(), :osr_assumptions, nothing)
@@ -90,23 +92,14 @@ function is_positive(x)
     value isa Real && return value > 0
     # A complex number has no sign, so its positivity is settled, not unknown.
     value === nothing || return false
-    # Check both old-style predicates and DomainSets
-    check_assumption(IsPositive(x)) || 
-    check_assumption(GreaterThan(x, 0)) ||
-    check_assumption(ElementOf(x, 0..Inf)) ||
-    check_assumption(ElementOf(x, OpenInterval(0, Inf))) ||
-    check_assumption(ElementOf(x, HalfLine()))
+    return entailed(x, :positive)
 end
 
 function is_negative(x)
     value = osr_number(x)
     value isa Real && return value < 0
     value === nothing || return false
-    check_assumption(IsNegative(x)) || 
-    check_assumption(LessThan(x, 0)) ||
-    check_assumption(ElementOf(x, -Inf..0)) ||
-    check_assumption(ElementOf(x, OpenInterval(-Inf, 0))) ||
-    check_assumption(ElementOf(x, NegativeHalfLine()))
+    return entailed(x, :negative)
 end
 
 """
@@ -119,7 +112,7 @@ is deliberately not treated as nonzero.
 function is_nonzero(x)
     value = osr_number(x)
     value === nothing || return !iszero(value)
-    check_assumption(IsNonzero(x)) || is_positive(x) || is_negative(x)
+    return entailed(x, :nonzero)
 end
 
 function is_real(x)
@@ -128,7 +121,7 @@ function is_real(x)
     if x isa SymbolicUtils.BasicSymbolic && SymbolicUtils.symtype(x) <: Real
         return true
     end
-    check_assumption(ElementOf(x, Reals())) || check_assumption(ElementOf(x, Real))
+    return entailed(x, :real)
 end
 
 function is_complex(x)
@@ -137,7 +130,7 @@ function is_complex(x)
     if x isa SymbolicUtils.BasicSymbolic && SymbolicUtils.symtype(x) <: Complex
         return true
     end
-    check_assumption(ElementOf(x, ComplexPlane())) || check_assumption(ElementOf(x, Complex)) || is_real(x)
+    return entailed(x, :complex)
 end
 
 export is_positive, is_negative, is_nonzero, FreeQ, is_integer, is_numeric, NotEqual, is_real, is_complex
@@ -157,7 +150,8 @@ end
 """
 function assuming(f, assumptions...)
     current = get(task_local_storage(), :osr_assumptions, nothing)
-    new_assumptions = current === nothing ? collect(assumptions) : vcat(current, collect(assumptions))
+    facts = _normalize_facts(assumptions)
+    new_assumptions = current === nothing ? facts : vcat(current, facts)
     task_local_storage(f, :osr_assumptions, new_assumptions)
 end
 

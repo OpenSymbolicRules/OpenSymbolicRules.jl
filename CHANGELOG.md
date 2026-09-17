@@ -43,6 +43,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   whose variable occurs free in the replacement.
 - `alpha_equivalent`, comparing two expressions up to a consistent renaming of
   their bound variables.
+- `entailed`, which decides a property of a term from the hypotheses in scope by
+  what their domains imply rather than by a literal match, so `x ∈ 2..5` proves
+  positivity, nonzeroness, and realness at once.
+- `normalize_fact`, which reads a host's own membership hypothesis as an OSR
+  fact; the Symbolics extension uses it for `Symbolics.VarDomainPairing`.
 - `Piecewise`, `Piece`, and `Otherwise` heads bound to the OpenMath `piece1`
   content dictionary, with `piecewise_pieces` to read the branches,
   `decide_condition` for the three-valued judgement of a condition, and
@@ -90,6 +95,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   point.
 
 ### Fixed
+- Decide `is_real` and `is_complex` for a symbolic argument.  Both referred to
+  `Reals()` and `ComplexPlane()`, which `DomainSets.jl` does not define, so any
+  rule constrained by `RealQ` or `ComplexQ` raised an `UndefVarError` instead of
+  answering.
+- Stop treating `x ∈ 0..Inf` and `x ∈ HalfLine()` as proofs of positivity.  Both
+  domains are closed at zero and so contain it.
+- Accept a `NegativeHalfLine` or a `RealLine` in `x ∈ domain`, which previously
+  raised a method ambiguity.
+- Read a hypothesis written with Symbolics' `∈` operator.  Once `Symbolics.jl`
+  was loaded its method won, and the resulting `VarDomainPairing` silently
+  constrained nothing.
 - Traverse collection arguments in `free_variables`, `occurs_free`,
   `osr_substitute`, and `alpha_equivalent`.  A branch or element list was
   invisible to scope analysis, so its variables were reported as neither free

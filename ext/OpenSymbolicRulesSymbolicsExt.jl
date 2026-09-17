@@ -6,6 +6,20 @@ using SymbolicUtils
 using SymbolicUtils: operation, arguments, iscall
 using SymbolicUtils.Rewriters: Postwalk
 
+"""
+    normalize_fact(pairing::Symbolics.VarDomainPairing)
+
+Read a `Symbolics.jl` membership hypothesis as OSR facts.  Once `Symbolics` is
+loaded its `∈` method wins over the one this package defines, so `x ∈ 2..5`
+builds a `VarDomainPairing` rather than an `ElementOf`.
+"""
+function OpenSymbolicRules.normalize_fact(pairing::Symbolics.VarDomainPairing)
+    variables = pairing.variables
+    variables isa Tuple || variables isa AbstractVector || (variables = (variables,))
+    return Any[OpenSymbolicRules.ElementOf(Symbolics.unwrap(variable), pairing.domain)
+               for variable in variables]
+end
+
 function OpenSymbolicRules.to_osr(expr)
     Postwalk(x -> begin
         if iscall(x)

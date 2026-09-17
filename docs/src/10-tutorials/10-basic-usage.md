@@ -150,6 +150,40 @@ simplify(Power(x, 0), power_rules)                         # unchanged
 simplify(Power(x, 0), power_rules; assumptions=[IsNonzero(x)]) # 1
 ```
 
+### What a hypothesis establishes
+
+A hypothesis proves every property its domain implies, not only the one it was
+written as. Membership can be declared with a `DomainSets.jl` domain, an
+`IntervalSets.jl` interval, or a Julia type:
+
+```julia
+assuming(x ∈ 2..5) do
+    is_positive(x) # true
+    is_nonzero(x)  # true
+    is_real(x)     # true
+    is_integer(x)  # false — an interval of reals proves nothing about integrality
+end
+
+assuming(x ∈ Integers()) do
+    is_integer(x) # true
+    is_real(x)    # true
+end
+```
+
+A bound at zero only excludes zero when it is open, so `x ∈ 0..Inf` is not a
+proof of positivity while `x ∈ OpenInterval(0, Inf)` is. The relational
+hypotheses `IsPositive`, `IsNegative`, `IsNonzero`, `IsInteger`, `GreaterThan`,
+and `LessThan` work the same way: `GreaterThan(x, 5)` proves positivity,
+`GreaterThan(x, -3)` only proves that `x` is real.
+
+Each hypothesis is weighed on its own, so the context is sound but does not
+combine two hypotheses into a third: `x ∈ ℤ` proves integrality and `x > 0`
+proves positivity, yet neither alone proves that `x` is a positive integer.
+
+When `Symbolics.jl` is loaded, its `∈` builds a `VarDomainPairing` instead of
+the package's `ElementOf`. Such a hypothesis is read as an OSR fact on entry, so
+`assuming(x ∈ 2..5)` behaves the same either way.
+
 ## Wildcards
 
 A rule's pattern declares its wildcards; its result and its constraints refer to
