@@ -25,6 +25,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   disequalities, and exact linear arithmetic.
 - Conservative exact consistency checks for CAS sign and bound assumptions.
 - Exact interval-membership bounds in rational assumption consistency checks.
+- Exact DPLL(T) handling of nonzero assumptions in the rational fragment.
 - Exact sparse multivariate polynomial normal forms over rational coefficients,
   including `:lex`, `:grlex`, and `:grevlex` orders, S-polynomials,
   Buchberger bases, and ideal-membership checks.

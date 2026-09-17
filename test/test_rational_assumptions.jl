@@ -17,7 +17,7 @@ end
 
     @syms x
 
-    @test rational_assumptions_satisfiable([IsNonzero(x)]) === nothing
+    @test rational_assumptions_satisfiable([IsNonzero(x)]) === true
     @test rational_assumptions_satisfiable([GreaterThan(x, sin(x))]) === nothing
 end
 
@@ -30,4 +30,15 @@ end
 
     @test rational_assumptions_satisfiable([x ∈ 1..2, LessThan(x, 1)]) === false
     @test rational_assumptions_satisfiable([x ∈ OpenInterval(0, 2), GreaterThan(x, 1)]) === true
+end
+
+@testitem "Rational assumption consistency handles nonzero disjunctions" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+    using IntervalSets
+
+    @syms x
+
+    @test rational_assumptions_satisfiable([IsNonzero(x), x ∈ 0..0]) === false
+    @test rational_assumptions_satisfiable([IsNonzero(x), x ∈ -1..1]) === true
 end

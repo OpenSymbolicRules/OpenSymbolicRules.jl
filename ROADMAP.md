@@ -66,8 +66,9 @@
 - [x] **Formal Context & Assumptions:** Implement a rigorous context system (`x ∈ Reals`, `x > 0`) using `task_local_storage` or `DomainSets.jl` so that rules are only applied when formally valid. Each hypothesis is weighed on its own, so the context does not yet combine two hypotheses into a third; that is what SMT delegation in Phase 5 is for.
 - [~] **Assumption consistency:** The exact rational SMT layer now detects
   contradictions among supported sign, numeric-bound, and interval-membership
-  hypotheses. Extend the bridge to nonzero disjunctions and conditional rule
-  dispatch while retaining an explicit `unknown` outcome for unsupported facts.
+  hypotheses. Nonzero hypotheses now retain their required disjunction through
+  DPLL(T). Extend the bridge to conditional rule dispatch while retaining an
+  explicit `unknown` outcome for unsupported facts.
 - [x] **Binders and Capture-Avoiding Substitution:** Complete lexical `Lambda`, quantifier, sum, product, integral, and derivative handling with alpha-renaming and capture-avoiding substitution.
 - [x] **Piecewise Expressions:** Represent `Piecewise` branches and their conditions so that real/complex domains, absolute values, roots, and logarithms retain their validity conditions.
 - [x] **Equivalence Verifier:** `prove(A, B, rules; assumptions)` and `prove(A ~ B, rules)` search for a rewrite path between A and B and return an `OSRProof`. Joining the two normal forms is sound but incomplete, so a failure reads "not proved" rather than "unequal"; equality saturation would be the way to close that gap.

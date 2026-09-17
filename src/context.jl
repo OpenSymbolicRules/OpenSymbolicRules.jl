@@ -201,6 +201,16 @@ function _rational_assumption_constraints(fact)
     nothing
 end
 
+function _rational_nonzero_variable(fact)
+    fact = _literal(fact)
+    iscall(fact) || return nothing
+    _operation_name(operation(fact)) === :IsNonzero || return nothing
+    operands = arguments(fact)
+    length(operands) == 1 || return nothing
+    variable = _rational_assumption_variable(only(operands))
+    variable isa Symbol ? variable : nothing
+end
+
 """
     rational_assumptions_satisfiable(facts) -> Union{Bool, Nothing}
 
@@ -208,17 +218,30 @@ Check a supported collection of CAS hypotheses with the exact rational linear
 theory. `true` means the converted hypotheses have a rational model, `false`
 means they are contradictory, and `nothing` means at least one hypothesis is
 outside this deliberately conservative fragment. Supported facts are
-`IsPositive(x)`, `IsNegative(x)`, `GreaterThan(x, c)`, and `LessThan(x, c)`
-for a named symbolic variable `x` and an exact rational constant `c`.
+`IsPositive(x)`, `IsNegative(x)`, `IsNonzero(x)`, `GreaterThan(x, c)`, and
+`LessThan(x, c)` for a named symbolic variable `x` and an exact rational
+constant `c`.
 """
 function rational_assumptions_satisfiable(facts)
-    constraints = LinearConstraint[]
+    atoms = Dict{Int,LinearConstraint}()
+    clauses = Vector{Vector{Int}}()
     for fact in _normalize_facts(facts)
+        nonzero_variable = _rational_nonzero_variable(fact)
+        if nonzero_variable !== nothing
+            identifier = length(atoms) + 1
+            atoms[identifier] = LinearConstraint(Dict(nonzero_variable => 1), :eq, 0)
+            push!(clauses, [-identifier])
+            continue
+        end
         converted = _rational_assumption_constraints(fact)
         converted === nothing && return nothing
-        append!(constraints, converted)
+        for constraint in converted
+            identifier = length(atoms) + 1
+            atoms[identifier] = constraint
+            push!(clauses, [identifier])
+        end
     end
-    linear_satisfiable(constraints)
+    linear_smt_satisfiable(clauses, atoms)
 end
 
 export entailed, normalize_fact, rational_assumptions_satisfiable
