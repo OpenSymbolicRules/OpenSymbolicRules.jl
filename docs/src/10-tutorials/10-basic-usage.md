@@ -506,5 +506,6 @@ linear_smt_satisfiable([[1, 2]], atoms) # x ≤ 0 ∨ x > 1; true
 linear_smt_satisfiable([[1], [2]], atoms) # false
 ```
 
-Negated equalities are deliberately rejected for now: their correct encoding
-is disjunctive, and will be introduced with proof-producing clause generation.
+Negated equalities are expanded exactly as `a < b ∨ a > b`; the solver keeps
+those alternatives as explicit theory branches. Proof-producing explanations
+remain the next SMT milestone.

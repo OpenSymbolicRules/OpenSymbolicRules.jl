@@ -41,3 +41,18 @@ end
     # Negating x ≤ 0 means x > 0, which is represented exactly.
     @test linear_smt_satisfiable([[-1], [2]], atoms)
 end
+
+@testitem "DPLL(T) encodes negated equalities as exact branches" begin
+    using OpenSymbolicRules
+
+    atoms = Dict(
+        1 => LinearConstraint(Dict(:x => 1), :eq, 0),
+        2 => LinearConstraint(Dict(:x => 1), :le, 0),
+        3 => LinearConstraint(Dict(:x => -1), :le, 0),
+    )
+
+    # x ≠ 0 and x ≤ 0 is satisfiable (x < 0).
+    @test linear_smt_satisfiable([[-1], [2]], atoms)
+    # x ≠ 0, x ≤ 0, and x ≥ 0 is contradictory.
+    @test !linear_smt_satisfiable([[-1], [2], [3]], atoms)
+end

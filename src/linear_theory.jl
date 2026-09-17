@@ -111,29 +111,35 @@ function linear_satisfiable(constraints::AbstractVector{<:LinearConstraint})
     true
 end
 
-function _negate(constraint::LinearConstraint)
-    relation = if constraint.relation === :le
-        :lt
+function _negated_alternatives(constraint::LinearConstraint)
+    if constraint.relation === :le
+        return LinearConstraint[LinearConstraint(_negated_coefficients(constraint.coefficients),
+                                                 :lt, -constraint.bound)]
     elseif constraint.relation === :lt
-        :le
-    else
-        throw(ArgumentError("a negated equality requires a disjunction and cannot be one linear theory literal"))
+        return LinearConstraint[LinearConstraint(_negated_coefficients(constraint.coefficients),
+                                                 :le, -constraint.bound)]
     end
-    LinearConstraint(_negated_coefficients(constraint.coefficients), relation, -constraint.bound)
+    # ¬(a = b) is the disjunction a < b ∨ a > b. Keeping both branches
+    # explicit avoids treating a failed equality as an unproved inequality.
+    return LinearConstraint[
+        LinearConstraint(copy(constraint.coefficients), :lt, constraint.bound),
+        LinearConstraint(_negated_coefficients(constraint.coefficients), :lt, -constraint.bound),
+    ]
 end
 
-function _theory_constraints(assignment::Dict{Int,Bool}, atoms::AbstractDict{<:Integer,<:LinearConstraint})
-    constraints = LinearConstraint[]
+function _theory_branches(assignment::Dict{Int,Bool}, atoms::AbstractDict{<:Integer,<:LinearConstraint})
+    branches = [LinearConstraint[]]
     for (variable, value) in assignment
         atom = get(atoms, variable, nothing)
         atom === nothing && continue
-        push!(constraints, value ? atom : _negate(atom))
+        alternatives = value ? LinearConstraint[atom] : _negated_alternatives(atom)
+        branches = [vcat(branch, alternative) for branch in branches for alternative in alternatives]
     end
-    constraints
+    branches
 end
 
 function _linear_smt_dpll(clauses::Vector{Vector{Int}}, atoms, assignment::Dict{Int,Bool})
-    linear_satisfiable(_theory_constraints(assignment, atoms)) || return false
+    any(linear_satisfiable, _theory_branches(assignment, atoms)) || return false
     isempty(clauses) && return true
     any(isempty, clauses) && return false
 
@@ -160,8 +166,8 @@ constraints. `clauses` uses DIMACS literals and `atoms` maps each positive atom
 number to a `LinearConstraint`. The solver combines the local pure-Julia DPLL
 search with Fourier--Motzkin theory consistency checks.
 
-Negating `:le` and `:lt` atoms is supported exactly. Negated equality is not
-accepted yet because it is a disjunction rather than one linear literal.
+Negated equality is expanded exactly into its strict-less-than and
+strict-greater-than theory branches.
 """
 function linear_smt_satisfiable(clauses::AbstractVector{<:AbstractVector{<:Integer}},
                                 atoms::AbstractDict{<:Integer,<:LinearConstraint})

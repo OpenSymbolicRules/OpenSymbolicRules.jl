@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   elimination, including strict inequalities and equality.
 - A pure-Julia DPLL(T) entry point combining CNF Boolean search with exact
   rational linear theory atoms.
+- Exact branching for negated linear equalities in the DPLL(T) solver.
 - Exact sparse multivariate polynomial normal forms over rational coefficients,
   including `:lex`, `:grlex`, and `:grevlex` orders, S-polynomials,
   Buchberger bases, and ideal-membership checks.

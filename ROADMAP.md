@@ -95,8 +95,9 @@
   propositional CNF without external solvers, and an exact rational
   Fourier--Motzkin theory solver decides conjunctions of linear constraints;
   the two are now connected through DPLL(T). Add equality propagation,
-  disjunctive negated-equality encoding, and checkable proof evidence. The
-  default engine shall remain pure Julia with no native solver dependency.
+  and checkable proof evidence. Negated equalities are now encoded as their
+  exact strict-order alternatives. The default engine shall remain pure Julia
+  with no native solver dependency.
   Interoperability with SMT-LIB and explicit adapters to external solvers may
   be added later, but must remain opt-in and never change the result status or
   proof obligations silently.
