@@ -596,3 +596,13 @@ rational_assumptions_satisfiable([x ∈ 1..2, LessThan(x, 1)]) # false
 `simplify` performs this consistency check for supplied assumptions. A context
 proven contradictory raises `ArgumentError`; an unsupported fact remains
 conservative and does not block rewriting.
+
+Supported facts can also combine to discharge a conditional predicate. For
+example, neither `x ∈ [0,2]` nor `x ≠ 0` alone proves positivity, while their
+combination does.
+
+```julia
+assuming(x ∈ 0..2, IsNonzero(x)) do
+    is_positive(x) # true
+end
+```

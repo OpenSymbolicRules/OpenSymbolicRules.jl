@@ -138,6 +138,25 @@ end
     end
 end
 
+@testitem "Rational hypotheses combine for conditional predicates" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+    using IntervalSets
+    using OpenSymbolicRules: is_positive
+
+    @syms x
+
+    assuming(x ∈ 0..2) do
+        @test !is_positive(x)
+    end
+
+    assuming(x ∈ 0..2) do
+        assuming(IsNonzero(x)) do
+            @test is_positive(x)
+        end
+    end
+end
+
 @testitem "A hypothesis constrains only the term it is about" begin
     using OpenSymbolicRules
     using SymbolicUtils

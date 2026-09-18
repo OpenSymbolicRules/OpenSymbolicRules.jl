@@ -28,6 +28,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Exact DPLL(T) handling of nonzero assumptions in the rational fragment.
 - Rejection of `simplify` calls whose supplied rational assumptions are proven
   contradictory.
+- Combined rational-hypothesis entailment for conditional predicates.
 - Exact sparse multivariate polynomial normal forms over rational coefficients,
   including `:lex`, `:grlex`, and `:grevlex` orders, S-polynomials,
   Buchberger bases, and ideal-membership checks.

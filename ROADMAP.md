@@ -69,7 +69,9 @@
   hypotheses. Nonzero hypotheses now retain their required disjunction through
   DPLL(T), and `simplify` rejects a context proven contradictory. Extend the
   bridge to individual conditional rule dispatch while retaining an explicit
-  `unknown` outcome for unsupported facts.
+  `unknown` outcome for unsupported facts. Conditional sign and nonzero
+  predicates now also combine supported hypotheses through counterexample
+  checks.
 - [x] **Binders and Capture-Avoiding Substitution:** Complete lexical `Lambda`, quantifier, sum, product, integral, and derivative handling with alpha-renaming and capture-avoiding substitution.
 - [x] **Piecewise Expressions:** Represent `Piecewise` branches and their conditions so that real/complex domains, absolute values, roots, and logarithms retain their validity conditions.
 - [x] **Equivalence Verifier:** `prove(A, B, rules; assumptions)` and `prove(A ~ B, rules)` search for a rewrite path between A and B and return an `OSRProof`. Joining the two normal forms is sound but incomplete, so a failure reads "not proved" rather than "unequal"; equality saturation would be the way to close that gap.

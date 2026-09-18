@@ -139,7 +139,24 @@ function entailed(subject, property::Symbol)
     for fact in context
         _fact_entails(fact, subject, property) && return true
     end
-    return false
+    variable = _rational_assumption_variable(subject)
+    variable isa Symbol || return false
+    counterconstraint = if property === :positive
+        LinearConstraint(Dict(variable => 1), :le, 0)
+    elseif property === :negative
+        LinearConstraint(Dict(_rational_assumption_variable(subject) => -1), :le, 0)
+    elseif property === :nonzero
+        LinearConstraint(Dict(_rational_assumption_variable(subject) => 1), :eq, 0)
+    else
+        return false
+    end
+    problem = _rational_assumption_problem(context)
+    problem === nothing && return false
+    clauses, atoms = problem
+    identifier = length(atoms) + 1
+    atoms[identifier] = counterconstraint
+    push!(clauses, [identifier])
+    linear_smt_satisfiable(clauses, atoms) === false
 end
 
 function _rational_assumption_variable(expression)
@@ -222,7 +239,7 @@ outside this deliberately conservative fragment. Supported facts are
 `LessThan(x, c)` for a named symbolic variable `x` and an exact rational
 constant `c`.
 """
-function rational_assumptions_satisfiable(facts)
+function _rational_assumption_problem(facts)
     atoms = Dict{Int,LinearConstraint}()
     clauses = Vector{Vector{Int}}()
     for fact in _normalize_facts(facts)
@@ -241,6 +258,13 @@ function rational_assumptions_satisfiable(facts)
             push!(clauses, [identifier])
         end
     end
+    clauses, atoms
+end
+
+function rational_assumptions_satisfiable(facts)
+    problem = _rational_assumption_problem(facts)
+    problem === nothing && return nothing
+    clauses, atoms = problem
     linear_smt_satisfiable(clauses, atoms)
 end
 
