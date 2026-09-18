@@ -34,6 +34,10 @@ _symbol_key(symbol::OpenMath.OMSymbol) = (symbol.cd, symbol.name)
 _to_openmath(value) = value isa SymbolicUtils.BasicSymbolic ?
     OpenSymbolicRules.to_openmath(value) : OpenMath.to_openmath(value)
 
+"""Export an OSR collection with the OpenMath `list1#list` semantics."""
+OpenSymbolicRules.to_openmath(values::AbstractVector) =
+    OpenMath.OMSymbol("list1", "list")((_to_openmath(value) for value in values)...)
+
 function _bound_variable(value)
     value = OpenSymbolicRules._literal(value)
     if value isa SymbolicUtils.BasicSymbolic && !SymbolicUtils.iscall(value)
@@ -168,6 +172,10 @@ function OpenSymbolicRules.from_openmath(object::OpenMath.OMApplication)
             "OpenMath nums1#rational requires integer arguments"))
         return numerator // denominator
     end
+
+    key == ("list1", "list") && return [
+        OpenSymbolicRules.from_openmath(argument) for argument in object.arguments
+    ]
 
     if key == ("arith1", "root")
         length(object.arguments) == 2 || throw(ArgumentError(

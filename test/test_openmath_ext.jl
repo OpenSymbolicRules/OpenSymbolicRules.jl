@@ -81,3 +81,17 @@ end
     recovered = OpenSymbolicRules.from_openmath(object)
     @test isequal(recovered, expression)
 end
+
+@testitem "OpenMath extension keeps OSR collections distinct from vectors" begin
+    using OpenMath
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms x
+    collection = Any[x, 1, Sin(x)]
+    object = OpenSymbolicRules.to_openmath(collection)
+
+    @test object.applicant == OpenMath.OMSymbol("list1", "list")
+    @test object.arguments[2] == OpenMath.OMInteger(1)
+    @test isequal(OpenSymbolicRules.from_openmath(object), collection)
+end

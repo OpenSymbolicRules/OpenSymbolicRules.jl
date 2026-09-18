@@ -17,14 +17,15 @@
 - [x] Basic parsing of OSR JSON into Julia AST.
 - [~] **OpenMath Interoperability:** An optional `OpenMath.jl` extension now
   converts core arithmetic, propositional logic, and canonical
-  lambda-bound derivatives, and piecewise OSR/SymbolicUtils expressions,
-  including exact rationals, to and from typed OpenMath objects.
+  lambda-bound derivatives, piecewise expressions, and structural lists
+  OSR/SymbolicUtils expressions, including exact rationals, to and from typed
+  OpenMath objects.
   Use its Content Dictionary registry, validation, canonicalisation, and
   XML/JSON/MathML/binary encodings at import and export boundaries. Keep
   OpenMath optional and outside rewriting hot paths; OSR rule identities,
   constraints, provenance, and execution semantics remain owned by this
-  package. Extend the bridge next to limits, integrals, lists, matrices,
-  tensors, and explicit sort information.
+  package. Extend the bridge next to limits, integrals, matrices, tensors, and
+  explicit sort information.
 - [x] `@load_osr` macro for Ahead-Of-Time (AOT) rule compilation.
 - [x] Mapping of primitive constraints (e.g., `is_integer`) to Julia `where` clauses.
 - [x] **Advanced Predicates Mapping:** A standard library of Julia predicates for the OSR constraint vocabulary — comparison, integer-qualified, numeric-domain, structural, and polynomial predicates plus the `Not`/`And`/`Or` combinators — covering 97% of the constraint applications in the RUBI dataset.
