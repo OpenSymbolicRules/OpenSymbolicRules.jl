@@ -74,6 +74,15 @@
   implicitly when an exact rational, algebraic expression, irrational constant
   such as `π`, or symbolic term is available. Canonicalise exact constants and
   periodic coefficients without evaluating them numerically.
+- [ ] **Semantic constant registry:** Define constants by stable OpenMath
+  Content Dictionary identity rather than host-language spelling: for example
+  `nums1#pi`, `nums1#e`, `nums1#infinity`, and `complex1#i`. Keep integers and
+  rationals as exact literals, represent algebraic values structurally (for
+  example a square root rather than an opaque `sqrt2` constant), and mark every
+  floating approximation with its precision. Domain-specific constants must
+  declare their CD symbol, sort, exactness, optional unit/value reference,
+  version, and provenance. Export/import must never silently turn a named
+  exact constant into `Float64`.
 - [ ] **Declarative variable domains:** Let variables carry optional, explicit
   domain facts such as scalar sort, real/complex domain, intervals, sign,
   nonzero status, units, and dimensions. Merge these facts into the existing
