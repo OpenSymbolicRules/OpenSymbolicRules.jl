@@ -315,13 +315,17 @@ piecewise = OpenSymbolicRules.to_openmath(
 
 collection = OpenSymbolicRules.to_openmath([x, 1, Sin(x)])
 # OMA(OMS(list1#list), OMV(x), OMI(1), OMA(OMS(transc1#sin), OMV(x)))
+
+limit = OpenSymbolicRules.to_openmath(
+    Limit(0, BothSides, Lambda(x, Divide(Sin(x), x))))
+# OMA(OMS(limit1#limit), OMI(0), OMS(limit1#both_sides), OMBIND(...))
 ```
 
 The extension is deliberately optional and only runs at interchange
 boundaries; OSR rewriting does not depend on OpenMath.jl.  It currently covers
 core arithmetic, selected trigonometric and exponential, propositional-logic,
 canonical lambda-bound derivative, ordered piecewise, and structural list
-heads.  Unsupported
+heads, plus canonical limits. Unsupported
 OpenMath symbols or OSR heads raise an explicit error,
 which prevents silently assigning incorrect semantics.
 

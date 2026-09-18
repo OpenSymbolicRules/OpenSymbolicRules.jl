@@ -11,7 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   propositional-logic OSR/SymbolicUtils expressions, exact rational literals,
   canonical lambda-bound derivatives, and ordered piecewise branches through
   typed OpenMath objects; OSR collections use `list1#list`, never the linear
-  algebra `linalg2#vector` symbol.
+  algebra `linalg2#vector` symbol; canonical limits retain their point,
+  approach, and lambda-bound expression.
 - A dependency-free, pure-Julia DPLL SAT kernel for CNF constraints, as the
   Boolean foundation for future DPLL(T) theory solving.
 - Exact rational linear-constraint feasibility by Fourier--Motzkin

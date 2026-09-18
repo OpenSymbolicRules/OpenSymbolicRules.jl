@@ -95,3 +95,18 @@ end
     @test object.arguments[2] == OpenMath.OMInteger(1)
     @test isequal(OpenSymbolicRules.from_openmath(object), collection)
 end
+
+@testitem "OpenMath extension preserves canonical limits" begin
+    using OpenMath
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms x
+    expression = Limit(0, BothSides, Lambda(x, Divide(Sin(x), x)))
+    object = OpenSymbolicRules.to_openmath(expression)
+
+    @test object.applicant == OpenMath.OMSymbol("limit1", "limit")
+    @test object.arguments[2] == OpenMath.OMSymbol("limit1", "both_sides")
+    @test object.arguments[3] isa OpenMath.OMBinding
+    @test isequal(OpenSymbolicRules.from_openmath(object), expression)
+end

@@ -23,6 +23,8 @@ const _OSR_TO_OPENMATH = Dict{Symbol, OpenMath.OMSymbol}(
     :Nand => OpenMath.OMSymbol("logic1", "nand"),
     :Nor => OpenMath.OMSymbol("logic1", "nor"),
     :Xor => OpenMath.OMSymbol("logic1", "xor"),
+    :Limit => OpenMath.OMSymbol("limit1", "limit"),
+    :BothSides => OpenMath.OMSymbol("limit1", "both_sides"),
 )
 
 const _OPENMATH_TO_OSR = Dict{Tuple{String, String}, Any}(
@@ -111,7 +113,9 @@ function OpenSymbolicRules.to_openmath(expr::SymbolicUtils.BasicSymbolic)
             for argument in SymbolicUtils.arguments(expr))...)
     end
 
-    return OpenMath.OMVariable(String(SymbolicUtils.getname(expr)))
+    name = SymbolicUtils.getname(expr)
+    name === :BothSides && return _OSR_TO_OPENMATH[:BothSides]
+    return OpenMath.OMVariable(String(name))
 end
 
 OpenSymbolicRules.from_openmath(object::OpenMath.OMInteger) = object.value
@@ -136,6 +140,7 @@ function OpenSymbolicRules.from_openmath(object::OpenMath.OMSymbol)
     key = _symbol_key(object)
     key == ("logic1", "true") && return true
     key == ("logic1", "false") && return false
+    key == ("limit1", "both_sides") && return OpenSymbolicRules.BothSides
     throw(ArgumentError("OpenMath symbol `$(object.cd)#$(object.name)` is not an OSR expression"))
 end
 
