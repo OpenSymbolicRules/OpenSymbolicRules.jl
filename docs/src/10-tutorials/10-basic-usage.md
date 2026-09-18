@@ -287,6 +287,32 @@ the canonical OpenMath-aligned representation `Derivative(Lambda(x, f))`.
 `to_symbolics` performs the inverse conversion, preserving the differentiation
 variable and expression.
 
+## OpenMath Interoperability
+
+Loading the optional `OpenMath.jl` package activates an extension that exports
+core arithmetic and propositional-logic expressions as typed OpenMath objects.
+It uses Content Dictionary symbols, so the representation can then be
+validated or written using OpenMath's XML, JSON, MathML, or binary encodings.
+
+```julia
+using OpenMath
+using OpenSymbolicRules
+using SymbolicUtils
+
+@syms x
+object = OpenMath.to_openmath(Add(x, 3 // 2))
+# OMA(OMS(arith1#plus), OMV(x), OMA(OMS(nums1#rational), OMI(3), OMI(2)))
+
+expression = OpenSymbolicRules.from_openmath(object)
+# Add(x, 3//2)
+```
+
+The extension is deliberately optional and only runs at interchange
+boundaries; OSR rewriting does not depend on OpenMath.jl.  It currently covers
+core arithmetic, selected trigonometric and exponential, and
+propositional-logic heads.  Unsupported OpenMath symbols or OSR heads raise an explicit error,
+which prevents silently assigning incorrect semantics.
+
 ## Loading a Profile
 
 An OSR repository can expose an ordered default profile and named rewrite

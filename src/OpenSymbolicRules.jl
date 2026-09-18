@@ -29,6 +29,15 @@ export FreeQ, is_integer, is_numeric, NotEqual
 export build_simplifier
 
 """
+    from_openmath(object)
+
+Convert a typed OpenMath object into an OSR/SymbolicUtils expression.  This
+function is available when the optional `OpenMath.jl` extension is loaded.
+"""
+function from_openmath end
+export from_openmath
+
+"""
     _DEFAULT_SEMANTICS
 
 OpenMath Content Dictionary symbol of every canonical OSR head.  A rule file

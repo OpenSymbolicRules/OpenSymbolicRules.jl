@@ -15,10 +15,12 @@ SymbolicUtils = "d1185830-fcd6-423d-90d6-eec64667417b"
 
 [weakdeps]
 Giac = "e4421f97-9838-4fd0-9fa5-94f11373bf78"
+OpenMath = "a3e62119-7808-4860-a560-991581b033be"
 Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
 
 [extensions]
 OpenSymbolicRulesGiacExt = "Giac"
+OpenSymbolicRulesOpenMathExt = "OpenMath"
 OpenSymbolicRulesSymbolicsExt = "Symbolics"
 
 [compat]
@@ -26,6 +28,7 @@ DomainSets = "0.8.2"
 Giac = "0.14.3"
 IntervalSets = "0.7.14"
 JSON = "1.8.0"
+OpenMath = "0.0.1"
 PrecompileTools = "1.3.4"
 SymbolicUtils = "4.46.6"
 Symbolics = "7.39.2"
