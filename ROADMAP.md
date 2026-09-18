@@ -56,6 +56,19 @@
   immediately normalize to the single canonical OSR/OpenMath representation;
   do not introduce a second expression tree, duplicated semantics, or a
   persistent adaptation layer.
+- [ ] **Specialised normal-form operations:** Build domain-scoped operations
+  with explicit domains, assumptions, result statuses, and testable normal-form
+  contracts. Algebra needs `expand`, `collect_terms` (rather than the
+  conflicting `Base.collect`), `factor`, `cancel`, `together`, `apart`,
+  `numerator`, `denominator`, coefficients, degrees, leading terms, content,
+  primitive parts, gcds, and resultants. Trigonometry and elementary functions
+  need `expand_trig`, `factor_trig`, `simplify_trig`, logarithm/power expansion
+  and combination, and controlled `rewrite(expression, target_form)`. Calculus
+  needs series and residues in addition to differentiation, integration, and
+  limits. Logic needs CNF, DNF, NNF, Boolean simplification, and eventually
+  quantifier elimination. Matrix and tensor variants must wait for the
+  shape- and index-aware model. An operation may report `unchanged` or
+  `unevaluated`; it must never claim an unavailable normal form.
 
 ## Phase 3: Calculus & The RUBI Integration Challenge 🚀
 **Goal:** Achieve state-of-the-art symbolic integration and calculus features.
