@@ -64,3 +64,20 @@ end
     @test SymbolicUtils.operation(recovered) === Derivative
     @test SymbolicUtils.operation(only(SymbolicUtils.arguments(recovered))) === Lambda
 end
+
+@testitem "OpenMath extension preserves ordered piecewise branches" begin
+    using OpenMath
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms x y
+    expression = Piecewise([Piece(x, And(true, false)), Otherwise(y)])
+    object = OpenSymbolicRules.to_openmath(expression)
+
+    @test object.applicant == OpenMath.OMSymbol("piece1", "piecewise")
+    @test object.arguments[1].applicant == OpenMath.OMSymbol("piece1", "piece")
+    @test object.arguments[2].applicant == OpenMath.OMSymbol("piece1", "otherwise")
+
+    recovered = OpenSymbolicRules.from_openmath(object)
+    @test isequal(recovered, expression)
+end

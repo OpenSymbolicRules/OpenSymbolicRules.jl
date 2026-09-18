@@ -46,6 +46,22 @@ function _bound_variable(value)
     throw(ArgumentError("an OSR Lambda variable must be a bare symbolic variable"))
 end
 
+function _piecewise_part(branch)
+    branch = OpenSymbolicRules._literal(branch)
+    SymbolicUtils.iscall(branch) || throw(ArgumentError(
+        "an OSR Piecewise branch must be Piece(value, condition) or Otherwise(value)"))
+    head = Symbol(nameof(SymbolicUtils.operation(branch)))
+    arguments = SymbolicUtils.arguments(branch)
+    if head === :Piece && length(arguments) == 2
+        return OpenMath.OMSymbol("piece1", "piece")(
+            _to_openmath(arguments[1]), _to_openmath(arguments[2]))
+    elseif head === :Otherwise && length(arguments) == 1
+        return OpenMath.OMSymbol("piece1", "otherwise")(_to_openmath(only(arguments)))
+    end
+    throw(ArgumentError(
+        "an OSR Piecewise branch must be Piece(value, condition) or Otherwise(value)"))
+end
+
 function OpenSymbolicRules.to_openmath(expr::SymbolicUtils.BasicSymbolic)
     literal = OpenSymbolicRules._literal(expr)
     literal !== expr && return _to_openmath(literal)
@@ -67,6 +83,16 @@ function OpenSymbolicRules.to_openmath(expr::SymbolicUtils.BasicSymbolic)
                 throw(OpenMath.OpenMathConversionError(typeof(expr),
                     "OpenMath calculus1#diff requires Derivative(Lambda(variable, body))"))
             return OpenMath.OMSymbol("calculus1", "diff")(_to_openmath(lambda))
+        elseif head === :Piecewise
+            length(arguments) == 1 || throw(OpenMath.OpenMathConversionError(
+                typeof(expr), "OSR Piecewise requires exactly one branch collection"))
+            branches = OpenSymbolicRules.osr_collection(only(arguments))
+            branches === nothing && throw(OpenMath.OpenMathConversionError(
+                typeof(expr), "OSR Piecewise requires a branch collection"))
+            isempty(branches) && throw(OpenMath.OpenMathConversionError(
+                typeof(expr), "OSR Piecewise requires at least one branch"))
+            return OpenMath.OMSymbol("piece1", "piecewise")(
+                (_piecewise_part(branch) for branch in branches)...)
         end
         if head === :Sqrt
             length(arguments) == 1 || throw(OpenMath.OpenMathConversionError(
@@ -109,6 +135,24 @@ function OpenSymbolicRules.from_openmath(object::OpenMath.OMSymbol)
     throw(ArgumentError("OpenMath symbol `$(object.cd)#$(object.name)` is not an OSR expression"))
 end
 
+function _from_piecewise_part(object::OpenMath.OMNode)
+    object isa OpenMath.OMApplication || throw(ArgumentError(
+        "OpenMath piece1#piecewise arguments must be applications"))
+    applicant = object.applicant
+    applicant isa OpenMath.OMSymbol || throw(ArgumentError(
+        "OpenMath piece1#piecewise arguments require symbol applicants"))
+    key = _symbol_key(applicant)
+    if key == ("piece1", "piece") && length(object.arguments) == 2
+        return OpenSymbolicRules.Piece(
+            OpenSymbolicRules.from_openmath(object.arguments[1]),
+            OpenSymbolicRules.from_openmath(object.arguments[2]))
+    elseif key == ("piece1", "otherwise") && length(object.arguments) == 1
+        return OpenSymbolicRules.Otherwise(
+            OpenSymbolicRules.from_openmath(only(object.arguments)))
+    end
+    throw(ArgumentError("invalid OpenMath piece1#piecewise branch"))
+end
+
 function OpenSymbolicRules.from_openmath(object::OpenMath.OMApplication)
     applicant = object.applicant
     applicant isa OpenMath.OMSymbol || throw(ArgumentError(
@@ -143,6 +187,16 @@ function OpenSymbolicRules.from_openmath(object::OpenMath.OMApplication)
             Symbol(nameof(SymbolicUtils.operation(lambda))) === :Lambda ||
             throw(ArgumentError("OpenMath calculus1#diff requires an fns1#lambda binding"))
         return OpenSymbolicRules.Derivative(lambda)
+    end
+
+    if key == ("piece1", "piecewise")
+        isempty(object.arguments) && throw(ArgumentError(
+            "OpenMath piece1#piecewise requires at least one branch"))
+        branches = [_from_piecewise_part(part) for part in object.arguments]
+        SymbolicUtils.iscall(last(branches)) &&
+            Symbol(nameof(SymbolicUtils.operation(last(branches)))) === :Otherwise ||
+            throw(ArgumentError("OpenMath piece1#piecewise requires a final piece1#otherwise"))
+        return OpenSymbolicRules.Piecewise(branches)
     end
 
     head = get(_OPENMATH_TO_OSR, key, nothing)

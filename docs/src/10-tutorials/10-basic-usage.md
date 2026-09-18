@@ -308,12 +308,17 @@ expression = OpenSymbolicRules.from_openmath(object)
 
 derivative = OpenSymbolicRules.to_openmath(Derivative(Lambda(x, Power(x, 2))))
 # OMA(OMS(calculus1#diff), OMBIND(OMS(fns1#lambda), [x], ...))
+
+piecewise = OpenSymbolicRules.to_openmath(
+    Piecewise([Piece(x, And(true, false)), Otherwise(0)]))
+# OMA(OMS(piece1#piecewise), OMA(OMS(piece1#piece), ...), OMA(OMS(piece1#otherwise), OMI(0)))
 ```
 
 The extension is deliberately optional and only runs at interchange
 boundaries; OSR rewriting does not depend on OpenMath.jl.  It currently covers
 core arithmetic, selected trigonometric and exponential, propositional-logic,
-and canonical lambda-bound derivative heads.  Unsupported OpenMath symbols or OSR heads raise an explicit error,
+canonical lambda-bound derivative, and ordered piecewise heads.  Unsupported
+OpenMath symbols or OSR heads raise an explicit error,
 which prevents silently assigning incorrect semantics.
 
 ## Loading a Profile

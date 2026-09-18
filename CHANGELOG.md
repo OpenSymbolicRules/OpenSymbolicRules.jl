@@ -9,7 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - An optional OpenMath.jl extension which round-trips core arithmetic and
   propositional-logic OSR/SymbolicUtils expressions, exact rational literals,
-  and canonical lambda-bound derivatives through typed OpenMath objects.
+  canonical lambda-bound derivatives, and ordered piecewise branches through
+  typed OpenMath objects.
 - A dependency-free, pure-Julia DPLL SAT kernel for CNF constraints, as the
   Boolean foundation for future DPLL(T) theory solving.
 - Exact rational linear-constraint feasibility by Fourier--Motzkin
