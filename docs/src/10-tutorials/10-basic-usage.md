@@ -519,6 +519,14 @@ satisfiable([[1, 2], [-1, 2], [1, -2]]) # true
 satisfiable([[1], [-1]])                # false
 ```
 
+The structured operation API keeps solver selection and result status explicit:
+
+```julia
+result = solve(SATProblem([[1, 2], [-1, 2]]))
+result isa SatResult # true
+result.model          # directly checkable witness
+```
+
 This is the Boolean component of a planned pure-Julia DPLL(T) architecture.
 Theory reasoning, such as equality and rational linear arithmetic, is added
 only when its result can retain explicit assumptions and proof obligations.
