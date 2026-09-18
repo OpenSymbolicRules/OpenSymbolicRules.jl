@@ -58,3 +58,14 @@ end
     @test isempty(incomplete.roots)
     @test !incomplete.complete
 end
+
+@testitem "Equation solving delegates to exact polynomial roots" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms x
+    result = solve(x^2 - 3x + 2 ~ 0, x)
+    @test result isa PolynomialRootsResult
+    @test result.roots == [(root=1 // 1, multiplicity=1), (root=2 // 1, multiplicity=1)]
+    @test result.complete
+end

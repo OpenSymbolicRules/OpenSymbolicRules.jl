@@ -498,6 +498,14 @@ root_result = solve(UnivariatePolynomialProblem(
 root_result.roots
 root_result.complete # true only when no unresolved factor remains
 
+The same exact fragment is available from an equation:
+
+```julia
+@syms x
+solve(x^2 - 3x + 2 ~ 0, x).roots
+# [(root = 1//1, multiplicity = 1), (root = 2//1, multiplicity = 1)]
+```
+
 spoly(p, q; ordering=:lex)              # y² + x
 normal_form(p, [q]; ordering=:grevlex)  # normal form modulo q
 g = groebner_basis([p, q]; ordering=:lex)

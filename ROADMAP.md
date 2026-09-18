@@ -159,8 +159,8 @@
   core. Add multivariate invariants and algorithm-independent property tests
   with no mandatory native dependency.
 - [~] **Equation Solving:** Exact rational-root extraction is available for
-  univariate rational polynomials and exposed through a structured solver
-  result. Implement `solve(eq, x)` with algebraic isolation rules, complete
+  univariate rational polynomials, exposed through a structured solver result,
+  and reachable as `solve(eq, x)`. Add algebraic isolation rules, complete
   solution sets, and explicit exclusions.
 - [ ] **Conditional and periodic solution sets:** Represent all solution
   branches, periodic integer-parameter families, exclusions, multiplicities,
