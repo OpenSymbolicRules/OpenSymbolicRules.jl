@@ -123,3 +123,21 @@ end
     @test OpenSymbolicRules.from_openmath(OpenMath.OMSymbol("nums1", "e")) === ℯ
     @test OpenSymbolicRules.from_openmath(OpenMath.OMSymbol("complex1", "i")) === im
 end
+
+@testitem "OpenMath extension covers trigonometric and hyperbolic heads" begin
+    using OpenMath
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms x
+    for (expression, symbol) in (
+        (Cot(x), OpenMath.OMSymbol("transc1", "cot")),
+        (Asec(x), OpenMath.OMSymbol("transc1", "arcsec")),
+        (Csch(x), OpenMath.OMSymbol("transc1", "csch")),
+        (Acoth(x), OpenMath.OMSymbol("transc1", "arccoth")),
+    )
+        object = OpenSymbolicRules.to_openmath(expression)
+        @test object.applicant == symbol
+        @test isequal(OpenSymbolicRules.from_openmath(object), expression)
+    end
+end

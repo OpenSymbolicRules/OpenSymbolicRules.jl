@@ -326,7 +326,7 @@ OpenSymbolicRules.to_openmath(π)
 
 The extension is deliberately optional and only runs at interchange
 boundaries; OSR rewriting does not depend on OpenMath.jl.  It currently covers
-core arithmetic, selected trigonometric and exponential, propositional-logic,
+core arithmetic, trigonometric and hyperbolic, exponential, propositional-logic,
 canonical lambda-bound derivative, ordered piecewise, and structural list
 heads, plus canonical limits. Unsupported
 OpenMath symbols or OSR heads raise an explicit error,

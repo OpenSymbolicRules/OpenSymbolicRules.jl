@@ -15,6 +15,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   approach, and lambda-bound expression.
 - Exact OpenMath round trips for the universal constants `π`, `e`, and `i`,
   preserving their Content Dictionary identities instead of approximating them.
+- OpenMath round trips for the complete built-in trigonometric, inverse
+  trigonometric, hyperbolic, and inverse hyperbolic head families.
 - A dependency-free, pure-Julia DPLL SAT kernel for CNF constraints, as the
   Boolean foundation for future DPLL(T) theory solving.
 - Exact rational linear-constraint feasibility by Fourier--Motzkin
