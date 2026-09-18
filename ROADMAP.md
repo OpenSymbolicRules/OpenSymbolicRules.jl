@@ -158,7 +158,9 @@
   and square-free decomposition are available over the rational polynomial
   core. Add multivariate invariants and algorithm-independent property tests
   with no mandatory native dependency.
-- [ ] **Equation Solving:** Implement `solve(eq, x)` using OSR algebraic isolation rules.
+- [~] **Equation Solving:** Exact rational-root extraction is available for
+  univariate rational polynomials. Implement structured `solve(eq, x)` with
+  algebraic isolation rules, complete solution sets, and explicit exclusions.
 - [ ] **Conditional and periodic solution sets:** Represent all solution
   branches, periodic integer-parameter families, exclusions, multiplicities,
   and required assumptions structurally. Solvers must return these conditions

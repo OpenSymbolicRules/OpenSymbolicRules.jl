@@ -75,3 +75,18 @@ end
     ]
     @test_throws ArgumentError squarefree_decomposition(SparsePolynomial([:x], Dict()))
 end
+
+@testitem "Exact rational polynomial roots" begin
+    using OpenSymbolicRules
+
+    polynomial = SparsePolynomial([:x], Dict(
+        (4,) => 2, (3,) => 1, (2,) => -6, (1,) => 1, (0,) => 2,
+    )) # 2(x - 1)^2(x + 2)(x + 1//2)
+    @test rational_roots(polynomial) == [
+        (root=-2 // 1, multiplicity=1),
+        (root=-1 // 2, multiplicity=1),
+        (root=1 // 1, multiplicity=2),
+    ]
+    @test rational_roots(SparsePolynomial([:x], Dict((2,) => 1, (0,) => -2))) == []
+    @test_throws ArgumentError rational_roots(SparsePolynomial([:x], Dict()))
+end

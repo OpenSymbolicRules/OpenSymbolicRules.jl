@@ -23,6 +23,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   including repeated-root detection through the derivative resultant.
 - Exact univariate square-free decomposition with monic factors and explicit
   multiplicities over the rational polynomial core.
+- Exact rational-root extraction for univariate polynomials, returning only
+  provable rational roots and their multiplicities.
 - An optional OpenMath.jl extension which round-trips core arithmetic and
   propositional-logic OSR/SymbolicUtils expressions, exact rational literals,
   canonical lambda-bound derivatives, and ordered piecewise branches through

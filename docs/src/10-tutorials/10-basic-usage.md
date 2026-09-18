@@ -489,6 +489,10 @@ squarefree_decomposition(
                                 (2,) => -10, (1,) => -4, (0,) => 8)))
 # [(factor = x - 1, multiplicity = 2), (factor = x + 2, multiplicity = 3)]
 
+# Only exact rational roots are returned; irrational roots are never approximated.
+rational_roots(SparsePolynomial([:x], Dict((2,) => 2, (1,) => -3, (0,) => 1)))
+# [(root = 1//2, multiplicity = 1), (root = 1//1, multiplicity = 1)]
+
 spoly(p, q; ordering=:lex)              # y² + x
 normal_form(p, [q]; ordering=:grevlex)  # normal form modulo q
 g = groebner_basis([p, q]; ordering=:lex)

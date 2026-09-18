@@ -294,6 +294,67 @@ function squarefree_decomposition(polynomial::SparsePolynomial)
     factors
 end
 
+function _positive_divisors(value::BigInt)
+    value > 0 || return BigInt[]
+    divisors = BigInt[]
+    candidate = BigInt(1)
+    while candidate * candidate <= value
+        if value % candidate == 0
+            push!(divisors, candidate)
+            partner = div(value, candidate)
+            partner == candidate || push!(divisors, partner)
+        end
+        candidate += 1
+    end
+    sort!(divisors)
+end
+
+function _evaluate_univariate(polynomial::SparsePolynomial, value::Rational{BigInt})
+    _univariate_coefficients(polynomial)
+    sum((coefficient * value^exponent[1] for (exponent, coefficient) in polynomial.terms);
+        init=zero(Rational{BigInt}))
+end
+
+"""
+    rational_roots(polynomial) -> Vector{NamedTuple}
+
+Return every rational root of a nonzero univariate rational polynomial and its
+exact multiplicity. Irreducible factors of degree greater than one are omitted;
+this function never approximates algebraic or transcendental roots.
+"""
+function rational_roots(polynomial::SparsePolynomial)
+    coefficients = _univariate_coefficients(polynomial)
+    isempty(coefficients) && throw(ArgumentError("the zero polynomial has no roots"))
+    _univariate_degree(polynomial) <= 0 && return NamedTuple{(:root, :multiplicity),Tuple{Rational{BigInt},Int}}[]
+    denominator_scale = foldl(lcm, (denominator(coefficient) for coefficient in coefficients); init=BigInt(1))
+    integer_coefficients = BigInt[numerator(coefficient) * div(denominator_scale, denominator(coefficient))
+                                  for coefficient in coefficients]
+    leading, constant = first(integer_coefficients), last(integer_coefficients)
+    candidates = Set{Rational{BigInt}}()
+    if iszero(constant)
+        push!(candidates, zero(Rational{BigInt}))
+    else
+        for numerator_value in _positive_divisors(abs(constant)),
+            denominator_value in _positive_divisors(abs(leading))
+            candidate = numerator_value // denominator_value
+            push!(candidates, candidate, -candidate)
+        end
+    end
+    remaining = polynomial
+    roots = NamedTuple{(:root, :multiplicity),Tuple{Rational{BigInt},Int}}[]
+    for root in sort!(collect(candidates))
+        _evaluate_univariate(remaining, root) == 0 || continue
+        factor = SparsePolynomial(polynomial.variables, Dict((1,) => 1, (0,) => -root))
+        multiplicity = 0
+        while _evaluate_univariate(remaining, root) == 0
+            remaining = _univariate_exact_quotient(remaining, factor)
+            multiplicity += 1
+        end
+        push!(roots, (root=root, multiplicity=multiplicity))
+    end
+    roots
+end
+
 function _constant_polynomial(variables, value)
     SparsePolynomial(variables, Dict(ntuple(_ -> 0, length(variables)) => value))
 end
@@ -402,4 +463,4 @@ end
 # Keep low-level leading-term and S-polynomial primitives qualified.  They are
 # useful for inspecting an algorithm, but are not part of the everyday API.
 export SparsePolynomial, normal_form, groebner_basis, ideal_membership
-export to_sparse_polynomial, to_symbolic_polynomial, resultant, discriminant, squarefree_decomposition
+export to_sparse_polynomial, to_symbolic_polynomial, resultant, discriminant, squarefree_decomposition, rational_roots
