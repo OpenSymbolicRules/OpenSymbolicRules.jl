@@ -69,6 +69,21 @@
   quantifier elimination. Matrix and tensor variants must wait for the
   shape- and index-aware model. An operation may report `unchanged` or
   `unevaluated`; it must never claim an unavailable normal form.
+- [ ] **Exactness and canonical constants:** Treat exactness as an invariant of
+  every symbolic transformation. Never introduce floating-point approximations
+  implicitly when an exact rational, algebraic expression, irrational constant
+  such as `π`, or symbolic term is available. Canonicalise exact constants and
+  periodic coefficients without evaluating them numerically.
+- [ ] **Declarative variable domains:** Let variables carry optional, explicit
+  domain facts such as scalar sort, real/complex domain, intervals, sign,
+  nonzero status, units, and dimensions. Merge these facts into the existing
+  assumption context with provenance and an explicit `unknown` outcome rather
+  than treating metadata as an unconditional rewrite licence.
+- [ ] **Expression-protocol boundary:** Validate the expression adapter used at
+  the SymbolicUtils/TermInterface boundary: applications must expose a complete
+  operation-and-arguments interface, and literals, variables, applications,
+  and collections must remain distinguishable. Keep OSR's own semantic
+  classification independent of host representation accidents.
 
 ## Phase 3: Calculus & The RUBI Integration Challenge 🚀
 **Goal:** Achieve state-of-the-art symbolic integration and calculus features.
@@ -120,7 +135,15 @@
   variables, and operators outside the requested ring.
 - [ ] **Polynomial-system solving:** Build elimination and solution-set APIs on
   the exact sparse core without weakening exact-domain guarantees.
+- [ ] **Polynomial invariants:** Add exact square-free decomposition,
+  discriminants, and resultants over the rational polynomial core, with
+  algorithm-independent property tests and no mandatory native dependency.
 - [ ] **Equation Solving:** Implement `solve(eq, x)` using OSR algebraic isolation rules.
+- [ ] **Conditional and periodic solution sets:** Represent all solution
+  branches, periodic integer-parameter families, exclusions, multiplicities,
+  and required assumptions structurally. Solvers must return these conditions
+  alongside their solutions, never print them as incidental logging or discard
+  valid branches.
 - [ ] **Sets, Relations, and Intervals:** Add membership, inclusion, unions, intersections, inequalities, and solution-set expressions as first-class symbolic structures.
 - [ ] **Units, Dimensions, and Uncertainties:** Track physical dimensions as semantic properties of expressions, rejecting dimensionally invalid rewrites. Build a `DynamicQuantities.jl` integration first, aligned with `SymbolicUncertainties.jl`, so values and their uncertainty terms retain compatible dimensions; provide `Unitful.jl` interoperability at the boundary rather than duplicating dimensional semantics.
 - [ ] **Trigonometry & Special Functions:** Integrate standard rules for Bessel functions, Gamma, Hypergeometric, etc.
