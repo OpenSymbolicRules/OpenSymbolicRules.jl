@@ -40,6 +40,18 @@ _to_openmath(value) = value isa SymbolicUtils.BasicSymbolic ?
 OpenSymbolicRules.to_openmath(values::AbstractVector) =
     OpenMath.OMSymbol("list1", "list")((_to_openmath(value) for value in values)...)
 
+function OpenSymbolicRules.to_openmath(value::Irrational)
+    value === π && return OpenMath.OMSymbol("nums1", "pi")
+    value === ℯ && return OpenMath.OMSymbol("nums1", "e")
+    throw(OpenMath.OpenMathConversionError(typeof(value),
+        "no OpenMath Content Dictionary symbol is registered for this irrational constant"))
+end
+
+function OpenSymbolicRules.to_openmath(value::Complex)
+    value === im && return OpenMath.OMSymbol("complex1", "i")
+    return OpenMath.to_openmath(value)
+end
+
 function _bound_variable(value)
     value = OpenSymbolicRules._literal(value)
     if value isa SymbolicUtils.BasicSymbolic && !SymbolicUtils.iscall(value)
@@ -141,6 +153,9 @@ function OpenSymbolicRules.from_openmath(object::OpenMath.OMSymbol)
     key == ("logic1", "true") && return true
     key == ("logic1", "false") && return false
     key == ("limit1", "both_sides") && return OpenSymbolicRules.BothSides
+    key == ("nums1", "pi") && return π
+    key == ("nums1", "e") && return ℯ
+    key == ("complex1", "i") && return im
     throw(ArgumentError("OpenMath symbol `$(object.cd)#$(object.name)` is not an OSR expression"))
 end
 

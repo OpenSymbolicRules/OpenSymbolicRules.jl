@@ -110,3 +110,16 @@ end
     @test object.arguments[3] isa OpenMath.OMBinding
     @test isequal(OpenSymbolicRules.from_openmath(object), expression)
 end
+
+@testitem "OpenMath extension preserves universal exact constants" begin
+    using OpenMath
+    using OpenSymbolicRules
+
+    @test OpenSymbolicRules.to_openmath(π) == OpenMath.OMSymbol("nums1", "pi")
+    @test OpenSymbolicRules.to_openmath(ℯ) == OpenMath.OMSymbol("nums1", "e")
+    @test OpenSymbolicRules.to_openmath(im) == OpenMath.OMSymbol("complex1", "i")
+
+    @test OpenSymbolicRules.from_openmath(OpenMath.OMSymbol("nums1", "pi")) === π
+    @test OpenSymbolicRules.from_openmath(OpenMath.OMSymbol("nums1", "e")) === ℯ
+    @test OpenSymbolicRules.from_openmath(OpenMath.OMSymbol("complex1", "i")) === im
+end

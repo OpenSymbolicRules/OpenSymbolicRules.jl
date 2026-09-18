@@ -319,6 +319,9 @@ collection = OpenSymbolicRules.to_openmath([x, 1, Sin(x)])
 limit = OpenSymbolicRules.to_openmath(
     Limit(0, BothSides, Lambda(x, Divide(Sin(x), x))))
 # OMA(OMS(limit1#limit), OMI(0), OMS(limit1#both_sides), OMBIND(...))
+
+OpenSymbolicRules.to_openmath(π)
+# OMS(nums1#pi)
 ```
 
 The extension is deliberately optional and only runs at interchange
