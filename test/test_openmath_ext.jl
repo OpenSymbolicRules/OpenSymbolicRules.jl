@@ -45,3 +45,22 @@ end
     @test object.arguments[2] == OpenMath.OMInteger(2)
     @test SymbolicUtils.operation(OpenSymbolicRules.from_openmath(object)) === Sqrt
 end
+
+@testitem "OpenMath extension preserves lambda-bound derivatives" begin
+    using OpenMath
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms x
+    expression = Derivative(Lambda(x, Power(x, 2)))
+    object = OpenSymbolicRules.to_openmath(expression)
+
+    @test object.applicant == OpenMath.OMSymbol("calculus1", "diff")
+    @test object.arguments[1] isa OpenMath.OMBinding
+    @test object.arguments[1].binder == OpenMath.OMSymbol("fns1", "lambda")
+    @test only(object.arguments[1].variables).name == "x"
+
+    recovered = OpenSymbolicRules.from_openmath(object)
+    @test SymbolicUtils.operation(recovered) === Derivative
+    @test SymbolicUtils.operation(only(SymbolicUtils.arguments(recovered))) === Lambda
+end

@@ -16,13 +16,14 @@
   constructor.
 - [x] Basic parsing of OSR JSON into Julia AST.
 - [~] **OpenMath Interoperability:** An optional `OpenMath.jl` extension now
-  converts core arithmetic and propositional-logic OSR/SymbolicUtils
-  expressions, including exact rationals, to and from typed OpenMath objects.
+  converts core arithmetic, propositional logic, and canonical
+  lambda-bound derivatives OSR/SymbolicUtils expressions, including exact
+  rationals, to and from typed OpenMath objects.
   Use its Content Dictionary registry, validation, canonicalisation, and
   XML/JSON/MathML/binary encodings at import and export boundaries. Keep
   OpenMath optional and outside rewriting hot paths; OSR rule identities,
   constraints, provenance, and execution semantics remain owned by this
-  package. Extend the bridge next to calculus, binders, lists, piecewise
+  package. Extend the bridge next to limits, integrals, lists, piecewise
   expressions, matrices, tensors, and explicit sort information.
 - [x] `@load_osr` macro for Ahead-Of-Time (AOT) rule compilation.
 - [x] Mapping of primitive constraints (e.g., `is_integer`) to Julia `where` clauses.

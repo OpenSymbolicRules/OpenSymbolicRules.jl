@@ -34,14 +34,41 @@ _symbol_key(symbol::OpenMath.OMSymbol) = (symbol.cd, symbol.name)
 _to_openmath(value) = value isa SymbolicUtils.BasicSymbolic ?
     OpenSymbolicRules.to_openmath(value) : OpenMath.to_openmath(value)
 
+function _bound_variable(value)
+    value = OpenSymbolicRules._literal(value)
+    if value isa SymbolicUtils.BasicSymbolic && !SymbolicUtils.iscall(value)
+        return OpenMath.OMBoundVariable(String(SymbolicUtils.getname(value)))
+    elseif value isa Symbol
+        return OpenMath.OMBoundVariable(String(value))
+    elseif value isa AbstractString
+        return OpenMath.OMBoundVariable(value)
+    end
+    throw(ArgumentError("an OSR Lambda variable must be a bare symbolic variable"))
+end
+
 function OpenSymbolicRules.to_openmath(expr::SymbolicUtils.BasicSymbolic)
     literal = OpenSymbolicRules._literal(expr)
     literal !== expr && return _to_openmath(literal)
 
     if SymbolicUtils.iscall(expr)
         head = Symbol(nameof(SymbolicUtils.operation(expr)))
+        arguments = SymbolicUtils.arguments(expr)
+        if head === :Lambda
+            length(arguments) == 2 || throw(OpenMath.OpenMathConversionError(
+                typeof(expr), "OSR Lambda requires a variable and a body"))
+            return OpenMath.OMBinding(OpenMath.OMSymbol("fns1", "lambda"),
+                [_bound_variable(arguments[1])], _to_openmath(arguments[2]))
+        elseif head === :Derivative
+            length(arguments) == 1 || throw(OpenMath.OpenMathConversionError(
+                typeof(expr), "OpenMath calculus1#diff requires Derivative(Lambda(variable, body))"))
+            lambda = only(arguments)
+            SymbolicUtils.iscall(lambda) &&
+                Symbol(nameof(SymbolicUtils.operation(lambda))) === :Lambda ||
+                throw(OpenMath.OpenMathConversionError(typeof(expr),
+                    "OpenMath calculus1#diff requires Derivative(Lambda(variable, body))"))
+            return OpenMath.OMSymbol("calculus1", "diff")(_to_openmath(lambda))
+        end
         if head === :Sqrt
-            arguments = SymbolicUtils.arguments(expr)
             length(arguments) == 1 || throw(OpenMath.OpenMathConversionError(
                 typeof(expr), "OSR Sqrt requires exactly one argument"))
             return OpenMath.OMSymbol("arith1", "root")(
@@ -62,6 +89,18 @@ OpenSymbolicRules.from_openmath(object::OpenMath.OMFloat) = object.value
 OpenSymbolicRules.from_openmath(object::OpenMath.OMString) = object.value
 OpenSymbolicRules.from_openmath(object::OpenMath.OMVariable) =
     SymbolicUtils.Sym{SymbolicUtils.SymReal}(Symbol(object.name); type=Real)
+
+function OpenSymbolicRules.from_openmath(object::OpenMath.OMBinding)
+    binder = object.binder
+    binder isa OpenMath.OMSymbol && _symbol_key(binder) == ("fns1", "lambda") ||
+        throw(ArgumentError("only OpenMath fns1#lambda bindings map to OSR Lambda"))
+    length(object.variables) == 1 || throw(ArgumentError(
+        "OSR Lambda currently requires exactly one bound variable"))
+    variable = OpenSymbolicRules.from_openmath(
+        OpenMath.OMVariable(only(object.variables).name))
+    return OpenSymbolicRules.Lambda(variable,
+        OpenSymbolicRules.from_openmath(object.body))
+end
 
 function OpenSymbolicRules.from_openmath(object::OpenMath.OMSymbol)
     key = _symbol_key(object)
@@ -94,6 +133,16 @@ function OpenSymbolicRules.from_openmath(object::OpenMath.OMApplication)
             "only OpenMath arith1#root with degree 2 maps to OSR Sqrt"))
         return OpenSymbolicRules.Sqrt(
             OpenSymbolicRules.from_openmath(object.arguments[1]))
+    end
+
+    if key == ("calculus1", "diff")
+        length(object.arguments) == 1 || throw(ArgumentError(
+            "OpenMath calculus1#diff requires exactly one lambda argument"))
+        lambda = OpenSymbolicRules.from_openmath(only(object.arguments))
+        SymbolicUtils.iscall(lambda) &&
+            Symbol(nameof(SymbolicUtils.operation(lambda))) === :Lambda ||
+            throw(ArgumentError("OpenMath calculus1#diff requires an fns1#lambda binding"))
+        return OpenSymbolicRules.Derivative(lambda)
     end
 
     head = get(_OPENMATH_TO_OSR, key, nothing)

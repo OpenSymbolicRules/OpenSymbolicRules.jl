@@ -305,12 +305,15 @@ object = OpenSymbolicRules.to_openmath(Add(x, 3 // 2))
 
 expression = OpenSymbolicRules.from_openmath(object)
 # Add(x, 3//2)
+
+derivative = OpenSymbolicRules.to_openmath(Derivative(Lambda(x, Power(x, 2))))
+# OMA(OMS(calculus1#diff), OMBIND(OMS(fns1#lambda), [x], ...))
 ```
 
 The extension is deliberately optional and only runs at interchange
 boundaries; OSR rewriting does not depend on OpenMath.jl.  It currently covers
-core arithmetic, selected trigonometric and exponential, and
-propositional-logic heads.  Unsupported OpenMath symbols or OSR heads raise an explicit error,
+core arithmetic, selected trigonometric and exponential, propositional-logic,
+and canonical lambda-bound derivative heads.  Unsupported OpenMath symbols or OSR heads raise an explicit error,
 which prevents silently assigning incorrect semantics.
 
 ## Loading a Profile
