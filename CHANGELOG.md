@@ -9,6 +9,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - A structured SAT operation API with `SATProblem`, `solve`, selectable
   backends, and explicit satisfiable, unsatisfiable, or unknown results.
+- Integration with the lightweight MIT-licensed `CommonSolve.jl` interface, so
+  CAS solver backends extend the ecosystem-standard `solve` function.
 - An exact pure-Julia univariate Sylvester resultant over the sparse rational
   polynomial core.
 - An optional OpenMath.jl extension which round-trips core arithmetic and

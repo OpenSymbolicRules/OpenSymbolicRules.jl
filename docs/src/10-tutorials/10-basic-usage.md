@@ -519,7 +519,8 @@ satisfiable([[1, 2], [-1, 2], [1, -2]]) # true
 satisfiable([[1], [-1]])                # false
 ```
 
-The structured operation API keeps solver selection and result status explicit:
+The structured operation API extends `CommonSolve.solve`, keeping solver
+selection and result status explicit while remaining interoperable with SciML:
 
 ```julia
 result = solve(SATProblem([[1, 2], [-1, 2]]))

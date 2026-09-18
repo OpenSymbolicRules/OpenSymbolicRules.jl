@@ -34,8 +34,5 @@ struct UnknownResult <: CASResult
     backend::CASBackend
 end
 
-"""Solve a structured CAS problem with an explicitly selected backend."""
-function solve end
-
 export CASProblem, CASResult, CASBackend, BuiltinBackend, SolveOptions
 export SATProblem, SatResult, UnsatResult, UnknownResult, solve

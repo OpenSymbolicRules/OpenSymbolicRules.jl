@@ -1,6 +1,7 @@
 module OpenSymbolicRules
 
 using JSON
+import CommonSolve: solve
 using PrecompileTools: @setup_workload, @compile_workload
 using SymbolicUtils
 using SymbolicUtils: @rule, Sym, Term
