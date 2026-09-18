@@ -42,3 +42,18 @@ end
     @test resultant(polynomial, shared_root) == 0
     @test resultant(polynomial, disjoint) == 3
 end
+
+@testitem "Exact univariate discriminants" begin
+    using OpenSymbolicRules
+
+    quadratic = SparsePolynomial([:x], Dict((2,) => 1, (0,) => -1))
+    repeated_root = SparsePolynomial([:x], Dict((2,) => 1, (1,) => -2, (0,) => 1))
+    cubic = SparsePolynomial([:x], Dict((3,) => 1, (1,) => -1))
+
+    @test discriminant(quadratic) == 4
+    @test discriminant(repeated_root) == 0
+    @test discriminant(cubic) == 4
+    @test discriminant(SparsePolynomial([:x], Dict((1,) => 3, (0,) => 2))) == 1
+    @test_throws ArgumentError discriminant(SparsePolynomial([:x], Dict()))
+    @test_throws ArgumentError discriminant(SparsePolynomial([:x, :y], Dict((1, 0) => 1)))
+end

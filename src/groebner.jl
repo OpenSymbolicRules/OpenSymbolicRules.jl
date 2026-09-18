@@ -199,6 +199,30 @@ function resultant(left::SparsePolynomial, right::SparsePolynomial)
     _determinant(matrix)
 end
 
+function _univariate_derivative(polynomial::SparsePolynomial)
+    SparsePolynomial(polynomial.variables,
+        Dict((exponent[1] - 1,) => coefficient * exponent[1]
+             for (exponent, coefficient) in polynomial.terms if exponent[1] > 0))
+end
+
+"""
+    discriminant(polynomial) -> Rational{BigInt}
+
+Return the exact discriminant of a nonzero univariate rational polynomial.
+The value is computed from the Sylvester resultant with its formal derivative,
+so it is zero exactly when the polynomial has a repeated root over an algebraic
+closure. Constants and linear polynomials have discriminant one.
+"""
+function discriminant(polynomial::SparsePolynomial)
+    coefficients = _univariate_coefficients(polynomial)
+    isempty(coefficients) && throw(ArgumentError("the zero polynomial has no discriminant"))
+    degree = length(coefficients) - 1
+    degree <= 1 && return one(Rational{BigInt})
+    leading = first(coefficients)
+    sign = isodd(div(degree * (degree - 1), 2)) ? -one(Rational{BigInt}) : one(Rational{BigInt})
+    sign * resultant(polynomial, _univariate_derivative(polynomial)) / leading
+end
+
 function _constant_polynomial(variables, value)
     SparsePolynomial(variables, Dict(ntuple(_ -> 0, length(variables)) => value))
 end
@@ -307,4 +331,4 @@ end
 # Keep low-level leading-term and S-polynomial primitives qualified.  They are
 # useful for inspecting an algorithm, but are not part of the everyday API.
 export SparsePolynomial, normal_form, groebner_basis, ideal_membership
-export to_sparse_polynomial, to_symbolic_polynomial, resultant
+export to_sparse_polynomial, to_symbolic_polynomial, resultant, discriminant
