@@ -1,5 +1,8 @@
 using TestItems
 
+const _OPENMATH_TEST_PROJECT = read(joinpath(@__DIR__, "Project.toml"), String)
+if occursin(r"(?m)^OpenMath\s*=", _OPENMATH_TEST_PROJECT)
+
 @testitem "OpenMath extension exports and imports core symbolic expressions" begin
     using OpenMath
     using OpenSymbolicRules
@@ -157,3 +160,5 @@ end
         @test isequal(OpenSymbolicRules.from_openmath(object), expression)
     end
 end
+
+end # OpenMath is an opt-in test dependency.

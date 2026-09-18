@@ -1,5 +1,8 @@
 using TestItemRunner
 
+const _SIBLING_PROFILE_ROOT = normpath(joinpath(@__DIR__, "..", ".."))
+if isfile(joinpath(_SIBLING_PROFILE_ROOT, "Calculus", "rules", "meta.json"))
+
 @testitem "Current Calculus profile loads with canonical identities" begin
     using OpenSymbolicRules
 
@@ -33,3 +36,5 @@ end
     @test length(trigonometry_rules) == 11
     @test trigonometry_rules[1].name == "trigonometry:1-basic-identities/1.1-pythagorean:1"
 end
+
+end # Sibling repositories are available only in an ecosystem checkout.
