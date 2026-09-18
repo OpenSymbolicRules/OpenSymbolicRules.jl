@@ -17,3 +17,13 @@ using TestItemRunner
     state = CommonSolve.init(SATProblem([[1]]), BuiltinBackend())
     @test CommonSolve.solve!(state) isa SatResult
 end
+
+@testitem "Structured linear SMT operation results" begin
+    using OpenSymbolicRules
+
+    atoms = Dict(1 => LinearConstraint(Dict(:x => 1), :le, 0))
+    result = solve(SMTProblem([[1]], atoms))
+    @test result isa SatResult
+    @test result.model.rationals[:x] <= 0
+    @test solve(SMTProblem([[1], [-1]], atoms)) isa UnsatResult
+end

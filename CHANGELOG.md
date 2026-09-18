@@ -12,6 +12,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Integration with the lightweight MIT-licensed `CommonSolve.jl` interface, so
   CAS solver backends extend the ecosystem-standard `solve` function.
 - A CommonSolve `init`/`solve!` state for the pure-Julia SAT backend.
+- Structured `SMTProblem` support for built-in exact rational linear arithmetic
+  and ground equality theories through the CommonSolve interface.
 - An exact pure-Julia univariate Sylvester resultant over the sparse rational
   polynomial core.
 - An optional OpenMath.jl extension which round-trips core arithmetic and

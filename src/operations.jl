@@ -20,8 +20,17 @@ struct SATProblem <: CASProblem
     end
 end
 
-struct SatResult <: CASResult
-    model::Dict{Int,Bool}
+"""A CNF problem with atoms owned by one built-in SMT theory."""
+struct SMTProblem{A} <: CASProblem
+    clauses::Vector{Vector{Int}}
+    atoms::Dict{Int,A}
+    function SMTProblem(clauses::AbstractVector{<:AbstractVector{<:Integer}}, atoms::AbstractDict{<:Integer,A}) where {A}
+        new{A}(_normalize_clauses(clauses), Dict{Int,A}(Int(key) => value for (key, value) in atoms))
+    end
+end
+
+struct SatResult{T} <: CASResult
+    model::T
     backend::CASBackend
 end
 
@@ -35,4 +44,4 @@ struct UnknownResult <: CASResult
 end
 
 export CASProblem, CASResult, CASBackend, BuiltinBackend, SolveOptions
-export SATProblem, SatResult, UnsatResult, UnknownResult, solve
+export SATProblem, SMTProblem, SatResult, UnsatResult, UnknownResult, solve

@@ -98,9 +98,19 @@ struct _SATState
     options::SolveOptions
 end
 
+struct _SMTState{A}
+    problem::SMTProblem{A}
+    backend::CASBackend
+    options::SolveOptions
+end
+
 CommonSolve.init(problem::SATProblem, backend::CASBackend=BuiltinBackend();
                   options::SolveOptions=SolveOptions()) =
     _SATState(problem, backend, options)
+
+CommonSolve.init(problem::SMTProblem, backend::CASBackend=BuiltinBackend();
+                  options::SolveOptions=SolveOptions()) =
+    _SMTState(problem, backend, options)
 
 function CommonSolve.solve!(state::_SATState)
     state.backend isa BuiltinBackend || return UnknownResult(:unsupported_backend, state.backend)

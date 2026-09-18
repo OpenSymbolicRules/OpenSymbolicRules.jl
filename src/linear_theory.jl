@@ -308,6 +308,13 @@ function linear_smt_model(clauses::AbstractVector{<:AbstractVector{<:Integer}},
     model
 end
 
+function CommonSolve.solve!(state::_SMTState{LinearConstraint})
+    state.backend isa BuiltinBackend || return UnknownResult(:unsupported_backend, state.backend)
+    state.options.require_certificate && return UnknownResult(:certificate_unavailable, state.backend)
+    model = linear_smt_model(state.problem.clauses, state.problem.atoms)
+    model === nothing ? UnsatResult(state.backend) : SatResult(model, state.backend)
+end
+
 function _numeric_linear_problem(clauses, atoms::AbstractDict{<:Integer,<:Union{LinearConstraint,EqualityConstraint}})
     linear_atoms = Dict{Int,LinearConstraint}()
     disequality_atoms = Set{Int}()

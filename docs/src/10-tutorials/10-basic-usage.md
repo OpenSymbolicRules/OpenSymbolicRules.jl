@@ -534,6 +534,14 @@ state = CommonSolve.init(SATProblem([[1]]), BuiltinBackend())
 CommonSolve.solve!(state)
 ```
 
+The same interface covers the exact linear SMT theory:
+
+```julia
+atoms = Dict(1 => LinearConstraint(Dict(:x => 1), :le, 0))
+result = solve(SMTProblem([[1]], atoms))
+result.model.rationals[:x] # an exact rational satisfying x ≤ 0
+```
+
 This is the Boolean component of a planned pure-Julia DPLL(T) architecture.
 Theory reasoning, such as equality and rational linear arithmetic, is added
 only when its result can retain explicit assumptions and proof obligations.

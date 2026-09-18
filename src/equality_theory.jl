@@ -157,4 +157,11 @@ function smt_model(clauses::AbstractVector{<:AbstractVector{<:Integer}},
     model
 end
 
+function CommonSolve.solve!(state::_SMTState{EqualityConstraint})
+    state.backend isa BuiltinBackend || return UnknownResult(:unsupported_backend, state.backend)
+    state.options.require_certificate && return UnknownResult(:certificate_unavailable, state.backend)
+    model = smt_model(state.problem.clauses, state.problem.atoms)
+    model === nothing ? UnsatResult(state.backend) : SatResult(model, state.backend)
+end
+
 export EqualityConstraint, equality_satisfiable, equality_model, smt_satisfiable, smt_model
