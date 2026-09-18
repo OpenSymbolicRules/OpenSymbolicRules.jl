@@ -13,4 +13,7 @@ using TestItemRunner
     unsat = solve(SATProblem([[1], [-1]]))
     @test unsat isa UnsatResult
     @test unsat.backend === BuiltinBackend()
+
+    state = CommonSolve.init(SATProblem([[1]]), BuiltinBackend())
+    @test CommonSolve.solve!(state) isa SatResult
 end

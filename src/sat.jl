@@ -92,11 +92,21 @@ function sat_model(clauses::AbstractVector{<:AbstractVector{<:Integer}})
     model
 end
 
-function solve(problem::SATProblem; backend::CASBackend=BuiltinBackend(), options::SolveOptions=SolveOptions())
-    backend isa BuiltinBackend || return UnknownResult(:unsupported_backend, backend)
-    options.require_certificate && return UnknownResult(:certificate_unavailable, backend)
-    model = sat_model(problem.clauses)
-    model === nothing ? UnsatResult(backend) : SatResult(model, backend)
+struct _SATState
+    problem::SATProblem
+    backend::CASBackend
+    options::SolveOptions
+end
+
+CommonSolve.init(problem::SATProblem, backend::CASBackend=BuiltinBackend();
+                  options::SolveOptions=SolveOptions()) =
+    _SATState(problem, backend, options)
+
+function CommonSolve.solve!(state::_SATState)
+    state.backend isa BuiltinBackend || return UnknownResult(:unsupported_backend, state.backend)
+    state.options.require_certificate && return UnknownResult(:certificate_unavailable, state.backend)
+    model = sat_model(state.problem.clauses)
+    model === nothing ? UnsatResult(state.backend) : SatResult(model, state.backend)
 end
 
 export satisfiable, sat_model

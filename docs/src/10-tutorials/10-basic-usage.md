@@ -523,9 +523,15 @@ The structured operation API extends `CommonSolve.solve`, keeping solver
 selection and result status explicit while remaining interoperable with SciML:
 
 ```julia
+using CommonSolve
+
 result = solve(SATProblem([[1, 2], [-1, 2]]))
 result isa SatResult # true
 result.model          # directly checkable witness
+
+# The same problem can be initialized and solved explicitly.
+state = CommonSolve.init(SATProblem([[1]]), BuiltinBackend())
+CommonSolve.solve!(state)
 ```
 
 This is the Boolean component of a planned pure-Julia DPLL(T) architecture.
