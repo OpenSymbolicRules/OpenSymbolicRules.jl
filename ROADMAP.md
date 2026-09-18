@@ -50,6 +50,12 @@
   proved closed form, a conditional result, an unevaluated symbolic operation,
   an inapplicable operation, and divergence. An unknown result must never be
   rendered as a proved equality.
+- [ ] **Ergonomic CAS API:** Provide high-level constructors such as
+  `limit(expression, variable, point; direction)`, `differentiate`,
+  `integrate`, and `solve` with an expression-first argument order. They must
+  immediately normalize to the single canonical OSR/OpenMath representation;
+  do not introduce a second expression tree, duplicated semantics, or a
+  persistent adaptation layer.
 
 ## Phase 3: Calculus & The RUBI Integration Challenge 🚀
 **Goal:** Achieve state-of-the-art symbolic integration and calculus features.
