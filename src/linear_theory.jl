@@ -370,5 +370,12 @@ function rational_smt_model(clauses::AbstractVector{<:AbstractVector{<:Integer}}
     (booleans=booleans, rationals=model.rationals)
 end
 
+function CommonSolve.solve!(state::_SMTState{<:Union{LinearConstraint,EqualityConstraint}})
+    state.backend isa BuiltinBackend || return UnknownResult(:unsupported_backend, state.backend)
+    state.options.require_certificate && return UnknownResult(:certificate_unavailable, state.backend)
+    model = rational_smt_model(state.problem.clauses, state.problem.atoms)
+    model === nothing ? UnsatResult(state.backend) : SatResult(model, state.backend)
+end
+
 export LinearConstraint, linear_satisfiable, linear_model, linear_smt_satisfiable, linear_smt_model
 export rational_smt_satisfiable, rational_smt_model

@@ -119,4 +119,9 @@ function CommonSolve.solve!(state::_SATState)
     model === nothing ? UnsatResult(state.backend) : SatResult(model, state.backend)
 end
 
+function CommonSolve.solve!(state::_SMTState)
+    state.backend isa BuiltinBackend || return UnknownResult(:unsupported_backend, state.backend)
+    UnknownResult(:unsupported_theory, state.backend)
+end
+
 export satisfiable, sat_model

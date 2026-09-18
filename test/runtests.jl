@@ -4,7 +4,12 @@ include("test_macro.jl")
 include("test_predicates.jl")
 include("test_simplify.jl")
 include("test_manifests.jl")
-include("test_real_profiles.jl")
+ecosystem_root = normpath(joinpath(@__DIR__, "..", ".."))
+if isfile(joinpath(ecosystem_root, "Calculus", "rules", "meta.json"))
+    include("test_real_profiles.jl")
+else
+    @info "Skipping sibling-repository profile tests outside the ecosystem checkout"
+end
 include("test_named_rules.jl")
 include("test_ac_matching.jl")
 include("test_constraints.jl")
@@ -22,8 +27,9 @@ include("test_wildcards.jl")
 include("test_prove.jl")
 include("test_piecewise.jl")
 include("test_context.jl")
-if Base.find_package("OpenMath") !== nothing
+test_project = read(joinpath(@__DIR__, "Project.toml"), String)
+if occursin(r"(?m)^OpenMath\s*=", test_project)
     include("test_openmath_ext.jl")
 else
-    @info "Skipping OpenMath extension tests because OpenMath.jl is not available"
+    @info "Skipping opt-in OpenMath extension tests"
 end

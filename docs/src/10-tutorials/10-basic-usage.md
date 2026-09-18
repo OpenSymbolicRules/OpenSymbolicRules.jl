@@ -542,6 +542,18 @@ result = solve(SMTProblem([[1]], atoms))
 result.model.rationals[:x] # an exact rational satisfying x ≤ 0
 ```
 
+Numeric equality atoms can be combined with linear constraints through the
+same operation API. Their dictionary must declare the shared numeric sort:
+
+```julia
+mixed_atoms = Dict{Int,Union{LinearConstraint,EqualityConstraint}}(
+    1 => LinearConstraint(Dict(:x => 1), :le, 0),
+    2 => EqualityConstraint(:x, :y, :eq),
+)
+result = solve(SMTProblem([[1], [2]], mixed_atoms))
+result.model.rationals[:x] == result.model.rationals[:y] # true
+```
+
 This is the Boolean component of a planned pure-Julia DPLL(T) architecture.
 Theory reasoning, such as equality and rational linear arithmetic, is added
 only when its result can retain explicit assumptions and proof obligations.

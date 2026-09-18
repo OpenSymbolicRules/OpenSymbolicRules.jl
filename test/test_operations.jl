@@ -27,3 +27,18 @@ end
     @test result.model.rationals[:x] <= 0
     @test solve(SMTProblem([[1], [-1]], atoms)) isa UnsatResult
 end
+
+@testitem "Structured mixed rational SMT operation results" begin
+    using OpenSymbolicRules
+
+    atoms = Dict{Int,Union{LinearConstraint,EqualityConstraint}}(
+        1 => LinearConstraint(Dict(:x => 1), :le, 0),
+        2 => EqualityConstraint(:x, :y, :eq),
+    )
+    result = solve(SMTProblem([[1], [2]], atoms))
+    @test result isa SatResult
+    @test result.model.rationals[:x] <= 0
+    @test result.model.rationals[:x] == result.model.rationals[:y]
+
+    @test solve(SMTProblem([[1], [-1]], atoms)) isa UnsatResult
+end

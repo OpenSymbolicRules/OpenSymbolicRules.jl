@@ -14,6 +14,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - A CommonSolve `init`/`solve!` state for the pure-Julia SAT backend.
 - Structured `SMTProblem` support for built-in exact rational linear arithmetic
   and ground equality theories through the CommonSolve interface.
+- Structured mixed rational SMT results through the CommonSolve interface,
+  combining exact linear constraints with equality and disequality atoms over
+  rational variables.
 - An exact pure-Julia univariate Sylvester resultant over the sparse rational
   polynomial core.
 - An optional OpenMath.jl extension which round-trips core arithmetic and
