@@ -223,6 +223,77 @@ function discriminant(polynomial::SparsePolynomial)
     sign * resultant(polynomial, _univariate_derivative(polynomial)) / leading
 end
 
+function _univariate_degree(polynomial::SparsePolynomial)
+    _univariate_coefficients(polynomial)
+    iszero(polynomial) ? -1 : maximum(first(exponent) for exponent in keys(polynomial.terms))
+end
+
+function _univariate_divrem(dividend::SparsePolynomial, divisor::SparsePolynomial)
+    _same_ring(dividend, divisor)
+    _univariate_coefficients(dividend)
+    _univariate_coefficients(divisor)
+    iszero(divisor) && throw(ArgumentError("polynomial division by zero"))
+    quotient = SparsePolynomial(dividend.variables, Dict())
+    remainder = dividend
+    divisor_degree = _univariate_degree(divisor)
+    divisor_leading = divisor.terms[(divisor_degree,)]
+    while !iszero(remainder) && _univariate_degree(remainder) >= divisor_degree
+        remainder_degree = _univariate_degree(remainder)
+        coefficient = remainder.terms[(remainder_degree,)] / divisor_leading
+        term = SparsePolynomial(dividend.variables,
+            Dict((remainder_degree - divisor_degree,) => coefficient))
+        quotient += term
+        remainder -= _multiply(divisor, term)
+    end
+    quotient, remainder
+end
+
+function _univariate_exact_quotient(dividend::SparsePolynomial, divisor::SparsePolynomial)
+    quotient, remainder = _univariate_divrem(dividend, divisor)
+    iszero(remainder) || throw(ArgumentError("polynomial division is not exact"))
+    quotient
+end
+
+function _univariate_gcd(left::SparsePolynomial, right::SparsePolynomial)
+    _same_ring(left, right)
+    _univariate_coefficients(left)
+    _univariate_coefficients(right)
+    while !iszero(right)
+        _, remainder = _univariate_divrem(left, right)
+        left, right = right, remainder
+    end
+    iszero(left) ? left : _monic(left, :lex)
+end
+
+"""
+    squarefree_decomposition(polynomial) -> Vector{NamedTuple}
+
+Factor a nonzero univariate rational polynomial into monic square-free factors
+and their positive multiplicities. The scalar leading coefficient is omitted:
+the returned factors describe the root structure exactly over an algebraic
+closure and can be used directly by exact factorization or solving backends.
+"""
+function squarefree_decomposition(polynomial::SparsePolynomial)
+    _univariate_coefficients(polynomial)
+    iszero(polynomial) && throw(ArgumentError("the zero polynomial has no square-free decomposition"))
+    _univariate_degree(polynomial) <= 0 && return NamedTuple{(:factor, :multiplicity),Tuple{SparsePolynomial,Int}}[]
+    derivative = _univariate_derivative(polynomial)
+    repeated = _univariate_gcd(polynomial, derivative)
+    remaining = _univariate_exact_quotient(polynomial, repeated)
+    factors = NamedTuple{(:factor, :multiplicity),Tuple{SparsePolynomial,Int}}[]
+    multiplicity = 1
+    while _univariate_degree(remaining) > 0
+        shared = _univariate_gcd(remaining, repeated)
+        factor = _univariate_exact_quotient(remaining, shared)
+        iszero(factor) || _univariate_degree(factor) == 0 ||
+            push!(factors, (factor=_monic(factor, :lex), multiplicity=multiplicity))
+        remaining = shared
+        repeated = _univariate_exact_quotient(repeated, shared)
+        multiplicity += 1
+    end
+    factors
+end
+
 function _constant_polynomial(variables, value)
     SparsePolynomial(variables, Dict(ntuple(_ -> 0, length(variables)) => value))
 end
@@ -331,4 +402,4 @@ end
 # Keep low-level leading-term and S-polynomial primitives qualified.  They are
 # useful for inspecting an algorithm, but are not part of the everyday API.
 export SparsePolynomial, normal_form, groebner_basis, ideal_membership
-export to_sparse_polynomial, to_symbolic_polynomial, resultant, discriminant
+export to_sparse_polynomial, to_symbolic_polynomial, resultant, discriminant, squarefree_decomposition

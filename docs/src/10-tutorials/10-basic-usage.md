@@ -483,6 +483,12 @@ resultant(SparsePolynomial([:x], Dict((2,) => 1, (0,) => -1)),
 # A zero discriminant identifies a repeated algebraic root exactly.
 discriminant(SparsePolynomial([:x], Dict((2,) => 1, (1,) => -2, (0,) => 1))) # 0//1
 
+# Monic square-free factors retain their exact root multiplicities.
+squarefree_decomposition(
+    SparsePolynomial([:x], Dict((5,) => 1, (4,) => 4, (3,) => 1,
+                                (2,) => -10, (1,) => -4, (0,) => 8)))
+# [(factor = x - 1, multiplicity = 2), (factor = x + 2, multiplicity = 3)]
+
 spoly(p, q; ordering=:lex)              # y² + x
 normal_form(p, [q]; ordering=:grevlex)  # normal form modulo q
 g = groebner_basis([p, q]; ordering=:lex)

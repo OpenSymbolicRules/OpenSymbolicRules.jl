@@ -154,10 +154,10 @@
   variables, and operators outside the requested ring.
 - [ ] **Polynomial-system solving:** Build elimination and solution-set APIs on
   the exact sparse core without weakening exact-domain guarantees.
-- [~] **Polynomial invariants:** Exact univariate resultants and discriminants
-  are available over the rational polynomial core. Add square-free
-  decomposition, multivariate invariants, and algorithm-independent property
-  tests with no mandatory native dependency.
+- [~] **Polynomial invariants:** Exact univariate resultants, discriminants,
+  and square-free decomposition are available over the rational polynomial
+  core. Add multivariate invariants and algorithm-independent property tests
+  with no mandatory native dependency.
 - [ ] **Equation Solving:** Implement `solve(eq, x)` using OSR algebraic isolation rules.
 - [ ] **Conditional and periodic solution sets:** Represent all solution
   branches, periodic integer-parameter families, exclusions, multiplicities,

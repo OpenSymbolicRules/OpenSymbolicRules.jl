@@ -57,3 +57,21 @@ end
     @test_throws ArgumentError discriminant(SparsePolynomial([:x], Dict()))
     @test_throws ArgumentError discriminant(SparsePolynomial([:x, :y], Dict((1, 0) => 1)))
 end
+
+@testitem "Exact univariate square-free decomposition" begin
+    using OpenSymbolicRules
+
+    polynomial = SparsePolynomial([:x], Dict(
+        (5,) => 1, (4,) => 4, (3,) => 1, (2,) => -10, (1,) => -4, (0,) => 8,
+    )) # (x - 1)^2 * (x + 2)^3
+    decomposition = squarefree_decomposition(polynomial)
+
+    @test decomposition == [
+        (factor=SparsePolynomial([:x], Dict((1,) => 1, (0,) => -1)), multiplicity=2),
+        (factor=SparsePolynomial([:x], Dict((1,) => 1, (0,) => 2)), multiplicity=3),
+    ]
+    @test squarefree_decomposition(SparsePolynomial([:x], Dict((1,) => 1, (0,) => -1))) == [
+        (factor=SparsePolynomial([:x], Dict((1,) => 1, (0,) => -1)), multiplicity=1),
+    ]
+    @test_throws ArgumentError squarefree_decomposition(SparsePolynomial([:x], Dict()))
+end
