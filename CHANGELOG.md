@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- An exact pure-Julia univariate Sylvester resultant over the sparse rational
+  polynomial core.
 - An optional OpenMath.jl extension which round-trips core arithmetic and
   propositional-logic OSR/SymbolicUtils expressions, exact rational literals,
   canonical lambda-bound derivatives, and ordered piecewise branches through

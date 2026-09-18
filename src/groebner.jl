@@ -166,6 +166,39 @@ end
 ideal_membership(polynomial::SparsePolynomial, basis::AbstractVector{<:SparsePolynomial}; ordering::Symbol=:grevlex) =
     iszero(normal_form(polynomial, basis; ordering))
 
+function _univariate_coefficients(polynomial::SparsePolynomial)
+    length(polynomial.variables) == 1 || throw(ArgumentError("resultant currently requires a univariate polynomial ring"))
+    iszero(polynomial) && return Rational{BigInt}[]
+    degree = maximum(first(exponent) for exponent in keys(polynomial.terms))
+    [get(polynomial.terms, (power,), zero(Rational{BigInt})) for power in degree:-1:0]
+end
+
+function _determinant(matrix::Matrix{Rational{BigInt}})
+    size(matrix, 1) == size(matrix, 2) || throw(ArgumentError("determinant requires a square matrix"))
+    size(matrix, 1) == 0 && return one(Rational{BigInt})
+    size(matrix, 1) == 1 && return matrix[1, 1]
+    sum((isodd(column) ? 1 : -1) * matrix[1, column] *
+        _determinant(matrix[2:end, [index for index in axes(matrix, 2) if index != column]])
+        for column in axes(matrix, 2))
+end
+
+"""Return the exact Sylvester resultant of two univariate rational polynomials."""
+function resultant(left::SparsePolynomial, right::SparsePolynomial)
+    _same_ring(left, right)
+    left_coefficients = _univariate_coefficients(left)
+    right_coefficients = _univariate_coefficients(right)
+    (isempty(left_coefficients) || isempty(right_coefficients)) && return zero(Rational{BigInt})
+    left_degree, right_degree = length(left_coefficients) - 1, length(right_coefficients) - 1
+    matrix = zeros(Rational{BigInt}, left_degree + right_degree, left_degree + right_degree)
+    for row in 1:right_degree
+        matrix[row, row:row + left_degree] .= left_coefficients
+    end
+    for row in 1:left_degree
+        matrix[right_degree + row, row:row + right_degree] .= right_coefficients
+    end
+    _determinant(matrix)
+end
+
 function _constant_polynomial(variables, value)
     SparsePolynomial(variables, Dict(ntuple(_ -> 0, length(variables)) => value))
 end
@@ -274,4 +307,4 @@ end
 # Keep low-level leading-term and S-polynomial primitives qualified.  They are
 # useful for inspecting an algorithm, but are not part of the everyday API.
 export SparsePolynomial, normal_form, groebner_basis, ideal_membership
-export to_sparse_polynomial, to_symbolic_polynomial
+export to_sparse_polynomial, to_symbolic_polynomial, resultant

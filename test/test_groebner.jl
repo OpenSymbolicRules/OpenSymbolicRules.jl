@@ -31,3 +31,14 @@ end
               for (index, left) in enumerate(basis) for right in basis[index + 1:end])
     @test ideal_membership(x_squared_minus_one, basis; ordering=:lex)
 end
+
+@testitem "Exact univariate resultants" begin
+    using OpenSymbolicRules
+
+    polynomial = SparsePolynomial([:x], Dict((2,) => 1, (0,) => -1))
+    shared_root = SparsePolynomial([:x], Dict((1,) => 1, (0,) => -1))
+    disjoint = SparsePolynomial([:x], Dict((1,) => 1, (0,) => -2))
+
+    @test resultant(polynomial, shared_root) == 0
+    @test resultant(polynomial, disjoint) == 3
+end

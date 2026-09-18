@@ -476,6 +476,10 @@ variables and its sparse monomial map explicitly.
 p = SparsePolynomial([:x, :y], Dict((2, 0) => 1, (0, 1) => 1)) # x² + y
 q = SparsePolynomial([:x, :y], Dict((1, 1) => 1, (0, 0) => -1)) # xy - 1
 
+# Exact univariate elimination invariant
+resultant(SparsePolynomial([:x], Dict((2,) => 1, (0,) => -1)),
+          SparsePolynomial([:x], Dict((1,) => 1, (0,) => -2))) # 3//1
+
 spoly(p, q; ordering=:lex)              # y² + x
 normal_form(p, [q]; ordering=:grevlex)  # normal form modulo q
 g = groebner_basis([p, q]; ordering=:lex)
