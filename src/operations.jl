@@ -29,6 +29,17 @@ struct SMTProblem{A} <: CASProblem
     end
 end
 
+"""An exact nonzero polynomial in one declared variable."""
+struct UnivariatePolynomialProblem <: CASProblem
+    polynomial::SparsePolynomial
+    function UnivariatePolynomialProblem(polynomial::SparsePolynomial)
+        length(polynomial.variables) == 1 ||
+            throw(ArgumentError("a univariate polynomial problem requires exactly one variable"))
+        iszero(polynomial) && throw(ArgumentError("the zero polynomial has infinitely many roots"))
+        new(polynomial)
+    end
+end
+
 struct SatResult{T} <: CASResult
     model::T
     backend::CASBackend
@@ -43,5 +54,14 @@ struct UnknownResult <: CASResult
     backend::CASBackend
 end
 
+"""Exact rational roots found for a univariate polynomial problem."""
+struct PolynomialRootsResult <: CASResult
+    roots::Vector{NamedTuple{(:root, :multiplicity),Tuple{Rational{BigInt},Int}}}
+    residual::SparsePolynomial
+    complete::Bool
+    backend::CASBackend
+end
+
 export CASProblem, CASResult, CASBackend, BuiltinBackend, SolveOptions
-export SATProblem, SMTProblem, SatResult, UnsatResult, UnknownResult, solve
+export SATProblem, SMTProblem, UnivariatePolynomialProblem
+export SatResult, UnsatResult, UnknownResult, PolynomialRootsResult, solve

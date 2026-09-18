@@ -493,6 +493,11 @@ squarefree_decomposition(
 rational_roots(SparsePolynomial([:x], Dict((2,) => 2, (1,) => -3, (0,) => 1)))
 # [(root = 1//2, multiplicity = 1), (root = 1//1, multiplicity = 1)]
 
+root_result = solve(UnivariatePolynomialProblem(
+    SparsePolynomial([:x], Dict((2,) => 1, (1,) => -3, (0,) => 2))))
+root_result.roots
+root_result.complete # true only when no unresolved factor remains
+
 spoly(p, q; ordering=:lex)              # y² + x
 normal_form(p, [q]; ordering=:grevlex)  # normal form modulo q
 g = groebner_basis([p, q]; ordering=:lex)

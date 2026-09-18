@@ -27,6 +27,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   provable rational roots and their multiplicities.
 - Bounded exact normalization of numeric square roots, preserving OpenMath
   radical semantics without introducing floating-point literals.
+- A structured CommonSolve operation for exact univariate polynomial roots,
+  including a residual polynomial and an explicit completeness flag.
 - An optional OpenMath.jl extension which round-trips core arithmetic and
   propositional-logic OSR/SymbolicUtils expressions, exact rational literals,
   canonical lambda-bound derivatives, and ordered piecewise branches through

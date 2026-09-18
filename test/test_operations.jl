@@ -42,3 +42,19 @@ end
 
     @test solve(SMTProblem([[1], [-1]], atoms)) isa UnsatResult
 end
+
+@testitem "Structured univariate polynomial operation results" begin
+    using OpenSymbolicRules
+
+    polynomial = SparsePolynomial([:x], Dict((2,) => 1, (1,) => -3, (0,) => 2))
+    result = solve(UnivariatePolynomialProblem(polynomial))
+    @test result isa PolynomialRootsResult
+    @test result.roots == [(root=1 // 1, multiplicity=1), (root=2 // 1, multiplicity=1)]
+    @test result.complete
+    @test result.residual == SparsePolynomial([:x], Dict((0,) => 1))
+
+    incomplete = solve(UnivariatePolynomialProblem(
+        SparsePolynomial([:x], Dict((2,) => 1, (0,) => -2))))
+    @test isempty(incomplete.roots)
+    @test !incomplete.complete
+end

@@ -355,6 +355,18 @@ function rational_roots(polynomial::SparsePolynomial)
     roots
 end
 
+function _rational_root_residual(polynomial::SparsePolynomial,
+                                 roots::AbstractVector{<:NamedTuple})
+    residual = polynomial
+    for entry in roots
+        factor = SparsePolynomial(polynomial.variables, Dict((1,) => 1, (0,) => -entry.root))
+        for _ in 1:entry.multiplicity
+            residual = _univariate_exact_quotient(residual, factor)
+        end
+    end
+    residual
+end
+
 function _constant_polynomial(variables, value)
     SparsePolynomial(variables, Dict(ntuple(_ -> 0, length(variables)) => value))
 end
