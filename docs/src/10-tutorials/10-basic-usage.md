@@ -300,7 +300,7 @@ using OpenSymbolicRules
 using SymbolicUtils
 
 @syms x
-object = OpenMath.to_openmath(Add(x, 3 // 2))
+object = OpenSymbolicRules.to_openmath(Add(x, 3 // 2))
 # OMA(OMS(arith1#plus), OMV(x), OMA(OMS(nums1#rational), OMI(3), OMI(2)))
 
 expression = OpenSymbolicRules.from_openmath(object)

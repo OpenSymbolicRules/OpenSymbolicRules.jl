@@ -31,17 +31,26 @@ const _OPENMATH_TO_OSR = Dict{Tuple{String, String}, Any}(
 )
 
 _symbol_key(symbol::OpenMath.OMSymbol) = (symbol.cd, symbol.name)
+_to_openmath(value) = value isa SymbolicUtils.BasicSymbolic ?
+    OpenSymbolicRules.to_openmath(value) : OpenMath.to_openmath(value)
 
-function OpenMath.to_openmath(expr::SymbolicUtils.BasicSymbolic)
+function OpenSymbolicRules.to_openmath(expr::SymbolicUtils.BasicSymbolic)
     literal = OpenSymbolicRules._literal(expr)
-    literal !== expr && return OpenMath.to_openmath(literal)
+    literal !== expr && return _to_openmath(literal)
 
     if SymbolicUtils.iscall(expr)
         head = Symbol(nameof(SymbolicUtils.operation(expr)))
+        if head === :Sqrt
+            arguments = SymbolicUtils.arguments(expr)
+            length(arguments) == 1 || throw(OpenMath.OpenMathConversionError(
+                typeof(expr), "OSR Sqrt requires exactly one argument"))
+            return OpenMath.OMSymbol("arith1", "root")(
+                _to_openmath(only(arguments)), OpenMath.OMInteger(2))
+        end
         symbol = get(_OSR_TO_OPENMATH, head, nothing)
         symbol === nothing && throw(OpenMath.OpenMathConversionError(
             typeof(expr), "no OpenMath symbol is registered for OSR head `$(head)`"))
-        return symbol((OpenMath.to_openmath(argument)
+        return symbol((_to_openmath(argument)
             for argument in SymbolicUtils.arguments(expr))...)
     end
 
@@ -75,6 +84,16 @@ function OpenSymbolicRules.from_openmath(object::OpenMath.OMApplication)
         numerator isa Integer && denominator isa Integer || throw(ArgumentError(
             "OpenMath nums1#rational requires integer arguments"))
         return numerator // denominator
+    end
+
+    if key == ("arith1", "root")
+        length(object.arguments) == 2 || throw(ArgumentError(
+            "OpenMath arith1#root requires exactly two arguments"))
+        degree = OpenSymbolicRules.from_openmath(object.arguments[2])
+        degree == 2 || throw(ArgumentError(
+            "only OpenMath arith1#root with degree 2 maps to OSR Sqrt"))
+        return OpenSymbolicRules.Sqrt(
+            OpenSymbolicRules.from_openmath(object.arguments[1]))
     end
 
     head = get(_OPENMATH_TO_OSR, key, nothing)

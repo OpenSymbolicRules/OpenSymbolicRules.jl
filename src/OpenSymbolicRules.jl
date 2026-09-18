@@ -35,7 +35,14 @@ Convert a typed OpenMath object into an OSR/SymbolicUtils expression.  This
 function is available when the optional `OpenMath.jl` extension is loaded.
 """
 function from_openmath end
-export from_openmath
+"""
+    to_openmath(expression)
+
+Convert an OSR/SymbolicUtils expression into a typed OpenMath object.  This
+function is available when the optional `OpenMath.jl` extension is loaded.
+"""
+function to_openmath end
+export from_openmath, to_openmath
 
 """
     _DEFAULT_SEMANTICS

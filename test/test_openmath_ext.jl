@@ -6,7 +6,7 @@ using TestItems
     using SymbolicUtils
 
     @syms x
-    object = OpenMath.to_openmath(Add(x, 1))
+    object = OpenSymbolicRules.to_openmath(Add(x, 1))
 
     @test object isa OpenMath.OMApplication
     @test object.applicant == OpenMath.OMSymbol("arith1", "plus")
@@ -26,18 +26,22 @@ end
     using SymbolicUtils
 
     @syms x
-    object = OpenMath.to_openmath(Power(x, 3 // 2))
+    object = OpenSymbolicRules.to_openmath(Power(x, 3 // 2))
 
     @test object.applicant == OpenMath.OMSymbol("arith1", "power")
     @test object.arguments[2].applicant == OpenMath.OMSymbol("nums1", "rational")
     @test OpenSymbolicRules.from_openmath(object) |> SymbolicUtils.arguments |> last == 3 // 2
 end
 
-@testitem "OpenMath extension rejects heads without an exact semantic binding" begin
+@testitem "OpenMath extension preserves square-root arity" begin
     using OpenMath
     using OpenSymbolicRules
     using SymbolicUtils
 
     @syms x
-    @test_throws OpenMath.OpenMathConversionError OpenMath.to_openmath(Sqrt(x))
+    object = OpenSymbolicRules.to_openmath(Sqrt(x))
+
+    @test object.applicant == OpenMath.OMSymbol("arith1", "root")
+    @test object.arguments[2] == OpenMath.OMInteger(2)
+    @test SymbolicUtils.operation(OpenSymbolicRules.from_openmath(object)) === Sqrt
 end
