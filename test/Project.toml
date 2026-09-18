@@ -3,7 +3,6 @@ CommonSolve = "38540f10-b2f7-11e9-35d8-d573e4eb0ff2"
 DomainSets = "5b8099bc-c8ec-5219-889f-1d9e522a28bf"
 IntervalSets = "8197267c-284f-5f27-9208-e0e47529a953"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
-OpenMath = "a3e62119-7808-4860-a560-991581b033be"
 OpenSymbolicRules = "63eaa7ab-c3ed-50ea-9f8d-8b348c7d3525"
 SymbolicUtils = "d1185830-fcd6-423d-90d6-eec64667417b"
 Symbolics = "0c5d862f-8b57-4792-8d23-62f2024744c7"
@@ -13,5 +12,4 @@ TestItemRunner = "f8b46487-2199-4994-9208-9a1283c18c0a"
 TestItems = "1c621080-faea-4a02-84b6-bbd5e436b8fe"
 
 [sources]
-OpenMath = {path = "../../../julia/OpenMath.jl"}
 OpenSymbolicRules = {path = ".."}

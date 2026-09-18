@@ -22,4 +22,8 @@ include("test_wildcards.jl")
 include("test_prove.jl")
 include("test_piecewise.jl")
 include("test_context.jl")
-include("test_openmath_ext.jl")
+if Base.find_package("OpenMath") !== nothing
+    include("test_openmath_ext.jl")
+else
+    @info "Skipping OpenMath extension tests because OpenMath.jl is not available"
+end
