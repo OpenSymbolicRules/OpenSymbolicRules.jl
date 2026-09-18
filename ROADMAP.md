@@ -169,6 +169,10 @@
 - [ ] **Sets, Relations, and Intervals:** Add membership, inclusion, unions, intersections, inequalities, and solution-set expressions as first-class symbolic structures.
 - [ ] **Units, Dimensions, and Uncertainties:** Track physical dimensions as semantic properties of expressions, rejecting dimensionally invalid rewrites. Build a `DynamicQuantities.jl` integration first, aligned with `SymbolicUncertainties.jl`, so values and their uncertainty terms retain compatible dimensions; provide `Unitful.jl` interoperability at the boundary rather than duplicating dimensional semantics.
 - [ ] **Trigonometry & Special Functions:** Integrate standard rules for Bessel functions, Gamma, Hypergeometric, etc.
+- [~] **Exact algebraic constants:** Bounded exact normalization now extracts
+  perfect-square factors from numeric radicals without floating-point
+  conversion. Add algebraic-number domains, higher roots, and conditional
+  radical identities next.
 - [ ] **Matrix and Tensor Algebra:** Define shape- and index-aware OpenMath-aligned heads for matrix multiplication, tensor products, contractions, and axis permutations. Preserve operand order by default; allow commutativity only when scalarity or compatible additive structure is established.
 - [ ] **Noncommutative Algebra:** Model operator composition, Lie products, and quantum-style noncommutative multiplication separately from scalar arithmetic.
 - [ ] **Sequences and Discrete Operators:** Add indexed sequences, finite/infinite sums and products, recurrences, and finite differences.

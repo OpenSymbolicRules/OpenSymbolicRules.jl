@@ -505,6 +505,20 @@ and equation solving remain separate planned layers. For implementation
 inspection, low-level leading-term and S-polynomial primitives stay qualified
 as `OpenSymbolicRules.leading_monomial` and `OpenSymbolicRules.spoly`.
 
+## Exact numeric radicals
+
+`normalize_sqrt` avoids constructing floating-point literals for numeric
+radicals while preserving the canonical OpenMath root semantics:
+
+```julia
+normalize_sqrt(12)      # 2 * Sqrt(3)
+normalize_sqrt(7 // 2)  # (1//2) * Sqrt(14)
+normalize_sqrt(49)      # 7
+```
+
+Perfect-square extraction is bounded. Therefore normalization always remains
+exact and terminates, even when a large radicand is not fully factored.
+
 An explicit boundary retains the exact coefficient domain when exchanging
 polynomials with `SymbolicUtils`. The requested variables define the ring;
 functions, negative powers, and undeclared parameters are rejected.

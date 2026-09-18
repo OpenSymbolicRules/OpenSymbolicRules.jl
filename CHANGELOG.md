@@ -25,6 +25,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   multiplicities over the rational polynomial core.
 - Exact rational-root extraction for univariate polynomials, returning only
   provable rational roots and their multiplicities.
+- Bounded exact normalization of numeric square roots, preserving OpenMath
+  radical semantics without introducing floating-point literals.
 - An optional OpenMath.jl extension which round-trips core arithmetic and
   propositional-logic OSR/SymbolicUtils expressions, exact rational literals,
   canonical lambda-bound derivatives, and ordered piecewise branches through
