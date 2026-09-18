@@ -56,6 +56,16 @@
   immediately normalize to the single canonical OSR/OpenMath representation;
   do not introduce a second expression tree, duplicated semantics, or a
   persistent adaptation layer.
+- [ ] **Unified operation architecture:** Refactor CAS services around a common
+  `Problem` / `Capability` / `Strategy` / `Result` / `Trace` contract. Solving,
+  simplification, normalization, proving, integration, limits, transforms, and
+  series must accept an explicit semantic context and resource limits, select
+  only compatible strategies, and return structured `proved`, `conditional`,
+  `unevaluated`, `unknown`, or `contradiction` outcomes. A result records its
+  method, backend, version, assumptions, rule identities, diagnostics, model
+  or certificate, and reproducible limits. The same capability registry shall
+  describe exact domains, algebraic structures, logical theories, matrices,
+  tensors, units, and external adapters.
 - [ ] **Specialised normal-form operations:** Build domain-scoped operations
   with explicit domains, assumptions, result statuses, and testable normal-form
   contracts. Algebra needs `expand`, `collect_terms` (rather than the
