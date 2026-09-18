@@ -15,6 +15,13 @@
   Risch-family methods; it is deliberately broader than a single `Integral`
   constructor.
 - [x] Basic parsing of OSR JSON into Julia AST.
+- [ ] **OpenMath Interoperability:** Add an optional `OpenMath.jl` extension
+  that converts OSR/SymbolicUtils expressions to and from typed OpenMath
+  objects. Use its Content Dictionary registry, validation, canonicalisation,
+  and XML/JSON/MathML/binary encodings at import and export boundaries. Keep
+  OpenMath optional and outside rewriting hot paths; OSR rule identities,
+  constraints, provenance, and execution semantics remain owned by this
+  package.
 - [x] `@load_osr` macro for Ahead-Of-Time (AOT) rule compilation.
 - [x] Mapping of primitive constraints (e.g., `is_integer`) to Julia `where` clauses.
 - [x] **Advanced Predicates Mapping:** A standard library of Julia predicates for the OSR constraint vocabulary — comparison, integer-qualified, numeric-domain, structural, and polynomial predicates plus the `Not`/`And`/`Or` combinators — covering 97% of the constraint applications in the RUBI dataset.
