@@ -71,7 +71,7 @@ end
     using SymbolicUtils
 
     @syms x y
-    expression = Piecewise([Piece(x, And(true, false)), Otherwise(y)])
+    expression = Piecewise([Piece(x, GreaterThan(x, 0)), Otherwise(y)])
     object = OpenSymbolicRules.to_openmath(expression)
 
     @test object.applicant == OpenMath.OMSymbol("piece1", "piecewise")
@@ -80,6 +80,22 @@ end
 
     recovered = OpenSymbolicRules.from_openmath(object)
     @test isequal(recovered, expression)
+end
+
+@testitem "OpenMath extension preserves ordered relations" begin
+    using OpenMath
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms x
+    for (expression, symbol) in (
+        (GreaterThan(x, 0), OpenMath.OMSymbol("relation1", "gt")),
+        (LessThan(x, 1), OpenMath.OMSymbol("relation1", "lt")),
+    )
+        object = OpenSymbolicRules.to_openmath(expression)
+        @test object.applicant == symbol
+        @test isequal(OpenSymbolicRules.from_openmath(object), expression)
+    end
 end
 
 @testitem "OpenMath extension keeps OSR collections distinct from vectors" begin

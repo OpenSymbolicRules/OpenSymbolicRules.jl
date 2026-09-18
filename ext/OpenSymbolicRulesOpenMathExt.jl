@@ -44,6 +44,8 @@ const _OSR_TO_OPENMATH = Dict{Symbol, OpenMath.OMSymbol}(
     :Nand => OpenMath.OMSymbol("logic1", "nand"),
     :Nor => OpenMath.OMSymbol("logic1", "nor"),
     :Xor => OpenMath.OMSymbol("logic1", "xor"),
+    :GreaterThan => OpenMath.OMSymbol("relation1", "gt"),
+    :LessThan => OpenMath.OMSymbol("relation1", "lt"),
     :Limit => OpenMath.OMSymbol("limit1", "limit"),
     :BothSides => OpenMath.OMSymbol("limit1", "both_sides"),
 )
