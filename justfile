@@ -8,3 +8,7 @@ doc:
 
 format:
 	julia -e 'using JuliaFormatter; format(".")'
+
+# Report how much of the RUBI corpus the rule set can rewrite, section by section.
+conformance section="1.1.1":
+	julia --project scripts/rubi_conformance.jl --section {{section}}

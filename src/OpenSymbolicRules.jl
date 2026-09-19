@@ -611,6 +611,46 @@ function _validate_openmath_semantics(documents)
 end
 
 """
+    _uninterpreted_head_declarations(documents, caller)
+
+Return `@syms` declarations for every operator the given rule files use that
+`caller` cannot resolve.
+
+`_validate_openmath_semantics` has already established that each of these heads
+carries an OpenMath symbol, so it denotes a definite mathematical operation;
+what is missing is a Julia implementation of it. That is an operation this host
+cannot evaluate, which is an unevaluated term — not a rule that raises an
+undefined-variable error the moment it fires. RUBI reaches this constantly, with
+utilities such as `PolynomialRemainder`, `Coeff`, and `Simplify`.
+
+A head the caller already resolves is left alone, so an implemented operation is
+never shadowed.
+"""
+function _uninterpreted_head_declarations(documents, caller::Module)
+    operators = Set{String}()
+    for document in documents
+        for rule in get(document, "rules", Any[])
+            _collect_operators!(operators, rule["pattern"])
+            bindings = _pattern_bindings(rule["pattern"])
+            _collect_operators!(operators, rule["result"]; bindings)
+            for constraint in get(rule, "constraints", Any[])
+                _collect_constraint_operators!(operators, constraint; bindings)
+            end
+        end
+    end
+    declarations = Expr[]
+    for operator in sort!(collect(operators))
+        name = Symbol(operator)
+        isdefined(caller, name) && continue
+        # A variadic declaration: an OSR head's arity is whatever the rule uses.
+        signature = Expr(:(::), Expr(:call, name, :(..)), :Number)
+        push!(declarations, Expr(:macrocall, GlobalRef(SymbolicUtils, Symbol("@syms")),
+                                 LineNumberNode(0), signature))
+    end
+    return declarations
+end
+
+"""
     @load_osr("path/to/rule.json")
 
 Load an Open Symbolic Rules JSON file at compile-time and return a vector of `SymbolicUtils.jl` rules.
@@ -625,10 +665,12 @@ macro load_osr(filepath)
     identity = get(data, "identity", get(data, "section", nothing))
     identity isa String || error("@load_osr requires a rule file with a string identity")
     _validate_openmath_semantics([data])
+    declarations = _uninterpreted_head_declarations([data], __module__)
     rule_exprs = _compile_rule_exprs(data["rules"]; identity=identity, semantics=data["semantics"])
-    
-    # Return a block that constructs the array of rules
-    return esc(Expr(:vect, rule_exprs...))
+
+    # Return a block that declares the heads this caller cannot resolve and then
+    # constructs the array of rules.
+    return esc(Expr(:block, declarations..., Expr(:vect, rule_exprs...)))
 end
 
 """

@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Uninterpreted heads: an operator a rule file declares an OpenMath symbol for
+  but this package does not implement is now declared as a symbolic function in
+  the loading module, so the rule produces an unevaluated term instead of
+  raising an undefined-variable error the moment it fires.
+- `scripts/rubi_conformance.jl` (`just conformance <section>`), which applies
+  the rule set to every RUBI test problem of a section and reports `verified`,
+  `closed form`, `unevaluated`, `unchanged`, and `error` separately, so coverage
+  is never reported as correctness.
 - Bare-name references to a rule's bindings: a pattern declares a wildcard as
   `m_` or `m.`, and its result and constraints refer to it as `m`, which is how
   the RUBI dataset is written. A name the pattern never bound stays a free

@@ -1,0 +1,468 @@
+#!/usr/bin/env julia
+"""
+Report how much of the RUBI integration corpus this package can actually
+rewrite, section by section.
+
+The milestone "load the RUBI rules" is a single checkbox and says nothing about
+what happens when a rule fires. This script turns it into a number that moves:
+for every test problem in the `Integration` repository it applies the rule set
+to the integrand and classifies the outcome, never claiming a closed form it
+did not reach.
+
+    julia --project scripts/rubi_conformance.jl [options]
+
+      --integration PATH   the Integration checkout (default: ../Integration)
+      --section PREFIX     restrict to sections starting with PREFIX (default: 1.1.1)
+      --all                every section; slow, several minutes
+      --limit N            at most N test problems per file
+      --json PATH          write the per-section report as JSON
+      --verbose            print each unresolved or failing problem
+
+Outcomes, deliberately distinguished rather than collapsed into pass/fail:
+
+  verified     the rewrite reached exactly the antiderivative the corpus
+               records, compared structurally
+  resolved     the rewrite reached a form with no integral left, but not the
+               recorded antiderivative. This is coverage, not correctness: the
+               conversion drops RUBI's `x_Symbol` restriction, so a rule can
+               match an integrand it was never meant to and still produce a
+               closed form
+  unevaluated  a rewrite happened but an integral remains; the rule set has no
+               applicable continuation
+  unchanged    no rule fired at all
+  error        a rule fired and its result or guard named something this
+               package does not implement; the name is reported and ranked
+"""
+
+using OpenSymbolicRules
+using OpenSymbolicRules: OSRRule
+using SymbolicUtils
+using SymbolicUtils: iscall, operation, arguments
+using JSON
+
+const DEFAULT_INTEGRATION = normpath(joinpath(@__DIR__, "..", "..", "Integration"))
+
+# Heads that mean "this integral was not solved". A result still carrying one
+# of them is not an antiderivative, however far the rewrite went.
+const UNRESOLVED_HEADS = Set([:Int, :Integral, :Unintegrable, :CannotIntegrate, :Subst, :Dist])
+
+# Heads `osr_to_expr` normalizes to left-associated binary terms.
+const ASSOCIATIVE_HEADS = Set(["Add", "Multiply", "And", "Or"])
+
+struct Outcome
+    kind::Symbol
+    detail::String
+end
+
+function parse_arguments(arguments::Vector{String})
+    options = Dict{String,Any}(
+        "integration" => DEFAULT_INTEGRATION,
+        "section" => "1.1.1",
+        "limit" => typemax(Int),
+        "json" => nothing,
+        "verbose" => false,
+    )
+    index = 1
+    while index <= length(arguments)
+        argument = arguments[index]
+        if argument == "--all"
+            options["section"] = ""
+        elseif argument == "--verbose"
+            options["verbose"] = true
+        elseif argument in ("--integration", "--section", "--limit", "--json")
+            index == length(arguments) && error("$(argument) requires a value")
+            value = arguments[index + 1]
+            key = argument[3:end]
+            options[key] = key == "limit" ? parse(Int, value) : value
+            index += 1
+        else
+            error("unknown option $(argument)")
+        end
+        index += 1
+    end
+    return options
+end
+
+"""
+    section_files(root, prefix)
+
+Return the rule and test files whose declared section starts with `prefix`,
+each paired with that section.
+"""
+function section_files(root::AbstractString, prefix::AbstractString)
+    found = Tuple{String,String}[]
+    isdir(root) || return found
+    for (directory, _, names) in walkdir(root), name in names
+        endswith(name, ".json") && name != "meta.json" || continue
+        path = joinpath(directory, name)
+        document = JSON.parsefile(path)
+        section = get(document, "section", nothing)
+        section isa String || continue
+        startswith(section, prefix) || continue
+        push!(found, (path, section))
+    end
+    return sort!(found; by = pair -> pair[2])
+end
+
+"""
+    load_rules(paths)
+
+Compile each rule file in its own top-level expansion.
+
+`@load_osr_profile` expands a whole manifest into one expression, which for the
+6257-rule corpus costs minutes and gigabytes; one expansion per file is linear
+and lets a file that fails to compile be reported rather than abort the run.
+"""
+function load_rules(paths::Vector{String})
+    declare_free_symbols(paths)
+    rules = OSRRule[]
+    failures = Dict{String,String}()
+    for path in paths
+        try
+            compiled = Core.eval(Main, Expr(:macrocall, Symbol("@load_osr"),
+                                            LineNumberNode(1, Symbol(path)), path))
+            append!(rules, compiled)
+        catch exception
+            failures[path] = first(split(sprint(showerror, exception), "\n"))
+        end
+    end
+    return rules, failures
+end
+
+"""
+    declare_free_symbols(paths)
+
+Declare, as plain symbols, every name a rule's result or guard mentions that its
+pattern never bound.
+
+254 converted RUBI rules name the integration variable `x` this way, because the
+conversion drops the `Int[integrand, x_Symbol]` wrapper and with it the binding
+of `x`; another hundred name an inert trigonometric head such as `sin`. Without
+these the rule raises an undefined-variable error the moment it fires, and the
+measurement would report the host's missing vocabulary instead of the rule set's
+coverage. Declaring them is instrumentation, not a fix: see `upstream-bugs.md`
+and the Integration repository.
+"""
+function declare_free_symbols(paths::Vector{String})
+    free = Set{Symbol}()
+    for path in paths
+        document = JSON.parsefile(path)
+        for rule in get(document, "rules", ())
+            bound = OpenSymbolicRules._pattern_bindings(rule["pattern"])
+            _free_names!(free, rule["result"], bound)
+            for constraint in get(rule, "constraints", ()) 
+                _free_names!(free, constraint, bound)
+            end
+        end
+    end
+    for name in free
+        isdefined(Main, name) && continue
+        Core.eval(Main, :(SymbolicUtils.@syms $name))
+    end
+    return free
+end
+
+function _free_names!(free::Set{Symbol}, node, bound; head::Bool = false)
+    if node isa String
+        # A head is vocabulary the host must implement, not a value: leaving it
+        # undeclared is what lets the report name what is missing.
+        head && return free
+        (occursin('.', node) || endswith(node, "_") || startswith(node, "~")) && return free
+        name = Symbol(node)
+        name in bound && return free
+        all(character -> isletter(character) || isdigit(character), node) || return free
+        isuppercase(first(node)) && return free
+        push!(free, name)
+    elseif node isa AbstractArray
+        for (index, element) in enumerate(node)
+            _free_names!(free, element, bound; head = index == 1)
+        end
+    end
+    return free
+end
+
+"""
+    unresolved_heads(expression)
+
+Return the heads of `expression` that mean the integral was not solved, or that
+this package leaves uninterpreted.
+"""
+function unresolved_heads(expression)
+    found = Set{Symbol}()
+    _unresolved_heads!(found, expression)
+    return found
+end
+
+function _unresolved_heads!(found::Set{Symbol}, expression)
+    iscall(expression) || return found
+    head = operation(expression)
+    head isa Symbol && head in UNRESOLVED_HEADS && push!(found, head)
+    if !(head isa Symbol) && nameof(head) isa Symbol && nameof(head) in UNRESOLVED_HEADS
+        push!(found, nameof(head))
+    end
+    for argument in arguments(expression)
+        _unresolved_heads!(found, argument)
+    end
+    return found
+end
+
+"""
+    integrate(integrand, rewriter; depth=6)
+
+Apply the rule set to `integrand` the way an integration rule set is meant to be
+applied, and return the antiderivative it reached.
+
+A RUBI rule rewrites a *whole* integrand into an antiderivative, so the rule set
+is applied at the root and never walked bottom-up over subterms: `x^m` is a
+statement about the integrand, not an identity holding of every power inside
+one. Nor is the result fed back in — an antiderivative is not another integrand,
+and re-applying the rules to one produces nonsense. What does continue is an
+`Int` the result itself contains: a rule that reduces one integral to another
+leaves the remaining integral explicit, and that is what recursion follows.
+"""
+function integrate(integrand, rewriter; depth::Int = 6)
+    rewritten = apply_rules(integrand, rewriter)
+    rewritten === nothing && return integrand
+    depth <= 0 && return rewritten
+    return _integrate_subintegrals(rewritten, rewriter, depth - 1)
+end
+
+function _integrate_subintegrals(expression, rewriter, depth)
+    iscall(expression) || return expression
+    head = operation(expression)
+    name = head isa Symbol ? head : nameof(head)
+    operands = arguments(expression)
+    if name === :Int && length(operands) == 2
+        solved = integrate(first(operands), rewriter; depth)
+        # Only report progress when the integral actually went away.
+        isequal(solved, first(operands)) || return solved
+        return expression
+    end
+    rebuilt = [_integrate_subintegrals(operand, rewriter, depth) for operand in operands]
+    all(isequal.(rebuilt, operands)) && return expression
+    return head(rebuilt...)
+end
+
+"""
+    apply_rules(term, dispatch)
+
+Apply the rule set to `term` the way `OSRDispatch` does, but one rule at a time
+so that a failure can be attributed to the rule that caused it, and through
+`invokelatest` so that heads declared while this script runs are visible.
+
+`SymbolicUtils` wraps a failed rewrite in an error that discards the cause (see
+`upstream-bugs.md`), so the rule is re-run here outside that guard to recover
+what actually went wrong.
+"""
+function apply_rules(term, dispatch)
+    current = term
+    cursor = 0
+    while true
+        positions = OpenSymbolicRules.candidate_positions(dispatch, current)
+        next = searchsortedfirst(positions, cursor + 1)
+        next > length(positions) && return current
+        cursor = positions[next]
+        rule = dispatch.rules[cursor]
+        result = try
+            # The heads a rule file declares are defined while this script is
+            # already running, so a rule compiled against them belongs to a
+            # newer world age than this frame.
+            Base.invokelatest(rule, current)
+        catch exception
+            throw(BlockedRule(rule.name, exception))
+        end
+        result === nothing || (current = result)
+    end
+end
+
+"""
+    BlockedRule
+
+A rule that raised while rewriting, named by its stable OSR identity.
+
+`SymbolicUtils` wraps such a failure in an error that discards the cause (see
+`upstream-bugs.md`), so the identity of the rule is what can be reported — and
+it is what a reader needs in order to act.
+"""
+struct BlockedRule <: Exception
+    rule::String
+    cause::Any
+end
+
+"""
+    classify(integrand, rewriter, rules, expected)
+
+Say what the rule set reached, distinguishing an antiderivative from a rewrite
+that stopped short and from a rewrite that named something unimplemented.
+"""
+function classify(integrand, rewriter, rules, expected)
+    reached = try
+        integrate(integrand, rewriter)
+    catch exception
+        return Outcome(:error, describe_cause(exception, rules))
+    end
+    isequal(reached, integrand) && return Outcome(:unchanged, "")
+    remaining = unresolved_heads(reached)
+    if isempty(remaining)
+        # A closed form is not yet a correct one. Only an exact structural match
+        # with the recorded antiderivative is reported as verified, which
+        # understates rather than overstates what the rule set achieved.
+        expected !== nothing && isequal(reached, expected) && return Outcome(:verified, "")
+        return Outcome(:resolved, "")
+    end
+    return Outcome(:unevaluated, join(sort!(string.(collect(remaining))), ","))
+end
+
+"""
+    describe_cause(exception)
+
+Name what actually went wrong. `SymbolicUtils` wraps a failure to build a rule's
+result in a "Failed to apply rule" error whose message repeats the whole rule,
+which buries the one fact worth counting: the head or predicate that is missing.
+"""
+function describe_cause(exception, rules)
+    exception isa BlockedRule && return "rule: " * exception.rule
+    # `SymbolicUtils` discards the cause when a rule's result cannot be built
+    # (see upstream-bugs.md), so the rule's own OSR identity is what is left to
+    # report — and it is what a reader needs in order to act.
+    if exception isa SymbolicUtils.RuleRewriteError
+        for rule in rules
+            rule.rule === exception.rule && return "rule: " * rule.name
+        end
+        return "rule: " * first(split(sprint(showerror, exception), " on expression"))
+    end
+    message = first(split(sprint(showerror, exception), "\n"))
+    undefined = match(r"`?([A-Za-z_][A-Za-z0-9_!]*)`? not defined", message)
+    undefined === nothing || return "undefined: " * undefined.captures[1]
+    method = match(r"no method matching ([A-Za-z_][A-Za-z0-9_!]*)", message)
+    method === nothing || return "no method: " * method.captures[1]
+    return message
+end
+
+"""
+    build_term(node, symbols)
+
+Build a `SymbolicUtils` term from an OSR expression, creating a symbol for each
+name it mentions. Only the test corpus is read this way; a rule always goes
+through `@load_osr`.
+"""
+function build_term(node, symbols::Dict{String,Any})
+    node === nothing && return nothing
+    if node isa String
+        return get!(symbols, node) do
+            # `@syms` is the supported way to make a symbolic variable; building
+            # the underlying type directly depends on SymbolicUtils internals.
+            first(Core.eval(Main, :(SymbolicUtils.@syms $(Symbol(node)))))
+        end
+    elseif node isa AbstractArray
+        head = first(node)
+        head isa String || error("an OSR operator must be a string")
+        built = [build_term(argument, symbols) for argument in node[2:end]]
+        head == "List" && return built
+        operation = getfield(Main, Symbol(head))
+        # The OSR heads are declared binary, and `osr_to_expr` normalizes an
+        # n-ary associative expression to left-associated binary terms. A test
+        # problem has to be built the same way or it cannot match a pattern.
+        if length(built) > 2 && head in ASSOCIATIVE_HEADS
+            return reduce((left, right) -> operation(left, right), built)
+        end
+        return operation(built...)
+    end
+    return node
+end
+
+function run(options)
+    integration = options["integration"]
+    prefix = options["section"]
+
+    rule_paths = first.(section_files(joinpath(integration, "rules"), prefix))
+    isempty(rule_paths) && error("no rule file matches section $(prefix)")
+    @info "compiling rules" files = length(rule_paths)
+    compile_seconds = @elapsed ((rules, failures) = load_rules(rule_paths))
+    @info "compiled" rules = length(rules) failed_files = length(failures) seconds = round(compile_seconds, digits = 1)
+    for (path, message) in failures
+        @warn "rule file did not compile" file = basename(path) message
+    end
+
+    # Root-only application: see `classify`.
+    rewriter = OpenSymbolicRules.OSRDispatch(rules)
+    symbols = Dict{String,Any}()
+
+    report = Dict{String,Any}()
+    totals = Dict(:verified => 0, :resolved => 0, :unevaluated => 0, :unchanged => 0, :error => 0)
+    reasons = Dict{String,Int}()
+
+    for (path, section) in section_files(joinpath(integration, "tests"), prefix)
+        document = JSON.parsefile(path)
+        counts = Dict(:verified => 0, :resolved => 0, :unevaluated => 0, :unchanged => 0, :error => 0)
+        for problem in first(get(document, "tests", []), options["limit"])
+            integrand = try
+                build_term(problem["expression"], symbols)
+            catch exception
+                outcome = Outcome(:error, "build: " * first(split(sprint(showerror, exception), "\n")))
+                counts[outcome.kind] += 1
+                totals[outcome.kind] += 1
+                reasons[outcome.detail] = get(reasons, outcome.detail, 0) + 1
+                continue
+            end
+            expected = try
+                build_term(get(problem, "expected_result", nothing), symbols)
+            catch
+                nothing
+            end
+            outcome = classify(integrand, rewriter, rules, expected)
+            counts[outcome.kind] += 1
+            totals[outcome.kind] += 1
+            isempty(outcome.detail) ||
+                (reasons[outcome.detail] = get(reasons, outcome.detail, 0) + 1)
+            if options["verbose"] && outcome.kind != :verified
+                println("  ", section, ":", problem["id"], "  ", outcome.kind, "  ", outcome.detail)
+            end
+        end
+        report[section] = Dict(String(key) => value for (key, value) in counts)
+        total = sum(values(counts))
+        total == 0 && continue
+        println(rpad(section, 12), lpad(total, 6), " problems   ",
+                lpad(counts[:verified], 5), " verified (",
+                lpad(round(100 * counts[:verified] / total, digits = 1), 5), "%)   ",
+                lpad(counts[:resolved], 5), " closed form   ",
+                lpad(counts[:unevaluated], 5), " unevaluated   ",
+                lpad(counts[:unchanged], 5), " unchanged   ",
+                lpad(counts[:error], 5), " error")
+    end
+
+    total = sum(values(totals))
+    println()
+    println("TOTAL ", total, " problems: ",
+            totals[:verified], " verified, ",
+            totals[:resolved], " closed form, ",
+            totals[:unevaluated], " unevaluated, ",
+            totals[:unchanged], " unchanged, ",
+            totals[:error], " error")
+    if total > 0
+        println("verified:    ", round(100 * totals[:verified] / total, digits = 2), "%")
+        println("closed form: ",
+                round(100 * (totals[:verified] + totals[:resolved]) / total, digits = 2),
+                "%  (coverage, not correctness)")
+    end
+
+    if !isempty(reasons)
+        println()
+        println("What stands in the way, by number of problems:")
+        for (reason, count) in first(sort!(collect(reasons); by = pair -> -pair[2]), 20)
+            println("  ", lpad(count, 6), "  ", reason)
+        end
+    end
+
+    if options["json"] !== nothing
+        report["totals"] = Dict(String(key) => value for (key, value) in totals)
+        report["reasons"] = reasons
+        open(options["json"], "w") do handle
+            JSON.print(handle, report, 2)
+        end
+        println("\nwrote ", options["json"])
+    end
+    return totals
+end
+
+abspath(PROGRAM_FILE) == abspath(@__FILE__) && run(parse_arguments(ARGS))

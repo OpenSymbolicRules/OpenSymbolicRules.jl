@@ -235,3 +235,26 @@ end
     # A head bound by the pattern is referable by its bare name.
     @test isequal(rules[3](Sin(y)), Sin(Multiply(2, y)))
 end
+
+@testitem "A declared head the host does not implement stays uninterpreted" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms w
+
+    # Every operator in a rule file carries an OpenMath symbol, so a head this
+    # package has no Julia implementation for still has a definite meaning. It
+    # denotes an operation that cannot be evaluated here, which is an
+    # unevaluated term — not a rule that raises an undefined-variable error the
+    # moment it fires.
+    @test !isdefined(@__MODULE__, :PolynomialRemainder)
+    rules = @load_osr("data/wildcards/1.6-uninterpreted-head.json")
+
+    rewritten = rules[1](Power(w, 2))
+    @test rewritten !== nothing
+    @test SymbolicUtils.operation(rewritten) === PolynomialRemainder
+    @test isequal(rewritten, PolynomialRemainder(w, w, 2))
+
+    # A head the package does implement keeps its implementation.
+    @test Multiply === OpenSymbolicRules.Multiply
+end

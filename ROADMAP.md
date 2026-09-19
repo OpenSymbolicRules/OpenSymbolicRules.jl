@@ -28,9 +28,9 @@
   sort information.
 - [x] `@load_osr` macro for Ahead-Of-Time (AOT) rule compilation.
 - [x] Mapping of primitive constraints (e.g., `is_integer`) to Julia `where` clauses.
-- [x] **Advanced Predicates Mapping:** A standard library of Julia predicates for the OSR constraint vocabulary — comparison, integer-qualified, numeric-domain, structural, and polynomial predicates plus the `Not`/`And`/`Or` combinators — covering 97% of the constraint applications in the RUBI dataset.
+- [x] **Advanced Predicates Mapping:** A standard library of Julia predicates for the OSR constraint vocabulary — comparison, integer-qualified, numeric-domain, structural, and polynomial predicates plus the `Not`/`And`/`Or`/`If` combinators — covering 97% of the constraint applications in the RUBI dataset, and 92.6% of its rules use no other predicate.
 - [ ] **RUBI-specific Predicates:** Implement the remaining catalogue needed by the full 6000-rule dataset (`MatchQ` and the `*MatchQ` family, `BinomialQ`, `TrinomialQ`, `SumSimplerQ`, the `FunctionOf*` family, and the `Known*IntegrandQ` heuristics).
-- [ ] **Rule Precompilation:** Optimize the macro to handle thousands of rules (like RUBI) without blowing up Julia's compile time (e.g., splitting into sub-modules or using `PrecompileTools.jl`). A `PrecompileTools.jl` workload now covers the rewriting paths, roughly halving the time to a first `simplify`. What remains is the macro itself: `@load_osr` emits one `@rule` per rule, and expanding thousands of them in one module has not been measured against a real RUBI profile because the dataset does not load yet.
+- [~] **Rule Precompilation:** Optimize the macro to handle thousands of rules (like RUBI) without blowing up Julia's compile time (e.g., splitting into sub-modules or using `PrecompileTools.jl`). A `PrecompileTools.jl` workload now covers the rewriting paths, roughly halving the time to a first `simplify`. The macro itself has now been measured against the real corpus: one `@load_osr` per rule file is linear at about 62 ms per rule with flat memory, whereas one `@load_osr_profile` over the whole manifest did not finish in 50 minutes. Splitting the profile macro per manifest entry is the remaining work.
 
 ## Phase 2: Core Algebra & Expression Engine 🧮
 **Goal:** Build the CAS front-end and fundamental algebraic simplification engine.
@@ -137,7 +137,33 @@
       it in the loading module and fail when tried. 92.6% of rules use only
       predicates this package already implements.
 - [x] **Heuristic Rule Dispatcher:** `SymbolicUtils.jl` evaluates rules sequentially. For 6000+ rules, a naive `Chain` is too slow. `OSRDispatch` indexes rules by the operation their pattern requires at the root of a term, selecting candidates with a single dictionary lookup. A deeper index, or `Metatheory.jl` e-graphs, remains an option if root dispatch stops being selective enough.
-- [ ] **Validation Suite:** Run the official RUBI test suite natively in Julia to guarantee correctness against Mathematica.
+- [~] **Validation Suite:** Run the official RUBI test suite natively in Julia
+  to guarantee correctness against Mathematica. `scripts/rubi_conformance.jl`
+  (`just conformance <section>`) applies the rule set to every test problem of a
+  section and reports `verified`, `closed form`, `unevaluated`, `unchanged`, and
+  `error` separately, so coverage is never mistaken for correctness. The first
+  measurement, on section 1.1.1 (906 problems, 186 rules):
+
+  | verified | closed form | unevaluated | unchanged | error |
+  | --- | --- | --- | --- | --- |
+  | 0 | 903 | 0 | 1 | 2 |
+
+  The rule set reaches a closed form for 99.7% of the section and reaches the
+  recorded antiderivative for none of it. The cause is upstream of this package:
+  the conversion drops RUBI's `Int[integrand, x_Symbol]` wrapper, and with it
+  both the integration variable and the restriction that binds it. 254 converted
+  rules name a free `x` their pattern never bound, and a rule such as
+  `x^m. => x^(m+1)/(m+1)` now matches the constant integrand `-2` and returns
+  `(-2)^2/2`. Fixing the conversion to keep the integration variable is the next
+  blocker, and it belongs to the `Integration` repository. Structural comparison
+  is strict, so `verified` is a lower bound — but the over-matching is directly
+  demonstrated, not inferred.
+- [ ] **Profile loading at scale:** `@load_osr_profile` expands a whole manifest
+  into a single expression. For the 6257-rule corpus that did not finish within
+  50 minutes at over 2 GiB, while compiling the same rules one file per
+  top-level expansion is linear at about 62 ms per rule, or roughly 6.5 minutes
+  in total. Split the macro per manifest entry, or cache compiled rules, before
+  a full profile can be loaded in one call.
 
 ## Phase 4: Formal Proof Engine & Step-by-Step Resolution 🎓
 **Goal:** Exploit the purely declarative nature of OSR to provide trackable, formal proofs of equivalence and step-by-step educational solutions.
