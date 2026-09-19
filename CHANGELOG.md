@@ -7,6 +7,15 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Optional operand wildcards (`a.`, `m.3`): the enclosing operation supplies the
+  identity element an absent operand binds to, so a single rule covers every
+  degenerate shape of a RUBI pattern such as `(a. + b.*x)^m.`.
+- Pattern variables in operator position, so one rule matches a whole family of
+  heads; such a head names a binding and needs no OpenMath symbol.
+- `If` as a constraint combinator, compiling to Julia control flow over booleans
+  rather than to a symbolic term.
+- `Condition` as the guarded-pattern form of the rule language, pairing a
+  pattern with the test that admits it, as `MatchQ` uses it.
 - A structured SAT operation API with `SATProblem`, `solve`, selectable
   backends, and explicit satisfiable, unsatisfiable, or unknown results.
 - Integration with the lightweight MIT-licensed `CommonSolve.jl` interface, so
@@ -142,6 +151,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   roughly 470 times faster than a linear `Chain`.
 
 ### Changed
+- Require an OpenMath declaration only for mathematical operators. A structural
+  head of the expression language (`List`, `Condition`) and a wildcard in
+  operator position carry no domain meaning, so a rule file no longer has to
+  rebind them. This raises the Integration dataset from 13 to 151 of its 188
+  rule files at semantic-validation time, without weakening the closure check
+  the domain repositories run.
 - Make `NotEqual` conservative for symbolic terms, preventing guarded rules
   from treating an unproved symbolic inequality as true.
 - Mapped bundled fixture operators to canonical OpenMath Content Dictionary identifiers.

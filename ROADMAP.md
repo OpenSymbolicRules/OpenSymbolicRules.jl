@@ -108,13 +108,34 @@
 **Goal:** Achieve state-of-the-art symbolic integration and calculus features.
 
 - [ ] **Limits & Derivatives:** Implement `Limit(expr, x, a)` and `Derivative(expr, x)` using the `OpenSymbolicRules/Calculus` specifications.
-- [ ] **The RUBI Milestone:** Successfully parse and load the 6000+ RUBI integration rules. Three blockers remain, measured against the converted dataset in the `Integration` repository:
-    - *Globally stable rule identities.* The Integration data currently has
-      119 duplicated `section:id` identities (for example, two leaf files share
-      section `1.1.2` and rule IDs `1`--`3`). The data must distinguish leaf
-      sections or IDs rather than weakening proof and trace identities.
-    - *Complete `semantics` declarations.* The rules use 146 distinct operators and declare 6. The schema's `openmath:<cd>#<symbol>` pattern also cannot express a RUBI-specific utility such as `Simp`, `Dist`, or `Rt`, so the specification needs a decision before the converter can emit a complete block.
-    - *Optional wildcards.* 36,485 operands are spelled `a.`, as in `(a_. + b_.*x_)^m_`. Matching one needs the identity element of the enclosing operation, which `SymbolicUtils` supplies only for the native `+`, `*`, and `^`. The loader currently rejects them with a diagnostic.
+- [~] **The RUBI Milestone:** Successfully parse and load the 6000+ RUBI
+  integration rules. Measured against the 6257 rules in 188 rule files of the
+  `Integration` repository, the three blockers previously recorded here were
+  partly misdiagnosed; the current state is:
+    - *Optional wildcards.* **Resolved.** 36,485 operands are spelled `a.`, as
+      in `(a. + b.*x)^m.`. Every one of them sits under `Add`, `Multiply`, or
+      the exponent of `Power`, no node carries more than one, and none declares
+      an explicit default, so the enclosing operation always supplies the
+      identity element. The loader now emits a `SymbolicUtils` `DefSlot`, which
+      lifted rule compilation from 41 rules to all 6257.
+    - *Complete `semantics` declarations.* **Mostly resolved.** No operator in
+      any `pattern` or `result` is undeclared. What the validator was flagging
+      was the structural head `List`, the guarded-pattern head `Condition`,
+      wildcards in operator position, and constraint predicates reached through
+      `Condition` — none of which is domain vocabulary. Exempting them raised
+      semantic validation from 13 to 151 of the 188 files. The remaining 37
+      fail on RUBI utility heads (`Coeff`, `Expon`, `Simplify`, `Denominator`,
+      …) that the converter declares in some files and omits in others: an
+      `Integration` converter gap, not a specification gap. The `osr` Content
+      Dictionary namespace the converter already emits (`openmath:osr#Coeff`)
+      answers the question of how to name a RUBI-specific utility.
+    - *Globally stable rule identities.* **Not a data problem.** 116 `section:id`
+      pairs collide, but the file-level `identity` field distinguishes every one
+      of them, and both the loader and the identity validator already key on it.
+    - *Remaining.* Execution, not loading: the rules that call an unimplemented
+      RUBI predicate (`MatchQ`, `BinomialQ`, the `FunctionOf*` family) resolve
+      it in the loading module and fail when tried. 92.6% of rules use only
+      predicates this package already implements.
 - [x] **Heuristic Rule Dispatcher:** `SymbolicUtils.jl` evaluates rules sequentially. For 6000+ rules, a naive `Chain` is too slow. `OSRDispatch` indexes rules by the operation their pattern requires at the root of a term, selecting candidates with a single dictionary lookup. A deeper index, or `Metatheory.jl` e-graphs, remains an option if root dispatch stops being selective enough.
 - [ ] **Validation Suite:** Run the official RUBI test suite natively in Julia to guarantee correctness against Mathematica.
 

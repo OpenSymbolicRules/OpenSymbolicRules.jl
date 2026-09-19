@@ -31,14 +31,48 @@ using TestItemRunner
     @test_throws ArgumentError osr_to_expr(".")
 end
 
-@testitem "Optional wildcards are rejected rather than misread" begin
+@testitem "Optional wildcards compile to a default-valued slot" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: osr_to_expr, _optional_default
+    using SymbolicUtils: DefSlot
+
+    # RUBI writes `a.` for an operand that may be absent.  Matching one needs
+    # the identity element of the enclosing operation, so the enclosing head
+    # decides the default: `plus` contributes zero, `times` and the exponent of
+    # `power` contribute one.
+    @test _optional_default("openmath:arith1#plus", 1) == 0
+    @test _optional_default("openmath:arith1#times", 2) == 1
+    @test _optional_default("openmath:arith1#power", 2) == 1
+
+    # A power's base is not an optional operand: only its exponent defaults.
+    @test _optional_default("openmath:arith1#power", 1) === nothing
+    # A head with no identity element supplies no default.
+    @test _optional_default("openmath:arith1#gcd", 1) === nothing
+    @test _optional_default(nothing, 1) === nothing
+
+    # Inside a defaulting operation the wildcard becomes an interpolated
+    # `DefSlot`, which `@rule` splices into the pattern verbatim.
+    compiled = osr_to_expr(["Multiply", "a.", "x"])
+    slot = compiled.args[2]
+    @test slot isa Expr && slot.head === :$
+    @test eval(slot.args[1]) isa DefSlot
+    @test eval(slot.args[1]).defaultValue == 1
+    @test eval(slot.args[1]).name === :a
+
+    # A summand defaults to zero rather than one.
+    @test eval(osr_to_expr(["Add", "a.", "x"]).args[2].args[1]).defaultValue == 0
+
+    # An explicit default overrides the one the operation would supply.
+    @test eval(osr_to_expr(["Add", "m.3", "x"]).args[2].args[1]).defaultValue == 3
+end
+
+@testitem "Optional wildcards without an identity element are rejected" begin
     using OpenSymbolicRules
     using OpenSymbolicRules: osr_to_expr
 
-    # RUBI writes `a_.` for an operand that may be absent, which needs a matcher
-    # that knows the identity element of the enclosing operation.  Compiling it
-    # to an ordinary symbol named `a.` would silently produce a rule that can
-    # never fire, so the loader refuses it instead.
+    # Outside any operation there is no identity element to fall back on, so
+    # compiling `a.` to an ordinary symbol named `a.` would silently produce a
+    # rule that can never fire.  The loader refuses it instead.
     error = try
         osr_to_expr("a.")
         nothing
@@ -48,6 +82,48 @@ end
     @test error isa ArgumentError
     @test occursin("optional", lowercase(error.msg))
     @test occursin("a.", error.msg)
+
+    # The same holds under a head that has no identity element, and under the
+    # base of a power, where an absent operand has no meaning.
+    @test_throws ArgumentError osr_to_expr(["Gcd", "a.", "b_"])
+    @test_throws ArgumentError osr_to_expr(["Power", "a.", "m_"])
+end
+
+@testitem "Optional wildcards match present and absent operands" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms x y
+
+    rules = @load_osr("data/wildcards/1.2-optional-forms.json")
+
+    # An absent factor binds the multiplicative identity.
+    @test isequal(rules[1](Multiply(3, x)), 3)
+    @test isequal(rules[1](x), 1)
+
+    # An absent exponent binds one.
+    @test isequal(rules[2](Power(x, 4)), 4)
+    @test isequal(rules[2](x), 1)
+
+    # An absent summand binds zero, not one.
+    @test isequal(rules[3](Add(7, x)), 7)
+    @test isequal(rules[3](x), 0)
+
+    # The canonical RUBI binomial `(a. + b.*x)^m.` matches the full shape and
+    # every degenerate one, binding the identity of each absent operand.
+    @test isequal(rules[4](Power(Add(2, Multiply(3, x)), 4)), [2, 3, 4])
+    @test isequal(rules[4](x), [0, 1, 1])
+    @test isequal(rules[4](Add(2, x)), [2, 1, 1])
+
+    # An n-ary associative head normalizes to left-associated binary terms,
+    # which keeps the default available at the position the rule declared it.
+    @test isequal(rules[5](Add(Add(7, x), y)), 7)
+    @test isequal(rules[5](Add(x, y)), 0)
+
+    # A constraint reads the binding the optional slot made, including the
+    # default one, so a defaulted operand is still weighed.
+    @test isequal(rules[6](Multiply(5, y)), 5)
+    @test isequal(rules[6](y), 1)
 end
 
 @testitem "Sequence and typed wildcards match as declared" begin
@@ -69,4 +145,62 @@ end
     # A typed blank only matches a value of its declared domain.
     @test isequal(rules[4](Pow(x, 2)), 2)
     @test rules[4](Pow(x, 1 // 2)) === nothing
+end
+
+@testitem "A structural collection needs no per-file OpenMath declaration" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: _validate_openmath_semantics
+
+    # `List` is part of the OSR expression language rather than domain
+    # vocabulary: it compiles to a host collection, not to a mathematical term.
+    # Requiring every rule file to rebind it adds no semantic guarantee.
+    structural = Dict(
+        "identity" => "test:structural",
+        "semantics" => Dict("Add" => "openmath:arith1#plus"),
+        "rules" => [Dict(
+            "id" => 1,
+            "pattern" => ["Add", "a_", "b_"],
+            "constraints" => Any[["FreeQ", ["List", "a_"], "b_"]],
+            "result" => "a_",
+        )],
+    )
+    @test _validate_openmath_semantics([structural]) === nothing
+
+    # A mathematical operation still has to be declared, so the semantic
+    # closure the domain repositories check is not weakened.
+    undeclared = Dict(
+        "identity" => "test:undeclared",
+        "semantics" => Dict("Add" => "openmath:arith1#plus"),
+        "rules" => [Dict(
+            "id" => 1,
+            "pattern" => ["Add", "a_", "b_"],
+            "constraints" => Any[],
+            "result" => ["Multiply", "a_", "b_"],
+        )],
+    )
+    @test_throws ArgumentError _validate_openmath_semantics([undeclared])
+end
+
+@testitem "A wildcard in operator position is a binding, not an operator" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: osr_to_expr, _validate_openmath_semantics
+    using SymbolicUtils
+
+    # OSR-X-004 allows a pattern variable in operator position, as in the RUBI
+    # rules that match any of the six trigonometric heads at once.  It names a
+    # binding, so it needs no OpenMath symbol.
+    @test osr_to_expr(["f_", "x"]) == Expr(:call, :(~f), :x)
+
+    # An optional wildcard has no meaning in operator position: an absent
+    # operator has no identity element to fall back on.
+    @test_throws ArgumentError osr_to_expr(["f.", "x"])
+
+    @syms x y
+    rules = @load_osr("data/wildcards/1.3-head-wildcard.json")
+
+    # The head the wildcard matched is reusable in the result.
+    @test isequal(rules[1](Sin(x)), Multiply(2, Sin(x)))
+    @test isequal(rules[1](Cos(x)), Multiply(2, Cos(x)))
+
+    @test isequal(rules[2](Add(x, y)), x)
 end

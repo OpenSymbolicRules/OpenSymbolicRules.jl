@@ -210,16 +210,51 @@ the bindings the pattern made.
 | `x_integer` | typed blank | `~x::IntegerQ` |
 | `xs__` | sequence of at least one expression | `~~xs`, guarded non-empty |
 | `xs___` | sequence, possibly empty | `~~xs` |
+| `a.` | optional operand | `~!a`, defaulted by the enclosing operation |
+| `m.3` | optional operand, explicit default | `~!m`, defaulting to `3` |
 
 A typed blank accepts the domains `integer`, `rational`, `real`, `complex`, and
 `number`; any other domain is a rule-file error rather than a silently inert
 rule.
 
-OSR also spells an optional operand `a.`, as in RUBI's `(a_. + b_.*x_)^m_`.
-Matching one requires knowing the identity element of the enclosing operation,
-which `SymbolicUtils` provides only for the native `+`, `*`, and `^`, never for
-the uninterpreted heads a rule file declares. The loader therefore rejects such
-a wildcard instead of compiling it into a rule that could never fire.
+### Optional operands
+
+OSR spells an optional operand `a.`, as in RUBI's `(a. + b.*x)^m.`. Matching one
+needs the identity element of the enclosing operation, so the enclosing head
+supplies the default: `plus` contributes zero, `times` contributes one, and
+`power` contributes one to its exponent. A power's *base* is not optional — an
+absent base has no meaning — and a head with no identity element supplies no
+default, so an optional operand in either position is a rule-file error rather
+than a rule that could never fire. An explicit default in the spelling itself,
+as in `m.3`, wins over the one the operation would supply.
+
+One rule therefore covers every degenerate shape at once:
+
+```json
+{
+  "pattern": ["Power", ["Add", "a.", ["Multiply", "b.", "x"]], "m."],
+  "result": ["List", "a.", "b.", "m."]
+}
+```
+
+matches `(2 + 3x)^4` binding `[2, 3, 4]`, and also the bare `x`, binding
+`[0, 1, 1]`.
+
+A result and a constraint refer to the binding the pattern made, whether it came
+from a matched operand or from the default, so a defaulted operand is still
+weighed by the guard.
+
+### Wildcards in operator position
+
+A pattern variable may stand where an operator does, which is how a single RUBI
+rule matches any of the six trigonometric heads:
+
+```json
+{"pattern": ["f_", ["Add", "e", ["Multiply", "f", "x"]]]}
+```
+
+Such a head names a binding rather than an operation, so it carries no OpenMath
+symbol and the result may reapply the head it matched.
 
 ## The constraint predicate library
 
@@ -234,9 +269,16 @@ predicate and applies it to OSR expressions:
 ]
 ```
 
-`Not`, `And`, and `Or` are combinators: they nest constraints and compile to
-Julia control flow, never to a symbolic `Not`/`And`/`Or` term. Every other
-entry is a predicate application, and all entries of the array must hold.
+`Not`, `And`, `Or`, and `If` are combinators: they nest constraints and compile
+to Julia control flow, never to a symbolic term. Every other entry is a
+predicate application, and all entries of the array must hold.
+
+A `Condition` pairs a pattern with the test that admits it — OSR's spelling of a
+guarded pattern, as it appears inside `MatchQ`. Its first argument is an
+expression and its second is a constraint. Like `List`, it belongs to the rule
+language rather than to a mathematical domain, so a rule file binds no OpenMath
+symbol for it; the operators *inside* the guarded pattern are domain vocabulary
+and must still be declared.
 
 The library implements the predicates below, covering 97% of the constraint
 applications in the RUBI dataset:

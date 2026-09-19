@@ -144,7 +144,35 @@ const _WILDCARD_DOMAINS = Dict{String,Symbol}(
 )
 
 """
-    _wildcard_to_expr(node; reference=false)
+    _OPTIONAL_WILDCARD
+
+Spelling of an OSR optional operand: a name, a dot, and an optional explicit
+default such as `m.3` or `n.-1`.  Per OSR-W-002 and OSR-W-002a.
+"""
+const _OPTIONAL_WILDCARD = r"^([a-zA-Z][a-zA-Z0-9]*)\.(-?[0-9]+)?$"
+
+"""
+    _optional_default(symbol, index)
+
+Return the value an absent operand takes at argument position `index` of the
+operation denoted by the OpenMath `symbol`, or `nothing` when the operation
+supplies no such value.
+
+An optional operand only means something where the operation has an identity
+element to fall back on: `plus` contributes zero and `times` contributes one.
+`power` is deliberately asymmetric — an absent exponent is one, whereas an
+absent base has no meaning, so only its second argument defaults.
+"""
+function _optional_default(symbol, index::Integer)
+    symbol === nothing && return nothing
+    symbol == "openmath:arith1#plus" && return 0
+    symbol == "openmath:arith1#times" && return 1
+    symbol == "openmath:arith1#power" && return index == 2 ? 1 : nothing
+    return nothing
+end
+
+"""
+    _wildcard_to_expr(node; reference=false, optional_default=nothing)
 
 Compile an OSR v0.1 wildcard spelling into a `SymbolicUtils` matcher pattern, or
 return `nothing` when `node` names an ordinary symbol.  A `reference` wildcard
@@ -158,26 +186,49 @@ constraint argument — so it carries no predicate of its own.
 | `x_<domain>` | typed blank | `~x::<predicate>` |
 | `xs__` | sequence, at least one | `~~xs::_nonempty_match` |
 | `xs___` | sequence, possibly empty | `~~xs` |
+| `a.` | optional operand | `~!a` |
+| `m.3` | optional operand, explicit default | `~!m` |
 
-OSR also spells an optional operand `a.`, which needs a matcher that knows the
-identity element of the enclosing operation.  `SymbolicUtils` offers that only
-for the native `+`, `*`, and `^`, never for the uninterpreted heads an OSR rule
-file declares, so such a wildcard is rejected instead of being compiled into a
-rule that could never fire.
+Matching an optional operand needs the identity element of the enclosing
+operation, which `osr_to_expr` supplies as `optional_default`; an explicit
+default in the spelling itself wins over it.  With neither there is nothing for
+an absent operand to bind, so the wildcard is rejected rather than compiled into
+a rule that could never fire.
+
+The default-valued slot is emitted as an interpolation, which `SymbolicUtils`
+splices into the pattern verbatim.  The `~!a` spelling of `@rule` cannot be used
+instead: it resolves the default from the Julia operator it sits under, and OSR
+heads are uninterpreted symbols rather than `+`, `*`, and `^`.
 """
-function _wildcard_to_expr(node::AbstractString; reference::Bool=false)
+function _wildcard_to_expr(node::AbstractString; reference::Bool=false,
+                           optional_default=nothing)
     if startswith(node, "~")
         name = node[2:end]
         isempty(name) && throw(ArgumentError("OSR wildcard `$(node)` has no name"))
         return Expr(:call, :~, Symbol(name))
     end
 
-    if endswith(node, ".")
-        throw(ArgumentError(
-            "OSR optional wildcard `$(node)` is not supported: matching an " *
-            "optional operand requires the identity element of the enclosing " *
-            "operation, which SymbolicUtils provides only for the native `+`, " *
-            "`*`, and `^`, not for a declared OSR head"))
+    optional = match(_OPTIONAL_WILDCARD, node)
+    if optional === nothing && occursin('.', node)
+        throw(ArgumentError("OSR optional wildcard `$(node)` is malformed"))
+    end
+    if optional !== nothing
+        name = Symbol(optional.captures[1])
+        # In a result or a constraint the wildcard refers to the binding the
+        # pattern already made, whether that binding came from a matched
+        # operand or from the default.
+        reference && return Expr(:call, :~, name)
+
+        declared = optional.captures[2]
+        default = declared === nothing ? optional_default : parse(Int, declared)
+        default === nothing && throw(ArgumentError(
+            "OSR optional wildcard `$(node)` is not supported here: matching an " *
+            "optional operand requires an identity element, which neither the " *
+            "wildcard nor the enclosing operation supplies"))
+
+        return Expr(:$, Expr(:call, GlobalRef(SymbolicUtils, :DefSlot),
+                             QuoteNode(name), GlobalRef(SymbolicUtils, :alwaystrue),
+                             nothing, default))
     end
 
     if endswith(node, "___")
@@ -215,19 +266,24 @@ function _wildcard_to_expr(node::AbstractString; reference::Bool=false)
 end
 
 """
-    osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference=false)
+    osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference=false, optional_default=nothing)
 
 Recursively parse an OSR JSON node into a Julia expression for SymbolicUtils.
 `semantics` is the rule file's head-to-OpenMath-symbol map; it decides which
 n-ary expressions are normalized to left-associated binary terms.  Set
 `reference` when compiling a rule's result or a constraint argument, where a
 wildcard refers to a binding the pattern already made.
+
+`optional_default` is the value an absent operand takes at this position, which
+the enclosing operation supplies as the recursion descends.  A top-level node
+has no enclosing operation and therefore no default.
 """
-function osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference::Bool=false)
+function osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference::Bool=false,
+                     optional_default=nothing)
     if node isa String
         node == "True" && return true
         node == "False" && return false
-        wildcard = _wildcard_to_expr(node; reference)
+        wildcard = _wildcard_to_expr(node; reference, optional_default)
         wildcard === nothing || return wildcard
         # Normal symbol/function
         return Symbol(node)
@@ -250,10 +306,19 @@ function osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference::Bool=false)
             # operation, so it compiles to a Julia vector.
             return Expr(:vect, map(element -> osr_to_expr(element, semantics; reference), node[2:end])...)
         end
-        # Function call, e.g. ["Multiply", "x", "y"] -> Multiply(x, y)
-        op = Symbol(node[1])
-        args = map(argument -> osr_to_expr(argument, semantics; reference), node[2:end])
-        if length(args) > 2 && _is_associative(node[1], semantics)
+        # Function call, e.g. ["Multiply", "x", "y"] -> Multiply(x, y).  The
+        # head may itself be a wildcard, as in the RUBI rules that match any of
+        # the six trigonometric heads at once (OSR-X-004).
+        head_wildcard = node[1] isa String ? _wildcard_to_expr(node[1]; reference) : nothing
+        op = head_wildcard === nothing ? Symbol(node[1]) : head_wildcard
+        # The head decides what an absent operand binds to, so it is resolved
+        # once here and handed to each argument with its own position.  A
+        # wildcard head denotes no particular operation and so supplies none.
+        symbol = head_wildcard === nothing ? _openmath_symbol(node[1], semantics) : nothing
+        args = [osr_to_expr(argument, semantics; reference,
+                            optional_default=_optional_default(symbol, index))
+                for (index, argument) in enumerate(node[2:end])]
+        if length(args) > 2 && symbol in _ASSOCIATIVE_SYMBOLS
             return reduce((left, right) -> Expr(:call, op, left, right), args)
         end
         return Expr(:call, op, args...)
@@ -300,6 +365,15 @@ const _OSR_PREDICATES = Dict{String,Symbol}(
 _conjoin(conditions) = foldr((left, right) -> Expr(:&&, left, right), conditions)
 
 """
+    _CONSTRAINT_COMBINATORS
+
+Constraint heads whose operands are themselves constraints.  They are rule
+language rather than domain vocabulary: each compiles to Julia control flow over
+booleans, never to a symbolic term, and none needs an OpenMath binding.
+"""
+const _CONSTRAINT_COMBINATORS = Set(["Not", "And", "Or", "If"])
+
+"""
     _compile_constraint(constraint, semantics)
 
 Compile one OSR constraint into a Julia expression that evaluates to a `Bool`.
@@ -316,6 +390,10 @@ function _compile_constraint(constraint, semantics)
     if name == "Not"
         length(operands) == 1 || throw(ArgumentError("The `Not` constraint takes exactly one constraint"))
         return Expr(:call, :!, _compile_constraint(only(operands), semantics))
+    elseif name == "If"
+        length(operands) == 3 ||
+            throw(ArgumentError("The `If` constraint takes a test and two branches"))
+        return Expr(:if, [_compile_constraint(operand, semantics) for operand in operands]...)
     elseif name == "And" || name == "Or"
         isempty(operands) && throw(ArgumentError("The `$(name)` constraint takes at least one constraint"))
         compiled = [_compile_constraint(operand, semantics) for operand in operands]
@@ -391,14 +469,35 @@ end
 
 const _OPENMATH_SYMBOL = r"^openmath:[A-Za-z][A-Za-z0-9_]*#[A-Za-z][A-Za-z0-9_]*$"
 
+"""
+    _STRUCTURAL_HEADS
+
+Heads the OSR expression language defines for itself rather than borrowing from
+a mathematical domain.  They compile to a host collection instead of a term, so
+a rule file binds no domain meaning by redeclaring one and is not required to.
+"""
+const _STRUCTURAL_HEADS = Set(["List", "Condition"])
+
 function _collect_operators!(operators::Set{String}, expression)
     expression isa AbstractArray || return nothing
     isempty(expression) && throw(ArgumentError("OSR expressions cannot be empty arrays"))
     operator = first(expression)
     operator isa String || throw(ArgumentError("OSR expression operators must be strings"))
-    push!(operators, operator)
+    # A structural head carries no domain meaning, and a wildcard in operator
+    # position names a binding rather than an operation; neither needs an
+    # OpenMath symbol.
+    if !(operator in _STRUCTURAL_HEADS) && _wildcard_to_expr(operator) === nothing
+        push!(operators, operator)
+    end
 
-    if operator in ("Forall", "Exists")
+    if operator == "Condition"
+        # A guarded pattern: an expression and the test that admits it.  Only
+        # the expression carries domain vocabulary.
+        length(expression) == 3 ||
+            throw(ArgumentError("An OSR `Condition` requires a pattern and a test"))
+        _collect_operators!(operators, expression[2])
+        _collect_constraint_operators!(operators, expression[3])
+    elseif operator in ("Forall", "Exists")
         length(expression) == 3 || throw(ArgumentError("OSR quantifiers require variables and a body"))
         _collect_operators!(operators, expression[3])
     else
@@ -414,7 +513,7 @@ end
 
 Collect the mathematical operators a constraint applies its predicates to.  A
 predicate name is not a mathematical operator and needs no OpenMath binding,
-and `Not`, `And`, and `Or` nest constraints rather than expressions.
+and a combinator nests constraints rather than expressions.
 """
 function _collect_constraint_operators!(operators::Set{String}, constraint)
     constraint isa AbstractArray && !isempty(constraint) ||
@@ -422,7 +521,7 @@ function _collect_constraint_operators!(operators::Set{String}, constraint)
     name = first(constraint)
     name isa String || throw(ArgumentError("OSR constraint predicates must be named by a string"))
 
-    if name in ("Not", "And", "Or")
+    if name in _CONSTRAINT_COMBINATORS
         for operand in constraint[2:end]
             _collect_constraint_operators!(operators, operand)
         end

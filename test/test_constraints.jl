@@ -209,3 +209,51 @@ end
     @test !is_numeric(x)
     @test !is_nonzero(x)
 end
+
+@testitem "Rule-language forms inside a constraint are not domain operators" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: _validate_openmath_semantics, _compile_constraint
+
+    # `Condition` pairs a pattern with the test that guards it — OSR's spelling
+    # of a guarded pattern.  It belongs to the rule language, so neither it nor
+    # the predicates inside its test need an OpenMath symbol.
+    guarded = Dict(
+        "identity" => "test:guarded",
+        "semantics" => Dict("Multiply" => "openmath:arith1#times"),
+        "rules" => [Dict(
+            "id" => 1,
+            "pattern" => ["Multiply", "a_", "x_"],
+            "constraints" => Any[["MatchQ", "a_",
+                ["Condition", ["Multiply", "b_", "x_"], ["FreeQ", "b_", "x_"]]]],
+            "result" => "a_",
+        )],
+    )
+    @test _validate_openmath_semantics([guarded]) === nothing
+
+    # A mathematical operation inside the guarded pattern is still domain
+    # vocabulary and still has to be declared.
+    undeclared = deepcopy(guarded)
+    undeclared["rules"][1]["constraints"][1][3][2] = ["Divide", "b_", "x_"]
+    @test_throws ArgumentError _validate_openmath_semantics([undeclared])
+
+    # `If` selects between two tests, so all three of its arguments are
+    # constraints rather than expressions.
+    branching = Dict(
+        "identity" => "test:branching",
+        "semantics" => Dict("Multiply" => "openmath:arith1#times"),
+        "rules" => [Dict(
+            "id" => 1,
+            "pattern" => ["Multiply", "a_", "x_"],
+            "constraints" => Any[["If", ["RationalQ", "a_"], ["GtQ", "a_", 1],
+                                        ["IntegerQ", "a_"]]],
+            "result" => "a_",
+        )],
+    )
+    @test _validate_openmath_semantics([branching]) === nothing
+
+    # It compiles to Julia control flow over booleans, never to a symbolic term.
+    compiled = _compile_constraint(
+        ["If", ["RationalQ", "a_"], ["GtQ", "a_", 1], ["IntegerQ", "a_"]],
+        Dict{String,String}())
+    @test compiled isa Expr && compiled.head === :if
+end
