@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Bare-name references to a rule's bindings: a pattern declares a wildcard as
+  `m_` or `m.`, and its result and constraints refer to it as `m`, which is how
+  the RUBI dataset is written. A name the pattern never bound stays a free
+  symbol.
 - Optional operand wildcards (`a.`, `m.3`): the enclosing operation supplies the
   identity element an absent operand binds to, so a single rule covers every
   degenerate shape of a RUBI pattern such as `(a. + b.*x)^m.`.
@@ -151,6 +155,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   roughly 470 times faster than a linear `Chain`.
 
 ### Changed
+- Head dispatch stays selective when a pattern carries an optional operand
+  below its root. `SymbolicUtils` builds a default-valued matcher only where a
+  `DefSlot` is a direct argument, so `Int((a. + b.*x)^m., x)` still requires an
+  `Int`; treating any nested optional slot as head-dissolving would have put
+  the whole RUBI set into the always-try bucket.
 - Require an OpenMath declaration only for mathematical operators. A structural
   head of the expression language (`List`, `Condition`) and a wildcard in
   operator position carry no domain meaning, so a rule file no longer has to

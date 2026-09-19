@@ -204,3 +204,34 @@ end
 
     @test isequal(rules[2](Add(x, y)), x)
 end
+
+@testitem "A result refers to a binding by its bare name" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: _pattern_bindings
+    using SymbolicUtils
+
+    # RUBI spells a wildcard `m_` where the pattern declares it and `m` where
+    # the result or a constraint refers to it. A bare name the pattern bound is
+    # therefore a reference to that binding, not a free symbol.
+    @test _pattern_bindings(["Power", "x_", "m."]) == Set([:x, :m])
+    @test _pattern_bindings(["f_", ["Multiply", "a.", "xs__"]]) == Set([:f, :a, :xs])
+    @test _pattern_bindings(["Power", "y_", 2]) == Set([:y])
+
+    @syms y k
+    rules = @load_osr("data/wildcards/1.5-bare-references.json")
+
+    # Every bare name the pattern bound resolves to what it matched, in the
+    # result and in the guard alike.
+    @test isequal(rules[1](Power(y, 3)),
+                  Multiply(Power(y, Add(3, 1)), Power(Add(3, 1), -1)))
+    # The guard reads the same binding, so the excluded exponent is rejected.
+    @test rules[1](Power(y, -1)) === nothing
+    # An absent exponent still binds the default.
+    @test isequal(rules[1](y), Multiply(Power(y, Add(1, 1)), Power(Add(1, 1), -1)))
+
+    # A name the pattern never bound stays a free symbol.
+    @test isequal(rules[2](Power(y, 2)), Multiply(y, k))
+
+    # A head bound by the pattern is referable by its bare name.
+    @test isequal(rules[3](Sin(y)), Sin(Multiply(2, y)))
+end

@@ -244,6 +244,24 @@ A result and a constraint refer to the binding the pattern made, whether it came
 from a matched operand or from the default, so a defaulted operand is still
 weighed by the guard.
 
+### Referring to a binding
+
+A rule's pattern declares its wildcards; its result and its constraints refer to
+the bindings it made. Either spelling works there — `m_`, `m.`, or the bare
+name `m` — which is how the RUBI dataset is written:
+
+```json
+{
+  "pattern": ["Power", "x_", "m."],
+  "constraints": [["NeQ", "m", -1]],
+  "result": ["Multiply", ["Power", "x", ["Add", "m", 1]],
+                         ["Power", ["Add", "m", 1], -1]]
+}
+```
+
+A name the pattern never bound stays a free symbol, so a result may still name
+a variable of the surrounding problem.
+
 ### Wildcards in operator position
 
 A pattern variable may stand where an operator does, which is how a single RUBI

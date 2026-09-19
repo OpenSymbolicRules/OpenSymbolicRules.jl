@@ -266,7 +266,40 @@ function _wildcard_to_expr(node::AbstractString; reference::Bool=false,
 end
 
 """
-    osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference=false, optional_default=nothing)
+    _pattern_bindings(pattern)
+
+Return the names a pattern binds, whatever spelling each wildcard uses.
+
+A rule's pattern declares its wildcards; its result and its constraints refer to
+the bindings it made. RUBI spells the declaration `m_` and the reference `m`,
+so resolving a reference needs the set of names the pattern established.
+"""
+function _pattern_bindings(pattern)
+    names = Set{Symbol}()
+    _pattern_bindings!(names, pattern)
+    return names
+end
+
+function _pattern_bindings!(names::Set{Symbol}, node)
+    if node isa AbstractString
+        compiled = _wildcard_to_expr(node; reference=true)
+        compiled === nothing && return names
+        # Every wildcard spelling compiles to `~name` under `reference`, and a
+        # segment to `~~name`; the name is the innermost symbol either way.
+        while compiled isa Expr && compiled.head === :call && compiled.args[1] === :~
+            compiled = compiled.args[2]
+        end
+        compiled isa Symbol && push!(names, compiled)
+    elseif node isa AbstractArray
+        for element in node
+            _pattern_bindings!(names, element)
+        end
+    end
+    return names
+end
+
+"""
+    osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference=false, optional_default=nothing, bindings=nothing)
 
 Recursively parse an OSR JSON node into a Julia expression for SymbolicUtils.
 `semantics` is the rule file's head-to-OpenMath-symbol map; it decides which
@@ -277,16 +310,23 @@ wildcard refers to a binding the pattern already made.
 `optional_default` is the value an absent operand takes at this position, which
 the enclosing operation supplies as the recursion descends.  A top-level node
 has no enclosing operation and therefore no default.
+
+`bindings` names what the rule's pattern bound.  Under `reference`, a bare name
+in that set is a reference to its binding rather than a free symbol, which is
+how RUBI spells a wildcard `m_` in a pattern and `m` in the result.
 """
 function osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference::Bool=false,
-                     optional_default=nothing)
+                     optional_default=nothing, bindings=nothing)
     if node isa String
         node == "True" && return true
         node == "False" && return false
         wildcard = _wildcard_to_expr(node; reference, optional_default)
         wildcard === nothing || return wildcard
+        symbol = Symbol(node)
+        reference && bindings !== nothing && symbol in bindings &&
+            return Expr(:call, :~, symbol)
         # Normal symbol/function
-        return Symbol(node)
+        return symbol
     elseif node isa AbstractArray
         if length(node) == 3 && node[1] isa String && node[1] in ("Forall", "Exists")
             variables = node[2]
@@ -296,26 +336,30 @@ function osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference::Bool=false,
                 sequence_name = only(variables)
                 isempty(sequence_name[1:end-2]) && throw(ArgumentError("Quantifier sequence variables must have a name"))
                 bound_variables = Expr(:call, :~, Symbol(sequence_name[1:end-2]))
-                return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3], semantics; reference))
+                return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3], semantics; reference, bindings))
             end
             bound_variables = Expr(:vect, [QuoteNode(Symbol(variable)) for variable in variables]...)
-            return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3], semantics; reference))
+            return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3], semantics; reference, bindings))
         end
         if node[1] == "List"
             # A list is a collection of expressions, not a mathematical
             # operation, so it compiles to a Julia vector.
-            return Expr(:vect, map(element -> osr_to_expr(element, semantics; reference), node[2:end])...)
+            return Expr(:vect, map(element -> osr_to_expr(element, semantics; reference, bindings), node[2:end])...)
         end
         # Function call, e.g. ["Multiply", "x", "y"] -> Multiply(x, y).  The
         # head may itself be a wildcard, as in the RUBI rules that match any of
         # the six trigonometric heads at once (OSR-X-004).
         head_wildcard = node[1] isa String ? _wildcard_to_expr(node[1]; reference) : nothing
+        if head_wildcard === nothing && reference && bindings !== nothing &&
+           node[1] isa String && Symbol(node[1]) in bindings
+            head_wildcard = Expr(:call, :~, Symbol(node[1]))
+        end
         op = head_wildcard === nothing ? Symbol(node[1]) : head_wildcard
         # The head decides what an absent operand binds to, so it is resolved
         # once here and handed to each argument with its own position.  A
         # wildcard head denotes no particular operation and so supplies none.
         symbol = head_wildcard === nothing ? _openmath_symbol(node[1], semantics) : nothing
-        args = [osr_to_expr(argument, semantics; reference,
+        args = [osr_to_expr(argument, semantics; reference, bindings,
                             optional_default=_optional_default(symbol, index))
                 for (index, argument) in enumerate(node[2:end])]
         if length(args) > 2 && symbol in _ASSOCIATIVE_SYMBOLS
@@ -380,7 +424,7 @@ Compile one OSR constraint into a Julia expression that evaluates to a `Bool`.
 `Not`, `And`, and `Or` are constraint combinators: they nest constraints and
 compile to Julia control flow, never to a symbolic logic term.
 """
-function _compile_constraint(constraint, semantics)
+function _compile_constraint(constraint, semantics; bindings=nothing)
     constraint isa AbstractArray && !isempty(constraint) ||
         throw(ArgumentError("OSR constraints must be non-empty arrays"))
     name = first(constraint)
@@ -389,21 +433,22 @@ function _compile_constraint(constraint, semantics)
 
     if name == "Not"
         length(operands) == 1 || throw(ArgumentError("The `Not` constraint takes exactly one constraint"))
-        return Expr(:call, :!, _compile_constraint(only(operands), semantics))
+        return Expr(:call, :!, _compile_constraint(only(operands), semantics; bindings))
     elseif name == "If"
         length(operands) == 3 ||
             throw(ArgumentError("The `If` constraint takes a test and two branches"))
-        return Expr(:if, [_compile_constraint(operand, semantics) for operand in operands]...)
+        return Expr(:if, [_compile_constraint(operand, semantics; bindings) for operand in operands]...)
     elseif name == "And" || name == "Or"
         isempty(operands) && throw(ArgumentError("The `$(name)` constraint takes at least one constraint"))
-        compiled = [_compile_constraint(operand, semantics) for operand in operands]
+        compiled = [_compile_constraint(operand, semantics; bindings) for operand in operands]
         head = name == "And" ? :&& : :||
         return foldr((left, right) -> Expr(head, left, right), compiled)
     end
 
     predicate = get(_OSR_PREDICATES, name, nothing)
     callee = predicate === nothing ? Symbol(name) : GlobalRef(@__MODULE__, predicate)
-    return Expr(:call, callee, map(operand -> osr_to_expr(operand, semantics; reference=true), operands)...)
+    return Expr(:call, callee,
+                map(operand -> osr_to_expr(operand, semantics; reference=true, bindings), operands)...)
 end
 
 """
@@ -432,14 +477,17 @@ function _compile_rule_exprs(rules_json; identity::AbstractString="unknown", sem
         push!(seen_ids, id)
 
         pattern = osr_to_expr(rule["pattern"], semantics)
-        result = osr_to_expr(rule["result"], semantics; reference=true)
+        # A result and a constraint refer to the bindings the pattern made,
+        # which RUBI spells by bare name: `m_` declares and `m` refers.
+        bindings = _pattern_bindings(rule["pattern"])
+        result = osr_to_expr(rule["result"], semantics; reference=true, bindings)
         constraints_json = get(rule, "constraints", [])
         rule_macro = _rule_macro(pattern, semantics)
 
         rewrite = if isempty(constraints_json)
             Expr(:macrocall, GlobalRef(SymbolicUtils, rule_macro), LineNumberNode(0), :($pattern => $result))
         else
-            condition = _conjoin([_compile_constraint(constraint, semantics) for constraint in constraints_json])
+            condition = _conjoin([_compile_constraint(constraint, semantics; bindings) for constraint in constraints_json])
             Expr(:macrocall, GlobalRef(SymbolicUtils, rule_macro), LineNumberNode(0), :($pattern => $result where $condition))
         end
         name = "$(identity):$(id)"
@@ -478,15 +526,17 @@ a rule file binds no domain meaning by redeclaring one and is not required to.
 """
 const _STRUCTURAL_HEADS = Set(["List", "Condition"])
 
-function _collect_operators!(operators::Set{String}, expression)
+function _collect_operators!(operators::Set{String}, expression; bindings=nothing)
     expression isa AbstractArray || return nothing
     isempty(expression) && throw(ArgumentError("OSR expressions cannot be empty arrays"))
     operator = first(expression)
     operator isa String || throw(ArgumentError("OSR expression operators must be strings"))
     # A structural head carries no domain meaning, and a wildcard in operator
-    # position names a binding rather than an operation; neither needs an
-    # OpenMath symbol.
-    if !(operator in _STRUCTURAL_HEADS) && _wildcard_to_expr(operator) === nothing
+    # position names a binding rather than an operation — whether it is spelled
+    # as one or referred to by the bare name the pattern bound.  None of them
+    # needs an OpenMath symbol.
+    bound = bindings !== nothing && Symbol(operator) in bindings
+    if !(operator in _STRUCTURAL_HEADS) && !bound && _wildcard_to_expr(operator) === nothing
         push!(operators, operator)
     end
 
@@ -495,14 +545,14 @@ function _collect_operators!(operators::Set{String}, expression)
         # the expression carries domain vocabulary.
         length(expression) == 3 ||
             throw(ArgumentError("An OSR `Condition` requires a pattern and a test"))
-        _collect_operators!(operators, expression[2])
-        _collect_constraint_operators!(operators, expression[3])
+        _collect_operators!(operators, expression[2]; bindings)
+        _collect_constraint_operators!(operators, expression[3]; bindings)
     elseif operator in ("Forall", "Exists")
         length(expression) == 3 || throw(ArgumentError("OSR quantifiers require variables and a body"))
-        _collect_operators!(operators, expression[3])
+        _collect_operators!(operators, expression[3]; bindings)
     else
         for argument in expression[2:end]
-            _collect_operators!(operators, argument)
+            _collect_operators!(operators, argument; bindings)
         end
     end
     return nothing
@@ -515,7 +565,7 @@ Collect the mathematical operators a constraint applies its predicates to.  A
 predicate name is not a mathematical operator and needs no OpenMath binding,
 and a combinator nests constraints rather than expressions.
 """
-function _collect_constraint_operators!(operators::Set{String}, constraint)
+function _collect_constraint_operators!(operators::Set{String}, constraint; bindings=nothing)
     constraint isa AbstractArray && !isempty(constraint) ||
         throw(ArgumentError("OSR constraints must be non-empty arrays"))
     name = first(constraint)
@@ -523,13 +573,13 @@ function _collect_constraint_operators!(operators::Set{String}, constraint)
 
     if name in _CONSTRAINT_COMBINATORS
         for operand in constraint[2:end]
-            _collect_constraint_operators!(operators, operand)
+            _collect_constraint_operators!(operators, operand; bindings)
         end
         return nothing
     end
 
     for argument in constraint[2:end]
-        _collect_operators!(operators, argument)
+        _collect_operators!(operators, argument; bindings)
     end
     return nothing
 end
@@ -546,9 +596,12 @@ function _validate_openmath_semantics(documents)
         operators = Set{String}()
         for rule in get(document, "rules", Any[])
             _collect_operators!(operators, rule["pattern"])
-            _collect_operators!(operators, rule["result"])
+            # A result and a constraint refer to the bindings the pattern made,
+            # so a bare name among them is a reference, not an operator.
+            bindings = _pattern_bindings(rule["pattern"])
+            _collect_operators!(operators, rule["result"]; bindings)
             for constraint in get(rule, "constraints", Any[])
-                _collect_constraint_operators!(operators, constraint)
+                _collect_constraint_operators!(operators, constraint; bindings)
             end
         end
         missing = sort!(collect(setdiff(operators, Set(String.(keys(semantics))))))

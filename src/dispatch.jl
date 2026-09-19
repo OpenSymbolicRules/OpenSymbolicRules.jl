@@ -35,11 +35,22 @@ function _is_pattern_variable(value)
            value isa SymbolicUtils.DefSlot
 end
 
+"""
+    _has_optional_slot(pattern)
+
+Return whether `pattern` may match a term that lacks its own operation.
+
+`SymbolicUtils` builds a default-valued matcher only where a `DefSlot` is a
+*direct* argument: such a term also matches its remaining operand alone, so it
+requires no particular head. An optional operand nested deeper does not relax
+the root — `Int((a. + b.*x)^m., x)` still needs an `Int` — which is what keeps
+head dispatch selective across a rule set as large as RUBI's.
+"""
 function _has_optional_slot(pattern)
     _literal(pattern) isa SymbolicUtils.DefSlot && return true
     iscall(pattern) || return false
-    _has_optional_slot(operation(pattern)) && return true
-    return any(_has_optional_slot, arguments(pattern))
+    return any(argument -> _literal(argument) isa SymbolicUtils.DefSlot,
+               arguments(pattern))
 end
 
 """

@@ -1,0 +1,28 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.4",
+  "title": "Nested optional wildcard fixture",
+  "semantics": {
+    "Add": "openmath:arith1#plus",
+    "Multiply": "openmath:arith1#times",
+    "Power": "openmath:arith1#power",
+    "Integral": "openmath:calculus1#int",
+    "Sin": "openmath:transc1#sin"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "description": "Every optional operand sits below the root head",
+      "pattern": ["Integral", ["Power", ["Add", "a.", ["Multiply", "b.", "x"]], "m."], "x"],
+      "constraints": [],
+      "result": ["List", "a.", "b.", "m."]
+    },
+    {
+      "id": 2,
+      "description": "An optional operand of the root itself dissolves the head",
+      "pattern": ["Multiply", "c.", ["Sin", "x"]],
+      "constraints": [],
+      "result": "c."
+    }
+  ]
+}

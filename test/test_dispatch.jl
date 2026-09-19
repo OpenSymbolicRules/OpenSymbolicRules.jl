@@ -95,3 +95,36 @@ end
     @test string(result) == "1"
     @test [step.rule.name for step in steps] == ["1.1:1", "test:basic-exponents:4"]
 end
+
+@testitem "A nested optional slot keeps the root head selective" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+    using OpenSymbolicRules: OSRDispatch, rule_head, candidate_positions
+
+    @syms x
+
+    rules = @load_osr("data/wildcards/1.4-nested-optional.json")
+
+    # `SymbolicUtils` builds a default-valued matcher only where a `DefSlot` is
+    # a direct argument, so a term whose own arguments carry none still
+    # requires its head.  The canonical RUBI shape `Int((a. + b.*x)^m., x)` is
+    # such a term: every optional operand sits below the `Int`.
+    @test rule_head(rules[1]) === Integral
+
+    # A root whose own argument is optional can match a term that lacks the
+    # operation entirely, so it keeps no head requirement.
+    @test rule_head(rules[2]) === nothing
+
+    dispatch = OSRDispatch(rules)
+
+    # The selective rule is not even tried against an unrelated head.
+    @test !(1 in candidate_positions(dispatch, Sin(x)))
+    # The unselective one always is.
+    @test 2 in candidate_positions(dispatch, Sin(x))
+
+    # Dispatching still reproduces a linear scan of every rule.
+    for expr in (Integral(Power(Add(2, Multiply(3, x)), 4), x), Integral(x, x),
+                 Multiply(5, Sin(x)), Sin(x), x)
+        @test isequal(dispatch(expr), SymbolicUtils.Rewriters.Chain(rules)(expr))
+    end
+end
