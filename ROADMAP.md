@@ -160,9 +160,24 @@
   it does not know it leaves unevaluated or unchanged. Those 903 closed forms
   were wrong answers, not answers the fix lost.
 
-  What remains is coverage and canonical form. 748 problems are unchanged
-  because only the 186 rules of section 1.1.1 were loaded; a run over the whole
-  corpus is the next measurement. The comparison folds closed arithmetic exactly
+  Over the whole corpus — all 6257 rules, 11,289 test problems, 60 per file —
+  the picture is 6 verified, 23 closed form, 4 unevaluated, 0 unchanged, and
+  11,256 error. Nothing is left unchanged any more, because with every section
+  loaded some rule matches every integrand; almost everything then fails on an
+  unimplemented predicate. A single rule accounts for 9,056 of those errors:
+  `1.1.3.3:54` matches `Int(u^p. * v^q., x)` — very nearly any product — and its
+  guard calls `PseudoBinomialPairQ`, which this package does not implement, so
+  the guard raises instead of simply not holding. Only 459 of 6257 rules (7.3%)
+  are gated by one of the 43 unimplemented predicates, but they sit early and
+  match broadly.
+
+  The fix is the predicate counterpart of the decision already taken for heads:
+  a predicate the host cannot resolve leaves its guard **unproved**, and an
+  unproved guard must prevent its rule from firing whether or not a `Not`
+  surrounds it. Making that change is what would let the rest of the corpus be
+  measured at all; it is the **RUBI-specific Predicates** item of Phase 1.
+
+  What remains after that is coverage and canonical form. The comparison folds closed arithmetic exactly
   — without that, a correct `x^(3+1)/(3+1)` reads as wrong against a recorded
   `x^4/4` and `verified` can never leave zero — but it puts neither side in a
   canonical form, so `verified` remains a lower bound and the 19 closed forms
