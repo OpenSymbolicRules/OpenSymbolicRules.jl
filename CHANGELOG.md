@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- The conformance report now lists the constraint predicates with no
+  implementation, ranked by the number of rule guards each holds back. A rule
+  gated by one is loaded and never fires, so it is invisible in the outcome
+  counts.
 - `UnprovedConstraint`: a constraint predicate that neither this package nor the
   loading module resolves abandons its guard instead of raising an
   undefined-variable error, so the rule does not fire and the rule set keeps

@@ -183,6 +183,47 @@ function _free_names!(free::Set{Symbol}, node, bound; head::Bool = false)
 end
 
 """
+    unproved_predicates(paths)
+
+Return, for each constraint predicate no implementation can be found for, the
+number of rules whose guard it holds back.
+
+A rule gated by such a predicate is loaded and never fires, so it is invisible
+in the outcome counts. Naming these is what turns the report into a work queue.
+"""
+function unproved_predicates(paths::Vector{String})
+    counts = Dict{String,Int}()
+    for path in paths
+        for rule in get(JSON.parsefile(path), "rules", ())
+            seen = Set{String}()
+            for constraint in get(rule, "constraints", ())
+                _unproved_names!(seen, constraint)
+            end
+            for name in seen
+                counts[name] = get(counts, name, 0) + 1
+            end
+        end
+    end
+    return counts
+end
+
+const CONSTRAINT_COMBINATORS = ("Not", "And", "Or", "If")
+
+function _unproved_names!(seen::Set{String}, constraint)
+    constraint isa AbstractArray && !isempty(constraint) || return seen
+    name = first(constraint)
+    name isa String || return seen
+    if name in CONSTRAINT_COMBINATORS
+        for operand in constraint[2:end]
+            _unproved_names!(seen, operand)
+        end
+        return seen
+    end
+    OpenSymbolicRules._predicate_callee(name, Main) === nothing && push!(seen, name)
+    return seen
+end
+
+"""
     unresolved_heads(expression)
 
 Return the heads of `expression` that mean the integral was not solved, or that
@@ -430,6 +471,17 @@ function prepare(options)
     @info "compiled" rules = length(rules) failed_files = length(failures) seconds = round(compile_seconds, digits = 1)
     for (path, message) in failures
         @warn "rule file did not compile" file = basename(path) message
+    end
+
+    unproved = unproved_predicates(rule_paths)
+    if !isempty(unproved)
+        held = sum(values(unproved))
+        println("Predicates with no implementation, by rules they hold back",
+                " (", length(unproved), " predicates, ", held, " rule guards):")
+        for (name, count) in first(sort!(collect(unproved); by = pair -> -pair[2]), 15)
+            println("  ", lpad(count, 5), "  ", name)
+        end
+        println()
     end
     return rules
 end
