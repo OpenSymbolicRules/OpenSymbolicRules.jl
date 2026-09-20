@@ -287,33 +287,32 @@ end
 """
     apply_rules(term, dispatch)
 
-Apply the rule set to `term` the way `OSRDispatch` does, but one rule at a time
-so that a failure can be attributed to the rule that caused it, and through
-`invokelatest` so that heads declared while this script runs are visible.
+Apply the rule set to `term` and return the result of the first rule that fires.
 
-`SymbolicUtils` wraps a failed rewrite in an error that discards the cause (see
-`upstream-bugs.md`), so the rule is re-run here outside that guard to recover
-what actually went wrong.
+An ordered integration rule set is first-match-wins: the earliest rule whose
+guard holds gives the answer, and the rules after it are alternatives for the
+same integral rather than further steps. `OSRDispatch` threads a term through
+every candidate instead, which is what a simplification profile wants and not
+what this is: applying a later alternative to an already-rewritten term
+conflates one integration step with the next. Continuing where a rule reduces
+one integral to another is the job of the recursion in `integrate`, which
+follows the `Int` the result still contains.
+
+Rules are applied one at a time so a failure can be attributed to the rule that
+caused it, and through `invokelatest` so heads declared while this script runs
+are visible.
 """
 function apply_rules(term, dispatch)
-    current = term
-    cursor = 0
-    while true
-        positions = OpenSymbolicRules.candidate_positions(dispatch, current)
-        next = searchsortedfirst(positions, cursor + 1)
-        next > length(positions) && return current
-        cursor = positions[next]
-        rule = dispatch.rules[cursor]
+    for position in OpenSymbolicRules.candidate_positions(dispatch, term)
+        rule = dispatch.rules[position]
         result = try
-            # The heads a rule file declares are defined while this script is
-            # already running, so a rule compiled against them belongs to a
-            # newer world age than this frame.
-            Base.invokelatest(rule, current)
+            Base.invokelatest(rule, term)
         catch exception
             throw(BlockedRule(rule.name, exception))
         end
-        result === nothing || (current = result)
+        result === nothing || return result
     end
+    return term
 end
 
 """

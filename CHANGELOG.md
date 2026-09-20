@@ -178,6 +178,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   roughly 470 times faster than a linear `Chain`.
 
 ### Changed
+- The conformance report applies the rule set first-match-wins, as an ordered
+  integration rule set is meant to be read: the rules after the one that fires
+  are alternatives for the same integral, not further steps. Continuing where a
+  rule reduces one integral to another stays the job of the recursion that
+  follows the remaining `Int`.
 - `OSRDispatch` now indexes a rule by the operation at the root of its pattern
   *and* the one at its first operand. Restoring RUBI's `Int[integrand, x]`
   wrapper made every rule of the corpus share the head `Int`, so the root alone
