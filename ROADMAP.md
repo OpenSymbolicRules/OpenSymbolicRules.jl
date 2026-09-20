@@ -174,16 +174,31 @@
   9,056 failures. With an unresolvable predicate leaving its guard unproved the
   corpus runs end to end, and the 23 remaining errors are residual.
 
-  The dominant outcome is now `CannotIntegrate` on 10,040 problems, plus
-  `Unintegrable` on 510. That is the corpus's own answer for "no rule applies",
-  reached honestly: the catch-all `Int[u_, x_] := CannotIntegrate[u, x]` fires
-  only when the term is still an integral. **Why so few problems find an
-  applicable rule is not established.** RUBI solves nearly all of these under
-  Mathematica, so the candidates are guards too conservative over symbolic
-  parameters, test integrands not in the normalized shape the patterns assume,
-  or a missing `Simp`/`Dist` normalization pass ahead of matching. Settling that
-  is the next measurement to make, and it is separate from the predicate
-  backlog.
+  Why so few problems find an applicable rule has since been measured, and it
+  splits in two. Of the 11,154 unsolved problems, **6,507 had only the
+  unconditional catch-all fire** — the rule set does not start — and **4,647
+  had a real rule fire and the chain then stall**.
+
+  For the second group the cause is specific. Of the 75 problems that stalled in
+  section 1.1.1, 33 stalled on `ExpandIntegrand`, 17 on `Simp`, and 6 on
+  `Subst`: RUBI's rules assume those utilities do their job, and while they stay
+  inert a result wrapped in one can never match the rule that should come next,
+  so the rewrite dies after a single step. `Simp` and `Dist` have since been
+  given the exact readings their algebra allows — `Simp(u, x)` is `u`, and
+  `Dist(u, v, x)` is `u*v` — which removes `Simp` from the blockers entirely.
+  `ExpandIntegrand` cannot be read the same way: it too denotes an expression
+  equal to its argument, but `Int(ExpandIntegrand(u, x), x)` would then become
+  the integral it came from and the rewrite would not terminate. Implementing it
+  and `Subst` properly is the remaining continuation work.
+
+  Three earlier hypotheses were tested and ruled out. Integrand shape is not the
+  problem: over section 1.1.1, 255 of 309 unsolved problems had a pattern match
+  and only 6 matched nothing. The predicate backlog is not the problem either:
+  fifteen predicates later, blocked problems fell by a fifth and the verified
+  count did not move. Nor is the reading of an undecided inequality — see
+  `neq_reading!` — which buys fifteen closed forms out of 11,289 and no verified
+  antiderivative, so there is no case for weakening the soundness guarantee to
+  chase it.
 
   The report ranks the predicates with no implementation two ways, and the two
   rankings disagree sharply. By **rules gated** the backlog looked shallow. By

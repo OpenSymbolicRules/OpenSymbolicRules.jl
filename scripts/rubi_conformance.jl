@@ -48,7 +48,9 @@ const DEFAULT_INTEGRATION = normpath(joinpath(@__DIR__, "..", "..", "Integration
 
 # Heads that mean "this integral was not solved". A result still carrying one
 # of them is not an antiderivative, however far the rewrite went.
-const UNRESOLVED_HEADS = Set([:Int, :Integral, :Unintegrable, :CannotIntegrate, :Subst, :Dist])
+const UNRESOLVED_HEADS = Set([:Int, :Integral, :Unintegrable, :CannotIntegrate,
+                              :Subst, :Dist, :Simp, :ExpandIntegrand,
+                              :NormalizeIntegrand, :SimplifyIntegrand])
 
 # Heads `osr_to_expr` normalizes to left-associated binary terms.
 const ASSOCIATIVE_HEADS = Set(["Add", "Multiply", "And", "Or"])

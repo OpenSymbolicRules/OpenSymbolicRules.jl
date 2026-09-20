@@ -69,3 +69,29 @@ end
     @test result.roots == [(root=1 // 1, multiplicity=1), (root=2 // 1, multiplicity=1)]
     @test result.complete
 end
+
+@testitem "Simp and Dist are the identities RUBI's algebra gives them" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms a c f x
+
+    # RUBI writes `Simp[u, x]` for "u, tidied up". Tidying is optional, so
+    # returning `u` is a sound reading of it: the expression is unchanged and
+    # the rewrite that produced it stays valid. What it is not is a head this
+    # package leaves inert, which stops the rewrite chain dead — two thirds of
+    # the problems that stalled in section 1.1.1 stalled on `Simp` or
+    # `ExpandIntegrand`.
+    @test isequal(Simp(Multiply(a, x), x), Multiply(a, x))
+    @test isequal(Simp(a, x), a)
+
+    # `Dist[u, v, x]` distributes `u` over `v`, and means `u*v` whatever it
+    # distributes over, so the product is exact rather than approximate.
+    @test isequal(Dist(c, Integral(f, x), x), Multiply(c, Integral(f, x)))
+    @test isequal(Dist(c, a, x), Multiply(c, a))
+
+    # `ExpandIntegrand` is deliberately absent: reading it as the identity is
+    # mathematically sound but turns `Int(ExpandIntegrand(u, x), x)` back into
+    # the integral it came from, which does not terminate.
+    @test !isdefined(OpenSymbolicRules, :ExpandIntegrand)
+end

@@ -35,3 +35,37 @@ export Asin, Acos, Atan, Acot, Asec, Acsc, Asinh, Acosh, Atanh, Acoth, Asech, Ac
 export Exp, Log, Sqrt
 export And, Or, Not, Implies, Equivalent, Nand, Nor, Xor, Xnor, Forall, Exists
 export Piecewise, Piece, Otherwise
+
+"""
+    Simp(u, x)
+
+Return `u`.
+
+RUBI writes `Simp[u, x]` for "`u`, tidied up with respect to `x`". Tidying is
+optional: the expression it names is `u` either way, so returning `u` is exact
+rather than approximate, and the rewrite that produced it stays valid.
+
+What matters is that it is *not* an inert head. A rule whose result is wrapped
+in an uninterpreted `Simp` can never be matched by the rule that should come
+next, which stops the rewrite chain after one step — two thirds of the problems
+that stalled in section 1.1.1 stalled on `Simp` or `ExpandIntegrand`.
+
+`ExpandIntegrand` is deliberately not given the same reading. It too denotes an
+expression equal to its argument, but `Int(ExpandIntegrand(u, x), x)` would then
+become the integral it came from, and the rewrite would not terminate.
+"""
+Simp(u, x) = u
+
+"""
+    Dist(u, v, x)
+
+Return `u*v`.
+
+RUBI writes `Dist[u, v, x]` to push the factor `u` inside `v`, whether `v` is a
+sum or an integral. The value it denotes is `u*v` whichever it does, so the
+product is the whole of its meaning; only the shape of the answer differs, and
+that shape is what the rules downstream restore.
+"""
+Dist(u, v, x) = Multiply(u, v)
+
+export Simp, Dist

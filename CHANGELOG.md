@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- `Simp` and `Dist`, with the exact readings their algebra allows: `Simp(u, x)`
+  is `u` and `Dist(u, v, x)` is `u*v`. Left inert they stopped a rewrite chain
+  after a single step, which is how two thirds of the problems that stalled in
+  section 1.1.1 stalled.
 - The conformance report says how far an unsolved problem got: whether nothing
   fired, only the corpus's unconditional catch-all fired, or a real rule fired
   and the chain then stalled. That separates a rule set failing to start from
