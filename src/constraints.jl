@@ -112,7 +112,11 @@ reported as `false` and the guarded rewrite is skipped.
 function EqQ(u, v)
     left, right = osr_number(u), osr_number(v)
     left !== nothing && right !== nothing && return left == right
-    return isequal(_literal(u), _literal(v))
+    isequal(_literal(u), _literal(v)) && return true
+    difference = _polynomial_difference(u, v)
+    # The zero polynomial means equal for every value of the parameters, which
+    # is a proof.  A nonzero one proves nothing about equality.
+    return difference !== nothing && iszero(difference)
 end
 
 """
@@ -124,7 +128,72 @@ returns `false` and the guarded rewrite is skipped.
 """
 function NeQ(u, v)
     left, right = osr_number(u), osr_number(v)
-    return left !== nothing && right !== nothing && left != right
+    left !== nothing && right !== nothing && return left != right
+    difference = _polynomial_difference(u, v)
+    difference === nothing && return false
+    # A difference that is a nonzero constant is nonzero for every value of the
+    # parameters.  One that still mentions a parameter proves nothing: it
+    # vanishes for some values and not others.
+    constant = _constant_term(difference)
+    return constant !== nothing && !iszero(constant)
+end
+
+"""
+    _polynomial_symbols!(names, expression)
+
+Collect the symbols an expression mentions, which name the ring a comparison is
+decided over.
+"""
+function _polynomial_symbols!(names::Set{Symbol}, expression)
+    expression = _literal(expression)
+    if !iscall(expression)
+        expression isa SymbolicUtils.BasicSymbolic && SymbolicUtils.issym(expression) &&
+            push!(names, nameof(expression))
+        return names
+    end
+    for argument in arguments(expression)
+        _polynomial_symbols!(names, argument)
+    end
+    return names
+end
+
+"""
+    _polynomial_difference(u, v)
+
+Return `u - v` as an exact polynomial over the symbols they mention, or
+`nothing` when either side is not a polynomial with exact rational
+coefficients.
+
+A RUBI guard is overwhelmingly a polynomial identity over its parameters, and
+the exact sparse core decides those without ever leaving ℚ.
+"""
+function _polynomial_difference(u, v)
+    names = Set{Symbol}()
+    _polynomial_symbols!(names, u)
+    _polynomial_symbols!(names, v)
+    isempty(names) && return nothing
+    ring = Tuple(sort!(collect(names)))
+    try
+        return _to_sparse_polynomial(_literal(u), ring) +
+               _multiply(_constant_polynomial(ring, -1), _to_sparse_polynomial(_literal(v), ring))
+    catch error
+        error isa Union{ArgumentError,MethodError,DomainError} || rethrow()
+        return nothing
+    end
+end
+
+"""
+    _constant_term(polynomial)
+
+Return the value of `polynomial` when it is constant, or `nothing` when it
+still mentions a variable.
+"""
+function _constant_term(polynomial)
+    iszero(polynomial) && return 0
+    length(polynomial.terms) == 1 || return nothing
+    exponents, coefficient = first(polynomial.terms)
+    all(iszero, exponents) || return nothing
+    return coefficient
 end
 
 function _compare(comparison, values)
@@ -444,4 +513,110 @@ export EqQ, NeQ, GtQ, LtQ, GeQ, LeQ
 export IntegerQ, IntegersQ, IGtQ, ILtQ, IGeQ, ILeQ
 export RationalQ, FractionQ, HalfIntegerQ, PosQ, NegQ, FalseQ
 export AtomQ, SumQ, ProductQ, PowerQ, MemberQ
-export PolynomialQ, PolyQ, LinearQ, QuadraticQ, osr_degree, osr_number, osr_collection
+"""
+    LinearMatchQ(u, x)
+
+Return whether `u` is already written in the shape `a + b*x`, with `a` and `b`
+free of `x`.
+
+RUBI distinguishes being linear from being *written* linearly. [`LinearQ`](@ref)
+asks about the degree; this asks whether the expression already has the shape
+the rules downstream pattern-match against. The pair drives the normalization
+rules, which fire exactly when something is linear but not yet in that shape, so
+reading this as a second spelling of `LinearQ` would make those rules loop.
+
+A collection is read the way `FreeQ` reads one: every element must match.
+"""
+LinearMatchQ(u, x) =
+    _over_collection(u) do candidate
+        exponent = _binomial_exponent(candidate, x)
+        # The exponent may be a symbolic literal, so it is weighed rather than
+        # compared with `==`, which would yield a term instead of an answer.
+        exponent === nothing ? false : EqQ(exponent, 1)
+    end
+
+"""
+    BinomialQ(u, x)
+    BinomialQ(u, x, n)
+
+Return whether `u` is written as `a + b*x^n`, with `a`, `b`, and the exponent
+all free of `x`, optionally of that exponent.
+
+The degenerate forms count: `x^n` alone is one with `a = 0` and `b = 1`.
+
+This reads the written shape, where RUBI's `BinomialQ` first normalizes its
+argument. It therefore declines some expressions RUBI would accept — which
+leaves a rewrite unapplied rather than risking an invalid one — and makes it
+agree with [`BinomialMatchQ`](@ref), so the normalization rules guarded by
+`BinomialQ(u, x) && Not(BinomialMatchQ(u, x))` never fire.
+"""
+BinomialQ(u, x) = _over_collection(candidate -> _binomial_exponent(candidate, x) !== nothing, u)
+BinomialQ(u, x, n) =
+    _over_collection(u) do candidate
+        exponent = _binomial_exponent(candidate, x)
+        exponent === nothing ? false : EqQ(exponent, n)
+    end
+
+"""
+    BinomialMatchQ(u, x)
+
+Return whether `u` already has the shape `a + b*x^n` that the rules downstream
+pattern-match against.
+"""
+BinomialMatchQ(u, x) = BinomialQ(u, x)
+
+"""
+    _binomial_exponent(u, x)
+
+Return the exponent `n` for which `u` is written `a + b*x^n`, with `a`, `b`, and
+`n` free of `x`, or `nothing` when `u` has no such shape.
+"""
+function _binomial_exponent(u, x)
+    u = _literal(u)
+    if _has_head(u, :Add)
+        operands = arguments(u)
+        length(operands) == 2 || return nothing
+        # Either operand may carry the variable; the other is the constant term.
+        FreeQ(operands[1], x) && return _monomial_exponent(operands[2], x)
+        FreeQ(operands[2], x) && return _monomial_exponent(operands[1], x)
+        return nothing
+    end
+    return _monomial_exponent(u, x)
+end
+
+"""
+    _monomial_exponent(u, x)
+
+Return the exponent of `x` in `u` when `u` is a product of factors free of `x`
+with exactly one power of `x`, or `nothing` otherwise.  A bare `x` has exponent
+one.
+"""
+function _monomial_exponent(u, x)
+    u = _literal(u)
+    isequal(u, _literal(x)) && return 1
+    if _has_head(u, :Power)
+        operands = arguments(u)
+        length(operands) == 2 || return nothing
+        isequal(_literal(operands[1]), _literal(x)) || return nothing
+        FreeQ(operands[2], x) || return nothing
+        exponent = operands[2]
+        # A zero exponent leaves no variable, so there is no binomial in `x`.
+        EqQ(exponent, 0) && return nothing
+        return exponent
+    end
+    if _has_head(u, :Multiply)
+        exponent = nothing
+        for operand in arguments(u)
+            FreeQ(operand, x) && continue
+            # A second factor mentioning the variable is one too many.
+            exponent === nothing || return nothing
+            exponent = _monomial_exponent(operand, x)
+            exponent === nothing && return nothing
+        end
+        return exponent
+    end
+    return nothing
+end
+
+export PolynomialQ, PolyQ, LinearQ, QuadraticQ, LinearMatchQ, BinomialQ, BinomialMatchQ
+export osr_degree, osr_number, osr_collection

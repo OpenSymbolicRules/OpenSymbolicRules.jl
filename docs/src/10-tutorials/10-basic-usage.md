@@ -338,9 +338,30 @@ side condition about its scope can ask about the whole binder, and RUBI's
 `PolynomialQ`, `PolyQ`, `LinearQ`, and `QuadraticQ` read a collection the same
 way: `LinearQ[{u, v}, x]` asks whether every element is linear in `x`.
 | Polynomial | `PolynomialQ`, `PolyQ`, `LinearQ`, `QuadraticQ` |
+| Written shape | `LinearMatchQ`, `BinomialQ`, `BinomialMatchQ` |
 
 `GtQ`, `LtQ`, `GeQ`, and `LeQ` accept RUBI's chained form, so `GtQ(u, v, w)`
 means `u > v > w`.
+
+`EqQ` and `NeQ` decide a polynomial identity exactly. Two expressions whose
+difference is the zero polynomial over the symbols they mention are equal for
+every value of those symbols, so `EqQ(Multiply(b, c), Multiply(c, b))` holds;
+a difference that is a nonzero constant proves inequality, so
+`NeQ(Add(m, 1), m)` holds. A difference that still mentions a symbol proves
+neither, because it vanishes for some values and not others: `NeQ(m, -1)` is
+`false`, meaning *not proved*, and the guarded rewrite is skipped.
+
+`LinearMatchQ` asks whether an expression is already *written* as `a + b*x`,
+where `LinearQ` asks only whether its degree is one. RUBI's normalization rules
+fire exactly when something is linear but not yet in that shape, so reading the
+two as synonyms would make those rules loop.
+
+`BinomialQ` asks the same kind of question of `a + b*x^n`, with `a`, `b`, and
+the exponent free of `x`; `BinomialQ(u, x, n)` fixes the exponent. It reads the
+written shape, where RUBI normalizes its argument first, so it declines some
+expressions RUBI would accept — leaving a rewrite unapplied rather than risking
+an invalid one — and agrees with `BinomialMatchQ`. The normalization rules
+guarded by `BinomialQ(u, x) && Not(BinomialMatchQ(u, x))` therefore never fire.
 
 Every predicate is conservative: it answers `true` only when the property is
 established, so an unproved guard leaves its rewrite unapplied rather than

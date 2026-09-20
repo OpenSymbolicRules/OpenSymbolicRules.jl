@@ -398,12 +398,18 @@ function _power(polynomial::SparsePolynomial, exponent::Integer)
 end
 
 function _exact_coefficient(expression)
-    try
+    value = try
         Rational{BigInt}(SymbolicUtils.unwrap_const(expression))
     catch error
         error isa MethodError || rethrow()
         nothing
     end
+    value === nothing || return value
+    # A closed arithmetic expression is a coefficient too: OSR spells one half
+    # `Power(2, -1)`, which is a term rather than a literal.
+    closed = osr_number(expression)
+    closed isa Union{Integer,Rational} || return nothing
+    return Rational{BigInt}(closed)
 end
 
 function _to_sparse_polynomial(expression, variables::Tuple{Vararg{Symbol}})
@@ -425,13 +431,20 @@ function _to_sparse_polynomial(expression, variables::Tuple{Vararg{Symbol}})
 
     operator = SymbolicUtils.operation(expression)
     operands = SymbolicUtils.arguments(expression)
-    if operator === +
+    # The canonical OSR heads are uninterpreted symbols, so they are recognised
+    # by name alongside the native operators they denote.
+    name = _operation_name(operator)
+    if operator === (+) || name === :Add
         return foldl(+, (_to_sparse_polynomial(operand, variables) for operand in operands);
                      init=SparsePolynomial(variables, Dict()))
-    elseif operator === *
+    elseif operator === (*) || name === :Multiply
         return foldl(_multiply, (_to_sparse_polynomial(operand, variables) for operand in operands);
                      init=_constant_polynomial(variables, 1))
-    elseif operator === (^) && length(operands) == 2
+    elseif (operator === (-) || name === :Subtract) && length(operands) == 2
+        return _to_sparse_polynomial(operands[1], variables) +
+               _multiply(_constant_polynomial(variables, -1),
+                         _to_sparse_polynomial(operands[2], variables))
+    elseif (operator === (^) || name === :Power) && length(operands) == 2
         exponent = _exact_coefficient(operands[2])
         exponent !== nothing && denominator(exponent) == 1 ||
             throw(ArgumentError("polynomial exponents must be exact integers"))

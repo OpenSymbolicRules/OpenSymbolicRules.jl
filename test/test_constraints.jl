@@ -384,3 +384,43 @@ end
 
     @test isempty(withheld_predicates_seen())
 end
+
+@testitem "EqQ and NeQ decide a polynomial identity exactly" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: EqQ, NeQ
+    using SymbolicUtils
+
+    @syms a b c d m x
+
+    # A RUBI guard is overwhelmingly a polynomial identity over the parameters.
+    # Two expressions whose difference is the zero polynomial are equal for
+    # every value of those parameters, which is a proof and not a guess.
+    @test EqQ(Add(m, Multiply(-1, m)), 0)
+    @test EqQ(Multiply(b, c), Multiply(c, b))
+    @test EqQ(Multiply(Add(a, b), Add(a, b)),
+              Add(Add(Power(a, 2), Multiply(2, Multiply(a, b))), Power(b, 2)))
+
+    # A difference that is not identically zero is not a proof of equality,
+    # so the guard still declines.
+    @test !EqQ(Add(Multiply(b, c), Multiply(-1, Multiply(a, d))), 0)
+    @test !EqQ(m, -1)
+
+    # A difference that is a nonzero constant proves inequality for every value.
+    @test NeQ(Add(m, 1), m)
+    @test NeQ(Multiply(2, a), Add(Multiply(2, a), 3))
+    # A difference that depends on a parameter proves nothing either way.
+    @test !NeQ(m, -1)
+    @test !NeQ(Multiply(b, c), Multiply(a, d))
+    # Nor does equality mean inequality.
+    @test !NeQ(Multiply(b, c), Multiply(c, b))
+
+    # A non-polynomial expression falls back to the earlier reading rather than
+    # raising: a guard must answer.
+    @test EqQ(Sin(x), Sin(x))
+    @test !EqQ(Sin(x), Cos(x))
+    @test !NeQ(Sin(x), Cos(x))
+
+    # Exact rationals stay exact; nothing here introduces a float.
+    @test EqQ(Multiply(Power(2, -1), a), Multiply(a, Power(2, -1)))
+    @test NeQ(Multiply(Power(2, -1), a), Multiply(Power(3, -1), a)) == false
+end

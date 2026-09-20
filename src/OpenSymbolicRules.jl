@@ -414,6 +414,7 @@ const _OSR_PREDICATES = Dict{String,Symbol}(
         "RationalQ", "FractionQ", "HalfIntegerQ", "PosQ", "NegQ", "FalseQ",
         "AtomQ", "SumQ", "ProductQ", "PowerQ", "MemberQ",
         "PolynomialQ", "PolyQ", "LinearQ", "QuadraticQ",
+        "LinearMatchQ", "BinomialQ", "BinomialMatchQ",
     ))...,
 )
 

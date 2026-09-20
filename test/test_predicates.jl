@@ -112,3 +112,80 @@ end
     # An empty collection asks nothing, so nothing stands in the way.
     @test LinearQ(Any[], x)
 end
+
+@testitem "LinearMatchQ recognises an already-matched linear form" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: LinearMatchQ, LinearQ
+    using SymbolicUtils
+
+    @syms a b c d x
+
+    # RUBI distinguishes being linear from being *written* linearly.
+    # `LinearQ` asks about the degree; `LinearMatchQ` asks whether the
+    # expression already has the shape `a. + b.*x` that the rules downstream
+    # pattern-match against. The pair drives the normalization rules, which fire
+    # exactly when something is linear but not yet in that shape.
+    @test LinearMatchQ(x, x)
+    @test LinearMatchQ(Multiply(b, x), x)
+    @test LinearMatchQ(Multiply(x, b), x)
+    @test LinearMatchQ(Add(a, x), x)
+    @test LinearMatchQ(Add(a, Multiply(b, x)), x)
+    @test LinearMatchQ(Add(Multiply(b, x), a), x)
+
+    # Linear in degree, but not in the matched shape.
+    @test LinearQ(Multiply(2, Add(a, Multiply(b, x))), x)
+    @test !LinearMatchQ(Multiply(2, Add(a, Multiply(b, x))), x)
+
+    # A coefficient that is not free of the variable is not a coefficient.
+    @test !LinearMatchQ(Multiply(x, x), x)
+    @test !LinearMatchQ(Add(a, Multiply(x, x)), x)
+
+    # Degree zero and degree two are not linear in either sense.
+    @test !LinearMatchQ(c, x)
+    @test !LinearMatchQ(Power(x, 2), x)
+    @test !LinearMatchQ(Add(a, Multiply(b, Power(x, 2))), x)
+
+    # RUBI writes `LinearMatchQ[{u, v}, x]` for every element at once.
+    @test LinearMatchQ([Add(a, Multiply(b, x)), Add(c, Multiply(d, x))], x)
+    @test !LinearMatchQ([Add(a, Multiply(b, x)), Power(x, 2)], x)
+    @test LinearMatchQ(Any[], x)
+end
+
+@testitem "BinomialQ recognises a two-term power form" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: BinomialQ, BinomialMatchQ
+    using SymbolicUtils
+
+    @syms a b c n x
+
+    # RUBI calls `a + b*x^n` a binomial, with `a` and `b` and the exponent all
+    # free of the variable. The degenerate forms count: `x^n` alone is one with
+    # `a = 0` and `b = 1`.
+    @test BinomialQ(Add(a, Multiply(b, Power(x, 3))), x)
+    @test BinomialQ(Add(Multiply(b, Power(x, 3)), a), x)
+    @test BinomialQ(Multiply(b, Power(x, n)), x)
+    @test BinomialQ(Power(x, 3), x)
+    @test BinomialQ(x, x)
+    @test BinomialQ(Add(a, x), x)
+
+    # A coefficient may itself be a product of things free of the variable.
+    @test BinomialQ(Multiply(2, Multiply(c, Power(x, 3))), x)
+
+    # Three terms, or a coefficient that mentions the variable, is not one.
+    @test !BinomialQ(Add(a, Add(Multiply(b, x), Multiply(c, Power(x, 2)))), x)
+    @test !BinomialQ(Multiply(x, Power(x, 3)), x)
+    @test !BinomialQ(c, x)
+
+    # With a degree, the exponent must be that one.
+    @test BinomialQ(Add(a, Multiply(b, Power(x, 3))), x, 3)
+    @test !BinomialQ(Add(a, Multiply(b, Power(x, 3))), x, 2)
+
+    # A collection is read element by element.
+    @test BinomialQ([Power(x, 2), Add(a, Multiply(b, Power(x, 2)))], x)
+    @test !BinomialQ([Power(x, 2), c], x)
+
+    # `BinomialMatchQ` asks the same question of the written shape.
+    @test BinomialMatchQ(Add(a, Multiply(b, Power(x, 3))), x)
+    @test !BinomialMatchQ(c, x)
+    @test BinomialMatchQ([Power(x, 2), x], x)
+end

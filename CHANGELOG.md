@@ -7,6 +7,20 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- `EqQ` and `NeQ` decide a polynomial identity exactly, through the sparse
+  rational core: a difference that is the zero polynomial proves equality, one
+  that is a nonzero constant proves inequality, and one that still mentions a
+  symbol proves neither. Nothing leaves ℚ.
+- `BinomialQ` and `BinomialMatchQ`, recognising `a + b*x^n` with `a`, `b`, and
+  the exponent free of `x`, optionally of a given exponent. Both read the
+  written shape, so they decline some expressions RUBI would accept rather than
+  risk an invalid rewrite.
+- `LinearMatchQ`, which asks whether an expression is already written as
+  `a + b*x` rather than merely having degree one. RUBI's normalization rules are
+  guarded by the difference between the two.
+- The exact polynomial core reads the canonical OSR heads `Add`, `Multiply`,
+  `Subtract`, and `Power` alongside the native operators, and accepts a closed
+  arithmetic expression such as `Power(2, -1)` as a coefficient.
 - `record_withheld!`, `withheld_predicates_seen`, and `reset_withheld!`, which
   record — on request — the predicates that decide a guard against its rule, so
   a measurement can say which predicate held a rule back.
