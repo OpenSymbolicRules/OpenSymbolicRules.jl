@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- `GeneralizedBinomialQ`, `GeneralizedBinomialMatchQ`, `GeneralizedTrinomialQ`,
+  `GeneralizedTrinomialMatchQ`, and `IntegralFreeQ`.
 - Twelve further RUBI constraint predicates with settled definitions:
   `QuadraticMatchQ`, `TrinomialQ`, `TrinomialMatchQ`, `TrigQ`, `HyperbolicQ`,
   `InertTrigQ`, `InverseFunctionFreeQ`, `ComplexFreeQ`, `TrueQ`, `IndependentQ`,

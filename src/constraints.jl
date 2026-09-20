@@ -753,6 +753,84 @@ end
 
 TrinomialMatchQ(u, x) = TrinomialQ(u, x)
 
+"""
+    GeneralizedBinomialQ(u, x)
+    GeneralizedBinomialMatchQ(u, x)
+
+Return whether `u` is written as `a*x^q + b*x^n`, with `a`, `b`, `q`, and `n`
+free of `x` and the two exponents distinct.
+
+Two power terms with no constant one is what separates this from an ordinary
+binomial `a + b*x^n`.
+"""
+function GeneralizedBinomialQ(u, x)
+    return _over_collection(u) do candidate
+        exponents = _power_exponents(candidate, x)
+        exponents === nothing && return false
+        length(exponents) == 2 || return false
+        first_degree, second_degree = exponents
+        # No constant term, and the two powers genuinely differ.
+        !EqQ(first_degree, 0) && !EqQ(second_degree, 0) &&
+            NeQ(first_degree, second_degree)
+    end
+end
+
+GeneralizedBinomialMatchQ(u, x) = GeneralizedBinomialQ(u, x)
+
+"""
+    GeneralizedTrinomialQ(u, x)
+    GeneralizedTrinomialMatchQ(u, x)
+
+Return whether `u` is written as `a*x^q + b*x^n + c*x^(2n-q)`, with `a`, `b`,
+`c`, `q`, and `n` free of `x`.
+
+The third exponent standing at `2n - q` is what distinguishes it from any
+three-power sum, and the ordinary trinomial is the case `q = 0`.
+"""
+function GeneralizedTrinomialQ(u, x)
+    return _over_collection(u) do candidate
+        exponents = _power_exponents(candidate, x)
+        exponents === nothing && return false
+        length(exponents) == 3 || return false
+        all(exponent -> !EqQ(exponent, 0), exponents) || return false
+        # Any of the three may be the one standing at `2n - q`.
+        return any(_trinomial_orderings(exponents)) do (q, n, j)
+            EqQ(j, Add(Multiply(2, n), Multiply(-1, q)))
+        end
+    end
+end
+
+GeneralizedTrinomialMatchQ(u, x) = GeneralizedTrinomialQ(u, x)
+
+"""
+    _trinomial_orderings(exponents)
+
+Return the ways three exponents can play the roles `q`, `n`, and `2n - q`.
+"""
+function _trinomial_orderings(exponents)
+    first_degree, second_degree, third_degree = exponents
+    return ((first_degree, second_degree, third_degree),
+            (first_degree, third_degree, second_degree),
+            (second_degree, first_degree, third_degree),
+            (second_degree, third_degree, first_degree),
+            (third_degree, first_degree, second_degree),
+            (third_degree, second_degree, first_degree))
+end
+
+const _UNSOLVED_INTEGRAL_HEADS = Set([:Int, :Integral, :Unintegrable, :CannotIntegrate])
+
+"""
+    IntegralFreeQ(u)
+
+Return whether `u` leaves no unsolved integral inside it.
+"""
+function IntegralFreeQ(u)
+    literal = _literal(u)
+    _head_name(literal) in _UNSOLVED_INTEGRAL_HEADS && return false
+    iscall(literal) || return true
+    return all(IntegralFreeQ, arguments(literal))
+end
+
 const _INVERSE_FUNCTION_HEADS = Set([
     :Log, :PolyLog, :ProductLog,
     :Asin, :Acos, :Atan, :Acot, :Asec, :Acsc,
@@ -838,5 +916,7 @@ end
 export TrigQ, HyperbolicQ, InertTrigQ, TrueQ, IndependentQ
 export QuadraticMatchQ, TrinomialQ, TrinomialMatchQ
 export InverseFunctionFreeQ, ComplexFreeQ, OddQ, PerfectSquareQ
+export GeneralizedBinomialQ, GeneralizedBinomialMatchQ
+export GeneralizedTrinomialQ, GeneralizedTrinomialMatchQ, IntegralFreeQ
 export PolynomialQ, PolyQ, LinearQ, QuadraticQ, LinearMatchQ, BinomialQ, BinomialMatchQ
 export osr_degree, osr_number, osr_collection

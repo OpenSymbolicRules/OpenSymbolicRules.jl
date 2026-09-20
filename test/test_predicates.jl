@@ -288,3 +288,46 @@ end
     @test !PerfectSquareQ(Power(a, 3))
     @test !PerfectSquareQ(a)
 end
+
+@testitem "Generalized binomial and trinomial shapes" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: GeneralizedBinomialQ, GeneralizedBinomialMatchQ,
+                             GeneralizedTrinomialQ, GeneralizedTrinomialMatchQ,
+                             IntegralFreeQ
+    using SymbolicUtils
+
+    @syms a b c n q x
+
+    # A generalized binomial is `a*x^q + b*x^n`: two power terms with no
+    # constant one, which is what separates it from `a + b*x^n`.
+    @test GeneralizedBinomialQ(Add(Multiply(a, Power(x, 2)), Multiply(b, Power(x, 5))), x)
+    @test GeneralizedBinomialMatchQ(Add(Multiply(a, Power(x, 2)), Multiply(b, Power(x, 5))), x)
+
+    # Two symbolic exponents are not provably distinct, and the predicate
+    # answers `true` only when the property is established, so it declines.
+    # RUBI reads its `NeQ` as "not syntactically equal" and accepts this.
+    generalized = Add(Multiply(a, Power(x, q)), Multiply(b, Power(x, n)))
+    @test !GeneralizedBinomialQ(generalized, x)
+    # A constant term makes it an ordinary binomial, not a generalized one.
+    @test !GeneralizedBinomialQ(Add(a, Multiply(b, Power(x, n))), x)
+    # The two exponents must differ.
+    @test !GeneralizedBinomialQ(Add(Multiply(a, Power(x, 2)), Multiply(b, Power(x, 2))), x)
+    @test !GeneralizedBinomialQ(Power(x, 2), x)
+
+    # A generalized trinomial is `a*x^q + b*x^n + c*x^(2n-q)`.
+    trinomial = Add(Add(Multiply(a, Power(x, 1)), Multiply(b, Power(x, 3))),
+                    Multiply(c, Power(x, 5)))
+    @test GeneralizedTrinomialQ(trinomial, x)
+    @test GeneralizedTrinomialMatchQ(trinomial, x)
+    # 2*3 - 1 is 5, so shifting the last exponent breaks it.
+    @test !GeneralizedTrinomialQ(
+        Add(Add(Multiply(a, Power(x, 1)), Multiply(b, Power(x, 3))),
+            Multiply(c, Power(x, 6))), x)
+    # A constant term is not a power term.
+    @test !GeneralizedTrinomialQ(
+        Add(Add(a, Multiply(b, Power(x, 3))), Multiply(c, Power(x, 5))), x)
+
+    # `IntegralFreeQ` asks whether an unsolved integral is left inside.
+    @test IntegralFreeQ(Multiply(a, x))
+    @test !IntegralFreeQ(Multiply(a, Integral(Power(x, 2), x)))
+end

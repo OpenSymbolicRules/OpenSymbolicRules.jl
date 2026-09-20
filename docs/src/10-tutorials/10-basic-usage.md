@@ -338,8 +338,8 @@ side condition about its scope can ask about the whole binder, and RUBI's
 `PolynomialQ`, `PolyQ`, `LinearQ`, and `QuadraticQ` read a collection the same
 way: `LinearQ[{u, v}, x]` asks whether every element is linear in `x`.
 | Polynomial | `PolynomialQ`, `PolyQ`, `LinearQ`, `QuadraticQ` |
-| Written shape | `LinearMatchQ`, `BinomialQ`, `BinomialMatchQ`, `QuadraticMatchQ`, `TrinomialQ`, `TrinomialMatchQ` |
-| Classification | `TrigQ`, `HyperbolicQ`, `InertTrigQ`, `InverseFunctionFreeQ`, `ComplexFreeQ`, `TrueQ`, `IndependentQ`, `OddQ`, `PerfectSquareQ` |
+| Written shape | `LinearMatchQ`, `BinomialQ`, `BinomialMatchQ`, `QuadraticMatchQ`, `TrinomialQ`, `TrinomialMatchQ`, `GeneralizedBinomialQ`, `GeneralizedTrinomialQ` |
+| Classification | `TrigQ`, `HyperbolicQ`, `InertTrigQ`, `InverseFunctionFreeQ`, `ComplexFreeQ`, `IntegralFreeQ`, `TrueQ`, `IndependentQ`, `OddQ`, `PerfectSquareQ` |
 
 `GtQ`, `LtQ`, `GeQ`, and `LeQ` accept RUBI's chained form, so `GtQ(u, v, w)`
 means `u > v > w`.

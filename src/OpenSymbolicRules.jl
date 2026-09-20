@@ -418,6 +418,8 @@ const _OSR_PREDICATES = Dict{String,Symbol}(
         "TrigQ", "HyperbolicQ", "InertTrigQ", "TrueQ", "IndependentQ",
         "QuadraticMatchQ", "TrinomialQ", "TrinomialMatchQ",
         "InverseFunctionFreeQ", "ComplexFreeQ", "OddQ", "PerfectSquareQ",
+        "GeneralizedBinomialQ", "GeneralizedBinomialMatchQ",
+        "GeneralizedTrinomialQ", "GeneralizedTrinomialMatchQ", "IntegralFreeQ",
     ))...,
 )
 
