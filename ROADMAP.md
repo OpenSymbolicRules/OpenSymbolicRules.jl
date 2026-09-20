@@ -160,24 +160,38 @@
   it does not know it leaves unevaluated or unchanged. Those 903 closed forms
   were wrong answers, not answers the fix lost.
 
-  Over the whole corpus — all 6257 rules, 11,289 test problems, 60 per file —
-  the picture is 6 verified, 23 closed form, 4 unevaluated, 0 unchanged, and
-  11,256 error. Nothing is left unchanged any more, because with every section
-  loaded some rule matches every integrand; almost everything then fails on an
-  unimplemented predicate. A single rule accounts for 9,056 of those errors:
-  `1.1.3.3:54` matches `Int(u^p. * v^q., x)` — very nearly any product — and its
-  guard calls `PseudoBinomialPairQ`, which this package does not implement, so
-  the guard raises instead of simply not holding. Only 459 of 6257 rules (7.3%)
-  are gated by one of the 43 unimplemented predicates, but they sit early and
-  match broadly.
+  Over the whole corpus — all 6257 rules, 11,289 test problems, 60 per file:
 
-  The fix is the predicate counterpart of the decision already taken for heads:
-  a predicate the host cannot resolve leaves its guard **unproved**, and an
-  unproved guard must prevent its rule from firing whether or not a `Not`
-  surrounds it. Making that change is what would let the rest of the corpus be
-  measured at all; it is the **RUBI-specific Predicates** item of Phase 1.
+  | | verified | closed form | unevaluated | unchanged | error |
+  | --- | --- | --- | --- | --- | --- |
+  | before unproved guards | 6 | 23 | 4 | 0 | 11,256 |
+  | after | 14 | 89 | 11,163 | 0 | 23 |
 
-  What remains after that is coverage and canonical form. The comparison folds closed arithmetic exactly
+  An unimplemented predicate used to raise, which was fatal rather than merely
+  incomplete: 459 of 6257 rules (7.3%) are gated by one of 43 such predicates,
+  they sit early in the load order and match broadly, and `1.1.3.3:54` alone —
+  pattern `Int(u^p. * v^q., x)`, guard `PseudoBinomialPairQ` — accounted for
+  9,056 failures. With an unresolvable predicate leaving its guard unproved the
+  corpus runs end to end, and the 23 remaining errors are residual.
+
+  The dominant outcome is now `CannotIntegrate` on 10,040 problems, plus
+  `Unintegrable` on 510. That is the corpus's own answer for "no rule applies",
+  reached honestly: the catch-all `Int[u_, x_] := CannotIntegrate[u, x]` fires
+  only when the term is still an integral. **Why so few problems find an
+  applicable rule is not established.** RUBI solves nearly all of these under
+  Mathematica, so the candidates are guards too conservative over symbolic
+  parameters, test integrands not in the normalized shape the patterns assume,
+  or a missing `Simp`/`Dist` normalization pass ahead of matching. Settling that
+  is the next measurement to make, and it is separate from the predicate
+  backlog.
+
+  The 43 unimplemented predicates hold back 601 rule guards; the report lists
+  them ranked. The tail is shallow — the top twelve cover only 421 of the 601 —
+  so there is no single unlock. The `*MatchQ` family (`LinearMatchQ` 56,
+  `BinomialMatchQ` 50, `QuadraticMatchQ` 21, …) is the most coherent group: each
+  is a syntactic shape test, simpler than the semantic predicate beside it.
+
+  What remains beyond that is coverage and canonical form. The comparison folds closed arithmetic exactly
   — without that, a correct `x^(3+1)/(3+1)` reads as wrong against a recorded
   `x^4/4` and `verified` can never leave zero — but it puts neither side in a
   canonical form, so `verified` remains a lower bound and the 19 closed forms
