@@ -16,6 +16,9 @@ did not reach.
       --all                every section; slow, several minutes
       --limit N            at most N test problems per file
       --json PATH          write the per-section report as JSON
+      --neq READING        how NeQ answers an undecided inequality:
+                           proved_distinct (default) or not_proved_equal,
+                           the reading RUBI's own rules assume
       --verbose            print each unresolved or failing problem
 
 Outcomes, deliberately distinguished rather than collapsed into pass/fail:
@@ -61,6 +64,7 @@ function parse_arguments(arguments::Vector{String})
         "section" => "1.1.1",
         "limit" => typemax(Int),
         "json" => nothing,
+        "neq" => "proved_distinct",
         "verbose" => false,
     )
     index = 1
@@ -70,7 +74,7 @@ function parse_arguments(arguments::Vector{String})
             options["section"] = ""
         elseif argument == "--verbose"
             options["verbose"] = true
-        elseif argument in ("--integration", "--section", "--limit", "--json")
+        elseif argument in ("--integration", "--section", "--limit", "--json", "--neq")
             index == length(arguments) && error("$(argument) requires a value")
             value = arguments[index + 1]
             key = argument[3:end]
@@ -524,6 +528,8 @@ function run(options, rules)
     # Predicates that decided a guard against its rule, per unsolved problem.
     withheld = Dict{String,Int}()
     OpenSymbolicRules.record_withheld!(true)
+    OpenSymbolicRules.neq_reading!(Symbol(options["neq"]))
+    @info "NeQ reading" reading = options["neq"]
 
     for (path, section) in section_files(joinpath(integration, "tests"), prefix)
         document = JSON.parsefile(path)
@@ -612,6 +618,7 @@ function run(options, rules)
     end
 
     OpenSymbolicRules.record_withheld!(false)
+    OpenSymbolicRules.neq_reading!(:proved_distinct)
     if !isempty(withheld)
         println()
         println("Predicates that decided a guard against its rule, by unsolved problems:")

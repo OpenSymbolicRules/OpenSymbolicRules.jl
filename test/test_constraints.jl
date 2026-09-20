@@ -424,3 +424,47 @@ end
     @test EqQ(Multiply(Power(2, -1), a), Multiply(a, Power(2, -1)))
     @test NeQ(Multiply(Power(2, -1), a), Multiply(Power(3, -1), a)) == false
 end
+
+@testitem "The reading of NeQ is selectable and proved-distinct by default" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: NeQ, EqQ, neq_reading!, neq_reading
+    using SymbolicUtils
+
+    @syms a b c d m x
+
+    # RUBI reads `NeQ[u, v]` as "not *provably* equal", so `NeQ[m, -1]` holds
+    # for a symbolic `m`: the rule it guards is valid wherever `m` is not -1,
+    # and the case `m == -1` is caught by an earlier rule. This package reads it
+    # as "provably distinct", which is sound but declines those rules.
+    #
+    # The two readings are a design decision with a measurable cost, so the
+    # alternative is selectable. It is not the default: turning it on weakens
+    # the guarantee that a guard which holds is a guard that was proved.
+    @test neq_reading() === :proved_distinct
+
+    @test !NeQ(m, -1)
+    @test !NeQ(Multiply(b, c), Multiply(a, d))
+
+    neq_reading!(:not_proved_equal)
+    try
+        @test neq_reading() === :not_proved_equal
+        @test NeQ(m, -1)
+        @test NeQ(Multiply(b, c), Multiply(a, d))
+
+        # Either reading still refuses to call equal things different.
+        @test !NeQ(Multiply(b, c), Multiply(c, b))
+        @test !NeQ(Add(m, Multiply(-1, m)), 0)
+        @test !NeQ(2, 2)
+        # And a decided inequality stays decided.
+        @test NeQ(2, 3)
+        @test NeQ(Add(m, 1), m)
+    finally
+        neq_reading!(:proved_distinct)
+    end
+
+    @test neq_reading() === :proved_distinct
+    @test !NeQ(m, -1)
+
+    # An unknown reading is a programming error, not a silent fallback.
+    @test_throws ArgumentError neq_reading!(:whatever)
+end

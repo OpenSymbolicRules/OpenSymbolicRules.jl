@@ -130,12 +130,47 @@ function NeQ(u, v)
     left, right = osr_number(u), osr_number(v)
     left !== nothing && right !== nothing && return left != right
     difference = _polynomial_difference(u, v)
-    difference === nothing && return false
-    # A difference that is a nonzero constant is nonzero for every value of the
-    # parameters.  One that still mentions a parameter proves nothing: it
-    # vanishes for some values and not others.
-    constant = _constant_term(difference)
-    return constant !== nothing && !iszero(constant)
+    if difference !== nothing
+        # A difference that is a nonzero constant is nonzero for every value of
+        # the parameters.  One that still mentions a parameter proves nothing
+        # under the default reading: it vanishes for some values and not others.
+        constant = _constant_term(difference)
+        constant !== nothing && !iszero(constant) && return true
+        iszero(difference) && return false
+    end
+    neq_reading() === :not_proved_equal || return false
+    # The alternative reading: different unless equality was established.
+    return !EqQ(u, v)
+end
+
+"""
+    neq_reading()
+    neq_reading!(reading)
+
+Read, or select, how [`NeQ`](@ref) answers when neither equality nor
+inequality was established.
+
+`:proved_distinct`, the default, answers `false`: a predicate answers `true`
+only when the property is established, so an unproved inequality leaves its
+rewrite unapplied.
+
+`:not_proved_equal` answers `true` instead, which is how RUBI reads the same
+guard. `NeQ[m, -1]` then holds for a symbolic `m`, on the reading that the rule
+it guards is valid wherever `m` is not -1 and that the case `m == -1` is caught
+by an earlier rule in the ordered profile. That is a different and weaker claim,
+and the rewrites it admits are conditional on an assumption nobody recorded, so
+it is off by default. It exists because the choice between the two readings has
+a measurable cost that is better decided with numbers than by argument.
+
+Either reading still refuses to call provably equal things different.
+"""
+neq_reading() = get(task_local_storage(), :osr_neq_reading, :proved_distinct)
+
+function neq_reading!(reading::Symbol)
+    reading in (:proved_distinct, :not_proved_equal) ||
+        throw(ArgumentError("unknown NeQ reading: $(reading)"))
+    task_local_storage(:osr_neq_reading, reading)
+    return reading
 end
 
 """
@@ -913,6 +948,7 @@ function _rational_square_root(value)
     return top_root // bottom_root
 end
 
+export neq_reading, neq_reading!
 export TrigQ, HyperbolicQ, InertTrigQ, TrueQ, IndependentQ
 export QuadraticMatchQ, TrinomialQ, TrinomialMatchQ
 export InverseFunctionFreeQ, ComplexFreeQ, OddQ, PerfectSquareQ

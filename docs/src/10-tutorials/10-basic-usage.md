@@ -344,6 +344,27 @@ way: `LinearQ[{u, v}, x]` asks whether every element is linear in `x`.
 `GtQ`, `LtQ`, `GeQ`, and `LeQ` accept RUBI's chained form, so `GtQ(u, v, w)`
 means `u > v > w`.
 
+### Two readings of an undecided inequality
+
+RUBI reads `NeQ[u, v]` as *not provably equal*, so `NeQ[m, -1]` holds for a
+symbolic `m`: the rule it guards is valid wherever `m` is not `-1`, and the case
+`m == -1` is caught by an earlier rule of the ordered profile. This package
+reads it as *provably distinct*, which is sound but declines those rules — and
+they are most of the corpus.
+
+The alternative reading is selectable and off by default:
+
+```julia
+neq_reading()                      # :proved_distinct
+neq_reading!(:not_proved_equal)    # RUBI's reading
+```
+
+Turning it on weakens the guarantee that a guard which holds is a guard that was
+proved: the rewrites it admits are conditional on an assumption nobody recorded.
+It exists because the choice has a measurable cost, and the conformance report
+takes `--neq not_proved_equal` so the cost can be read off rather than argued.
+Either reading still refuses to call provably equal things different.
+
 `EqQ` and `NeQ` decide a polynomial identity exactly. Two expressions whose
 difference is the zero polynomial over the symbols they mention are equal for
 every value of those symbols, so `EqQ(Multiply(b, c), Multiply(c, b))` holds;

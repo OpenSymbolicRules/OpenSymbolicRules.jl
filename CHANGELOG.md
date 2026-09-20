@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- `neq_reading` and `neq_reading!`, selecting how `NeQ` answers an undecided
+  inequality. The default, `:proved_distinct`, is unchanged; `:not_proved_equal`
+  is RUBI's own reading, which admits rewrites conditional on an assumption
+  nobody recorded and is therefore off by default. The conformance report takes
+  `--neq` so the difference can be measured rather than argued.
 - `GeneralizedBinomialQ`, `GeneralizedBinomialMatchQ`, `GeneralizedTrinomialQ`,
   `GeneralizedTrinomialMatchQ`, and `IntegralFreeQ`.
 - Twelve further RUBI constraint predicates with settled definitions:
