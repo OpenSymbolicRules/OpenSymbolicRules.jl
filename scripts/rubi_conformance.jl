@@ -314,10 +314,33 @@ function apply_rules(term, dispatch)
         catch exception
             throw(BlockedRule(rule.name, exception))
         end
-        result === nothing || return result
+        result === nothing && continue
+        push!(FIRED, rule.name)
+        return result
     end
     return term
 end
+
+"""
+    FIRED
+
+Names of the rules that fired while the current problem was attempted.
+
+Every problem now ends with some rule firing, if only the corpus's last one,
+`Int[u_, x_] := CannotIntegrate[u, x]`, which has no constraints. Knowing
+whether anything else fired first is what separates a rule set that fails to
+start from one that starts and cannot continue.
+"""
+const FIRED = String[]
+
+"""
+    only_gave_up()
+
+Return whether the rules that fired were only the ones that declare defeat.
+"""
+only_gave_up() = all(name -> any(marker -> occursin(marker, name), GIVING_UP), FIRED)
+
+const GIVING_UP = ("9.3 Miscellaneous integration rules", "9.4 Miscellaneous integration rules")
 
 """
     BlockedRule
@@ -363,6 +386,7 @@ that stopped short and from a rewrite that named something unimplemented.
 function classify(problem, rewriter, rules, expected)
     OpenSymbolicRules.reset_unproved!()
     OpenSymbolicRules.reset_withheld!()
+    empty!(FIRED)
     reached = try
         integrate(problem, rewriter)
     catch exception
@@ -527,6 +551,8 @@ function run(options, rules)
     undecided = Dict{String,Int}()
     # Predicates that decided a guard against its rule, per unsolved problem.
     withheld = Dict{String,Int}()
+    # How far an unsolved problem got before the rule set ran out.
+    progress = Dict{String,Int}()
     OpenSymbolicRules.record_withheld!(true)
     OpenSymbolicRules.neq_reading!(Symbol(options["neq"]))
     @info "NeQ reading" reading = options["neq"]
@@ -556,6 +582,14 @@ function run(options, rules)
             totals[outcome.kind] += 1
             isempty(outcome.detail) ||
                 (reasons[outcome.detail] = get(reasons, outcome.detail, 0) + 1)
+            if outcome.kind in (:unevaluated, :unchanged)
+                progress[isempty(FIRED) ? "nothing fired" :
+                         only_gave_up() ? "only the catch-all fired" :
+                         "a rule fired, then it stalled"] =
+                    get(progress, isempty(FIRED) ? "nothing fired" :
+                        only_gave_up() ? "only the catch-all fired" :
+                        "a rule fired, then it stalled", 0) + 1
+            end
             if outcome.kind in (:unevaluated, :unchanged)
                 for name in withholding_predicates()
                     withheld[name] = get(withheld, name, 0) + 1
@@ -619,6 +653,13 @@ function run(options, rules)
 
     OpenSymbolicRules.record_withheld!(false)
     OpenSymbolicRules.neq_reading!(:proved_distinct)
+    if !isempty(progress)
+        println()
+        println("How far an unsolved problem got:")
+        for (label, count) in sort!(collect(progress); by = pair -> -pair[2])
+            println("  ", lpad(count, 6), "  ", label)
+        end
+    end
     if !isempty(withheld)
         println()
         println("Predicates that decided a guard against its rule, by unsolved problems:")
@@ -632,6 +673,7 @@ function run(options, rules)
         report["reasons"] = reasons
         report["undecided"] = undecided
         report["withheld"] = withheld
+        report["progress"] = progress
         open(options["json"], "w") do handle
             JSON.print(handle, report, 2)
         end

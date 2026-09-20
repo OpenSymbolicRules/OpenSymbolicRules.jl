@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- The conformance report says how far an unsolved problem got: whether nothing
+  fired, only the corpus's unconditional catch-all fired, or a real rule fired
+  and the chain then stalled. That separates a rule set failing to start from
+  one failing to continue.
 - `neq_reading` and `neq_reading!`, selecting how `NeQ` answers an undecided
   inequality. The default, `:proved_distinct`, is unchanged; `:not_proved_equal`
   is RUBI's own reading, which admits rewrites conditional on an assumption
