@@ -185,11 +185,33 @@
   is the next measurement to make, and it is separate from the predicate
   backlog.
 
-  The 43 unimplemented predicates hold back 601 rule guards; the report lists
-  them ranked. The tail is shallow — the top twelve cover only 421 of the 601 —
-  so there is no single unlock. The `*MatchQ` family (`LinearMatchQ` 56,
-  `BinomialMatchQ` 50, `QuadraticMatchQ` 21, …) is the most coherent group: each
-  is a syntactic shape test, simpler than the semantic predicate beside it.
+  The report ranks the predicates with no implementation two ways, and the two
+  rankings disagree sharply. By **rules gated** the backlog looked shallow. By
+  **problems blocked** it is dominated by a few predicates that gate very broad
+  rules:
+
+  | predicate | rules gated | problems blocked |
+  | --- | --- | --- |
+  | `TrigSimplifyQ` | 1 | 10,876 |
+  | `FunctionOfQ` | 27 | 10,633 |
+  | `PseudoBinomialPairQ` | 2 | 9,924 |
+  | `TrinomialQ` | 6 | 4,175 |
+  | `LinearPairQ` | 10 | 3,223 |
+
+  `PseudoBinomialPairQ` gates two rules and blocks nearly ten thousand problems,
+  because one of them — `1.1.3.3:54`, pattern `Int(u^p. * v^q., x)` — matches
+  very nearly any product. Ranking the backlog by rules gated is therefore
+  misleading, and the measurement is what corrects it.
+
+  Fifteen predicates with settled definitions have since been implemented,
+  taking the rules held back from 459 of 6257 to 292 and the predicates still
+  missing from 43 to 28. Among them `TrinomialQ`, `GeneralizedTrinomialQ`, and
+  `GeneralizedBinomialQ` alone accounted for 8,329 blocked problems. What
+  remains is the heuristic tail — `TrigSimplifyQ`, `FunctionOfQ`,
+  `PseudoBinomialPairQ`, `SumSimplerQ`, `SimplerQ`, `IntBinomialQ`, `MatchQ`,
+  the `Known*IntegrandQ` family — where guessing a definition risks an unsound
+  or non-terminating rule set. `MatchQ` needs real pattern matching against an
+  OSR pattern at run time, which is a feature rather than a predicate.
 
   What remains beyond that is coverage and canonical form. The comparison folds closed arithmetic exactly
   — without that, a correct `x^(3+1)/(3+1)` reads as wrong against a recorded
