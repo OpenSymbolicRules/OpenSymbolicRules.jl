@@ -77,3 +77,38 @@ end
     @test rules[1](Integral(Power(y, 3), 2)) === nothing
     @test rules[1](Integral(Power(y, 3), Multiply(2, y))) === nothing
 end
+
+@testitem "A polynomial predicate distributes over a collection" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: LinearQ, QuadraticQ, PolyQ, PolynomialQ
+    using SymbolicUtils
+
+    @syms a b c d x
+
+    linear = Add(a, Multiply(b, x))
+    other_linear = Add(c, Multiply(d, x))
+    quadratic = Add(a, Multiply(b, Power(x, 2)))
+
+    # RUBI writes `LinearQ[{u, v}, x]` to ask about every element at once, the
+    # same spelling `FreeQ[{a, b}, x]` uses. Reading the list as a single
+    # expression makes the guard fail on a rule that plainly applies.
+    @test LinearQ(linear, x)
+    @test LinearQ(other_linear, x)
+    # `["List", u, v]` compiles to a Julia vector, which is the shape a guard
+    # actually receives.
+    @test LinearQ([linear, other_linear], x)
+
+    # One element that is not linear is enough to decline.
+    @test !LinearQ([linear, quadratic], x)
+    @test !LinearQ([linear, c], x)
+
+    @test QuadraticQ([quadratic, quadratic], x)
+    @test !QuadraticQ([quadratic, linear], x)
+
+    @test PolynomialQ([linear, quadratic], x)
+    @test PolyQ([linear, quadratic], x)
+    @test PolyQ([linear, other_linear], x, 1)
+
+    # An empty collection asks nothing, so nothing stands in the way.
+    @test LinearQ(Any[], x)
+end

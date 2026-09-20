@@ -358,6 +358,7 @@ that stopped short and from a rewrite that named something unimplemented.
 """
 function classify(problem, rewriter, rules, expected)
     OpenSymbolicRules.reset_unproved!()
+    OpenSymbolicRules.reset_withheld!()
     reached = try
         integrate(problem, rewriter)
     catch exception
@@ -387,6 +388,14 @@ rule covers but could not decide. Only the second is unblocked by implementing
 a predicate, and this is what separates them.
 """
 blocking_predicates() = OpenSymbolicRules.unproved_predicates_seen()
+
+"""
+    withholding_predicates()
+
+Return the predicates that decided a guard against its rule while the last
+problem was being attempted.
+"""
+withholding_predicates() = OpenSymbolicRules.withheld_predicates_seen()
 
 """
     describe_cause(exception)
@@ -512,6 +521,9 @@ function run(options, rules)
     # Problems left unsolved, counted against each predicate that could not be
     # decided while trying them; "" counts those no predicate blocked.
     undecided = Dict{String,Int}()
+    # Predicates that decided a guard against its rule, per unsolved problem.
+    withheld = Dict{String,Int}()
+    OpenSymbolicRules.record_withheld!(true)
 
     for (path, section) in section_files(joinpath(integration, "tests"), prefix)
         document = JSON.parsefile(path)
@@ -539,6 +551,9 @@ function run(options, rules)
             isempty(outcome.detail) ||
                 (reasons[outcome.detail] = get(reasons, outcome.detail, 0) + 1)
             if outcome.kind in (:unevaluated, :unchanged)
+                for name in withholding_predicates()
+                    withheld[name] = get(withheld, name, 0) + 1
+                end
                 blocked = blocking_predicates()
                 isempty(blocked) ? (undecided[""] = get(undecided, "", 0) + 1) :
                     for name in blocked
@@ -596,10 +611,20 @@ function run(options, rules)
         println("  ", lpad(get(undecided, "", 0), 6), "  (no rule was blocked; none covers the problem)")
     end
 
+    OpenSymbolicRules.record_withheld!(false)
+    if !isempty(withheld)
+        println()
+        println("Predicates that decided a guard against its rule, by unsolved problems:")
+        for (name, count) in first(sort!(collect(withheld); by = pair -> -pair[2]), 12)
+            println("  ", lpad(count, 6), "  ", name)
+        end
+    end
+
     if options["json"] !== nothing
         report["totals"] = Dict(String(key) => value for (key, value) in totals)
         report["reasons"] = reasons
         report["undecided"] = undecided
+        report["withheld"] = withheld
         open(options["json"], "w") do handle
             JSON.print(handle, report, 2)
         end

@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- `record_withheld!`, `withheld_predicates_seen`, and `reset_withheld!`, which
+  record — on request — the predicates that decide a guard against its rule, so
+  a measurement can say which predicate held a rule back.
 - `unproved_predicates_seen` and `reset_unproved!`, which record the predicates
   that abandoned a guard. A rule that does not fire says nothing about why on
   its own, and this is what tells a guard that is false apart from one that
@@ -245,6 +248,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   point.
 
 ### Fixed
+- `PolynomialQ`, `PolyQ`, `LinearQ`, and `QuadraticQ` now read a collection the
+  way `FreeQ` does: `LinearQ[{u, v}, x]` asks whether every element is linear
+  in `x`. Reading the list as a single expression made the guard decline a rule
+  that plainly applied; the RUBI corpus writes 41 guards that way.
 - Answer `FreeQ` correctly when either side is a collection.  A quantifier binds
   a list, and asking whether a body was free of that list compared the body to
   the list itself, so `FreeQ(Sin(x), [:x])` reported that `Sin(x)` is free of

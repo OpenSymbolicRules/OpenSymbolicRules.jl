@@ -335,6 +335,8 @@ applications in the RUBI dataset:
 `FreeQ` accepts a collection on either side. A quantifier binds a list, so a
 side condition about its scope can ask about the whole binder, and RUBI's
 `FreeQ[{a, b, m}, x]` spelling asks about every element of a list.
+`PolynomialQ`, `PolyQ`, `LinearQ`, and `QuadraticQ` read a collection the same
+way: `LinearQ[{u, v}, x]` asks whether every element is linear in `x`.
 | Polynomial | `PolynomialQ`, `PolyQ`, `LinearQ`, `QuadraticQ` |
 
 `GtQ`, `LtQ`, `GeQ`, and `LeQ` accept RUBI's chained form, so `GtQ(u, v, w)`

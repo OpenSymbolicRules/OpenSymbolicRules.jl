@@ -335,6 +335,21 @@ function _elements(collection)
 end
 
 """
+    _over_collection(predicate, u)
+
+Apply `predicate` to `u`, or to every element of `u` when it is a collection.
+
+RUBI writes `LinearQ[{u, v}, x]` to ask about every element at once, the same
+spelling `FreeQ[{a, b}, x]` uses. Reading such a list as one expression makes
+the guard decline a rule that plainly applies.
+"""
+function _over_collection(predicate, u)
+    elements = _elements(u)
+    elements === u && return predicate(u)
+    return all(predicate, elements)
+end
+
+"""
     MemberQ(collection, u)
 
 Return whether `u` occurs in `collection`, which may be a Julia collection or a
@@ -400,7 +415,7 @@ end
 
 Return whether `u` is a polynomial in `x`.
 """
-PolynomialQ(u, x) = osr_degree(u, x) !== nothing
+PolynomialQ(u, x) = _over_collection(candidate -> osr_degree(candidate, x) !== nothing, u)
 
 """
     PolyQ(u, x)
@@ -408,22 +423,22 @@ PolynomialQ(u, x) = osr_degree(u, x) !== nothing
 
 Return whether `u` is a polynomial in `x`, optionally of degree exactly `n`.
 """
-PolyQ(u, x) = PolynomialQ(u, x)
-PolyQ(u, x, n) = osr_degree(u, x) == _integer_value(n)
+PolyQ(u, x) = _over_collection(candidate -> PolynomialQ(candidate, x), u)
+PolyQ(u, x, n) = _over_collection(candidate -> osr_degree(candidate, x) == _integer_value(n), u)
 
 """
     LinearQ(u, x)
 
 Return whether `u` is a polynomial of degree one in `x`.
 """
-LinearQ(u, x) = osr_degree(u, x) == 1
+LinearQ(u, x) = _over_collection(candidate -> osr_degree(candidate, x) == 1, u)
 
 """
     QuadraticQ(u, x)
 
 Return whether `u` is a polynomial of degree two in `x`.
 """
-QuadraticQ(u, x) = osr_degree(u, x) == 2
+QuadraticQ(u, x) = _over_collection(candidate -> osr_degree(candidate, x) == 2, u)
 
 export EqQ, NeQ, GtQ, LtQ, GeQ, LeQ
 export IntegerQ, IntegersQ, IGtQ, ILtQ, IGeQ, ILeQ

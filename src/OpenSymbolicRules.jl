@@ -471,6 +471,49 @@ Forget the predicates recorded so far, so the next attempt is measured alone.
 reset_unproved!() = (task_local_storage(:osr_unproved, Set{String}()); nothing)
 
 """
+    record_withheld!(on)
+
+Turn on, or off, the recording of predicates that decide a guard against its
+rule.
+
+This is diagnostic and off by default. An unproved predicate is always worth
+recording, because it names something missing; a predicate that answers `false`
+is doing its job, and only a measurement asking *which* rule was held back, and
+by what, needs to know. Rewriting should not pay for that.
+"""
+record_withheld!(on::Bool) = (task_local_storage(:osr_record_withheld, on); nothing)
+
+"""
+    withheld_predicates_seen()
+
+Return the predicates that have decided a guard against its rule in this task
+since the last [`reset_withheld!`](@ref), when recording is on.
+"""
+withheld_predicates_seen() =
+    get(() -> Set{String}(), task_local_storage(), :osr_withheld)
+
+"""
+    reset_withheld!()
+
+Forget the predicates recorded so far, so the next attempt is measured alone.
+"""
+reset_withheld!() = (task_local_storage(:osr_withheld, Set{String}()); nothing)
+
+"""
+    _weigh(predicate, held)
+
+Return whether a guard's `predicate` held, recording it when it did not and
+recording is on.
+"""
+function _weigh(predicate::String, held::Bool)
+    held && return true
+    if get(task_local_storage(), :osr_record_withheld, false)
+        push!(get!(() -> Set{String}(), task_local_storage(), :osr_withheld), predicate)
+    end
+    return false
+end
+
+"""
     _guard_or_unproved(condition)
 
 Wrap a compiled guard so that an undecidable predicate leaves it unestablished
@@ -547,8 +590,11 @@ function _compile_constraint(constraint, semantics; bindings=nothing, heads=noth
     # answered.  Its operands are not built either: they would be discarded.
     callee === nothing &&
         return Expr(:call, GlobalRef(@__MODULE__, :_unproved), String(name))
-    return Expr(:call, callee,
+    call = Expr(:call, callee,
                 map(operand -> osr_to_expr(operand, semantics; reference=true, bindings, heads), operands)...)
+    # Weighed rather than used directly, so a measurement can ask which
+    # predicate decided a guard against its rule.
+    return Expr(:call, GlobalRef(@__MODULE__, :_weigh), String(name), call)
 end
 
 """

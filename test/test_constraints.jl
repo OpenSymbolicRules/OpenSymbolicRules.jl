@@ -351,3 +351,36 @@ end
     @test rules[3](Power(y, 1 // 2)) === nothing
     @test unproved_predicates_seen() == Set(["PseudoBinomialPairQ"])
 end
+
+@testitem "A guard that is decided false records the predicate that decided it" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: withheld_predicates_seen, reset_withheld!, record_withheld!
+    using SymbolicUtils
+
+    @syms y
+
+    rules = @load_osr("data/constraints/1.5-unproved.json")
+
+    # Recording is opt-in: a measurement wants to know which predicate held a
+    # rule back, and ordinary rewriting should not pay for it.
+    reset_withheld!()
+    @test rules[5](Power(y, 1 // 2)) === nothing
+    @test isempty(withheld_predicates_seen())
+
+    # Rule 5's guard is `IntegerQ(m)`, which is decided and false here.
+    record_withheld!(true)
+    try
+        reset_withheld!()
+        @test rules[5](Power(y, 1 // 2)) === nothing
+        @test "IntegerQ" in withheld_predicates_seen()
+
+        # A guard that holds records nothing.
+        reset_withheld!()
+        @test isequal(rules[5](Power(y, 2)), 2)
+        @test isempty(withheld_predicates_seen())
+    finally
+        record_withheld!(false)
+    end
+
+    @test isempty(withheld_predicates_seen())
+end
