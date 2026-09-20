@@ -286,8 +286,33 @@ function _integrate_subintegrals(expression, rewriter, depth)
         return integrate(expression, rewriter; depth)
     end
     rebuilt = [_integrate_subintegrals(operand, rewriter, depth) for operand in operands]
+    if _head_name(head) === :Subst && length(rebuilt) == 3
+        substituted = _substitute_when_resolved(rebuilt)
+        substituted === nothing || return substituted
+    end
     all(isequal.(rebuilt, operands)) && return expression
     return head(rebuilt...)
+end
+
+"""
+    _substitute_when_resolved(operands)
+
+Carry out a `Subst(u, x, v)` once `u` holds no unevaluated integral, or return
+`nothing` while it still does.
+
+RUBI's `Subst` waits for its argument: substituting into an integral that has
+not been evaluated would turn `Int(f, x)` into `Int(f[v], v)`, which is a
+different integral — the change of variable owes a derivative factor that the
+substitution alone does not supply. Once the inner integral has been resolved
+there is no integral left to spoil, and the substitution is an ordinary
+capture-avoiding one.
+"""
+function _substitute_when_resolved(operands)
+    body, variable, replacement = operands
+    OpenSymbolicRules.IntegralFreeQ(body) || return nothing
+    name = variable isa SymbolicUtils.BasicSymbolic && SymbolicUtils.issym(variable) ?
+           nameof(variable) : return nothing
+    return OpenSymbolicRules.osr_substitute(body, name => replacement)
 end
 
 """
@@ -343,6 +368,27 @@ Return whether the rules that fired were only the ones that declare defeat.
 only_gave_up() = all(name -> any(marker -> occursin(marker, name), GIVING_UP), FIRED)
 
 const GIVING_UP = ("9.3 Miscellaneous integration rules", "9.4 Miscellaneous integration rules")
+
+"""
+    _progress_label(withheld, blocked)
+
+Say how far an unsolved problem got, and why it stopped where it did.
+
+A problem that never started splits further. If some predicate decided a guard
+against its rule, then a rule's *pattern* did match and its guard declined —
+the rule set covers the shape and refuses the instance. If nothing decided
+anything, no pattern matched at all and the shape is simply not covered. The
+two call for entirely different work, and the counts are already to hand.
+"""
+function _progress_label(withheld, blocked)
+    if !isempty(FIRED) && !only_gave_up()
+        return "a rule fired, then it stalled"
+    end
+    isempty(withheld) && isempty(blocked) &&
+        return "never started: no pattern matched"
+    isempty(withheld) && return "never started: a guard could not be decided"
+    return "never started: a guard was decided against its rule"
+end
 
 """
     BlockedRule
@@ -585,12 +631,8 @@ function run(options, rules)
             isempty(outcome.detail) ||
                 (reasons[outcome.detail] = get(reasons, outcome.detail, 0) + 1)
             if outcome.kind in (:unevaluated, :unchanged)
-                progress[isempty(FIRED) ? "nothing fired" :
-                         only_gave_up() ? "only the catch-all fired" :
-                         "a rule fired, then it stalled"] =
-                    get(progress, isempty(FIRED) ? "nothing fired" :
-                        only_gave_up() ? "only the catch-all fired" :
-                        "a rule fired, then it stalled", 0) + 1
+                label = _progress_label(withholding_predicates(), blocking_predicates())
+                progress[label] = get(progress, label, 0) + 1
             end
             if outcome.kind in (:unevaluated, :unchanged)
                 for name in withholding_predicates()

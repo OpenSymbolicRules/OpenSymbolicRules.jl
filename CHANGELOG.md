@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- The conformance report resolves a `Subst` once its argument holds no
+  unevaluated integral, and splits an unsolved problem that never started by
+  whether a pattern matched and its guard declined, or no pattern matched at
+  all. The two call for entirely different work.
 - `Simp` and `Dist`, with the exact readings their algebra allows: `Simp(u, x)`
   is `u` and `Dist(u, v, x)` is `u*v`. Left inert they stopped a rewrite chain
   after a single step, which is how two thirds of the problems that stalled in
