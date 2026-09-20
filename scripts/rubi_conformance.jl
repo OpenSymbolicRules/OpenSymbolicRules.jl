@@ -601,6 +601,8 @@ function run(options, rules)
     withheld = Dict{String,Int}()
     # How far an unsolved problem got before the rule set ran out.
     progress = Dict{String,Int}()
+    # Predicates that turned a matching rule away on a problem nothing fired on.
+    refused = Dict{String,Int}()
     OpenSymbolicRules.record_withheld!(true)
     OpenSymbolicRules.neq_reading!(Symbol(options["neq"]))
     @info "NeQ reading" reading = options["neq"]
@@ -633,6 +635,14 @@ function run(options, rules)
             if outcome.kind in (:unevaluated, :unchanged)
                 label = _progress_label(withholding_predicates(), blocking_predicates())
                 progress[label] = get(progress, label, 0) + 1
+                # Which predicate turned a matching rule away is only telling
+                # for a problem no rule ever fired on: elsewhere a predicate
+                # declining is the rule set doing its job.
+                if startswith(label, "never started")
+                    for name in withholding_predicates()
+                        refused[name] = get(refused, name, 0) + 1
+                    end
+                end
             end
             if outcome.kind in (:unevaluated, :unchanged)
                 for name in withholding_predicates()
@@ -697,6 +707,14 @@ function run(options, rules)
 
     OpenSymbolicRules.record_withheld!(false)
     OpenSymbolicRules.neq_reading!(:proved_distinct)
+    if !isempty(refused)
+        println()
+        println("Predicates that turned a matching rule away on a problem nothing fired on:")
+        for (name, count) in first(sort!(collect(refused); by = pair -> -pair[2]), 12)
+            println("  ", lpad(count, 6), "  ", name)
+        end
+    end
+
     if !isempty(progress)
         println()
         println("How far an unsolved problem got:")
@@ -718,6 +736,7 @@ function run(options, rules)
         report["undecided"] = undecided
         report["withheld"] = withheld
         report["progress"] = progress
+        report["refused"] = refused
         open(options["json"], "w") do handle
             JSON.print(handle, report, 2)
         end

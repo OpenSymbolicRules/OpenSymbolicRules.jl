@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- The conformance report ranks the predicates that turned a matching rule away
+  only on problems nothing fired on. Elsewhere a predicate declining is the rule
+  set doing its job, and counting those buried the signal.
 - The conformance report resolves a `Subst` once its argument holds no
   unevaluated integral, and splits an unsolved problem that never started by
   whether a pattern matched and its guard declined, or no pattern matched at
