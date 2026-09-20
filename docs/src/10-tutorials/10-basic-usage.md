@@ -338,7 +338,8 @@ side condition about its scope can ask about the whole binder, and RUBI's
 `PolynomialQ`, `PolyQ`, `LinearQ`, and `QuadraticQ` read a collection the same
 way: `LinearQ[{u, v}, x]` asks whether every element is linear in `x`.
 | Polynomial | `PolynomialQ`, `PolyQ`, `LinearQ`, `QuadraticQ` |
-| Written shape | `LinearMatchQ`, `BinomialQ`, `BinomialMatchQ` |
+| Written shape | `LinearMatchQ`, `BinomialQ`, `BinomialMatchQ`, `QuadraticMatchQ`, `TrinomialQ`, `TrinomialMatchQ` |
+| Classification | `TrigQ`, `HyperbolicQ`, `InertTrigQ`, `InverseFunctionFreeQ`, `ComplexFreeQ`, `TrueQ`, `IndependentQ`, `OddQ`, `PerfectSquareQ` |
 
 `GtQ`, `LtQ`, `GeQ`, and `LeQ` accept RUBI's chained form, so `GtQ(u, v, w)`
 means `u > v > w`.
@@ -355,6 +356,16 @@ neither, because it vanishes for some values and not others: `NeQ(m, -1)` is
 where `LinearQ` asks only whether its degree is one. RUBI's normalization rules
 fire exactly when something is linear but not yet in that shape, so reading the
 two as synonyms would make those rules loop.
+
+`QuadraticMatchQ` and `TrinomialQ` extend the same reading to `a + b*x + c*x^2`
+and to `a + b*x^n + c*x^(2n)`; a quadratic is the trinomial with `n = 1`, which
+is how RUBI files it.
+
+A classifying predicate reads a head by name, so `TrigQ(Sin)` holds as much as
+`TrigQ(Sin(x))` — RUBI applies these to a head a pattern bound, as in `TrigQ[F]`
+where `F_` matched one of the six circular functions. `InverseFunctionFreeQ`
+asks whether a logarithm or an inverse circular or hyperbolic function of the
+variable occurs: `Log(a)` leaves an integrand alone, `Log(x)` does not.
 
 `BinomialQ` asks the same kind of question of `a + b*x^n`, with `a`, `b`, and
 the exponent free of `x`; `BinomialQ(u, x, n)` fixes the exponent. It reads the

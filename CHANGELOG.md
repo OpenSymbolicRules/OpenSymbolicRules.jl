@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Twelve further RUBI constraint predicates with settled definitions:
+  `QuadraticMatchQ`, `TrinomialQ`, `TrinomialMatchQ`, `TrigQ`, `HyperbolicQ`,
+  `InertTrigQ`, `InverseFunctionFreeQ`, `ComplexFreeQ`, `TrueQ`, `IndependentQ`,
+  `OddQ`, and `PerfectSquareQ`. Together with the earlier three, the rules held
+  back by an unimplemented predicate fall from 459 of 6257 to 292, and the
+  predicates still missing from 43 to 28.
 - `EqQ` and `NeQ` decide a polynomial identity exactly, through the sparse
   rational core: a difference that is the zero polynomial proves equality, one
   that is a nonzero constant proves inequality, and one that still mentions a

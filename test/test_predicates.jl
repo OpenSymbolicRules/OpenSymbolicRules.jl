@@ -189,3 +189,102 @@ end
     @test !BinomialMatchQ(c, x)
     @test BinomialMatchQ([Power(x, 2), x], x)
 end
+
+@testitem "Head-classifying predicates read the head by name" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: TrigQ, HyperbolicQ, InertTrigQ, TrueQ, IndependentQ
+    using SymbolicUtils
+
+    @syms a x
+
+    # RUBI applies these to a head a pattern bound, as in `TrigQ[F]` where `F_`
+    # matched one of the six circular functions, so a bare head counts as much
+    # as an application of it.
+    @test TrigQ(Sin(x))
+    @test TrigQ(Sin)
+    @test TrigQ(Csc)
+    @test !TrigQ(Sinh(x))
+    @test !TrigQ(Log(x))
+    @test !TrigQ(x)
+
+    @test HyperbolicQ(Tanh(x))
+    @test HyperbolicQ(Sech)
+    @test !HyperbolicQ(Tan(x))
+
+    # `TrueQ` asks whether something *is* the truth value, which is how RUBI
+    # reads an unset flag such as `$UseGamma`.
+    @test TrueQ(true)
+    @test !TrueQ(false)
+    @test !TrueQ(x)
+    @test !TrueQ(1)
+
+    # `IndependentQ` is RUBI's other spelling of `FreeQ`.
+    @test IndependentQ(a, x)
+    @test !IndependentQ(Multiply(a, x), x)
+end
+
+@testitem "Shape predicates recognise quadratic and trinomial forms" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: QuadraticMatchQ, TrinomialQ, TrinomialMatchQ
+    using SymbolicUtils
+
+    @syms a b c n x
+
+    quadratic = Add(Add(a, Multiply(b, x)), Multiply(c, Power(x, 2)))
+    @test QuadraticMatchQ(quadratic, x)
+    @test QuadraticMatchQ(Add(a, Multiply(c, Power(x, 2))), x)
+    @test QuadraticMatchQ(Power(x, 2), x)
+    # Degree one or three is not a quadratic shape.
+    @test !QuadraticMatchQ(Add(a, Multiply(b, x)), x)
+    @test !QuadraticMatchQ(Add(a, Multiply(c, Power(x, 3))), x)
+    # A coefficient that mentions the variable is not a coefficient.
+    @test !QuadraticMatchQ(Multiply(x, Power(x, 2)), x)
+
+    # A trinomial is `a + b*x^n + c*x^(2n)`: the second exponent must be twice
+    # the first, which is what distinguishes it from any three-term sum.
+    trinomial = Add(Add(a, Multiply(b, Power(x, n))), Multiply(c, Power(x, Multiply(2, n))))
+    @test TrinomialQ(trinomial, x)
+    @test TrinomialMatchQ(trinomial, x)
+    @test TrinomialQ(Add(Add(a, Multiply(b, Power(x, 3))), Multiply(c, Power(x, 6))), x)
+    @test !TrinomialQ(Add(Add(a, Multiply(b, Power(x, 3))), Multiply(c, Power(x, 5))), x)
+    # A quadratic is the trinomial with `n = 1`, which is how RUBI files it.
+    @test TrinomialQ(quadratic, x)
+    # Two terms are not three.
+    @test !TrinomialQ(Add(a, Multiply(c, Power(x, 2))), x)
+end
+
+@testitem "InverseFunctionFreeQ finds an inverse function of the variable" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: InverseFunctionFreeQ, ComplexFreeQ, OddQ, PerfectSquareQ
+    using SymbolicUtils
+
+    @syms a b x
+    @syms ImaginaryI
+
+    # An inverse function is only in the way when it involves the variable.
+    @test InverseFunctionFreeQ(Multiply(a, x), x)
+    @test InverseFunctionFreeQ(Sin(x), x)
+    @test InverseFunctionFreeQ(Log(a), x)
+    @test InverseFunctionFreeQ(Asin(b), x)
+    @test !InverseFunctionFreeQ(Log(x), x)
+    @test !InverseFunctionFreeQ(Asin(x), x)
+    @test !InverseFunctionFreeQ(Multiply(a, Atanh(Multiply(b, x))), x)
+    @test !InverseFunctionFreeQ(Add(a, Acosh(x)), x)
+
+    @test ComplexFreeQ(Multiply(a, x))
+    @test !ComplexFreeQ(Multiply(a, ImaginaryI))
+    @test !ComplexFreeQ(Add(a, Complex(1, 2)))
+
+    @test OddQ(3)
+    @test !OddQ(4)
+    @test !OddQ(a)
+    @test !OddQ(3 // 2)
+
+    @test PerfectSquareQ(4)
+    @test PerfectSquareQ(9 // 4)
+    @test !PerfectSquareQ(5)
+    @test !PerfectSquareQ(-4)
+    @test PerfectSquareQ(Power(a, 2))
+    @test !PerfectSquareQ(Power(a, 3))
+    @test !PerfectSquareQ(a)
+end

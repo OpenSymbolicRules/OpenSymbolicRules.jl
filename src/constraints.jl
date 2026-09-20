@@ -618,5 +618,225 @@ function _monomial_exponent(u, x)
     return nothing
 end
 
+"""
+    _head_name(u)
+
+Return the name of `u`'s head, or of `u` itself when it is a bare symbol.
+
+RUBI applies a classifying predicate to a head a pattern bound, as in `TrigQ[F]`
+where `F_` matched one of the six circular functions, so a bare head has to
+count as much as an application of it.
+"""
+function _head_name(u)
+    u = _literal(u)
+    iscall(u) && return _operation_name(operation(u))
+    u isa SymbolicUtils.BasicSymbolic && SymbolicUtils.issym(u) && return nameof(u)
+    return nothing
+end
+
+const _CIRCULAR_HEADS = Set([:Sin, :Cos, :Tan, :Cot, :Sec, :Csc])
+const _HYPERBOLIC_HEADS = Set([:Sinh, :Cosh, :Tanh, :Coth, :Sech, :Csch])
+const _INERT_TRIG_HEADS = Set([:sin, :cos, :tan, :cot, :sec, :csc])
+
+"""
+    TrigQ(u)
+
+Return whether `u` is a circular function, or an application of one.
+"""
+TrigQ(u) = _head_name(u) in _CIRCULAR_HEADS
+
+"""
+    HyperbolicQ(u)
+
+Return whether `u` is a hyperbolic function, or an application of one.
+"""
+HyperbolicQ(u) = _head_name(u) in _HYPERBOLIC_HEADS
+
+"""
+    InertTrigQ(u...)
+
+Return whether every argument is one of RUBI's inert circular heads, spelled in
+lower case to keep it from being evaluated.
+"""
+InertTrigQ(us...) = all(u -> _head_name(u) in _INERT_TRIG_HEADS, us)
+
+"""
+    TrueQ(u)
+
+Return whether `u` *is* the truth value, which is how RUBI reads an unset flag
+such as `\$UseGamma`.  Anything else, symbol or number, is not.
+"""
+TrueQ(u) = _literal(u) === true
+
+"""
+    IndependentQ(u, x)
+
+Return whether `u` is free of `x`.  RUBI's other spelling of [`FreeQ`](@ref).
+"""
+IndependentQ(u, x) = FreeQ(u, x)
+
+"""
+    _power_exponents(u, x)
+
+Return the exponents of `x` in `u` read as a sum of monomials, or `nothing` when
+some summand is not a monomial with a coefficient free of `x`.
+
+A summand free of `x` contributes the exponent `0`.
+"""
+function _power_exponents(u, x)
+    exponents = Any[]
+    for summand in _sum_operands(u)
+        if FreeQ(summand, x)
+            push!(exponents, 0)
+            continue
+        end
+        exponent = _monomial_exponent(summand, x)
+        exponent === nothing && return nothing
+        push!(exponents, exponent)
+    end
+    return exponents
+end
+
+"""
+    _sum_operands(u)
+
+Return the summands of `u`, flattening the nested binary `Add` terms an n-ary
+OSR sum compiles to.
+"""
+function _sum_operands(u)
+    u = _literal(u)
+    _has_head(u, :Add) || return Any[u]
+    operands = Any[]
+    for operand in arguments(u)
+        append!(operands, _sum_operands(operand))
+    end
+    return operands
+end
+
+"""
+    QuadraticMatchQ(u, x)
+
+Return whether `u` is written as `a + b*x + c*x^2`, with `a`, `b`, and `c` free
+of `x`.  The squared term must be there; the others may be absent.
+"""
+QuadraticMatchQ(u, x) =
+    _over_collection(u) do candidate
+        exponents = _power_exponents(candidate, x)
+        exponents === nothing && return false
+        all(exponent -> any(degree -> EqQ(exponent, degree), (0, 1, 2)), exponents) &&
+            any(exponent -> EqQ(exponent, 2), exponents)
+    end
+
+"""
+    TrinomialQ(u, x)
+    TrinomialMatchQ(u, x)
+
+Return whether `u` is written as `a + b*x^n + c*x^(2n)`, with `a`, `b`, `c`, and
+`n` free of `x`.
+
+The second exponent being twice the first is what distinguishes a trinomial from
+any three-term sum.  Like [`BinomialQ`](@ref), this reads the written shape
+where RUBI normalizes first, so the two spellings agree.
+"""
+function TrinomialQ(u, x)
+    return _over_collection(u) do candidate
+        exponents = _power_exponents(candidate, x)
+        exponents === nothing && return false
+        degrees = [exponent for exponent in exponents if !EqQ(exponent, 0)]
+        length(degrees) == 2 || return false
+        first_degree, second_degree = degrees
+        # Either order may be written; one exponent must be twice the other.
+        return EqQ(second_degree, Multiply(2, first_degree)) ||
+               EqQ(first_degree, Multiply(2, second_degree))
+    end
+end
+
+TrinomialMatchQ(u, x) = TrinomialQ(u, x)
+
+const _INVERSE_FUNCTION_HEADS = Set([
+    :Log, :PolyLog, :ProductLog,
+    :Asin, :Acos, :Atan, :Acot, :Asec, :Acsc,
+    :Asinh, :Acosh, :Atanh, :Acoth, :Asech, :Acsch,
+])
+
+"""
+    InverseFunctionFreeQ(u, x)
+
+Return whether `u` contains no inverse function of `x`.
+
+A logarithm or an inverse circular or hyperbolic function is only in the way
+when it involves `x`: `Log(a)` leaves an integrand alone, `Log(x)` does not.
+"""
+function InverseFunctionFreeQ(u, x)
+    literal = _literal(u)
+    _head_name(literal) in _INVERSE_FUNCTION_HEADS && return FreeQ(literal, x)
+    iscall(literal) || return true
+    return all(argument -> InverseFunctionFreeQ(argument, x), arguments(literal))
+end
+
+"""
+    ComplexFreeQ(u)
+
+Return whether `u` mentions no complex number.
+"""
+function ComplexFreeQ(u)
+    literal = _literal(u)
+    literal isa Complex && return false
+    name = _head_name(literal)
+    (name === :Complex || name === :ImaginaryI) && return false
+    iscall(literal) || return true
+    return all(ComplexFreeQ, arguments(literal))
+end
+
+"""
+    OddQ(u)
+
+Return whether `u` is an odd integer.
+"""
+function OddQ(u)
+    value = osr_number(u)
+    return value isa Integer && isodd(value)
+end
+
+"""
+    PerfectSquareQ(u)
+
+Return whether `u` is provably a perfect square: a positive rational whose
+square root is rational, or a power with an even exponent.
+
+Anything else answers `false`, which leaves the guarded rewrite unapplied rather
+than claiming a root that was not established.
+"""
+function PerfectSquareQ(u)
+    value = osr_number(u)
+    if value isa Union{Integer,Rational}
+        value > 0 || return false
+        return _rational_square_root(value) !== nothing
+    end
+    literal = _literal(u)
+    if _has_head(literal, :Power)
+        operands = arguments(literal)
+        length(operands) == 2 || return false
+        exponent = osr_number(operands[2])
+        return exponent isa Integer && iseven(exponent)
+    end
+    return false
+end
+
+"""
+    _rational_square_root(value)
+
+Return the exact rational square root of `value`, or `nothing` when it has none.
+"""
+function _rational_square_root(value)
+    top, bottom = numerator(value), denominator(value)
+    top_root, bottom_root = isqrt(top), isqrt(bottom)
+    top_root * top_root == top && bottom_root * bottom_root == bottom || return nothing
+    return top_root // bottom_root
+end
+
+export TrigQ, HyperbolicQ, InertTrigQ, TrueQ, IndependentQ
+export QuadraticMatchQ, TrinomialQ, TrinomialMatchQ
+export InverseFunctionFreeQ, ComplexFreeQ, OddQ, PerfectSquareQ
 export PolynomialQ, PolyQ, LinearQ, QuadraticQ, LinearMatchQ, BinomialQ, BinomialMatchQ
 export osr_degree, osr_number, osr_collection
