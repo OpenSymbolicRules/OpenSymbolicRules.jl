@@ -136,7 +136,7 @@
       RUBI predicate (`MatchQ`, `BinomialQ`, the `FunctionOf*` family) resolve
       it in the loading module and fail when tried. 92.6% of rules use only
       predicates this package already implements.
-- [x] **Heuristic Rule Dispatcher:** `SymbolicUtils.jl` evaluates rules sequentially. For 6000+ rules, a naive `Chain` is too slow. `OSRDispatch` indexes rules by the operation their pattern requires at the root of a term, selecting candidates with a single dictionary lookup. A deeper index, or `Metatheory.jl` e-graphs, remains an option if root dispatch stops being selective enough.
+- [x] **Heuristic Rule Dispatcher:** `SymbolicUtils.jl` evaluates rules sequentially. For 6000+ rules, a naive `Chain` is too slow. `OSRDispatch` indexes rules by the operation their pattern requires at the root of a term *and* at its first operand, selecting candidates with a single dictionary lookup. The deeper index became necessary once the Integration conversion restored RUBI's `Int[integrand, x]` wrapper: every rule of the corpus then shared the head `Int`, and the root alone selected all 186 rules of section 1.1.1 for every integral. With the operand key, 183 of those 186 rules are indexed and a power integrand tries 7. An associative-commutative rule keeps no operand key, because its matcher tries every operand order. `Metatheory.jl` e-graphs remain an option if two levels stop being selective enough.
 - [~] **Validation Suite:** Run the official RUBI test suite natively in Julia
   to guarantee correctness against Mathematica. `scripts/rubi_conformance.jl`
   (`just conformance <section>`) applies the rule set to every test problem of a

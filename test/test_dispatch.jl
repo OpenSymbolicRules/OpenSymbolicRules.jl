@@ -45,9 +45,13 @@ end
     @test isempty(candidate_positions(dispatch, 2))
 
     # Only the three `Pow` rules are candidates for a power.
-    @test candidate_positions(dispatch, Pow(x, 1)) == [1, 3, 4]
+    # Rule 1 is `Pow(Pow(~x, ~p), ~q)`: it requires a power under the power, so
+    # it cannot match a power of a bare symbol however the exponent matches.
+    @test candidate_positions(dispatch, Pow(x, 1)) == [3, 4]
     # Only the `Mul` rule is a candidate for a product.
-    @test candidate_positions(dispatch, Mul(x, x)) == [2]
+    # Rule 2 is `Mul(Pow(~x, ~p), Pow(~x, ~q))`, and `Mul` is not commutative
+    # here, so a product of bare symbols reaches no rule at all.
+    @test isempty(candidate_positions(dispatch, Mul(x, x)))
     # `Add` heads the trigonometric identity, which is loaded last.
     @test candidate_positions(dispatch, Add(x, x)) == [5]
 
@@ -125,6 +129,44 @@ end
     # Dispatching still reproduces a linear scan of every rule.
     for expr in (Integral(Power(Add(2, Multiply(3, x)), 4), x), Integral(x, x),
                  Multiply(5, Sin(x)), Sin(x), x)
+        @test isequal(dispatch(expr), SymbolicUtils.Rewriters.Chain(rules)(expr))
+    end
+end
+
+@testitem "Dispatch indexes the operand when every rule shares a head" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: OSRDispatch, candidate_positions, dispatch_key
+    using SymbolicUtils
+
+    @syms x
+
+    rules = @load_osr("data/wildcards/1.9-deep-index.json")
+    dispatch = OSRDispatch(rules)
+
+    Int_ = OpenSymbolicRules.UninterpretedHeads.Int
+
+    # Every RUBI rule is headed by `Int`, so the root head alone selects the
+    # whole rule set. The head of the operand the rule integrates is what
+    # actually distinguishes them.
+    @test dispatch_key(rules[1]) === (Int_, Power)
+    @test dispatch_key(rules[2]) === (Int_, Sin)
+    # A rule whose operand is a bare slot requires no operand head, so it stays
+    # a candidate whatever the integrand is.
+    @test dispatch_key(rules[3]) === (Int_, nothing)
+    # So does one whose operand carries an optional operand at its own root:
+    # that pattern also matches a term lacking the operation entirely.
+    @test dispatch_key(rules[4]) === (Int_, nothing)
+
+    # A power integrand tries the power rules and the catch-all, not the sine one.
+    @test candidate_positions(dispatch, Int_(Power(x, 3), x)) == [1, 3, 4]
+
+    @test candidate_positions(dispatch, Int_(Sin(x), x)) == [2, 3, 4]
+
+    # An integrand headed by nothing indexed still reaches the open rules.
+    @test candidate_positions(dispatch, Int_(x, x)) == [3, 4]
+
+    # Dispatching still reproduces a linear scan of every rule.
+    for expr in (Int_(Power(x, 3), x), Int_(Sin(x), x), Int_(x, x), Power(x, 3), x)
         @test isequal(dispatch(expr), SymbolicUtils.Rewriters.Chain(rules)(expr))
     end
 end

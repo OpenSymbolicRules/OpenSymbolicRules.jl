@@ -54,6 +54,70 @@ function _has_optional_slot(pattern)
 end
 
 """
+    dispatch_key(rule)
+
+Return the pair of operations a term must have at its root and at its first
+operand for `rule` to have any chance of matching, with `nothing` in either
+position that the pattern leaves open.
+
+The root head alone stops discriminating as soon as a rule set is about one
+operation: every RUBI integration rule is headed by `Int`, so indexing on the
+root selects the whole set for every integral. What distinguishes those rules is
+the integrand, which is the first operand.
+"""
+function dispatch_key(rule)
+    head = rule_head(rule)
+    head === nothing && return nothing
+    return (head, _operand_head(rule))
+end
+
+"""
+    _operand_head(rule)
+
+Return the operation `rule` requires at the first operand of its pattern, or
+`nothing` when it requires none.
+
+An associative-commutative rule requires none: its matcher tries every operand
+order, so the operation at the term's first operand does not decide whether the
+rule can match.
+"""
+_operand_head(rule::OSRRule) = _operand_head(rule.rule)
+
+# An associative-commutative rule matches its operands in any order, so which
+# operation sits first in the term says nothing about whether it can match.
+_operand_head(::SymbolicUtils.ACRule) = nothing
+
+function _operand_head(rule::SymbolicUtils.Rule)
+    pattern = rule.lhs
+    iscall(pattern) || return nothing
+    operands = arguments(pattern)
+    isempty(operands) && return nothing
+    operand = operands[1]
+    _is_pattern_variable(_literal(operand)) && return nothing
+    iscall(operand) || return nothing
+    _has_optional_slot(operand) && return nothing
+    head = operation(operand)
+    _is_pattern_variable(head) && return nothing
+    return head
+end
+
+_operand_head(::Any) = nothing
+
+"""
+    _term_key(expr)
+
+Return the pair of operations `expr` actually has at its root and first operand.
+"""
+function _term_key(expr)
+    iscall(expr) || return nothing
+    operands = arguments(expr)
+    head = operation(expr)
+    isempty(operands) && return (head, nothing)
+    operand = operands[1]
+    return (head, iscall(operand) ? operation(operand) : nothing)
+end
+
+"""
     OSRDispatch(rules)
 
 A rewriter that applies `rules` to a term the way `SymbolicUtils.Rewriters.Chain`
@@ -73,23 +137,36 @@ end
 function OSRDispatch(rules)
     positions = Dict{Any,Vector{Int}}()
     unindexed = Int[]
+    # Rules that fix a root head but leave the first operand open: candidates
+    # for every term with that root, whatever its operand.
+    open_operand = Dict{Any,Vector{Int}}()
 
     for (index, rule) in enumerate(rules)
-        head = rule_head(rule)
-        if head === nothing
+        key = dispatch_key(rule)
+        if key === nothing
             push!(unindexed, index)
+        elseif key[2] === nothing
+            push!(get!(Vector{Int}, open_operand, key[1]), index)
         else
-            push!(get!(Vector{Int}, positions, head), index)
+            push!(get!(Vector{Int}, positions, key), index)
         end
     end
 
-    # A rule that may match any head belongs to every group, and each group stays
-    # in the original rule order.
+    # A rule that leaves a position open belongs to every group it subsumes, and
+    # each group stays in the original rule order.
+    for (key, group) in positions
+        append!(group, get(open_operand, key[1], Int[]))
+        append!(group, unindexed)
+        sort!(group)
+    end
+    for (head, group) in open_operand
+        append!(group, unindexed)
+        sort!(group)
+        # A term whose first operand heads no rule still reaches these.
+        positions[(head, nothing)] = group
+    end
     if !isempty(unindexed)
-        for group in values(positions)
-            append!(group, unindexed)
-            sort!(group)
-        end
+        sort!(unindexed)
     end
 
     return OSRDispatch(rules, positions, unindexed)
@@ -102,8 +179,12 @@ Return the positions, in the original rule order, of the rules that can match
 `expr`.
 """
 function candidate_positions(dispatch::OSRDispatch, expr)
-    iscall(expr) || return dispatch.unindexed
-    return get(dispatch.positions, operation(expr), dispatch.unindexed)
+    key = _term_key(expr)
+    key === nothing && return dispatch.unindexed
+    group = get(dispatch.positions, key, nothing)
+    group === nothing || return group
+    # No rule fixes this operand head, so only those leaving it open apply.
+    return get(dispatch.positions, (key[1], nothing), dispatch.unindexed)
 end
 
 function (dispatch::OSRDispatch)(expr)

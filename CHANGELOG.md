@@ -168,6 +168,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   roughly 470 times faster than a linear `Chain`.
 
 ### Changed
+- `OSRDispatch` now indexes a rule by the operation at the root of its pattern
+  *and* the one at its first operand. Restoring RUBI's `Int[integrand, x]`
+  wrapper made every rule of the corpus share the head `Int`, so the root alone
+  selected the whole set for every integral. Over section 1.1.1, 183 of 186
+  rules carry an operand key and a power integrand now tries 7 rules instead of
+  186. An associative-commutative rule keeps no operand key, since its matcher
+  tries every operand order.
 - An operator is never resolved to a Julia binding that cannot act as an
   operation. `Int` names an indefinite integral in the RUBI corpus and a machine
   integer in `Base`; a head that would resolve to a type is registered in
