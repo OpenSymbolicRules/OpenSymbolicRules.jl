@@ -210,12 +210,21 @@ the bindings the pattern made.
 | `x_integer` | typed blank | `~x::IntegerQ` |
 | `xs__` | sequence of at least one expression | `~~xs`, guarded non-empty |
 | `xs___` | sequence, possibly empty | `~~xs` |
+| `x_symbol` | typed blank, variables only | `~x::is_symbol` |
 | `a.` | optional operand | `~!a`, defaulted by the enclosing operation |
 | `m.3` | optional operand, explicit default | `~!m`, defaulting to `3` |
 
-A typed blank accepts the domains `integer`, `rational`, `real`, `complex`, and
-`number`; any other domain is a rule-file error rather than a silently inert
-rule.
+A typed blank accepts the domains `integer`, `rational`, `real`, `complex`,
+`number`, and `symbol`; any other domain is a rule-file error rather than a
+silently inert rule.
+
+`symbol` matches a variable and nothing else. A rule that binds a variable of
+the problem — the variable of an integral, a derivative, a sum, or a limit — is
+valid only when that operand really is a variable, so `["Int", "f_", "x_symbol"]`
+matches an integral of a variable and not an integral of an expression. A rule
+that drops the restriction is unsound rather than incomplete: `x_^m_.` without
+it matches a constant integrand and returns a closed form that is not its
+antiderivative.
 
 ### Optional operands
 
@@ -261,6 +270,21 @@ name `m` — which is how the RUBI dataset is written:
 
 A name the pattern never bound stays a free symbol, so a result may still name
 a variable of the surrounding problem.
+
+### Heads a rule file declares
+
+The loader resolves each operator of a rule file to an operation. When the
+loading module binds the name to something that can act as one, that binding is
+used, which is how a host supplies its own implementation of a head. Otherwise
+the head is registered as a symbolic function in
+`OpenSymbolicRules.UninterpretedHeads` and referred to there, so the rule
+produces an unevaluated term rather than failing when it fires.
+
+A Julia type is never used as a head. `Int` names an indefinite integral in the
+RUBI corpus and a machine integer in `Base`; building a term whose operation is
+`Base.Int` raises the moment the rule fires, and no integral-aware code
+recognises it in the meantime. Registering the head instead keeps the declared
+meaning and introduces no name into the caller's scope.
 
 ### Wildcards in operator position
 

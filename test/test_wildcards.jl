@@ -247,14 +247,38 @@ end
     # denotes an operation that cannot be evaluated here, which is an
     # unevaluated term — not a rule that raises an undefined-variable error the
     # moment it fires.
-    @test !isdefined(@__MODULE__, :PolynomialRemainder)
     rules = @load_osr("data/wildcards/1.6-uninterpreted-head.json")
+
+    # The head is registered in the package rather than in the loading module,
+    # so loading a rule file never introduces a name into the caller's scope.
+    @test !isdefined(@__MODULE__, :PolynomialRemainder)
+    remainder = OpenSymbolicRules.UninterpretedHeads.PolynomialRemainder
 
     rewritten = rules[1](Power(w, 2))
     @test rewritten !== nothing
-    @test SymbolicUtils.operation(rewritten) === PolynomialRemainder
-    @test isequal(rewritten, PolynomialRemainder(w, w, 2))
+    @test SymbolicUtils.operation(rewritten) === remainder
+    @test isequal(rewritten, remainder(w, w, 2))
 
     # A head the package does implement keeps its implementation.
     @test Multiply === OpenSymbolicRules.Multiply
+end
+
+@testitem "A head is never resolved to an unrelated Julia binding" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms v
+
+    # `Int` names an indefinite integral in the RUBI corpus and a machine
+    # integer in Julia. Resolving the head to `Base.Int` builds a term whose
+    # operation is a type constructor, which raises as soon as the rule fires
+    # and which no integral-aware code can recognise. A head is domain
+    # vocabulary, so it resolves to an OSR operation or to nothing at all.
+    rules = @load_osr("data/wildcards/1.7-colliding-head.json")
+    rewritten = rules[1](Power(v, 2))
+
+    @test rewritten !== nothing
+    @test SymbolicUtils.operation(rewritten) !== Base.Int
+    @test SymbolicUtils.operation(rewritten) === OpenSymbolicRules.UninterpretedHeads.Int
+    @test nameof(SymbolicUtils.operation(rewritten)) === :Int
 end

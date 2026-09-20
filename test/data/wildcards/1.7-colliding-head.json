@@ -1,0 +1,19 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.7",
+  "title": "Colliding head fixture",
+  "semantics": {
+    "Power": "openmath:arith1#power",
+    "Multiply": "openmath:arith1#times",
+    "Int": "openmath:calculus1#int"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "description": "A head whose name Julia already uses for a type is still an OSR operation",
+      "pattern": ["Power", "u_", 2],
+      "constraints": [],
+      "result": ["Int", ["Multiply", 2, "u"], "u"]
+    }
+  ]
+}

@@ -141,6 +141,7 @@ const _WILDCARD_DOMAINS = Dict{String,Symbol}(
     "complex" => :is_complex,
     "number" => :is_numeric,
     "numeric" => :is_numeric,
+    "symbol" => :is_symbol,
 )
 
 """
@@ -299,7 +300,7 @@ function _pattern_bindings!(names::Set{Symbol}, node)
 end
 
 """
-    osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference=false, optional_default=nothing, bindings=nothing)
+    osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference=false, optional_default=nothing, bindings=nothing, heads=nothing)
 
 Recursively parse an OSR JSON node into a Julia expression for SymbolicUtils.
 `semantics` is the rule file's head-to-OpenMath-symbol map; it decides which
@@ -314,9 +315,13 @@ has no enclosing operation and therefore no default.
 `bindings` names what the rule's pattern bound.  Under `reference`, a bare name
 in that set is a reference to its binding rather than a free symbol, which is
 how RUBI spells a wildcard `m_` in a pattern and `m` in the result.
+
+`heads` says what each operator resolves to, as [`_resolve_heads`](@ref)
+determined.  Without it a head resolves to a bare symbol of its own name, which
+is what direct callers of this function expect.
 """
 function osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference::Bool=false,
-                     optional_default=nothing, bindings=nothing)
+                     optional_default=nothing, bindings=nothing, heads=nothing)
     if node isa String
         node == "True" && return true
         node == "False" && return false
@@ -336,15 +341,15 @@ function osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference::Bool=false,
                 sequence_name = only(variables)
                 isempty(sequence_name[1:end-2]) && throw(ArgumentError("Quantifier sequence variables must have a name"))
                 bound_variables = Expr(:call, :~, Symbol(sequence_name[1:end-2]))
-                return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3], semantics; reference, bindings))
+                return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3], semantics; reference, bindings, heads))
             end
             bound_variables = Expr(:vect, [QuoteNode(Symbol(variable)) for variable in variables]...)
-            return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3], semantics; reference, bindings))
+            return Expr(:call, Symbol(node[1]), bound_variables, osr_to_expr(node[3], semantics; reference, bindings, heads))
         end
         if node[1] == "List"
             # A list is a collection of expressions, not a mathematical
             # operation, so it compiles to a Julia vector.
-            return Expr(:vect, map(element -> osr_to_expr(element, semantics; reference, bindings), node[2:end])...)
+            return Expr(:vect, map(element -> osr_to_expr(element, semantics; reference, bindings, heads), node[2:end])...)
         end
         # Function call, e.g. ["Multiply", "x", "y"] -> Multiply(x, y).  The
         # head may itself be a wildcard, as in the RUBI rules that match any of
@@ -354,12 +359,18 @@ function osr_to_expr(node, semantics=_DEFAULT_SEMANTICS; reference::Bool=false,
            node[1] isa String && Symbol(node[1]) in bindings
             head_wildcard = Expr(:call, :~, Symbol(node[1]))
         end
-        op = head_wildcard === nothing ? Symbol(node[1]) : head_wildcard
+        op = if head_wildcard !== nothing
+            head_wildcard
+        elseif heads !== nothing && haskey(heads, node[1])
+            heads[node[1]]
+        else
+            Symbol(node[1])
+        end
         # The head decides what an absent operand binds to, so it is resolved
         # once here and handed to each argument with its own position.  A
         # wildcard head denotes no particular operation and so supplies none.
         symbol = head_wildcard === nothing ? _openmath_symbol(node[1], semantics) : nothing
-        args = [osr_to_expr(argument, semantics; reference, bindings,
+        args = [osr_to_expr(argument, semantics; reference, bindings, heads,
                             optional_default=_optional_default(symbol, index))
                 for (index, argument) in enumerate(node[2:end])]
         if length(args) > 2 && symbol in _ASSOCIATIVE_SYMBOLS
@@ -424,7 +435,7 @@ Compile one OSR constraint into a Julia expression that evaluates to a `Bool`.
 `Not`, `And`, and `Or` are constraint combinators: they nest constraints and
 compile to Julia control flow, never to a symbolic logic term.
 """
-function _compile_constraint(constraint, semantics; bindings=nothing)
+function _compile_constraint(constraint, semantics; bindings=nothing, heads=nothing)
     constraint isa AbstractArray && !isempty(constraint) ||
         throw(ArgumentError("OSR constraints must be non-empty arrays"))
     name = first(constraint)
@@ -433,14 +444,14 @@ function _compile_constraint(constraint, semantics; bindings=nothing)
 
     if name == "Not"
         length(operands) == 1 || throw(ArgumentError("The `Not` constraint takes exactly one constraint"))
-        return Expr(:call, :!, _compile_constraint(only(operands), semantics; bindings))
+        return Expr(:call, :!, _compile_constraint(only(operands), semantics; bindings, heads))
     elseif name == "If"
         length(operands) == 3 ||
             throw(ArgumentError("The `If` constraint takes a test and two branches"))
-        return Expr(:if, [_compile_constraint(operand, semantics; bindings) for operand in operands]...)
+        return Expr(:if, [_compile_constraint(operand, semantics; bindings, heads) for operand in operands]...)
     elseif name == "And" || name == "Or"
         isempty(operands) && throw(ArgumentError("The `$(name)` constraint takes at least one constraint"))
-        compiled = [_compile_constraint(operand, semantics; bindings) for operand in operands]
+        compiled = [_compile_constraint(operand, semantics; bindings, heads) for operand in operands]
         head = name == "And" ? :&& : :||
         return foldr((left, right) -> Expr(head, left, right), compiled)
     end
@@ -448,7 +459,7 @@ function _compile_constraint(constraint, semantics; bindings=nothing)
     predicate = get(_OSR_PREDICATES, name, nothing)
     callee = predicate === nothing ? Symbol(name) : GlobalRef(@__MODULE__, predicate)
     return Expr(:call, callee,
-                map(operand -> osr_to_expr(operand, semantics; reference=true, bindings), operands)...)
+                map(operand -> osr_to_expr(operand, semantics; reference=true, bindings, heads), operands)...)
 end
 
 """
@@ -467,7 +478,8 @@ function _rule_macro(pattern, semantics)
     return _is_commutative(String(head), semantics) ? Symbol("@acrule") : Symbol("@rule")
 end
 
-function _compile_rule_exprs(rules_json; identity::AbstractString="unknown", semantics=_DEFAULT_SEMANTICS)
+function _compile_rule_exprs(rules_json; identity::AbstractString="unknown",
+                             semantics=_DEFAULT_SEMANTICS, heads=nothing)
     rule_exprs = Expr[]
     seen_ids = Set{Int}()
     for rule in rules_json
@@ -476,18 +488,19 @@ function _compile_rule_exprs(rules_json; identity::AbstractString="unknown", sem
         id in seen_ids && throw(ArgumentError("Duplicate OSR rule id $(id) in rule file $(identity)"))
         push!(seen_ids, id)
 
-        pattern = osr_to_expr(rule["pattern"], semantics)
+        pattern = osr_to_expr(rule["pattern"], semantics; heads)
         # A result and a constraint refer to the bindings the pattern made,
         # which RUBI spells by bare name: `m_` declares and `m` refers.
         bindings = _pattern_bindings(rule["pattern"])
-        result = osr_to_expr(rule["result"], semantics; reference=true, bindings)
+        result = osr_to_expr(rule["result"], semantics; reference=true, bindings, heads)
         constraints_json = get(rule, "constraints", [])
         rule_macro = _rule_macro(pattern, semantics)
 
         rewrite = if isempty(constraints_json)
             Expr(:macrocall, GlobalRef(SymbolicUtils, rule_macro), LineNumberNode(0), :($pattern => $result))
         else
-            condition = _conjoin([_compile_constraint(constraint, semantics; bindings) for constraint in constraints_json])
+            condition = _conjoin([_compile_constraint(constraint, semantics; bindings, heads)
+                                  for constraint in constraints_json])
             Expr(:macrocall, GlobalRef(SymbolicUtils, rule_macro), LineNumberNode(0), :($pattern => $result where $condition))
         end
         name = "$(identity):$(id)"
@@ -611,22 +624,36 @@ function _validate_openmath_semantics(documents)
 end
 
 """
-    _uninterpreted_head_declarations(documents, caller)
+    UninterpretedHeads
 
-Return `@syms` declarations for every operator the given rule files use that
-`caller` cannot resolve.
+Symbolic functions standing for OSR operations this package does not evaluate.
 
-`_validate_openmath_semantics` has already established that each of these heads
-carries an OpenMath symbol, so it denotes a definite mathematical operation;
-what is missing is a Julia implementation of it. That is an operation this host
-cannot evaluate, which is an unevaluated term — not a rule that raises an
-undefined-variable error the moment it fires. RUBI reaches this constantly, with
-utilities such as `PolynomialRemainder`, `Coeff`, and `Simplify`.
-
-A head the caller already resolves is left alone, so an implemented operation is
-never shadowed.
+An operator a rule file declares carries an OpenMath symbol, so it denotes a
+definite mathematical operation; when no implementation of it is reachable, what
+is missing is the evaluation, not the meaning. Such a head becomes a symbolic
+function here rather than in the module that loaded the rule file, so loading a
+rule file introduces no name into the caller's scope and shadows nothing.
 """
-function _uninterpreted_head_declarations(documents, caller::Module)
+module UninterpretedHeads
+using SymbolicUtils
+end
+
+"""
+    _DECLARED_HEADS
+
+Names already declared in [`UninterpretedHeads`](@ref).
+
+`isdefined` cannot answer this: that module imports `Base`, so `Int` and every
+other `Base` name reads as defined there before anything is declared.
+"""
+const _DECLARED_HEADS = Set{Symbol}()
+
+"""
+    _rule_operators(documents)
+
+Return every mathematical operator the given rule files apply.
+"""
+function _rule_operators(documents)
     operators = Set{String}()
     for document in documents
         for rule in get(document, "rules", Any[])
@@ -638,16 +665,52 @@ function _uninterpreted_head_declarations(documents, caller::Module)
             end
         end
     end
-    declarations = Expr[]
-    for operator in sort!(collect(operators))
+    return operators
+end
+
+"""
+    _head_is_operation(value)
+
+Return whether `value` can stand in operator position.
+
+A Julia type cannot: `Int` names an indefinite integral in the RUBI corpus and a
+machine integer in `Base`, and building a term whose operation is `Base.Int`
+raises the moment the rule fires — while no integral-aware code recognises it in
+the meantime. Anything callable that is not a type is left alone, so a host can
+still supply its own implementation of a head.
+"""
+_head_is_operation(value) = !(value isa Type)
+
+"""
+    _resolve_heads(documents, caller)
+
+Return, for every operator the given rule files apply, the expression to place
+in operator position.
+
+A head the `caller` resolves to something that can act as an operation is used
+as it stands, which is how a host supplies its own implementation. Every other
+head is registered in [`UninterpretedHeads`](@ref) and referred to there, so it
+denotes the declared operation and nothing else.
+"""
+function _resolve_heads(documents, caller::Module)
+    heads = Dict{String,Any}()
+    for operator in sort!(collect(_rule_operators(documents)))
         name = Symbol(operator)
-        isdefined(caller, name) && continue
-        # A variadic declaration: an OSR head's arity is whatever the rule uses.
-        signature = Expr(:(::), Expr(:call, name, :(..)), :Number)
-        push!(declarations, Expr(:macrocall, GlobalRef(SymbolicUtils, Symbol("@syms")),
-                                 LineNumberNode(0), signature))
+        if isdefined(caller, name) && _head_is_operation(getfield(caller, name))
+            heads[operator] = name
+            continue
+        end
+        if !(name in _DECLARED_HEADS)
+            # A variadic declaration: an OSR head's arity is whatever a rule uses.
+            signature = Expr(:(::), Expr(:call, name, :(..)), :Number)
+            Core.eval(UninterpretedHeads,
+                      Expr(:macrocall, GlobalRef(SymbolicUtils, Symbol("@syms")),
+                           LineNumberNode(0), signature))
+            push!(_DECLARED_HEADS, name)
+        end
+        heads[operator] = GlobalRef(UninterpretedHeads, name)
     end
-    return declarations
+    return heads
 end
 
 """
@@ -665,12 +728,12 @@ macro load_osr(filepath)
     identity = get(data, "identity", get(data, "section", nothing))
     identity isa String || error("@load_osr requires a rule file with a string identity")
     _validate_openmath_semantics([data])
-    declarations = _uninterpreted_head_declarations([data], __module__)
-    rule_exprs = _compile_rule_exprs(data["rules"]; identity=identity, semantics=data["semantics"])
+    heads = _resolve_heads([data], __module__)
+    rule_exprs = _compile_rule_exprs(data["rules"]; identity=identity,
+                                     semantics=data["semantics"], heads=heads)
 
-    # Return a block that declares the heads this caller cannot resolve and then
-    # constructs the array of rules.
-    return esc(Expr(:block, declarations..., Expr(:vect, rule_exprs...)))
+    # Return a block that constructs the array of rules
+    return esc(Expr(:vect, rule_exprs...))
 end
 
 """

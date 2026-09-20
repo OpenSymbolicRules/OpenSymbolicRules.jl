@@ -207,36 +207,35 @@ function _unresolved_heads!(found::Set{Symbol}, expression)
 end
 
 """
-    integrate(integrand, rewriter; depth=6)
+    integrate(problem, rewriter; depth=6)
 
-Apply the rule set to `integrand` the way an integration rule set is meant to be
-applied, and return the antiderivative it reached.
+Apply the rule set to `problem`, an `Int(integrand, variable)` application, and
+return the antiderivative it reached.
 
-A RUBI rule rewrites a *whole* integrand into an antiderivative, so the rule set
-is applied at the root and never walked bottom-up over subterms: `x^m` is a
-statement about the integrand, not an identity holding of every power inside
-one. Nor is the result fed back in — an antiderivative is not another integrand,
-and re-applying the rules to one produces nonsense. What does continue is an
-`Int` the result itself contains: a rule that reduces one integral to another
-leaves the remaining integral explicit, and that is what recursion follows.
+A RUBI rule rewrites a whole integral into an antiderivative, so the rule set is
+applied at the root and never walked bottom-up over subterms. Nor is the result
+fed back in — an antiderivative is not another integral, and re-applying the
+rules to one produces nonsense. What does continue is an `Int` the result itself
+contains: a rule that reduces one integral to another leaves the remaining
+integral explicit, and that is what recursion follows.
 """
-function integrate(integrand, rewriter; depth::Int = 6)
-    rewritten = apply_rules(integrand, rewriter)
-    rewritten === nothing && return integrand
+function integrate(problem, rewriter; depth::Int = 6)
+    rewritten = apply_rules(problem, rewriter)
+    (rewritten === nothing || isequal(rewritten, problem)) && return problem
     depth <= 0 && return rewritten
     return _integrate_subintegrals(rewritten, rewriter, depth - 1)
 end
 
+_head_name(head) = head isa Symbol ? head : nameof(head)
+
 function _integrate_subintegrals(expression, rewriter, depth)
     iscall(expression) || return expression
     head = operation(expression)
-    name = head isa Symbol ? head : nameof(head)
     operands = arguments(expression)
-    if name === :Int && length(operands) == 2
-        solved = integrate(first(operands), rewriter; depth)
-        # Only report progress when the integral actually went away.
-        isequal(solved, first(operands)) || return solved
-        return expression
+    if _head_name(head) === :Int && length(operands) == 2
+        # A rule that reduces one integral to another leaves the remaining
+        # integral explicit; that is what recursion follows.
+        return integrate(expression, rewriter; depth)
     end
     rebuilt = [_integrate_subintegrals(operand, rewriter, depth) for operand in operands]
     all(isequal.(rebuilt, operands)) && return expression
@@ -290,18 +289,18 @@ struct BlockedRule <: Exception
 end
 
 """
-    classify(integrand, rewriter, rules, expected)
+    classify(problem, rewriter, rules, expected)
 
 Say what the rule set reached, distinguishing an antiderivative from a rewrite
 that stopped short and from a rewrite that named something unimplemented.
 """
-function classify(integrand, rewriter, rules, expected)
+function classify(problem, rewriter, rules, expected)
     reached = try
-        integrate(integrand, rewriter)
+        integrate(problem, rewriter)
     catch exception
         return Outcome(:error, describe_cause(exception, rules))
     end
-    isequal(reached, integrand) && return Outcome(:unchanged, "")
+    isequal(reached, problem) && return Outcome(:unchanged, "")
     remaining = unresolved_heads(reached)
     if isempty(remaining)
         # A closed form is not yet a correct one. Only an exact structural match
@@ -340,6 +339,23 @@ function describe_cause(exception, rules)
 end
 
 """
+    head_function(name)
+
+Resolve an OSR head the way the loader does: the caller's binding when it can
+act as an operation, and the package's uninterpreted-head registry otherwise.
+A test problem has to be built with the same heads its rules were compiled
+against, or no pattern can match it.
+"""
+function head_function(name::AbstractString)
+    symbol = Symbol(name)
+    if isdefined(Main, symbol)
+        value = getfield(Main, symbol)
+        value isa Type || return value
+    end
+    return getfield(OpenSymbolicRules.UninterpretedHeads, symbol)
+end
+
+"""
     build_term(node, symbols)
 
 Build a `SymbolicUtils` term from an OSR expression, creating a symbol for each
@@ -359,7 +375,7 @@ function build_term(node, symbols::Dict{String,Any})
         head isa String || error("an OSR operator must be a string")
         built = [build_term(argument, symbols) for argument in node[2:end]]
         head == "List" && return built
-        operation = getfield(Main, Symbol(head))
+        operation = head_function(head)
         # The OSR heads are declared binary, and `osr_to_expr` normalizes an
         # n-ary associative expression to left-associated binary terms. A test
         # problem has to be built the same way or it cannot match a pattern.
@@ -371,11 +387,20 @@ function build_term(node, symbols::Dict{String,Any})
     return node
 end
 
-function run(options)
-    integration = options["integration"]
-    prefix = options["section"]
+"""
+    prepare(options)
 
-    rule_paths = first.(section_files(joinpath(integration, "rules"), prefix))
+Compile the rule files the run needs.
+
+This is deliberately separate from [`run`](@ref) and called before it, at top
+level. Compiling a rule file declares the heads it uses, which changes bindings
+in `OpenSymbolicRules.UninterpretedHeads`; code already executing in an older
+world age does not see those changes, so measuring from inside the same call
+that compiled would read stale bindings.
+"""
+function prepare(options)
+    prefix = options["section"]
+    rule_paths = first.(section_files(joinpath(options["integration"], "rules"), prefix))
     isempty(rule_paths) && error("no rule file matches section $(prefix)")
     @info "compiling rules" files = length(rule_paths)
     compile_seconds = @elapsed ((rules, failures) = load_rules(rule_paths))
@@ -383,6 +408,12 @@ function run(options)
     for (path, message) in failures
         @warn "rule file did not compile" file = basename(path) message
     end
+    return rules
+end
+
+function run(options, rules)
+    integration = options["integration"]
+    prefix = options["section"]
 
     # Root-only application: see `classify`.
     rewriter = OpenSymbolicRules.OSRDispatch(rules)
@@ -410,7 +441,9 @@ function run(options)
             catch
                 nothing
             end
-            outcome = classify(integrand, rewriter, rules, expected)
+            variable = build_term(get(problem, "variable", "x"), symbols)
+            outcome = classify(head_function("Int")(integrand, variable),
+                               rewriter, rules, expected)
             counts[outcome.kind] += 1
             totals[outcome.kind] += 1
             isempty(outcome.detail) ||
@@ -465,4 +498,8 @@ function run(options)
     return totals
 end
 
-abspath(PROGRAM_FILE) == abspath(@__FILE__) && run(parse_arguments(ARGS))
+if abspath(PROGRAM_FILE) == abspath(@__FILE__)
+    const OPTIONS = parse_arguments(ARGS)
+    const RULES = prepare(OPTIONS)
+    run(OPTIONS, RULES)
+end

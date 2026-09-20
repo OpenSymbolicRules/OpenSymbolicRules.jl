@@ -1,0 +1,18 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.8",
+  "title": "Symbol-typed wildcard fixture",
+  "semantics": {
+    "Integral": "openmath:calculus1#int",
+    "Power": "openmath:arith1#power"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "description": "An integration variable must be a variable",
+      "pattern": ["Integral", "f_", "x_symbol"],
+      "constraints": [],
+      "result": "f"
+    }
+  ]
+}

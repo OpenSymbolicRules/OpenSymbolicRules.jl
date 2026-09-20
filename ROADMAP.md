@@ -144,20 +144,25 @@
   `error` separately, so coverage is never mistaken for correctness. The first
   measurement, on section 1.1.1 (906 problems, 186 rules):
 
-  | verified | closed form | unevaluated | unchanged | error |
-  | --- | --- | --- | --- | --- |
-  | 0 | 903 | 0 | 1 | 2 |
+  | | verified | closed form | unevaluated | unchanged | error |
+  | --- | --- | --- | --- | --- | --- |
+  | before the conversion fix | 0 | 903 | 0 | 1 | 2 |
+  | after | 0 | 23 | 118 | 748 | 17 |
 
-  The rule set reaches a closed form for 99.7% of the section and reaches the
-  recorded antiderivative for none of it. The cause is upstream of this package:
-  the conversion drops RUBI's `Int[integrand, x_Symbol]` wrapper, and with it
-  both the integration variable and the restriction that binds it. 254 converted
-  rules name a free `x` their pattern never bound, and a rule such as
-  `x^m. => x^(m+1)/(m+1)` now matches the constant integrand `-2` and returns
-  `(-2)^2/2`. Fixing the conversion to keep the integration variable is the next
-  blocker, and it belongs to the `Integration` repository. Structural comparison
-  is strict, so `verified` is a lower bound — but the over-matching is directly
-  demonstrated, not inferred.
+  The first measurement showed the rule set reaching a closed form for 99.7% of
+  the section and the recorded antiderivative for none of it. The cause was
+  upstream of this package: the conversion dropped RUBI's
+  `Int[integrand, x_Symbol]` wrapper and with it both the integration variable
+  and the restriction that binds it, so `x^m. => x^(m+1)/(m+1)` matched the
+  constant integrand `-2` and returned `(-2)^2/2`. With the wrapper restored in
+  the `Integration` repository and a `symbol` typed wildcard in the
+  specification, the rule set no longer answers a problem it cannot solve: what
+  it does not know it leaves unevaluated or unchanged. Those 903 closed forms
+  were wrong answers, not answers the fix lost.
+
+  What remains is coverage. 748 problems are unchanged because only the 186
+  rules of section 1.1.1 were loaded; a run over the whole corpus is the next
+  measurement. Structural comparison is strict, so `verified` is a lower bound.
 - [ ] **Profile loading at scale:** `@load_osr_profile` expands a whole manifest
   into a single expression. For the 6257-rule corpus that did not finish within
   50 minutes at over 2 GiB, while compiling the same rules one file per

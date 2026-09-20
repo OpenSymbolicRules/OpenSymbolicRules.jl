@@ -7,6 +7,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- A `symbol` typed wildcard (`x_symbol`) and its `is_symbol` predicate, matching
+  a variable and nothing else. A rule that binds a variable of the problem is
+  valid only when that operand really is a variable.
 - Uninterpreted heads: an operator a rule file declares an OpenMath symbol for
   but this package does not implement is now declared as a symbolic function in
   the loading module, so the rule produces an unevaluated term instead of
@@ -163,6 +166,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   roughly 470 times faster than a linear `Chain`.
 
 ### Changed
+- An operator is never resolved to a Julia binding that cannot act as an
+  operation. `Int` names an indefinite integral in the RUBI corpus and a machine
+  integer in `Base`; a head that would resolve to a type is registered in
+  `OpenSymbolicRules.UninterpretedHeads` instead. Uninterpreted heads now live
+  there rather than in the loading module, so loading a rule file introduces no
+  name into the caller's scope.
 - Head dispatch stays selective when a pattern carries an optional operand
   below its root. `SymbolicUtils` builds a default-valued matcher only where a
   `DefSlot` is a direct argument, so `Int((a. + b.*x)^m., x)` still requires an
