@@ -441,9 +441,34 @@ Base.showerror(io::IO, error::UnprovedConstraint) =
 """
     _unproved(predicate)
 
-Abandon the guard being evaluated because `predicate` cannot be decided.
+Abandon the guard being evaluated because `predicate` cannot be decided, and
+record which predicate it was.
 """
-_unproved(predicate::String) = throw(UnprovedConstraint(predicate))
+function _unproved(predicate::String)
+    push!(get!(() -> Set{String}(), task_local_storage(), :osr_unproved), predicate)
+    throw(UnprovedConstraint(predicate))
+end
+
+"""
+    unproved_predicates_seen()
+
+Return the predicates that have abandoned a guard in this task since the last
+[`reset_unproved!`](@ref).
+
+A rule that does not fire says nothing about why on its own: a guard that is
+false and a guard that could not be decided both leave the term alone. Knowing
+which is which is what makes "implementing this predicate would unblock these
+rules" a measurement rather than a guess.
+"""
+unproved_predicates_seen() =
+    get(() -> Set{String}(), task_local_storage(), :osr_unproved)
+
+"""
+    reset_unproved!()
+
+Forget the predicates recorded so far, so the next attempt is measured alone.
+"""
+reset_unproved!() = (task_local_storage(:osr_unproved, Set{String}()); nothing)
 
 """
     _guard_or_unproved(condition)

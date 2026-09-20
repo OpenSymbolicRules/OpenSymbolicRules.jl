@@ -315,3 +315,39 @@ end
 
     @test isequal(rules[1](Power(y, 2)), y)
 end
+
+@testitem "An abandoned guard records which predicate abandoned it" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: unproved_predicates_seen, reset_unproved!
+    using SymbolicUtils
+
+    @syms y
+    rules = @load_osr("data/constraints/1.5-unproved.json")
+
+    # A rule that does not fire says nothing about why on its own: a guard that
+    # is false and a guard that could not be decided both leave the term alone.
+    # Recording the predicate that abandoned the guard is what tells them apart,
+    # which is what makes "implementing this predicate would unblock N rules"
+    # a measurement rather than a guess.
+    reset_unproved!()
+    @test isempty(unproved_predicates_seen())
+
+    @test rules[1](Power(y, 2)) === nothing
+    @test unproved_predicates_seen() == Set(["PseudoBinomialPairQ"])
+
+    # A guard that is decidably false records nothing.
+    reset_unproved!()
+    @test rules[5](Power(y, 1 // 2)) === nothing
+    @test isempty(unproved_predicates_seen())
+
+    # A guard established before reaching the undecidable branch records
+    # nothing either, because that branch is never evaluated.
+    reset_unproved!()
+    @test rules[3](Power(y, 2)) !== nothing
+    @test isempty(unproved_predicates_seen())
+
+    # Reaching it does record it.
+    reset_unproved!()
+    @test rules[3](Power(y, 1 // 2)) === nothing
+    @test unproved_predicates_seen() == Set(["PseudoBinomialPairQ"])
+end

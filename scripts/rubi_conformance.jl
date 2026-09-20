@@ -357,6 +357,7 @@ Say what the rule set reached, distinguishing an antiderivative from a rewrite
 that stopped short and from a rewrite that named something unimplemented.
 """
 function classify(problem, rewriter, rules, expected)
+    OpenSymbolicRules.reset_unproved!()
     reached = try
         integrate(problem, rewriter)
     catch exception
@@ -374,6 +375,18 @@ function classify(problem, rewriter, rules, expected)
     end
     return Outcome(:unevaluated, join(sort!(string.(collect(remaining))), ","))
 end
+
+"""
+    blocking_predicates()
+
+Return the predicates that abandoned a guard while the last problem was being
+attempted.
+
+A problem the rule set leaves unevaluated may be one no rule covers, or one a
+rule covers but could not decide. Only the second is unblocked by implementing
+a predicate, and this is what separates them.
+"""
+blocking_predicates() = OpenSymbolicRules.unproved_predicates_seen()
 
 """
     describe_cause(exception)
@@ -496,6 +509,9 @@ function run(options, rules)
     report = Dict{String,Any}()
     totals = Dict(:verified => 0, :resolved => 0, :unevaluated => 0, :unchanged => 0, :error => 0)
     reasons = Dict{String,Int}()
+    # Problems left unsolved, counted against each predicate that could not be
+    # decided while trying them; "" counts those no predicate blocked.
+    undecided = Dict{String,Int}()
 
     for (path, section) in section_files(joinpath(integration, "tests"), prefix)
         document = JSON.parsefile(path)
@@ -522,6 +538,13 @@ function run(options, rules)
             totals[outcome.kind] += 1
             isempty(outcome.detail) ||
                 (reasons[outcome.detail] = get(reasons, outcome.detail, 0) + 1)
+            if outcome.kind in (:unevaluated, :unchanged)
+                blocked = blocking_predicates()
+                isempty(blocked) ? (undecided[""] = get(undecided, "", 0) + 1) :
+                    for name in blocked
+                        undecided[name] = get(undecided, name, 0) + 1
+                    end
+            end
             if options["verbose"] && outcome.kind != :verified
                 println("  ", section, ":", problem["id"], "  ", outcome.kind, "  ", outcome.detail)
             end
@@ -561,9 +584,22 @@ function run(options, rules)
         end
     end
 
+    if !isempty(undecided)
+        covered = sum(count for (name, count) in undecided if !isempty(name); init = 0)
+        println()
+        println("Unsolved problems where a rule was blocked by an undecidable predicate",
+                " (", covered, " of ", get(undecided, "", 0) + covered, "):")
+        for (name, count) in first(sort!([pair for pair in undecided if !isempty(pair[1])];
+                                         by = pair -> -pair[2]), 15)
+            println("  ", lpad(count, 6), "  ", name)
+        end
+        println("  ", lpad(get(undecided, "", 0), 6), "  (no rule was blocked; none covers the problem)")
+    end
+
     if options["json"] !== nothing
         report["totals"] = Dict(String(key) => value for (key, value) in totals)
         report["reasons"] = reasons
+        report["undecided"] = undecided
         open(options["json"], "w") do handle
             JSON.print(handle, report, 2)
         end

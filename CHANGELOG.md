@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- `unproved_predicates_seen` and `reset_unproved!`, which record the predicates
+  that abandoned a guard. A rule that does not fire says nothing about why on
+  its own, and this is what tells a guard that is false apart from one that
+  could not be decided.
+- The conformance report counts unsolved problems against the predicate that
+  blocked a rule covering them, so "implementing this predicate would unblock
+  these problems" becomes a measurement.
 - The conformance report now lists the constraint predicates with no
   implementation, ranked by the number of rule guards each holds back. A rule
   gated by one is loaded and never fires, so it is invisible in the outcome
