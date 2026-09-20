@@ -147,7 +147,7 @@
   | | verified | closed form | unevaluated | unchanged | error |
   | --- | --- | --- | --- | --- | --- |
   | before the conversion fix | 0 | 903 | 0 | 1 | 2 |
-  | after | 0 | 23 | 118 | 748 | 17 |
+  | after | 4 | 19 | 118 | 748 | 17 |
 
   The first measurement showed the rule set reaching a closed form for 99.7% of
   the section and the recorded antiderivative for none of it. The cause was
@@ -160,9 +160,15 @@
   it does not know it leaves unevaluated or unchanged. Those 903 closed forms
   were wrong answers, not answers the fix lost.
 
-  What remains is coverage. 748 problems are unchanged because only the 186
-  rules of section 1.1.1 were loaded; a run over the whole corpus is the next
-  measurement. Structural comparison is strict, so `verified` is a lower bound.
+  What remains is coverage and canonical form. 748 problems are unchanged
+  because only the 186 rules of section 1.1.1 were loaded; a run over the whole
+  corpus is the next measurement. The comparison folds closed arithmetic exactly
+  — without that, a correct `x^(3+1)/(3+1)` reads as wrong against a recorded
+  `x^4/4` and `verified` can never leave zero — but it puts neither side in a
+  canonical form, so `verified` remains a lower bound and the 19 closed forms
+  include answers that are correct up to the ordering and grouping a canonical
+  form would settle. That is the **Canonical expression form and rendering**
+  item of Phase 2, and it is what would turn this number into a real one.
 - [ ] **Profile loading at scale:** `@load_osr_profile` expands a whole manifest
   into a single expression. For the 6257-rule corpus that did not finish within
   50 minutes at over 2 GiB, while compiling the same rules one file per

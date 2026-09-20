@@ -7,6 +7,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- Exact folding of closed arithmetic in the conformance report's comparison, so
+  a correct `x^(3+1)/(3+1)` is not reported as wrong against a recorded `x^4/4`.
 - A `symbol` typed wildcard (`x_symbol`) and its `is_symbol` predicate, matching
   a variable and nothing else. A rule that binds a variable of the problem is
   valid only when that operand really is a variable.
