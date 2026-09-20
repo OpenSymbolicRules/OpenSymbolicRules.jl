@@ -420,6 +420,67 @@ const _OSR_PREDICATES = Dict{String,Symbol}(
 _conjoin(conditions) = foldr((left, right) -> Expr(:&&, left, right), conditions)
 
 """
+    UnprovedConstraint(predicate)
+
+Raised while evaluating a guard that names a predicate no implementation can be
+found for, in this package or in the module that loaded the rule file.
+
+A predicate answers `true` only when the property is established, so one that
+cannot be evaluated establishes nothing. Raising rather than answering `false`
+is what keeps `Not` honest: answering `false` would make `Not` answer `true` and
+license a rewrite on a property nobody decided.
+"""
+struct UnprovedConstraint <: Exception
+    predicate::String
+end
+
+Base.showerror(io::IO, error::UnprovedConstraint) =
+    print(io, "OSR constraint predicate `", error.predicate,
+          "` has no implementation, so its guard is unproved")
+
+"""
+    _unproved(predicate)
+
+Abandon the guard being evaluated because `predicate` cannot be decided.
+"""
+_unproved(predicate::String) = throw(UnprovedConstraint(predicate))
+
+"""
+    _guard_or_unproved(condition)
+
+Wrap a compiled guard so that an undecidable predicate leaves it unestablished
+instead of propagating.
+
+`&&` and `||` short-circuit, which gives the guard exactly the three-valued
+reading it needs at no cost: `Or(p, undecidable)` still holds when `p` does,
+because the undecidable branch is never reached, while `Not(undecidable)` and
+`And(p, undecidable)` reach it and establish nothing.
+"""
+function _guard_or_unproved(condition)
+    return Expr(:block, Expr(:try, Expr(:block, condition), :exception,
+        Expr(:block,
+             Expr(:||, Expr(:call, :isa, :exception,
+                            GlobalRef(@__MODULE__, :UnprovedConstraint)),
+                  Expr(:call, GlobalRef(Base, :rethrow))),
+             false)))
+end
+
+"""
+    _predicate_callee(name, caller)
+
+Return what a constraint predicate named `name` compiles to: this package's
+implementation, one the `caller` supplies, or a call that abandons the guard.
+"""
+function _predicate_callee(name::AbstractString, caller::Union{Nothing,Module})
+    predicate = get(_OSR_PREDICATES, name, nothing)
+    predicate === nothing || return GlobalRef(@__MODULE__, predicate)
+    symbol = Symbol(name)
+    caller === nothing && return symbol
+    isdefined(caller, symbol) && return symbol
+    return nothing
+end
+
+"""
     _CONSTRAINT_COMBINATORS
 
 Constraint heads whose operands are themselves constraints.  They are rule
@@ -435,7 +496,7 @@ Compile one OSR constraint into a Julia expression that evaluates to a `Bool`.
 `Not`, `And`, and `Or` are constraint combinators: they nest constraints and
 compile to Julia control flow, never to a symbolic logic term.
 """
-function _compile_constraint(constraint, semantics; bindings=nothing, heads=nothing)
+function _compile_constraint(constraint, semantics; bindings=nothing, heads=nothing, caller=nothing)
     constraint isa AbstractArray && !isempty(constraint) ||
         throw(ArgumentError("OSR constraints must be non-empty arrays"))
     name = first(constraint)
@@ -444,20 +505,23 @@ function _compile_constraint(constraint, semantics; bindings=nothing, heads=noth
 
     if name == "Not"
         length(operands) == 1 || throw(ArgumentError("The `Not` constraint takes exactly one constraint"))
-        return Expr(:call, :!, _compile_constraint(only(operands), semantics; bindings, heads))
+        return Expr(:call, :!, _compile_constraint(only(operands), semantics; bindings, heads, caller))
     elseif name == "If"
         length(operands) == 3 ||
             throw(ArgumentError("The `If` constraint takes a test and two branches"))
-        return Expr(:if, [_compile_constraint(operand, semantics; bindings, heads) for operand in operands]...)
+        return Expr(:if, [_compile_constraint(operand, semantics; bindings, heads, caller) for operand in operands]...)
     elseif name == "And" || name == "Or"
         isempty(operands) && throw(ArgumentError("The `$(name)` constraint takes at least one constraint"))
-        compiled = [_compile_constraint(operand, semantics; bindings, heads) for operand in operands]
+        compiled = [_compile_constraint(operand, semantics; bindings, heads, caller) for operand in operands]
         head = name == "And" ? :&& : :||
         return foldr((left, right) -> Expr(head, left, right), compiled)
     end
 
-    predicate = get(_OSR_PREDICATES, name, nothing)
-    callee = predicate === nothing ? Symbol(name) : GlobalRef(@__MODULE__, predicate)
+    callee = _predicate_callee(name, caller)
+    # Nothing can decide this predicate, so the guard is abandoned rather than
+    # answered.  Its operands are not built either: they would be discarded.
+    callee === nothing &&
+        return Expr(:call, GlobalRef(@__MODULE__, :_unproved), String(name))
     return Expr(:call, callee,
                 map(operand -> osr_to_expr(operand, semantics; reference=true, bindings, heads), operands)...)
 end
@@ -479,7 +543,7 @@ function _rule_macro(pattern, semantics)
 end
 
 function _compile_rule_exprs(rules_json; identity::AbstractString="unknown",
-                             semantics=_DEFAULT_SEMANTICS, heads=nothing)
+                             semantics=_DEFAULT_SEMANTICS, heads=nothing, caller=nothing)
     rule_exprs = Expr[]
     seen_ids = Set{Int}()
     for rule in rules_json
@@ -499,8 +563,9 @@ function _compile_rule_exprs(rules_json; identity::AbstractString="unknown",
         rewrite = if isempty(constraints_json)
             Expr(:macrocall, GlobalRef(SymbolicUtils, rule_macro), LineNumberNode(0), :($pattern => $result))
         else
-            condition = _conjoin([_compile_constraint(constraint, semantics; bindings, heads)
-                                  for constraint in constraints_json])
+            condition = _guard_or_unproved(
+                _conjoin([_compile_constraint(constraint, semantics; bindings, heads, caller)
+                          for constraint in constraints_json]))
             Expr(:macrocall, GlobalRef(SymbolicUtils, rule_macro), LineNumberNode(0), :($pattern => $result where $condition))
         end
         name = "$(identity):$(id)"
@@ -730,7 +795,8 @@ macro load_osr(filepath)
     _validate_openmath_semantics([data])
     heads = _resolve_heads([data], __module__)
     rule_exprs = _compile_rule_exprs(data["rules"]; identity=identity,
-                                     semantics=data["semantics"], heads=heads)
+                                     semantics=data["semantics"], heads=heads,
+                                     caller=__module__)
 
     # Return a block that constructs the array of rules
     return esc(Expr(:vect, rule_exprs...))

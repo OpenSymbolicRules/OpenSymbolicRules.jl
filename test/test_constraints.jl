@@ -257,3 +257,61 @@ end
         Dict{String,String}())
     @test compiled isa Expr && compiled.head === :if
 end
+
+@testitem "A predicate the host cannot decide leaves its guard unproved" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: UnprovedConstraint
+    using SymbolicUtils
+
+    @syms y
+
+    # `PseudoBinomialPairQ` is one of the 43 RUBI predicates this package does
+    # not implement. A predicate answers `true` only when the property is
+    # established, and one that cannot be evaluated establishes nothing — so its
+    # guard must leave the rewrite unapplied rather than raise.
+    @test !isdefined(@__MODULE__, :PseudoBinomialPairQ)
+    rules = @load_osr("data/constraints/1.5-unproved.json")
+
+    @test rules[1](Power(y, 2)) === nothing
+
+    # Negation does not turn "not established" into a licence to rewrite: an
+    # undecidable predicate stays undecidable under `Not`.
+    @test rules[2](Power(y, 2)) === nothing
+
+    # A disjunction is still established by a branch that holds, because the
+    # guard short-circuits before reaching the undecidable one.
+    @test isequal(rules[3](Power(y, 2)), Multiply(y, 2))
+    # With no integer exponent the remaining branch is undecidable, so nothing
+    # is established.
+    @test rules[3](Power(y, 1 // 2)) === nothing
+
+    # A conjunction needs every branch, so one undecidable branch is fatal.
+    @test rules[4](Power(y, 2)) === nothing
+
+    # A guard that names only implemented predicates is unaffected.
+    @test isequal(rules[5](Power(y, 2)), 2)
+    @test rules[5](Power(y, 1 // 2)) === nothing
+
+    # The rule is still loaded, with its identity and provenance intact.
+    @test length(rules) == 5
+    @test endswith(rules[1].name, ":1")
+    @test rules[3].provenance["method"] == "manual"
+
+    # The exception exists and names the predicate, so a host can report it.
+    error = UnprovedConstraint("PseudoBinomialPairQ")
+    @test occursin("PseudoBinomialPairQ", sprint(showerror, error))
+end
+
+@testitem "A host may supply a predicate the package does not implement" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms y
+
+    # A predicate resolved by the loading module is used as it stands, which is
+    # how a host completes the vocabulary without changing this library.
+    PseudoBinomialPairQ(u, m) = true
+    rules = @load_osr("data/constraints/1.5-unproved.json")
+
+    @test isequal(rules[1](Power(y, 2)), y)
+end

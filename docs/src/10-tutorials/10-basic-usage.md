@@ -342,7 +342,29 @@ means `u > v > w`.
 
 Every predicate is conservative: it answers `true` only when the property is
 established, so an unproved guard leaves its rewrite unapplied rather than
-risking an invalid one. A closed arithmetic expression is evaluated exactly,
+risking an invalid one.
+
+### A predicate with no implementation
+
+A predicate that neither this library nor the loading module resolves cannot be
+evaluated, and so establishes nothing. Its guard is abandoned and the rule does
+not fire; the rule is still loaded, keeping its identity and provenance, so a
+report can say which rules are held back and by what.
+
+The guard is not simply answered `false`, because that would make `Not` answer
+`true` and license a rewrite on a property nobody decided. Abandoning it instead
+gives the guard a three-valued reading, and `&&` and `||` short-circuit, so
+precision is kept where it is available:
+
+| guard | outcome |
+| --- | --- |
+| `["PseudoBinomialPairQ", "u", "m"]` | not established |
+| `["Not", ["PseudoBinomialPairQ", "u", "m"]]` | not established |
+| `["Or", ["IntegerQ", "m"], ["PseudoBinomialPairQ", "u", "m"]]` | established when `m` is an integer |
+| `["And", ["IntegerQ", "m"], ["PseudoBinomialPairQ", "u", "m"]]` | not established |
+
+A host completes the vocabulary by defining the predicate in the module that
+loads the rule file; the loader uses that definition as it stands. A closed arithmetic expression is evaluated exactly,
 which is what makes a guard such as `["PosQ", ["Power", 2, -1]]` decidable:
 
 ```julia

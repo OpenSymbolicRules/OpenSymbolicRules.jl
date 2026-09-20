@@ -7,6 +7,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- `UnprovedConstraint`: a constraint predicate that neither this package nor the
+  loading module resolves abandons its guard instead of raising an
+  undefined-variable error, so the rule does not fire and the rule set keeps
+  going. Abandoning rather than answering `false` keeps `Not` honest, and the
+  short-circuit of `&&` and `||` keeps `Or(p, undecidable)` established when `p`
+  is.
 - Exact folding of closed arithmetic in the conformance report's comparison, so
   a correct `x^(3+1)/(3+1)` is not reported as wrong against a recorded `x^4/4`.
 - A `symbol` typed wildcard (`x_symbol`) and its `is_symbol` predicate, matching
