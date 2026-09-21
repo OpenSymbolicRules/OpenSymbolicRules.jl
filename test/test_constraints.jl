@@ -295,7 +295,7 @@ end
     # The rule is still loaded, with its identity and provenance intact.
     @test length(rules) == 5
     @test endswith(rules[1].name, ":1")
-    @test rules[3].provenance["method"] == "manual"
+    @test rules[3].provenance["method"] == "authored"
 
     # The exception exists and names the predicate, so a host can report it.
     error = UnprovedConstraint("PseudoBinomialPairQ")

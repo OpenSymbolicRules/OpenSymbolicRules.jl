@@ -9,9 +9,23 @@
   "rules": [
     {
       "id": 1,
-      "pattern": ["And", "p_", "True"],
+      "pattern": [
+        "And",
+        "p_",
+        "True"
+      ],
       "constraints": [],
-      "result": "p_"
+      "result": "p_",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/logic/1.1-boolean-identities.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:logic/1.1-boolean-identities"
 }

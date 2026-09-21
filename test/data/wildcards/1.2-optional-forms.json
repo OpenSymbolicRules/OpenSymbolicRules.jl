@@ -13,48 +13,143 @@
     {
       "id": 1,
       "description": "An optional factor defaults to the multiplicative identity",
-      "pattern": ["Multiply", "a.", "x"],
+      "pattern": [
+        "Multiply",
+        "a.",
+        "x"
+      ],
       "constraints": [],
-      "result": "a."
+      "result": "a.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.2-optional-forms.json"
+          }
+        ]
+      }
     },
     {
       "id": 2,
       "description": "An optional exponent defaults to one",
-      "pattern": ["Power", "x", "m."],
+      "pattern": [
+        "Power",
+        "x",
+        "m."
+      ],
       "constraints": [],
-      "result": "m."
+      "result": "m.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.2-optional-forms.json"
+          }
+        ]
+      }
     },
     {
       "id": 3,
       "description": "An optional summand defaults to zero",
-      "pattern": ["Add", "a.", "x"],
+      "pattern": [
+        "Add",
+        "a.",
+        "x"
+      ],
       "constraints": [],
-      "result": "a."
+      "result": "a.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.2-optional-forms.json"
+          }
+        ]
+      }
     },
     {
       "id": 4,
       "description": "The canonical RUBI binomial shape binds every optional operand",
       "pattern": [
         "Power",
-        ["Add", "a.", ["Multiply", "b.", "x"]],
+        [
+          "Add",
+          "a.",
+          [
+            "Multiply",
+            "b.",
+            "x"
+          ]
+        ],
         "m."
       ],
       "constraints": [],
-      "result": ["List", "a.", "b.", "m."]
+      "result": [
+        "List",
+        "a.",
+        "b.",
+        "m."
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.2-optional-forms.json"
+          }
+        ]
+      }
     },
     {
       "id": 5,
       "description": "An optional operand under an n-ary associative head still defaults",
-      "pattern": ["Add", "a.", "x", "y"],
+      "pattern": [
+        "Add",
+        "a.",
+        "x",
+        "y"
+      ],
       "constraints": [],
-      "result": "a."
+      "result": "a.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.2-optional-forms.json"
+          }
+        ]
+      }
     },
     {
       "id": 6,
       "description": "An optional wildcard carries its binding into a constraint",
-      "pattern": ["Multiply", "c.", "y"],
-      "constraints": [["NeQ", "c.", 0]],
-      "result": "c."
+      "pattern": [
+        "Multiply",
+        "c.",
+        "y"
+      ],
+      "constraints": [
+        [
+          "NeQ",
+          "c.",
+          0
+        ]
+      ],
+      "result": "c.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.2-optional-forms.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:wildcards/1.2-optional-forms"
 }

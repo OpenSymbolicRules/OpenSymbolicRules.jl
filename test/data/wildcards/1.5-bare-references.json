@@ -11,25 +11,99 @@
     {
       "id": 1,
       "description": "RUBI spells a binding `m_` in the pattern and `m` in the result",
-      "pattern": ["Power", "x_", "m."],
-      "constraints": [["NeQ", "m", -1]],
-      "result": ["Multiply", ["Power", "x", ["Add", "m", 1]],
-                             ["Power", ["Add", "m", 1], -1]],
-      "provenance": {"method": "converted"}
+      "pattern": [
+        "Power",
+        "x_",
+        "m."
+      ],
+      "constraints": [
+        [
+          "NeQ",
+          "m",
+          -1
+        ]
+      ],
+      "result": [
+        "Multiply",
+        [
+          "Power",
+          "x",
+          [
+            "Add",
+            "m",
+            1
+          ]
+        ],
+        [
+          "Power",
+          [
+            "Add",
+            "m",
+            1
+          ],
+          -1
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.5-bare-references.json"
+          }
+        ]
+      }
     },
     {
       "id": 2,
       "description": "A name the pattern never bound stays a free symbol",
-      "pattern": ["Power", "y_", 2],
+      "pattern": [
+        "Power",
+        "y_",
+        2
+      ],
       "constraints": [],
-      "result": ["Multiply", "y", "k"]
+      "result": [
+        "Multiply",
+        "y",
+        "k"
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.5-bare-references.json"
+          }
+        ]
+      }
     },
     {
       "id": 3,
       "description": "A bound head is referable by its bare name too",
-      "pattern": ["f_", "z_"],
+      "pattern": [
+        "f_",
+        "z_"
+      ],
       "constraints": [],
-      "result": ["f", ["Multiply", 2, "z"]]
+      "result": [
+        "f",
+        [
+          "Multiply",
+          2,
+          "z"
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.5-bare-references.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:wildcards/1.5-bare-references"
 }

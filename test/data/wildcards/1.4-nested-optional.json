@@ -13,16 +13,63 @@
     {
       "id": 1,
       "description": "Every optional operand sits below the root head",
-      "pattern": ["Integral", ["Power", ["Add", "a.", ["Multiply", "b.", "x"]], "m."], "x"],
+      "pattern": [
+        "Integral",
+        [
+          "Power",
+          [
+            "Add",
+            "a.",
+            [
+              "Multiply",
+              "b.",
+              "x"
+            ]
+          ],
+          "m."
+        ],
+        "x"
+      ],
       "constraints": [],
-      "result": ["List", "a.", "b.", "m."]
+      "result": [
+        "List",
+        "a.",
+        "b.",
+        "m."
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.4-nested-optional.json"
+          }
+        ]
+      }
     },
     {
       "id": 2,
       "description": "An optional operand of the root itself dissolves the head",
-      "pattern": ["Multiply", "c.", ["Sin", "x"]],
+      "pattern": [
+        "Multiply",
+        "c.",
+        [
+          "Sin",
+          "x"
+        ]
+      ],
       "constraints": [],
-      "result": "c."
+      "result": "c.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.4-nested-optional.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:wildcards/1.4-nested-optional"
 }

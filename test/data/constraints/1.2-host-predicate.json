@@ -9,11 +9,28 @@
     {
       "id": 1,
       "description": "Exposes an even integer exponent using a host predicate",
-      "pattern": ["Pow", "~x", "~m"],
-      "constraints": [
-        ["EvenIntegerQ", "~m"]
+      "pattern": [
+        "Pow",
+        "~x",
+        "~m"
       ],
-      "result": "~m"
+      "constraints": [
+        [
+          "EvenIntegerQ",
+          "~m"
+        ]
+      ],
+      "result": "~m",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/constraints/1.2-host-predicate.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:constraints/1.2-host-predicate"
 }

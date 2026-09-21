@@ -12,26 +12,90 @@
     {
       "id": 1,
       "description": "Power of a power: (x^p)^q = x^(p*q) for integer powers",
-      "pattern": ["Pow", ["Pow", "~x", "~p"], "~q"],
-      "constraints": [
-        ["is_integer", "~p"],
-        ["is_integer", "~q"]
+      "pattern": [
+        "Pow",
+        [
+          "Pow",
+          "~x",
+          "~p"
+        ],
+        "~q"
       ],
-      "result": ["Pow", "~x", ["Mul", "~p", "~q"]],
-      "comment": "Fundamental rule of exponents. Integer constraint prevents multivalued complex branches."
+      "constraints": [
+        [
+          "is_integer",
+          "~p"
+        ],
+        [
+          "is_integer",
+          "~q"
+        ]
+      ],
+      "result": [
+        "Pow",
+        "~x",
+        [
+          "Mul",
+          "~p",
+          "~q"
+        ]
+      ],
+      "comment": "Fundamental rule of exponents. Integer constraint prevents multivalued complex branches.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/1.1-basic-exponents.json"
+          }
+        ]
+      }
     },
     {
       "id": 2,
       "description": "Product of powers: x^p * x^q = x^(p+q)",
-      "pattern": ["Mul", ["Pow", "~x", "~p"], ["Pow", "~x", "~q"]],
+      "pattern": [
+        "Mul",
+        [
+          "Pow",
+          "~x",
+          "~p"
+        ],
+        [
+          "Pow",
+          "~x",
+          "~q"
+        ]
+      ],
       "constraints": [],
-      "result": ["Pow", "~x", ["Add", "~p", "~q"]],
-      "comment": "Base must be strictly identical."
+      "result": [
+        "Pow",
+        "~x",
+        [
+          "Add",
+          "~p",
+          "~q"
+        ]
+      ],
+      "comment": "Base must be strictly identical.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/1.1-basic-exponents.json"
+          }
+        ]
+      }
     },
     {
       "id": 3,
       "description": "Identity power: x^1 = x",
-      "pattern": ["Pow", "~x", 1],
+      "pattern": [
+        "Pow",
+        "~x",
+        1
+      ],
       "constraints": [],
       "result": "~x",
       "provenance": {
@@ -47,11 +111,27 @@
     {
       "id": 4,
       "description": "Zero power: x^0 = 1 for x != 0",
-      "pattern": ["Pow", "~x", 0],
-      "constraints": [
-        ["NonzeroQ", "~x"]
+      "pattern": [
+        "Pow",
+        "~x",
+        0
       ],
-      "result": 1
+      "constraints": [
+        [
+          "NonzeroQ",
+          "~x"
+        ]
+      ],
+      "result": 1,
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/1.1-basic-exponents.json"
+          }
+        ]
+      }
     }
   ]
 }

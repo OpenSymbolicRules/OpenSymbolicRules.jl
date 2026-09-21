@@ -56,7 +56,16 @@
         ]
       ],
       "result": "c_",
-      "description": "Limit of a constant: lim_{x->a} c = c"
+      "description": "Limit of a constant: lim_{x->a} c = c",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 2,
@@ -79,7 +88,16 @@
       ],
       "constraints": [],
       "result": 1,
-      "description": "Fundamental sine limit: lim_{x->0} sin(x)/x = 1"
+      "description": "Fundamental sine limit: lim_{x->0} sin(x)/x = 1",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 3,
@@ -102,7 +120,16 @@
       ],
       "constraints": [],
       "result": 1,
-      "description": "Fundamental tangent limit: lim(x\u21920) tan(x)/x = 1."
+      "description": "Fundamental tangent limit: lim(x\u21920) tan(x)/x = 1.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 4,
@@ -137,7 +164,16 @@
         1,
         2
       ],
-      "description": "Second-order cosine limit: lim(x\u21920) (1 - cos(x))/x\u00b2 = 1/2."
+      "description": "Second-order cosine limit: lim(x\u21920) (1 - cos(x))/x\u00b2 = 1/2.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 5,
@@ -164,7 +200,16 @@
       ],
       "constraints": [],
       "result": 1,
-      "description": "Fundamental exponential limit: lim(x\u21920) (exp(x) - 1)/x = 1."
+      "description": "Fundamental exponential limit: lim(x\u21920) (exp(x) - 1)/x = 1.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 6,
@@ -191,7 +236,16 @@
       ],
       "constraints": [],
       "result": 1,
-      "description": "Fundamental logarithmic limit: lim(x\u21920) log(1 + x)/x = 1."
+      "description": "Fundamental logarithmic limit: lim(x\u21920) log(1 + x)/x = 1.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 7,
@@ -215,7 +269,16 @@
         "x_",
         0
       ],
-      "description": "Derivative of a constant: d/dx(c) = 0"
+      "description": "Derivative of a constant: d/dx(c) = 0",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 8,
@@ -255,7 +318,16 @@
           ]
         ]
       ],
-      "description": "Power rule: d/dx(x^n) = n*x^(n-1)"
+      "description": "Power rule: d/dx(x^n) = n*x^(n-1)",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 9,
@@ -273,7 +345,16 @@
         "x_",
         1
       ],
-      "description": "Derivative of the identity function"
+      "description": "Derivative of the identity function",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 10,
@@ -297,7 +378,16 @@
           "x_"
         ]
       ],
-      "description": "Derivative of sine"
+      "description": "Derivative of sine",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 11,
@@ -325,7 +415,16 @@
           ]
         ]
       ],
-      "description": "Derivative of cosine"
+      "description": "Derivative of cosine",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 12,
@@ -349,7 +448,16 @@
           "x_"
         ]
       ],
-      "description": "Derivative of the exponential function"
+      "description": "Derivative of the exponential function",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 13,
@@ -374,7 +482,16 @@
           "x_"
         ]
       ],
-      "description": "Derivative of the natural logarithm"
+      "description": "Derivative of the natural logarithm",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 14,
@@ -406,7 +523,16 @@
           ]
         ]
       ],
-      "description": "Derivative of tangent, represented without introducing a nonstandard secant head."
+      "description": "Derivative of tangent, represented without introducing a nonstandard secant head.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 15,
@@ -430,7 +556,16 @@
           "x_"
         ]
       ],
-      "description": "Derivative of hyperbolic sine."
+      "description": "Derivative of hyperbolic sine.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 16,
@@ -454,7 +589,16 @@
           "x_"
         ]
       ],
-      "description": "Derivative of hyperbolic cosine."
+      "description": "Derivative of hyperbolic cosine.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 17,
@@ -486,7 +630,16 @@
           ]
         ]
       ],
-      "description": "Derivative of hyperbolic tangent, represented without introducing a nonstandard hyperbolic secant head."
+      "description": "Derivative of hyperbolic tangent, represented without introducing a nonstandard hyperbolic secant head.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 18,
@@ -519,7 +672,16 @@
           ]
         ]
       ],
-      "description": "Derivative of inverse tangent."
+      "description": "Derivative of inverse tangent.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 19,
@@ -552,7 +714,16 @@
           ]
         ]
       ],
-      "description": "Derivative of inverse hyperbolic tangent."
+      "description": "Derivative of inverse hyperbolic tangent.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 20,
@@ -588,7 +759,16 @@
           ]
         ]
       ],
-      "description": "Derivative of inverse sine on its principal domain."
+      "description": "Derivative of inverse sine on its principal domain.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 21,
@@ -624,7 +804,16 @@
           ]
         ]
       ],
-      "description": "Derivative of inverse cosine on its principal domain."
+      "description": "Derivative of inverse cosine on its principal domain.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 22,
@@ -656,7 +845,16 @@
           ]
         ]
       ],
-      "description": "Derivative of cotangent, represented without introducing a nonstandard cosecant-squared head."
+      "description": "Derivative of cotangent, represented without introducing a nonstandard cosecant-squared head.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 23,
@@ -687,7 +885,16 @@
           ]
         ]
       ],
-      "description": "Derivative of secant."
+      "description": "Derivative of secant.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 24,
@@ -719,7 +926,16 @@
           ]
         ]
       ],
-      "description": "Derivative of cosecant."
+      "description": "Derivative of cosecant.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 25,
@@ -751,7 +967,16 @@
           ]
         ]
       ],
-      "description": "Derivative of hyperbolic cotangent, represented without introducing a nonstandard hyperbolic cosecant-squared head."
+      "description": "Derivative of hyperbolic cotangent, represented without introducing a nonstandard hyperbolic cosecant-squared head.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 26,
@@ -783,7 +1008,16 @@
           ]
         ]
       ],
-      "description": "Derivative of hyperbolic secant."
+      "description": "Derivative of hyperbolic secant.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 27,
@@ -815,7 +1049,16 @@
           ]
         ]
       ],
-      "description": "Derivative of hyperbolic cosecant."
+      "description": "Derivative of hyperbolic cosecant.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 28,
@@ -851,7 +1094,16 @@
           ]
         ]
       ],
-      "description": "Derivative of inverse hyperbolic sine on its principal domain."
+      "description": "Derivative of inverse hyperbolic sine on its principal domain.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 29,
@@ -887,7 +1139,16 @@
           ]
         ]
       ],
-      "description": "Derivative of inverse hyperbolic cosine on its principal domain."
+      "description": "Derivative of inverse hyperbolic cosine on its principal domain.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 30,
@@ -935,7 +1196,16 @@
           ]
         ]
       ],
-      "description": "Linearity of differentiation over a binary sum."
+      "description": "Linearity of differentiation over a binary sum.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 31,
@@ -991,7 +1261,16 @@
           ]
         ]
       ],
-      "description": "Product rule, preserving the factor order for noncommutative-aware consumers."
+      "description": "Product rule, preserving the factor order for noncommutative-aware consumers.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     },
     {
       "id": 32,
@@ -1039,7 +1318,17 @@
           ]
         ]
       ],
-      "description": "Linearity of differentiation over a binary difference."
+      "description": "Linearity of differentiation over a binary difference.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:calculus/3.1-canonical-lambda"
 }

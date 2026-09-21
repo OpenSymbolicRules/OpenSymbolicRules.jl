@@ -17,97 +17,414 @@
     {
       "id": 1,
       "description": "Derivative of variable w.r.t itself",
-      "pattern": ["Derivative", "~x", "~x"],
+      "pattern": [
+        "Derivative",
+        "~x",
+        "~x"
+      ],
       "constraints": [],
-      "result": 1
+      "result": 1,
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/2.2-advanced-derivatives.json"
+          }
+        ]
+      }
     },
     {
       "id": 2,
       "description": "Derivative of a constant",
-      "pattern": ["Derivative", "~c", "~x"],
-      "constraints": [
-        ["FreeQ", "~c", "~x"]
+      "pattern": [
+        "Derivative",
+        "~c",
+        "~x"
       ],
-      "result": 0
+      "constraints": [
+        [
+          "FreeQ",
+          "~c",
+          "~x"
+        ]
+      ],
+      "result": 0,
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/2.2-advanced-derivatives.json"
+          }
+        ]
+      }
     },
     {
       "id": 3,
       "description": "Linearity: d/dx(u + v)",
-      "pattern": ["Derivative", ["Add", "~u", "~v"], "~x"],
+      "pattern": [
+        "Derivative",
+        [
+          "Add",
+          "~u",
+          "~v"
+        ],
+        "~x"
+      ],
       "constraints": [],
-      "result": ["Add", ["Derivative", "~u", "~x"], ["Derivative", "~v", "~x"]]
+      "result": [
+        "Add",
+        [
+          "Derivative",
+          "~u",
+          "~x"
+        ],
+        [
+          "Derivative",
+          "~v",
+          "~x"
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/2.2-advanced-derivatives.json"
+          }
+        ]
+      }
     },
     {
       "id": 4,
       "description": "Constant multiple: d/dx(c * u)",
-      "pattern": ["Derivative", ["Mul", "~c", "~u"], "~x"],
-      "constraints": [
-        ["FreeQ", "~c", "~x"]
+      "pattern": [
+        "Derivative",
+        [
+          "Mul",
+          "~c",
+          "~u"
+        ],
+        "~x"
       ],
-      "result": ["Mul", "~c", ["Derivative", "~u", "~x"]]
+      "constraints": [
+        [
+          "FreeQ",
+          "~c",
+          "~x"
+        ]
+      ],
+      "result": [
+        "Mul",
+        "~c",
+        [
+          "Derivative",
+          "~u",
+          "~x"
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/2.2-advanced-derivatives.json"
+          }
+        ]
+      }
     },
     {
       "id": 5,
       "description": "Product rule: d/dx(u * v)",
-      "pattern": ["Derivative", ["Mul", "~u", "~v"], "~x"],
+      "pattern": [
+        "Derivative",
+        [
+          "Mul",
+          "~u",
+          "~v"
+        ],
+        "~x"
+      ],
       "constraints": [],
-      "result": ["Add", 
-        ["Mul", ["Derivative", "~u", "~x"], "~v"], 
-        ["Mul", "~u", ["Derivative", "~v", "~x"]]
-      ]
+      "result": [
+        "Add",
+        [
+          "Mul",
+          [
+            "Derivative",
+            "~u",
+            "~x"
+          ],
+          "~v"
+        ],
+        [
+          "Mul",
+          "~u",
+          [
+            "Derivative",
+            "~v",
+            "~x"
+          ]
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/2.2-advanced-derivatives.json"
+          }
+        ]
+      }
     },
     {
       "id": 6,
       "description": "Quotient rule: d/dx(u / v)",
-      "pattern": ["Derivative", ["Div", "~u", "~v"], "~x"],
-      "constraints": [],
-      "result": ["Div",
-        ["Add", 
-          ["Mul", ["Derivative", "~u", "~x"], "~v"],
-          ["Mul", -1, ["Mul", "~u", ["Derivative", "~v", "~x"]]]
+      "pattern": [
+        "Derivative",
+        [
+          "Div",
+          "~u",
+          "~v"
         ],
-        ["Pow", "~v", 2]
-      ]
+        "~x"
+      ],
+      "constraints": [],
+      "result": [
+        "Div",
+        [
+          "Add",
+          [
+            "Mul",
+            [
+              "Derivative",
+              "~u",
+              "~x"
+            ],
+            "~v"
+          ],
+          [
+            "Mul",
+            -1,
+            [
+              "Mul",
+              "~u",
+              [
+                "Derivative",
+                "~v",
+                "~x"
+              ]
+            ]
+          ]
+        ],
+        [
+          "Pow",
+          "~v",
+          2
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/2.2-advanced-derivatives.json"
+          }
+        ]
+      }
     },
     {
       "id": 7,
       "description": "Power rule (Chain): d/dx(u^n)",
-      "pattern": ["Derivative", ["Pow", "~u", "~n"], "~x"],
-      "constraints": [
-        ["FreeQ", "~n", "~x"]
+      "pattern": [
+        "Derivative",
+        [
+          "Pow",
+          "~u",
+          "~n"
+        ],
+        "~x"
       ],
-      "result": ["Mul", 
-        ["Mul", "~n", ["Pow", "~u", ["Add", "~n", -1]]],
-        ["Derivative", "~u", "~x"]
-      ]
+      "constraints": [
+        [
+          "FreeQ",
+          "~n",
+          "~x"
+        ]
+      ],
+      "result": [
+        "Mul",
+        [
+          "Mul",
+          "~n",
+          [
+            "Pow",
+            "~u",
+            [
+              "Add",
+              "~n",
+              -1
+            ]
+          ]
+        ],
+        [
+          "Derivative",
+          "~u",
+          "~x"
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/2.2-advanced-derivatives.json"
+          }
+        ]
+      }
     },
     {
       "id": 8,
       "description": "Exponential rule (Chain): d/dx(exp(u))",
-      "pattern": ["Derivative", ["Exp", "~u"], "~x"],
+      "pattern": [
+        "Derivative",
+        [
+          "Exp",
+          "~u"
+        ],
+        "~x"
+      ],
       "constraints": [],
-      "result": ["Mul", ["Exp", "~u"], ["Derivative", "~u", "~x"]]
+      "result": [
+        "Mul",
+        [
+          "Exp",
+          "~u"
+        ],
+        [
+          "Derivative",
+          "~u",
+          "~x"
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/2.2-advanced-derivatives.json"
+          }
+        ]
+      }
     },
     {
       "id": 9,
       "description": "Logarithm rule (Chain): d/dx(log(u))",
-      "pattern": ["Derivative", ["Log", "~u"], "~x"],
+      "pattern": [
+        "Derivative",
+        [
+          "Log",
+          "~u"
+        ],
+        "~x"
+      ],
       "constraints": [],
-      "result": ["Mul", ["Div", 1, "~u"], ["Derivative", "~u", "~x"]]
+      "result": [
+        "Mul",
+        [
+          "Div",
+          1,
+          "~u"
+        ],
+        [
+          "Derivative",
+          "~u",
+          "~x"
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/2.2-advanced-derivatives.json"
+          }
+        ]
+      }
     },
     {
       "id": 10,
       "description": "Sine rule (Chain): d/dx(sin(u))",
-      "pattern": ["Derivative", ["Sin", "~u"], "~x"],
+      "pattern": [
+        "Derivative",
+        [
+          "Sin",
+          "~u"
+        ],
+        "~x"
+      ],
       "constraints": [],
-      "result": ["Mul", ["Cos", "~u"], ["Derivative", "~u", "~x"]]
+      "result": [
+        "Mul",
+        [
+          "Cos",
+          "~u"
+        ],
+        [
+          "Derivative",
+          "~u",
+          "~x"
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/2.2-advanced-derivatives.json"
+          }
+        ]
+      }
     },
     {
       "id": 11,
       "description": "Cosine rule (Chain): d/dx(cos(u))",
-      "pattern": ["Derivative", ["Cos", "~u"], "~x"],
+      "pattern": [
+        "Derivative",
+        [
+          "Cos",
+          "~u"
+        ],
+        "~x"
+      ],
       "constraints": [],
-      "result": ["Mul", ["Mul", -1, ["Sin", "~u"]], ["Derivative", "~u", "~x"]]
+      "result": [
+        "Mul",
+        [
+          "Mul",
+          -1,
+          [
+            "Sin",
+            "~u"
+          ]
+        ],
+        [
+          "Derivative",
+          "~u",
+          "~x"
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/2.2-advanced-derivatives.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:calculus/2.2-advanced-derivatives"
 }

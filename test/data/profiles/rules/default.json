@@ -8,9 +8,23 @@
   "rules": [
     {
       "id": 1,
-      "pattern": ["Power", "x_", 1],
+      "pattern": [
+        "Power",
+        "x_",
+        1
+      ],
       "constraints": [],
-      "result": "x_"
+      "result": "x_",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/profiles/rules/default.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:profiles/rules/default"
 }

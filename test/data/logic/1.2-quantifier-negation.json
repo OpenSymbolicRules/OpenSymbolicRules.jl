@@ -11,9 +11,37 @@
     {
       "id": 1,
       "description": "Negating a universal quantifier produces an existential quantifier.",
-      "pattern": ["Not", ["Forall", ["xs__"], "p_"]],
+      "pattern": [
+        "Not",
+        [
+          "Forall",
+          [
+            "xs__"
+          ],
+          "p_"
+        ]
+      ],
       "constraints": [],
-      "result": ["Exists", ["xs__"], ["Not", "p_"]]
+      "result": [
+        "Exists",
+        [
+          "xs__"
+        ],
+        [
+          "Not",
+          "p_"
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/logic/1.2-quantifier-negation.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:logic/1.2-quantifier-negation"
 }

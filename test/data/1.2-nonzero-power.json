@@ -9,9 +9,28 @@
     {
       "id": 1,
       "description": "A nonzero quantity raised to zero is one.",
-      "pattern": ["Power", "x_", 0],
-      "constraints": [["NonzeroQ", "x_"]],
-      "result": 1
+      "pattern": [
+        "Power",
+        "x_",
+        0
+      ],
+      "constraints": [
+        [
+          "NonzeroQ",
+          "x_"
+        ]
+      ],
+      "result": 1,
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/1.2-nonzero-power.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:1.2-nonzero-power"
 }

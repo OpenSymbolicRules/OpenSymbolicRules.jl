@@ -10,38 +10,153 @@
     {
       "id": 1,
       "description": "A predicate the host cannot decide leaves the guard unproved",
-      "pattern": ["Power", "u_", "m_"],
-      "constraints": [["PseudoBinomialPairQ", "u", "m"]],
-      "result": "u"
+      "pattern": [
+        "Power",
+        "u_",
+        "m_"
+      ],
+      "constraints": [
+        [
+          "PseudoBinomialPairQ",
+          "u",
+          "m"
+        ]
+      ],
+      "result": "u",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/constraints/1.5-unproved.json"
+          }
+        ]
+      }
     },
     {
       "id": 2,
       "description": "Negating an undecidable predicate does not establish anything",
-      "pattern": ["Power", "u_", "m_"],
-      "constraints": [["Not", ["PseudoBinomialPairQ", "u", "m"]]],
-      "result": "m"
+      "pattern": [
+        "Power",
+        "u_",
+        "m_"
+      ],
+      "constraints": [
+        [
+          "Not",
+          [
+            "PseudoBinomialPairQ",
+            "u",
+            "m"
+          ]
+        ]
+      ],
+      "result": "m",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/constraints/1.5-unproved.json"
+          }
+        ]
+      }
     },
     {
       "id": 3,
       "description": "A disjunction is established by the branch that holds",
-      "pattern": ["Power", "u_", "m_"],
-      "constraints": [["Or", ["IntegerQ", "m"], ["PseudoBinomialPairQ", "u", "m"]]],
-      "result": ["Multiply", "u", "m"],
-      "provenance": {"method": "manual"}
+      "pattern": [
+        "Power",
+        "u_",
+        "m_"
+      ],
+      "constraints": [
+        [
+          "Or",
+          [
+            "IntegerQ",
+            "m"
+          ],
+          [
+            "PseudoBinomialPairQ",
+            "u",
+            "m"
+          ]
+        ]
+      ],
+      "result": [
+        "Multiply",
+        "u",
+        "m"
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/constraints/1.5-unproved.json"
+          }
+        ]
+      }
     },
     {
       "id": 4,
       "description": "A conjunction with an undecidable branch is not established",
-      "pattern": ["Power", "u_", "m_"],
-      "constraints": [["And", ["IntegerQ", "m"], ["PseudoBinomialPairQ", "u", "m"]]],
-      "result": "u"
+      "pattern": [
+        "Power",
+        "u_",
+        "m_"
+      ],
+      "constraints": [
+        [
+          "And",
+          [
+            "IntegerQ",
+            "m"
+          ],
+          [
+            "PseudoBinomialPairQ",
+            "u",
+            "m"
+          ]
+        ]
+      ],
+      "result": "u",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/constraints/1.5-unproved.json"
+          }
+        ]
+      }
     },
     {
       "id": 5,
       "description": "A decidable guard is unaffected",
-      "pattern": ["Power", "u_", "m_"],
-      "constraints": [["IntegerQ", "m"]],
-      "result": "m"
+      "pattern": [
+        "Power",
+        "u_",
+        "m_"
+      ],
+      "constraints": [
+        [
+          "IntegerQ",
+          "m"
+        ]
+      ],
+      "result": "m",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/constraints/1.5-unproved.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:constraints/1.5-unproved"
 }

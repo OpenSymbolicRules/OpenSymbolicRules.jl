@@ -31,7 +31,16 @@
           "m",
           2
         ]
-      ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.9-deep-index.json"
+          }
+        ]
+      }
     },
     {
       "id": 2,
@@ -48,7 +57,16 @@
       "result": [
         "Log",
         "x"
-      ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.9-deep-index.json"
+          }
+        ]
+      }
     },
     {
       "id": 3,
@@ -59,7 +77,16 @@
         "x_symbol"
       ],
       "constraints": [],
-      "result": "u"
+      "result": "u",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.9-deep-index.json"
+          }
+        ]
+      }
     },
     {
       "id": 4,
@@ -77,7 +104,17 @@
       "result": [
         "Log",
         "x"
-      ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.9-deep-index.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:wildcards/1.9-deep-index"
 }

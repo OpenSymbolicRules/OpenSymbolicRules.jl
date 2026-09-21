@@ -10,9 +10,23 @@
     {
       "id": 1,
       "description": "An integration variable must be a variable",
-      "pattern": ["Integral", "f_", "x_symbol"],
+      "pattern": [
+        "Integral",
+        "f_",
+        "x_symbol"
+      ],
       "constraints": [],
-      "result": "f"
+      "result": "f",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.8-symbol-domain.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:wildcards/1.8-symbol-domain"
 }

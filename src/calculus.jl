@@ -20,16 +20,15 @@ unevaluated expression rather than a closed form nobody reached, and
 the reading it should be given, so an unevaluated operation cannot be mistaken
 for a proved equality.
 
-```jldoctest
-julia> using OpenSymbolicRules, SymbolicUtils
-
-julia> @syms x;
-
-julia> rules = @load_osr_profile("../../Calculus");
+```julia
+julia> rules = @load_osr_profile("path/to/Calculus");
 
 julia> differentiate(Sin(x), x, rules)
 Cos(x)
 ```
+
+The example is not a doctest: it needs the `Calculus` rule set, which lives in
+its own repository and is not checked out beside the package by default.
 """
 function differentiate(expression, variable, rules::AbstractVector;
                        mode::Symbol=:fast, steps::Int=32)

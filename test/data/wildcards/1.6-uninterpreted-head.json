@@ -11,9 +11,28 @@
     {
       "id": 1,
       "description": "A declared head this package does not implement stays unevaluated",
-      "pattern": ["Power", "u_", 2],
+      "pattern": [
+        "Power",
+        "u_",
+        2
+      ],
       "constraints": [],
-      "result": ["PolynomialRemainder", "u", "u", 2]
+      "result": [
+        "PolynomialRemainder",
+        "u",
+        "u",
+        2
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.6-uninterpreted-head.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:wildcards/1.6-uninterpreted-head"
 }
