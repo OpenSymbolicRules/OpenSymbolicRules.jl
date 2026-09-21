@@ -1,0 +1,120 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.9",
+  "title": "Two-level dispatch fixture",
+  "semantics": {
+    "Int": "openmath:calculus1#int",
+    "Power": "openmath:arith1#power",
+    "Multiply": "openmath:arith1#times",
+    "Sin": "openmath:transc1#sin",
+    "Log": "openmath:transc1#ln"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "description": "A power integrand, with no optional operand at its root",
+      "pattern": [
+        "Int",
+        [
+          "Power",
+          "x_symbol",
+          "m_"
+        ],
+        "x_symbol"
+      ],
+      "constraints": [],
+      "result": [
+        "Power",
+        "x",
+        [
+          "Multiply",
+          "m",
+          2
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.9-deep-index.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "description": "A sine integrand",
+      "pattern": [
+        "Int",
+        [
+          "Sin",
+          "x_symbol"
+        ],
+        "x_symbol"
+      ],
+      "constraints": [],
+      "result": [
+        "Log",
+        "x"
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.9-deep-index.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "description": "An integrand of any shape",
+      "pattern": [
+        "Int",
+        "u_",
+        "x_symbol"
+      ],
+      "constraints": [],
+      "result": "u",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.9-deep-index.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "description": "An integrand whose root carries an optional operand matches any head",
+      "pattern": [
+        "Int",
+        [
+          "Power",
+          "x_symbol",
+          "m."
+        ],
+        "x_symbol"
+      ],
+      "constraints": [],
+      "result": [
+        "Log",
+        "x"
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.9-deep-index.json"
+          }
+        ]
+      }
+    }
+  ],
+  "identity": "test:wildcards/1.9-deep-index"
+}

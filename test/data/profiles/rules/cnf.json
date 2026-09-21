@@ -8,9 +8,23 @@
   "rules": [
     {
       "id": 2,
-      "pattern": ["Pow", "x_", 0],
+      "pattern": [
+        "Pow",
+        "x_",
+        0
+      ],
       "constraints": [],
-      "result": 1
+      "result": 1,
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/profiles/rules/cnf.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:profiles/rules/cnf"
 }

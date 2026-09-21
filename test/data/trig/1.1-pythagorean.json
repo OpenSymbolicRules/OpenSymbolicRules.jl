@@ -13,10 +13,38 @@
     {
       "id": 1,
       "description": "Pythagorean Identity: sin^2(x) + cos^2(x) = 1",
-      "pattern": ["Add", ["Pow", ["Sin", "~x"], 2], ["Pow", ["Cos", "~x"], 2]],
+      "pattern": [
+        "Add",
+        [
+          "Pow",
+          [
+            "Sin",
+            "~x"
+          ],
+          2
+        ],
+        [
+          "Pow",
+          [
+            "Cos",
+            "~x"
+          ],
+          2
+        ]
+      ],
       "constraints": [],
       "result": 1,
-      "comment": "Fundamental trigonometric identity."
+      "comment": "Fundamental trigonometric identity.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/trig/1.1-pythagorean.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:trig/1.1-pythagorean"
 }

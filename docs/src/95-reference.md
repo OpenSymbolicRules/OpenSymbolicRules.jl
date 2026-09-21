@@ -13,5 +13,5 @@ Pages = ["95-reference.md"]
 ```
 
 ```@autodocs
-Modules = [OpenSymbolicRules]
+Modules = [OpenSymbolicRules, OpenSymbolicRules.UninterpretedHeads]
 ```

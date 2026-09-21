@@ -209,3 +209,262 @@ end
     @test !is_numeric(x)
     @test !is_nonzero(x)
 end
+
+@testitem "Rule-language forms inside a constraint are not domain operators" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: _validate_openmath_semantics, _compile_constraint
+
+    # `Condition` pairs a pattern with the test that guards it — OSR's spelling
+    # of a guarded pattern.  It belongs to the rule language, so neither it nor
+    # the predicates inside its test need an OpenMath symbol.
+    guarded = Dict(
+        "identity" => "test:guarded",
+        "semantics" => Dict("Multiply" => "openmath:arith1#times"),
+        "rules" => [Dict(
+            "id" => 1,
+            "pattern" => ["Multiply", "a_", "x_"],
+            "constraints" => Any[["MatchQ", "a_",
+                ["Condition", ["Multiply", "b_", "x_"], ["FreeQ", "b_", "x_"]]]],
+            "result" => "a_",
+        )],
+    )
+    @test _validate_openmath_semantics([guarded]) === nothing
+
+    # A mathematical operation inside the guarded pattern is still domain
+    # vocabulary and still has to be declared.
+    undeclared = deepcopy(guarded)
+    undeclared["rules"][1]["constraints"][1][3][2] = ["Divide", "b_", "x_"]
+    @test_throws ArgumentError _validate_openmath_semantics([undeclared])
+
+    # `If` selects between two tests, so all three of its arguments are
+    # constraints rather than expressions.
+    branching = Dict(
+        "identity" => "test:branching",
+        "semantics" => Dict("Multiply" => "openmath:arith1#times"),
+        "rules" => [Dict(
+            "id" => 1,
+            "pattern" => ["Multiply", "a_", "x_"],
+            "constraints" => Any[["If", ["RationalQ", "a_"], ["GtQ", "a_", 1],
+                                        ["IntegerQ", "a_"]]],
+            "result" => "a_",
+        )],
+    )
+    @test _validate_openmath_semantics([branching]) === nothing
+
+    # It compiles to Julia control flow over booleans, never to a symbolic term.
+    compiled = _compile_constraint(
+        ["If", ["RationalQ", "a_"], ["GtQ", "a_", 1], ["IntegerQ", "a_"]],
+        Dict{String,String}())
+    @test compiled isa Expr && compiled.head === :if
+end
+
+@testitem "A predicate the host cannot decide leaves its guard unproved" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: UnprovedConstraint
+    using SymbolicUtils
+
+    @syms y
+
+    # `PseudoBinomialPairQ` is one of the 43 RUBI predicates this package does
+    # not implement. A predicate answers `true` only when the property is
+    # established, and one that cannot be evaluated establishes nothing — so its
+    # guard must leave the rewrite unapplied rather than raise.
+    @test !isdefined(@__MODULE__, :PseudoBinomialPairQ)
+    rules = @load_osr("data/constraints/1.5-unproved.json")
+
+    @test rules[1](Power(y, 2)) === nothing
+
+    # Negation does not turn "not established" into a licence to rewrite: an
+    # undecidable predicate stays undecidable under `Not`.
+    @test rules[2](Power(y, 2)) === nothing
+
+    # A disjunction is still established by a branch that holds, because the
+    # guard short-circuits before reaching the undecidable one.
+    @test isequal(rules[3](Power(y, 2)), Multiply(y, 2))
+    # With no integer exponent the remaining branch is undecidable, so nothing
+    # is established.
+    @test rules[3](Power(y, 1 // 2)) === nothing
+
+    # A conjunction needs every branch, so one undecidable branch is fatal.
+    @test rules[4](Power(y, 2)) === nothing
+
+    # A guard that names only implemented predicates is unaffected.
+    @test isequal(rules[5](Power(y, 2)), 2)
+    @test rules[5](Power(y, 1 // 2)) === nothing
+
+    # The rule is still loaded, with its identity and provenance intact.
+    @test length(rules) == 5
+    @test endswith(rules[1].name, ":1")
+    @test rules[3].provenance["method"] == "authored"
+
+    # The exception exists and names the predicate, so a host can report it.
+    error = UnprovedConstraint("PseudoBinomialPairQ")
+    @test occursin("PseudoBinomialPairQ", sprint(showerror, error))
+end
+
+@testitem "A host may supply a predicate the package does not implement" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms y
+
+    # A predicate resolved by the loading module is used as it stands, which is
+    # how a host completes the vocabulary without changing this library.
+    PseudoBinomialPairQ(u, m) = true
+    rules = @load_osr("data/constraints/1.5-unproved.json")
+
+    @test isequal(rules[1](Power(y, 2)), y)
+end
+
+@testitem "An abandoned guard records which predicate abandoned it" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: unproved_predicates_seen, reset_unproved!
+    using SymbolicUtils
+
+    @syms y
+    rules = @load_osr("data/constraints/1.5-unproved.json")
+
+    # A rule that does not fire says nothing about why on its own: a guard that
+    # is false and a guard that could not be decided both leave the term alone.
+    # Recording the predicate that abandoned the guard is what tells them apart,
+    # which is what makes "implementing this predicate would unblock N rules"
+    # a measurement rather than a guess.
+    reset_unproved!()
+    @test isempty(unproved_predicates_seen())
+
+    @test rules[1](Power(y, 2)) === nothing
+    @test unproved_predicates_seen() == Set(["PseudoBinomialPairQ"])
+
+    # A guard that is decidably false records nothing.
+    reset_unproved!()
+    @test rules[5](Power(y, 1 // 2)) === nothing
+    @test isempty(unproved_predicates_seen())
+
+    # A guard established before reaching the undecidable branch records
+    # nothing either, because that branch is never evaluated.
+    reset_unproved!()
+    @test rules[3](Power(y, 2)) !== nothing
+    @test isempty(unproved_predicates_seen())
+
+    # Reaching it does record it.
+    reset_unproved!()
+    @test rules[3](Power(y, 1 // 2)) === nothing
+    @test unproved_predicates_seen() == Set(["PseudoBinomialPairQ"])
+end
+
+@testitem "A guard that is decided false records the predicate that decided it" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: withheld_predicates_seen, reset_withheld!, record_withheld!
+    using SymbolicUtils
+
+    @syms y
+
+    rules = @load_osr("data/constraints/1.5-unproved.json")
+
+    # Recording is opt-in: a measurement wants to know which predicate held a
+    # rule back, and ordinary rewriting should not pay for it.
+    reset_withheld!()
+    @test rules[5](Power(y, 1 // 2)) === nothing
+    @test isempty(withheld_predicates_seen())
+
+    # Rule 5's guard is `IntegerQ(m)`, which is decided and false here.
+    record_withheld!(true)
+    try
+        reset_withheld!()
+        @test rules[5](Power(y, 1 // 2)) === nothing
+        @test "IntegerQ" in withheld_predicates_seen()
+
+        # A guard that holds records nothing.
+        reset_withheld!()
+        @test isequal(rules[5](Power(y, 2)), 2)
+        @test isempty(withheld_predicates_seen())
+    finally
+        record_withheld!(false)
+    end
+
+    @test isempty(withheld_predicates_seen())
+end
+
+@testitem "EqQ and NeQ decide a polynomial identity exactly" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: EqQ, NeQ
+    using SymbolicUtils
+
+    @syms a b c d m x
+
+    # A RUBI guard is overwhelmingly a polynomial identity over the parameters.
+    # Two expressions whose difference is the zero polynomial are equal for
+    # every value of those parameters, which is a proof and not a guess.
+    @test EqQ(Add(m, Multiply(-1, m)), 0)
+    @test EqQ(Multiply(b, c), Multiply(c, b))
+    @test EqQ(Multiply(Add(a, b), Add(a, b)),
+              Add(Add(Power(a, 2), Multiply(2, Multiply(a, b))), Power(b, 2)))
+
+    # A difference that is not identically zero is not a proof of equality,
+    # so the guard still declines.
+    @test !EqQ(Add(Multiply(b, c), Multiply(-1, Multiply(a, d))), 0)
+    @test !EqQ(m, -1)
+
+    # A difference that is a nonzero constant proves inequality for every value.
+    @test NeQ(Add(m, 1), m)
+    @test NeQ(Multiply(2, a), Add(Multiply(2, a), 3))
+    # A difference that depends on a parameter proves nothing either way.
+    @test !NeQ(m, -1)
+    @test !NeQ(Multiply(b, c), Multiply(a, d))
+    # Nor does equality mean inequality.
+    @test !NeQ(Multiply(b, c), Multiply(c, b))
+
+    # A non-polynomial expression falls back to the earlier reading rather than
+    # raising: a guard must answer.
+    @test EqQ(Sin(x), Sin(x))
+    @test !EqQ(Sin(x), Cos(x))
+    @test !NeQ(Sin(x), Cos(x))
+
+    # Exact rationals stay exact; nothing here introduces a float.
+    @test EqQ(Multiply(Power(2, -1), a), Multiply(a, Power(2, -1)))
+    @test NeQ(Multiply(Power(2, -1), a), Multiply(Power(3, -1), a)) == false
+end
+
+@testitem "The reading of NeQ is selectable and proved-distinct by default" begin
+    using OpenSymbolicRules
+    using OpenSymbolicRules: NeQ, EqQ, neq_reading!, neq_reading
+    using SymbolicUtils
+
+    @syms a b c d m x
+
+    # RUBI reads `NeQ[u, v]` as "not *provably* equal", so `NeQ[m, -1]` holds
+    # for a symbolic `m`: the rule it guards is valid wherever `m` is not -1,
+    # and the case `m == -1` is caught by an earlier rule. This package reads it
+    # as "provably distinct", which is sound but declines those rules.
+    #
+    # The two readings are a design decision with a measurable cost, so the
+    # alternative is selectable. It is not the default: turning it on weakens
+    # the guarantee that a guard which holds is a guard that was proved.
+    @test neq_reading() === :proved_distinct
+
+    @test !NeQ(m, -1)
+    @test !NeQ(Multiply(b, c), Multiply(a, d))
+
+    neq_reading!(:not_proved_equal)
+    try
+        @test neq_reading() === :not_proved_equal
+        @test NeQ(m, -1)
+        @test NeQ(Multiply(b, c), Multiply(a, d))
+
+        # Either reading still refuses to call equal things different.
+        @test !NeQ(Multiply(b, c), Multiply(c, b))
+        @test !NeQ(Add(m, Multiply(-1, m)), 0)
+        @test !NeQ(2, 2)
+        # And a decided inequality stays decided.
+        @test NeQ(2, 3)
+        @test NeQ(Add(m, 1), m)
+    finally
+        neq_reading!(:proved_distinct)
+    end
+
+    @test neq_reading() === :proved_distinct
+    @test !NeQ(m, -1)
+
+    # An unknown reading is a programming error, not a silent fallback.
+    @test_throws ArgumentError neq_reading!(:whatever)
+end

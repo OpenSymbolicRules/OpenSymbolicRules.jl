@@ -1,0 +1,67 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "1.3",
+  "title": "Head-position wildcard fixture",
+  "semantics": {
+    "Add": "openmath:arith1#plus",
+    "Multiply": "openmath:arith1#times"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "description": "A wildcard in operator position binds the head it matched",
+      "pattern": [
+        "f_",
+        "x"
+      ],
+      "constraints": [],
+      "result": [
+        "Multiply",
+        2,
+        [
+          "f_",
+          "x"
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.3-head-wildcard.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "description": "A structural list needs no per-file OpenMath declaration",
+      "pattern": [
+        "Add",
+        "a_",
+        "y"
+      ],
+      "constraints": [
+        [
+          "FreeQ",
+          [
+            "List",
+            "a_"
+          ],
+          "y"
+        ]
+      ],
+      "result": "a_",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.3-head-wildcard.json"
+          }
+        ]
+      }
+    }
+  ],
+  "identity": "test:wildcards/1.3-head-wildcard"
+}

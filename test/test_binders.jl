@@ -125,3 +125,38 @@ end
     @test FreeQ(Sin(y), x)
     @test !FreeQ(Sin(x), x)
 end
+
+@testitem "beta_reduce applies a lambda to its argument" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms x y f
+
+    # The OSR expression grammar requires a head to be a name, so a lambda
+    # cannot stand in head position and an application needs its own head.
+    # `Apply` is that head, and reducing it is ordinary capture-avoiding
+    # substitution.
+    @test isequal(beta_reduce(Apply(Lambda(x, Sin(x)), y)), Sin(y))
+    @test OpenSymbolicRules.osr_number(beta_reduce(Apply(Lambda(x, x), 3))) == 3
+
+    # Reduction reaches inside: a derivative rule leaves applications nested in
+    # the body of the lambda it returns.
+    nested = Lambda(x, Add(Apply(Lambda(x, Cos(x)), x),
+                           Apply(Lambda(x, Multiply(-1, Sin(x))), x)))
+    @test isequal(beta_reduce(nested),
+                  Lambda(x, Add(Cos(x), Multiply(-1, Sin(x)))))
+
+    # An application whose head is not yet a lambda is left alone, because the
+    # rule that will produce one has not fired yet.
+    @test isequal(beta_reduce(Apply(f, y)), Apply(f, y))
+
+    # Substitution stays capture-avoiding: the bound `y` is renamed rather than
+    # capturing the `y` coming in from outside.
+    captured = beta_reduce(Apply(Lambda(x, Lambda(y, Add(x, y))), y))
+    @test !isequal(captured, Lambda(y, Add(y, y)))
+    @test isequal(beta_reduce(Apply(captured, 1)), beta_reduce(Apply(captured, 1)))
+
+    # Nothing to reduce is returned unchanged.
+    @test isequal(beta_reduce(Add(x, y)), Add(x, y))
+    @test isequal(beta_reduce(x), x)
+end

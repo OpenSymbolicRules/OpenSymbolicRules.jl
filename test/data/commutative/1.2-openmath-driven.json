@@ -11,26 +11,85 @@
     {
       "id": 1,
       "description": "Additive identity declared under a non-canonical head name",
-      "pattern": ["Plus", "~x", 0],
+      "pattern": [
+        "Plus",
+        "~x",
+        0
+      ],
       "constraints": [],
-      "result": "~x"
+      "result": "~x",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/commutative/1.2-openmath-driven.json"
+          }
+        ]
+      }
     },
     {
       "id": 2,
       "description": "Multiplicative identity, matched in operand order only",
-      "pattern": ["Times", "~x", 1],
+      "pattern": [
+        "Times",
+        "~x",
+        1
+      ],
       "constraints": [],
-      "result": "~x"
+      "result": "~x",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/commutative/1.2-openmath-driven.json"
+          }
+        ]
+      }
     },
     {
       "id": 3,
       "description": "Product rule for logarithms: log(x) + log(y) = log(x*y) for x, y > 0",
-      "pattern": ["Plus", ["Log", "~x"], ["Log", "~y"]],
-      "constraints": [
-        ["PositiveQ", "~x"],
-        ["PositiveQ", "~y"]
+      "pattern": [
+        "Plus",
+        [
+          "Log",
+          "~x"
+        ],
+        [
+          "Log",
+          "~y"
+        ]
       ],
-      "result": ["Log", ["Times", "~x", "~y"]]
+      "constraints": [
+        [
+          "PositiveQ",
+          "~x"
+        ],
+        [
+          "PositiveQ",
+          "~y"
+        ]
+      ],
+      "result": [
+        "Log",
+        [
+          "Times",
+          "~x",
+          "~y"
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/commutative/1.2-openmath-driven.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:commutative/1.2-openmath-driven"
 }

@@ -141,7 +141,24 @@ function is_complex(x)
     return entailed(x, :complex)
 end
 
-export is_positive, is_negative, is_nonzero, FreeQ, is_integer, is_numeric, NotEqual, is_real, is_complex
+"""
+    is_symbol(x)
+
+Return whether `x` is a variable rather than a compound expression or a literal.
+
+A rule that binds a variable of the problem — the variable of an integral, a
+derivative, a sum, or a limit — is valid only when that operand really is a
+variable. RUBI writes this restriction as `Int[integrand, x_Symbol]`, and a rule
+that loses it is unsound rather than merely incomplete: `Int[x_^m_., x_Symbol]`
+without it matches a constant integrand and returns a closed form that is not
+its antiderivative.
+"""
+function is_symbol(x)
+    x isa SymbolicUtils.BasicSymbolic || return false
+    return SymbolicUtils.issym(x)
+end
+
+export is_positive, is_negative, is_nonzero, FreeQ, is_integer, is_numeric, NotEqual, is_real, is_complex, is_symbol
 
 """
     assuming(f, assumptions...)

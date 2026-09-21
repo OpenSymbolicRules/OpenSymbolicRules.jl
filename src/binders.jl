@@ -313,3 +313,60 @@ function _alpha_equivalent(left, right, left_depths, right_depths, depth)
 end
 
 export bound_variables, binder_body, free_variables, occurs_free, osr_substitute, alpha_equivalent
+
+"""
+    beta_reduce(expression)
+
+Carry out every `Apply(Lambda(variable, body), argument)` in `expression`,
+replacing it with `body` with `argument` put for `variable`.
+
+The OSR expression grammar requires a head to be a name (OSR-X-004), so a lambda
+cannot stand in head position and an application needs a head of its own. That
+is what `Apply` is for, and reducing it is the capture-avoiding substitution
+[`osr_substitute`](@ref) already performs.
+
+A rule set that differentiates term by term needs this: the structural rules
+return a lambda whose body applies the lambdas the base rules returned, and
+without reduction the answer keeps them nested instead of composing. An
+application whose head is not a lambda is left alone, because the rule that will
+produce one may not have fired yet.
+
+```jldoctest
+julia> using OpenSymbolicRules, SymbolicUtils
+
+julia> @syms x y;
+
+julia> beta_reduce(Apply(Lambda(x, Sin(x)), y))
+Sin(y)
+```
+"""
+function beta_reduce(expression)
+    literal = _literal(expression)
+    iscall(literal) || return expression
+    reduced = [beta_reduce(argument) for argument in arguments(literal)]
+    head = operation(literal)
+    rebuilt = all(isequal.(reduced, arguments(literal))) ? literal : head(reduced...)
+    applied = _apply_lambda(rebuilt)
+    return applied === nothing ? rebuilt : beta_reduce(applied)
+end
+
+"""
+    _apply_lambda(expression)
+
+Return the body of the lambda `expression` applies, with the argument put for
+its variable, or `nothing` when `expression` is not such an application.
+"""
+function _apply_lambda(expression)
+    _operation_name(operation(expression)) === :Apply || return nothing
+    operands = arguments(expression)
+    length(operands) == 2 || return nothing
+    callee = _literal(operands[1])
+    iscall(callee) && _operation_name(operation(callee)) === :Lambda || return nothing
+    declaration = arguments(callee)
+    length(declaration) == 2 || return nothing
+    variable, body = declaration
+    _variable_name(variable) === nothing && return nothing
+    return osr_substitute(body, variable => operands[2])
+end
+
+export beta_reduce

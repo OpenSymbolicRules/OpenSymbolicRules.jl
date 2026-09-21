@@ -8,9 +8,23 @@
   "rules": [
     {
       "id": 1,
-      "pattern": ["Add", "x_", 0],
+      "pattern": [
+        "Add",
+        "x_",
+        0
+      ],
       "constraints": [],
-      "result": "x_"
+      "result": "x_",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/commutative/1.1-additive-identity.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:commutative/1.1-additive-identity"
 }

@@ -7,6 +7,10 @@ using SymbolicUtils
 @syms Derivative(::Any)::Number Integral(::Any, ::Any)::Number
 @syms Limit(::Any, ::Any, ::Any)::Number BothSides
 @syms Lambda(::Any, ::Any)::Number
+# The OSR expression grammar requires a head to be a name (OSR-X-004), so a
+# lambda cannot stand in head position and an application needs a head of its
+# own.  `beta_reduce` is what carries one out.
+@syms Apply(::Any, ::Any)::Number
 
 # Basic Arithmetic and Transcendentals (Uninterpreted to prevent implicit simplifications)
 @syms Add(a, b) Multiply(a, b) Power(a, b) Divide(a, b) Subtract(a, b)
@@ -28,10 +32,48 @@ using SymbolicUtils
 @syms Piecewise(::Any)::Number Piece(::Any, ::Any)::Any Otherwise(::Any)::Any
 
 # Export them so they are available in users' scopes
-export Derivative, Integral, Limit, BothSides, Lambda
+export Derivative, Integral, Limit, BothSides, Lambda, Apply
 export Add, Multiply, Power, Divide, Subtract
 export Sin, Cos, Tan, Cot, Sec, Csc, Sinh, Cosh, Tanh, Coth, Sech, Csch
 export Asin, Acos, Atan, Acot, Asec, Acsc, Asinh, Acosh, Atanh, Acoth, Asech, Acsch
 export Exp, Log, Sqrt
 export And, Or, Not, Implies, Equivalent, Nand, Nor, Xor, Xnor, Forall, Exists
 export Piecewise, Piece, Otherwise
+
+"""
+    Simp(u)
+    Simp(u, x)
+
+Return `u`.
+
+The corpus writes both arities: `Simp[u]` 200 times and `Simp[u, x]` 518 times.
+
+RUBI writes `Simp[u, x]` for "`u`, tidied up with respect to `x`". Tidying is
+optional: the expression it names is `u` either way, so returning `u` is exact
+rather than approximate, and the rewrite that produced it stays valid.
+
+What matters is that it is *not* an inert head. A rule whose result is wrapped
+in an uninterpreted `Simp` can never be matched by the rule that should come
+next, which stops the rewrite chain after one step — two thirds of the problems
+that stalled in section 1.1.1 stalled on `Simp` or `ExpandIntegrand`.
+
+`ExpandIntegrand` is deliberately not given the same reading. It too denotes an
+expression equal to its argument, but `Int(ExpandIntegrand(u, x), x)` would then
+become the integral it came from, and the rewrite would not terminate.
+"""
+Simp(u) = u
+Simp(u, x) = u
+
+"""
+    Dist(u, v, x)
+
+Return `u*v`.
+
+RUBI writes `Dist[u, v, x]` to push the factor `u` inside `v`, whether `v` is a
+sum or an integral. The value it denotes is `u*v` whichever it does, so the
+product is the whole of its meaning; only the shape of the answer differs, and
+that shape is what the rules downstream restore.
+"""
+Dist(u, v, x) = Multiply(u, v)
+
+export Simp, Dist

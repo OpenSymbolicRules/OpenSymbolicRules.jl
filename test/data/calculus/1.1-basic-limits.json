@@ -12,18 +12,58 @@
     {
       "id": 1,
       "description": "Limit of a constant: lim_{x->a} c = c",
-      "pattern": ["Limit", "~c", "~x", "~a"],
-      "constraints": [
-        ["FreeQ", "~c", "~x"]
+      "pattern": [
+        "Limit",
+        "~c",
+        "~x",
+        "~a"
       ],
-      "result": "~c"
+      "constraints": [
+        [
+          "FreeQ",
+          "~c",
+          "~x"
+        ]
+      ],
+      "result": "~c",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/1.1-basic-limits.json"
+          }
+        ]
+      }
     },
     {
       "id": 2,
       "description": "Fundamental sine limit: lim_{x->0} sin(x)/x = 1",
-      "pattern": ["Limit", ["Div", ["Sin", "~x"], "~x"], "~x", 0],
+      "pattern": [
+        "Limit",
+        [
+          "Div",
+          [
+            "Sin",
+            "~x"
+          ],
+          "~x"
+        ],
+        "~x",
+        0
+      ],
       "constraints": [],
-      "result": 1
+      "result": 1,
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/1.1-basic-limits.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:calculus/1.1-basic-limits"
 }

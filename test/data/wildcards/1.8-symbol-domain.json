@@ -1,30 +1,32 @@
 {
   "$schema": "open-symbolic-rules/v0.1",
-  "section": "1.1",
-  "title": "Default profile rule",
+  "section": "1.8",
+  "title": "Symbol-typed wildcard fixture",
   "semantics": {
+    "Integral": "openmath:calculus1#int",
     "Power": "openmath:arith1#power"
   },
   "rules": [
     {
       "id": 1,
+      "description": "An integration variable must be a variable",
       "pattern": [
-        "Power",
-        "x_",
-        1
+        "Integral",
+        "f_",
+        "x_symbol"
       ],
       "constraints": [],
-      "result": "x_",
+      "result": "f",
       "provenance": {
         "method": "authored",
         "sources": [
           {
             "name": "OpenSymbolicRules.jl test fixtures",
-            "locator": "test/data/profiles/rules/default.json"
+            "locator": "test/data/wildcards/1.8-symbol-domain.json"
           }
         ]
       }
     }
   ],
-  "identity": "test:profiles/rules/default"
+  "identity": "test:wildcards/1.8-symbol-domain"
 }

@@ -16,7 +16,7 @@ using TestItemRunner
     @test verified(proof)
     # The normal form is a symbolic literal, so it is compared by value.
     @test OpenSymbolicRules.osr_number(proof.normal_form) == 1
-    @test [step.rule.name for step in proof.left_steps] == ["1.1:1"]
+    @test [step.rule.name for step in proof.left_steps] == ["test:trig/1.1-pythagorean:1"]
     @test isempty(proof.right_steps)
 
     # Both sides need rewriting before they meet.

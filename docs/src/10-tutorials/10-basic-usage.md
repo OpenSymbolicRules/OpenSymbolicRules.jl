@@ -105,6 +105,95 @@ conjunction with one false operand is false even when the other is unknown.
 A symbolic predicate answering `false` means "not proved", which is why an
 unproved condition leaves the piecewise intact rather than skipping the branch.
 
+## Canonical form
+
+`canonical` puts an expression in a deterministic normal form, and
+`canonically_equal` compares two through it.
+
+```julia
+canonical(Power(x, Add(3, -1)))   # Power(x, 2)
+canonical(Add(x, 0))              # x
+canonically_equal(Add(x, y), Add(y, x))   # true
+```
+
+Normalizing is not evaluating. It folds what is already closed, writes a
+rational whose denominator is one as that integer, drops an identity operand,
+and orders the summands of a sum — addition commuting wherever it is defined. It
+never decides anything the expression left open, and a head the package does not
+evaluate keeps its place with its operands normalized.
+
+It deliberately leaves two things alone. The factors of a product are not
+reordered: an OSR expression carries no shape information, so a factor may be a
+matrix and the order is part of the meaning. And `x^0` is not turned into `1`,
+which holds only where `x` is nonzero. `canonically_equal` is therefore a
+structural test after normalization, not a proof of mathematical equality.
+
+## Differentiating and taking limits
+
+`differentiate` and `limit` take the expression first and assemble the canonical
+OSR form themselves. There is no second expression tree: what goes in and what
+comes out is the one representation the rules are written against.
+
+```julia
+@syms x
+rules = @load_osr_profile("path/to/Calculus")
+
+differentiate(Sin(x), x, rules)              # Cos(x)
+differentiate(Add(Sin(x), Cos(x)), x, rules) # Add(Cos(x), Multiply(-1, Sin(x)))
+limit(Divide(Sin(x), x), x, 0, rules)        # 1
+```
+
+`Derivative` binds its variable in a `Lambda`, as the OpenMath `fns1#lambda`
+symbol prescribes, so `differentiate(f, x, rules)` builds
+`Derivative(Lambda(x, f))`, rewrites it, and returns the body of the lambda it
+reaches. `Limit` carries its point, its approach and a lambda-bound expression.
+
+An operation the rule set cannot carry out stays a `Derivative` or a `Limit`
+term rather than becoming a closed form nobody reached, and
+`evaluated_derivative` and `evaluated_limit` say which came back.
+
+### Reading a result
+
+An expression on its own cannot say whether it was proved, assumed, or simply
+not carried out — and an unknown result read as a proved equality is the one
+mistake this package is built to avoid. `mode = :status` returns the reading
+beside the value, the way `simplify(...; mode = :trace)` returns the steps:
+
+```julia
+differentiate(Sin(x), x, rules)                  # Cos(x)
+differentiate(Sin(x), x, rules; mode = :status)  # differentiate: proved
+                                                 #   Cos(x)
+differentiate(Opaque(x), x, rules; mode = :status)
+# differentiate: unevaluated
+#   Derivative(Lambda(x, Opaque(x)))
+```
+
+| status | meaning |
+| --- | --- |
+| `:proved` | a closed form the rules established outright |
+| `:conditional` | a closed form, valid where the recorded assumptions hold |
+| `:unevaluated` | the operation is still standing in the value |
+| `:inapplicable` | the operation does not apply to this argument |
+| `:divergent` | the operation has no finite value here |
+
+A rewrite that fired under a hypothesis is `:conditional` on it, and
+`assumptions` returns the facts it was reached under. `status` and `value` read
+the other two fields.
+
+### Applying a lambda
+
+The OSR expression grammar requires a head to be a name (OSR-X-004), so a lambda
+cannot stand in head position and an application needs a head of its own:
+`Apply(Lambda(x, body), argument)`. `beta_reduce` carries one out, through the
+same capture-avoiding substitution `osr_substitute` performs.
+
+A rule set that differentiates term by term needs this. A structural rule such
+as the sum rule returns a lambda whose body applies the lambdas the base rules
+return, so rewriting and reduction have to alternate: reduction cannot run until
+rewriting has produced the lambdas, and rewriting cannot continue past an
+application until reduction has collapsed it. `differentiate` alternates them to
+a fixed point.
+
 ## Proving an equivalence
 
 `prove` searches for a rewrite path between two expressions and returns the
@@ -210,16 +299,93 @@ the bindings the pattern made.
 | `x_integer` | typed blank | `~x::IntegerQ` |
 | `xs__` | sequence of at least one expression | `~~xs`, guarded non-empty |
 | `xs___` | sequence, possibly empty | `~~xs` |
+| `x_symbol` | typed blank, variables only | `~x::is_symbol` |
+| `a.` | optional operand | `~!a`, defaulted by the enclosing operation |
+| `m.3` | optional operand, explicit default | `~!m`, defaulting to `3` |
 
-A typed blank accepts the domains `integer`, `rational`, `real`, `complex`, and
-`number`; any other domain is a rule-file error rather than a silently inert
-rule.
+A typed blank accepts the domains `integer`, `rational`, `real`, `complex`,
+`number`, and `symbol`; any other domain is a rule-file error rather than a
+silently inert rule.
 
-OSR also spells an optional operand `a.`, as in RUBI's `(a_. + b_.*x_)^m_`.
-Matching one requires knowing the identity element of the enclosing operation,
-which `SymbolicUtils` provides only for the native `+`, `*`, and `^`, never for
-the uninterpreted heads a rule file declares. The loader therefore rejects such
-a wildcard instead of compiling it into a rule that could never fire.
+`symbol` matches a variable and nothing else. A rule that binds a variable of
+the problem — the variable of an integral, a derivative, a sum, or a limit — is
+valid only when that operand really is a variable, so `["Int", "f_", "x_symbol"]`
+matches an integral of a variable and not an integral of an expression. A rule
+that drops the restriction is unsound rather than incomplete: `x_^m_.` without
+it matches a constant integrand and returns a closed form that is not its
+antiderivative.
+
+### Optional operands
+
+OSR spells an optional operand `a.`, as in RUBI's `(a. + b.*x)^m.`. Matching one
+needs the identity element of the enclosing operation, so the enclosing head
+supplies the default: `plus` contributes zero, `times` contributes one, and
+`power` contributes one to its exponent. A power's *base* is not optional — an
+absent base has no meaning — and a head with no identity element supplies no
+default, so an optional operand in either position is a rule-file error rather
+than a rule that could never fire. An explicit default in the spelling itself,
+as in `m.3`, wins over the one the operation would supply.
+
+One rule therefore covers every degenerate shape at once:
+
+```json
+{
+  "pattern": ["Power", ["Add", "a.", ["Multiply", "b.", "x"]], "m."],
+  "result": ["List", "a.", "b.", "m."]
+}
+```
+
+matches `(2 + 3x)^4` binding `[2, 3, 4]`, and also the bare `x`, binding
+`[0, 1, 1]`.
+
+A result and a constraint refer to the binding the pattern made, whether it came
+from a matched operand or from the default, so a defaulted operand is still
+weighed by the guard.
+
+### Referring to a binding
+
+A rule's pattern declares its wildcards; its result and its constraints refer to
+the bindings it made. Either spelling works there — `m_`, `m.`, or the bare
+name `m` — which is how the RUBI dataset is written:
+
+```json
+{
+  "pattern": ["Power", "x_", "m."],
+  "constraints": [["NeQ", "m", -1]],
+  "result": ["Multiply", ["Power", "x", ["Add", "m", 1]],
+                         ["Power", ["Add", "m", 1], -1]]
+}
+```
+
+A name the pattern never bound stays a free symbol, so a result may still name
+a variable of the surrounding problem.
+
+### Heads a rule file declares
+
+The loader resolves each operator of a rule file to an operation. When the
+loading module binds the name to something that can act as one, that binding is
+used, which is how a host supplies its own implementation of a head. Otherwise
+the head is registered as a symbolic function in
+`OpenSymbolicRules.UninterpretedHeads` and referred to there, so the rule
+produces an unevaluated term rather than failing when it fires.
+
+A Julia type is never used as a head. `Int` names an indefinite integral in the
+RUBI corpus and a machine integer in `Base`; building a term whose operation is
+`Base.Int` raises the moment the rule fires, and no integral-aware code
+recognises it in the meantime. Registering the head instead keeps the declared
+meaning and introduces no name into the caller's scope.
+
+### Wildcards in operator position
+
+A pattern variable may stand where an operator does, which is how a single RUBI
+rule matches any of the six trigonometric heads:
+
+```json
+{"pattern": ["f_", ["Add", "e", ["Multiply", "f", "x"]]]}
+```
+
+Such a head names a binding rather than an operation, so it carries no OpenMath
+symbol and the result may reapply the head it matched.
 
 ## The constraint predicate library
 
@@ -234,9 +400,16 @@ predicate and applies it to OSR expressions:
 ]
 ```
 
-`Not`, `And`, and `Or` are combinators: they nest constraints and compile to
-Julia control flow, never to a symbolic `Not`/`And`/`Or` term. Every other
-entry is a predicate application, and all entries of the array must hold.
+`Not`, `And`, `Or`, and `If` are combinators: they nest constraints and compile
+to Julia control flow, never to a symbolic term. Every other entry is a
+predicate application, and all entries of the array must hold.
+
+A `Condition` pairs a pattern with the test that admits it — OSR's spelling of a
+guarded pattern, as it appears inside `MatchQ`. Its first argument is an
+expression and its second is a constraint. Like `List`, it belongs to the rule
+language rather than to a mathematical domain, so a rule file binds no OpenMath
+symbol for it; the operators *inside* the guarded pattern are domain vocabulary
+and must still be declared.
 
 The library implements the predicates below, covering 97% of the constraint
 applications in the RUBI dataset:
@@ -251,14 +424,91 @@ applications in the RUBI dataset:
 `FreeQ` accepts a collection on either side. A quantifier binds a list, so a
 side condition about its scope can ask about the whole binder, and RUBI's
 `FreeQ[{a, b, m}, x]` spelling asks about every element of a list.
+`PolynomialQ`, `PolyQ`, `LinearQ`, and `QuadraticQ` read a collection the same
+way: `LinearQ[{u, v}, x]` asks whether every element is linear in `x`.
 | Polynomial | `PolynomialQ`, `PolyQ`, `LinearQ`, `QuadraticQ` |
+| Written shape | `LinearMatchQ`, `BinomialQ`, `BinomialMatchQ`, `QuadraticMatchQ`, `TrinomialQ`, `TrinomialMatchQ`, `GeneralizedBinomialQ`, `GeneralizedTrinomialQ` |
+| Classification | `TrigQ`, `HyperbolicQ`, `InertTrigQ`, `InverseFunctionFreeQ`, `ComplexFreeQ`, `IntegralFreeQ`, `TrueQ`, `IndependentQ`, `OddQ`, `PerfectSquareQ` |
 
 `GtQ`, `LtQ`, `GeQ`, and `LeQ` accept RUBI's chained form, so `GtQ(u, v, w)`
 means `u > v > w`.
 
+### Two readings of an undecided inequality
+
+RUBI reads `NeQ[u, v]` as *not provably equal*, so `NeQ[m, -1]` holds for a
+symbolic `m`: the rule it guards is valid wherever `m` is not `-1`, and the case
+`m == -1` is caught by an earlier rule of the ordered profile. This package
+reads it as *provably distinct*, which is sound but declines those rules — and
+they are most of the corpus.
+
+The alternative reading is selectable and off by default:
+
+```julia
+neq_reading()                      # :proved_distinct
+neq_reading!(:not_proved_equal)    # RUBI's reading
+```
+
+Turning it on weakens the guarantee that a guard which holds is a guard that was
+proved: the rewrites it admits are conditional on an assumption nobody recorded.
+It exists because the choice has a measurable cost, and the conformance report
+takes `--neq not_proved_equal` so the cost can be read off rather than argued.
+Either reading still refuses to call provably equal things different.
+
+`EqQ` and `NeQ` decide a polynomial identity exactly. Two expressions whose
+difference is the zero polynomial over the symbols they mention are equal for
+every value of those symbols, so `EqQ(Multiply(b, c), Multiply(c, b))` holds;
+a difference that is a nonzero constant proves inequality, so
+`NeQ(Add(m, 1), m)` holds. A difference that still mentions a symbol proves
+neither, because it vanishes for some values and not others: `NeQ(m, -1)` is
+`false`, meaning *not proved*, and the guarded rewrite is skipped.
+
+`LinearMatchQ` asks whether an expression is already *written* as `a + b*x`,
+where `LinearQ` asks only whether its degree is one. RUBI's normalization rules
+fire exactly when something is linear but not yet in that shape, so reading the
+two as synonyms would make those rules loop.
+
+`QuadraticMatchQ` and `TrinomialQ` extend the same reading to `a + b*x + c*x^2`
+and to `a + b*x^n + c*x^(2n)`; a quadratic is the trinomial with `n = 1`, which
+is how RUBI files it.
+
+A classifying predicate reads a head by name, so `TrigQ(Sin)` holds as much as
+`TrigQ(Sin(x))` — RUBI applies these to a head a pattern bound, as in `TrigQ[F]`
+where `F_` matched one of the six circular functions. `InverseFunctionFreeQ`
+asks whether a logarithm or an inverse circular or hyperbolic function of the
+variable occurs: `Log(a)` leaves an integrand alone, `Log(x)` does not.
+
+`BinomialQ` asks the same kind of question of `a + b*x^n`, with `a`, `b`, and
+the exponent free of `x`; `BinomialQ(u, x, n)` fixes the exponent. It reads the
+written shape, where RUBI normalizes its argument first, so it declines some
+expressions RUBI would accept — leaving a rewrite unapplied rather than risking
+an invalid one — and agrees with `BinomialMatchQ`. The normalization rules
+guarded by `BinomialQ(u, x) && Not(BinomialMatchQ(u, x))` therefore never fire.
+
 Every predicate is conservative: it answers `true` only when the property is
 established, so an unproved guard leaves its rewrite unapplied rather than
-risking an invalid one. A closed arithmetic expression is evaluated exactly,
+risking an invalid one.
+
+### A predicate with no implementation
+
+A predicate that neither this library nor the loading module resolves cannot be
+evaluated, and so establishes nothing. Its guard is abandoned and the rule does
+not fire; the rule is still loaded, keeping its identity and provenance, so a
+report can say which rules are held back and by what.
+
+The guard is not simply answered `false`, because that would make `Not` answer
+`true` and license a rewrite on a property nobody decided. Abandoning it instead
+gives the guard a three-valued reading, and `&&` and `||` short-circuit, so
+precision is kept where it is available:
+
+| guard | outcome |
+| --- | --- |
+| `["PseudoBinomialPairQ", "u", "m"]` | not established |
+| `["Not", ["PseudoBinomialPairQ", "u", "m"]]` | not established |
+| `["Or", ["IntegerQ", "m"], ["PseudoBinomialPairQ", "u", "m"]]` | established when `m` is an integer |
+| `["And", ["IntegerQ", "m"], ["PseudoBinomialPairQ", "u", "m"]]` | not established |
+
+A host completes the vocabulary by defining the predicate in the module that
+loads the rule file; the loader uses that definition as it stands. A closed arithmetic expression is evaluated exactly,
 which is what makes a guard such as `["PosQ", ["Power", 2, -1]]` decidable:
 
 ```julia

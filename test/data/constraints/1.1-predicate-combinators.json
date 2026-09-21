@@ -9,20 +9,74 @@
     {
       "id": 1,
       "description": "Exposes the exponent of a non-integer power",
-      "pattern": ["Pow", "~x", "~m"],
-      "constraints": [
-        ["Not", ["IntegerQ", "~m"]]
+      "pattern": [
+        "Pow",
+        "~x",
+        "~m"
       ],
-      "result": "~m"
+      "constraints": [
+        [
+          "Not",
+          [
+            "IntegerQ",
+            "~m"
+          ]
+        ]
+      ],
+      "result": "~m",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/constraints/1.1-predicate-combinators.json"
+          }
+        ]
+      }
     },
     {
       "id": 2,
       "description": "Exposes the exponent of a positive or integer power",
-      "pattern": ["Pow", "~x", "~m"],
-      "constraints": [
-        ["Or", ["IntegerQ", "~m"], ["And", ["PosQ", "~m"], ["Not", ["EqQ", "~m", 0]]]]
+      "pattern": [
+        "Pow",
+        "~x",
+        "~m"
       ],
-      "result": "~m"
+      "constraints": [
+        [
+          "Or",
+          [
+            "IntegerQ",
+            "~m"
+          ],
+          [
+            "And",
+            [
+              "PosQ",
+              "~m"
+            ],
+            [
+              "Not",
+              [
+                "EqQ",
+                "~m",
+                0
+              ]
+            ]
+          ]
+        ]
+      ],
+      "result": "~m",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/constraints/1.1-predicate-combinators.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:constraints/1.1-predicate-combinators"
 }

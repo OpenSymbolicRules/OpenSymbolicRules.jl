@@ -1,0 +1,1334 @@
+{
+  "$schema": "open-symbolic-rules/v0.1",
+  "section": "3.1",
+  "title": "Canonical lambda-bound calculus fixture",
+  "semantics": {
+    "Limit": "openmath:limit1#limit",
+    "BothSides": "openmath:limit1#both_sides",
+    "Lambda": "openmath:fns1#lambda",
+    "Sin": "openmath:transc1#sin",
+    "Cos": "openmath:transc1#cos",
+    "Tan": "openmath:transc1#tan",
+    "Exp": "openmath:transc1#exp",
+    "Log": "openmath:transc1#ln",
+    "Add": "openmath:arith1#plus",
+    "Subtract": "openmath:arith1#minus",
+    "Power": "openmath:arith1#power",
+    "Divide": "openmath:arith1#divide",
+    "Derivative": "openmath:calculus1#diff",
+    "Multiply": "openmath:arith1#times",
+    "Cot": "openmath:transc1#cot",
+    "Sec": "openmath:transc1#sec",
+    "Csc": "openmath:transc1#csc",
+    "Sinh": "openmath:transc1#sinh",
+    "Cosh": "openmath:transc1#cosh",
+    "Tanh": "openmath:transc1#tanh",
+    "Coth": "openmath:transc1#coth",
+    "Sech": "openmath:transc1#sech",
+    "Csch": "openmath:transc1#csch",
+    "Atan": "openmath:transc1#arctan",
+    "Atanh": "openmath:transc1#arctanh",
+    "Asin": "openmath:transc1#arcsin",
+    "Acos": "openmath:transc1#arccos",
+    "Asinh": "openmath:transc1#arcsinh",
+    "Acosh": "openmath:transc1#arccosh",
+    "Sqrt": "openmath:arith1#root",
+    "Apply": "openmath:osr#Apply"
+  },
+  "rules": [
+    {
+      "id": 1,
+      "pattern": [
+        "Limit",
+        "a_",
+        "BothSides",
+        [
+          "Lambda",
+          "x_",
+          "c_"
+        ]
+      ],
+      "constraints": [
+        [
+          "FreeQ",
+          "c_",
+          "x_"
+        ]
+      ],
+      "result": "c_",
+      "description": "Limit of a constant: lim_{x->a} c = c",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "pattern": [
+        "Limit",
+        0,
+        "BothSides",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Divide",
+            [
+              "Sin",
+              "x_"
+            ],
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": 1,
+      "description": "Fundamental sine limit: lim_{x->0} sin(x)/x = 1",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 3,
+      "pattern": [
+        "Limit",
+        0,
+        "BothSides",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Divide",
+            [
+              "Tan",
+              "x_"
+            ],
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": 1,
+      "description": "Fundamental tangent limit: lim(x\u21920) tan(x)/x = 1.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 4,
+      "pattern": [
+        "Limit",
+        0,
+        "BothSides",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Divide",
+            [
+              "Subtract",
+              1,
+              [
+                "Cos",
+                "x_"
+              ]
+            ],
+            [
+              "Power",
+              "x_",
+              2
+            ]
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Divide",
+        1,
+        2
+      ],
+      "description": "Second-order cosine limit: lim(x\u21920) (1 - cos(x))/x\u00b2 = 1/2.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 5,
+      "pattern": [
+        "Limit",
+        0,
+        "BothSides",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Divide",
+            [
+              "Subtract",
+              [
+                "Exp",
+                "x_"
+              ],
+              1
+            ],
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": 1,
+      "description": "Fundamental exponential limit: lim(x\u21920) (exp(x) - 1)/x = 1.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 6,
+      "pattern": [
+        "Limit",
+        0,
+        "BothSides",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Divide",
+            [
+              "Log",
+              [
+                "Add",
+                1,
+                "x_"
+              ]
+            ],
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": 1,
+      "description": "Fundamental logarithmic limit: lim(x\u21920) log(1 + x)/x = 1.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 7,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          "c_"
+        ]
+      ],
+      "constraints": [
+        [
+          "FreeQ",
+          "c_",
+          "x_"
+        ]
+      ],
+      "result": [
+        "Lambda",
+        "x_",
+        0
+      ],
+      "description": "Derivative of a constant: d/dx(c) = 0",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 8,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Power",
+            "x_",
+            "n_"
+          ]
+        ]
+      ],
+      "constraints": [
+        [
+          "FreeQ",
+          "n_",
+          "x_"
+        ]
+      ],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Multiply",
+          "n_",
+          [
+            "Power",
+            "x_",
+            [
+              "Add",
+              "n_",
+              -1
+            ]
+          ]
+        ]
+      ],
+      "description": "Power rule: d/dx(x^n) = n*x^(n-1)",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 9,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          "x_"
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        1
+      ],
+      "description": "Derivative of the identity function",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 10,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Sin",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Cos",
+          "x_"
+        ]
+      ],
+      "description": "Derivative of sine",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 11,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Cos",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Multiply",
+          -1,
+          [
+            "Sin",
+            "x_"
+          ]
+        ]
+      ],
+      "description": "Derivative of cosine",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 12,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Exp",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Exp",
+          "x_"
+        ]
+      ],
+      "description": "Derivative of the exponential function",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 13,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Log",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Divide",
+          1,
+          "x_"
+        ]
+      ],
+      "description": "Derivative of the natural logarithm",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 14,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Tan",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Divide",
+          1,
+          [
+            "Power",
+            [
+              "Cos",
+              "x_"
+            ],
+            2
+          ]
+        ]
+      ],
+      "description": "Derivative of tangent, represented without introducing a nonstandard secant head.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 15,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Sinh",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Cosh",
+          "x_"
+        ]
+      ],
+      "description": "Derivative of hyperbolic sine.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 16,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Cosh",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Sinh",
+          "x_"
+        ]
+      ],
+      "description": "Derivative of hyperbolic cosine.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 17,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Tanh",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Divide",
+          1,
+          [
+            "Power",
+            [
+              "Cosh",
+              "x_"
+            ],
+            2
+          ]
+        ]
+      ],
+      "description": "Derivative of hyperbolic tangent, represented without introducing a nonstandard hyperbolic secant head.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 18,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Atan",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Divide",
+          1,
+          [
+            "Add",
+            1,
+            [
+              "Power",
+              "x_",
+              2
+            ]
+          ]
+        ]
+      ],
+      "description": "Derivative of inverse tangent.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 19,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Atanh",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Divide",
+          1,
+          [
+            "Subtract",
+            1,
+            [
+              "Power",
+              "x_",
+              2
+            ]
+          ]
+        ]
+      ],
+      "description": "Derivative of inverse hyperbolic tangent.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 20,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Asin",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Divide",
+          1,
+          [
+            "Sqrt",
+            [
+              "Subtract",
+              1,
+              [
+                "Power",
+                "x_",
+                2
+              ]
+            ]
+          ]
+        ]
+      ],
+      "description": "Derivative of inverse sine on its principal domain.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 21,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Acos",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Divide",
+          -1,
+          [
+            "Sqrt",
+            [
+              "Subtract",
+              1,
+              [
+                "Power",
+                "x_",
+                2
+              ]
+            ]
+          ]
+        ]
+      ],
+      "description": "Derivative of inverse cosine on its principal domain.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 22,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Cot",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Divide",
+          -1,
+          [
+            "Power",
+            [
+              "Sin",
+              "x_"
+            ],
+            2
+          ]
+        ]
+      ],
+      "description": "Derivative of cotangent, represented without introducing a nonstandard cosecant-squared head.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 23,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Sec",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Multiply",
+          [
+            "Sec",
+            "x_"
+          ],
+          [
+            "Tan",
+            "x_"
+          ]
+        ]
+      ],
+      "description": "Derivative of secant.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 24,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Csc",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Multiply",
+          -1,
+          [
+            "Csc",
+            "x_"
+          ],
+          [
+            "Cot",
+            "x_"
+          ]
+        ]
+      ],
+      "description": "Derivative of cosecant.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 25,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Coth",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Divide",
+          -1,
+          [
+            "Power",
+            [
+              "Sinh",
+              "x_"
+            ],
+            2
+          ]
+        ]
+      ],
+      "description": "Derivative of hyperbolic cotangent, represented without introducing a nonstandard hyperbolic cosecant-squared head.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 26,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Sech",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Multiply",
+          -1,
+          [
+            "Sech",
+            "x_"
+          ],
+          [
+            "Tanh",
+            "x_"
+          ]
+        ]
+      ],
+      "description": "Derivative of hyperbolic secant.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 27,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Csch",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Multiply",
+          -1,
+          [
+            "Csch",
+            "x_"
+          ],
+          [
+            "Coth",
+            "x_"
+          ]
+        ]
+      ],
+      "description": "Derivative of hyperbolic cosecant.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 28,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Asinh",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Divide",
+          1,
+          [
+            "Sqrt",
+            [
+              "Add",
+              1,
+              [
+                "Power",
+                "x_",
+                2
+              ]
+            ]
+          ]
+        ]
+      ],
+      "description": "Derivative of inverse hyperbolic sine on its principal domain.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 29,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Acosh",
+            "x_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Divide",
+          1,
+          [
+            "Sqrt",
+            [
+              "Subtract",
+              [
+                "Power",
+                "x_",
+                2
+              ],
+              1
+            ]
+          ]
+        ]
+      ],
+      "description": "Derivative of inverse hyperbolic cosine on its principal domain.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 30,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Add",
+            "f_",
+            "g_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Add",
+          [
+            "Apply",
+            [
+              "Derivative",
+              [
+                "Lambda",
+                "x_",
+                "f_"
+              ]
+            ],
+            "x_"
+          ],
+          [
+            "Apply",
+            [
+              "Derivative",
+              [
+                "Lambda",
+                "x_",
+                "g_"
+              ]
+            ],
+            "x_"
+          ]
+        ]
+      ],
+      "description": "Linearity of differentiation over a binary sum.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 31,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Multiply",
+            "f_",
+            "g_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Add",
+          [
+            "Multiply",
+            "f_",
+            [
+              "Apply",
+              [
+                "Derivative",
+                [
+                  "Lambda",
+                  "x_",
+                  "g_"
+                ]
+              ],
+              "x_"
+            ]
+          ],
+          [
+            "Multiply",
+            [
+              "Apply",
+              [
+                "Derivative",
+                [
+                  "Lambda",
+                  "x_",
+                  "f_"
+                ]
+              ],
+              "x_"
+            ],
+            "g_"
+          ]
+        ]
+      ],
+      "description": "Product rule, preserving the factor order for noncommutative-aware consumers.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    },
+    {
+      "id": 32,
+      "pattern": [
+        "Derivative",
+        [
+          "Lambda",
+          "x_",
+          [
+            "Subtract",
+            "f_",
+            "g_"
+          ]
+        ]
+      ],
+      "constraints": [],
+      "result": [
+        "Lambda",
+        "x_",
+        [
+          "Subtract",
+          [
+            "Apply",
+            [
+              "Derivative",
+              [
+                "Lambda",
+                "x_",
+                "f_"
+              ]
+            ],
+            "x_"
+          ],
+          [
+            "Apply",
+            [
+              "Derivative",
+              [
+                "Lambda",
+                "x_",
+                "g_"
+              ]
+            ],
+            "x_"
+          ]
+        ]
+      ],
+      "description": "Linearity of differentiation over a binary difference.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/3.1-canonical-lambda.json"
+          }
+        ]
+      }
+    }
+  ],
+  "identity": "test:calculus/3.1-canonical-lambda"
+}

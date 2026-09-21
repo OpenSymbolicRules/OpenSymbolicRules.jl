@@ -10,30 +10,87 @@
     {
       "id": 1,
       "description": "A null sequence wildcard accepts an empty trailing match",
-      "pattern": ["Gcd", "a_", "b_", "c_", "ws___"],
+      "pattern": [
+        "Gcd",
+        "a_",
+        "b_",
+        "c_",
+        "ws___"
+      ],
       "constraints": [],
-      "result": "a_"
+      "result": "a_",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.1-wildcard-forms.json"
+          }
+        ]
+      }
     },
     {
       "id": 2,
       "description": "A sequence wildcard requires a non-empty trailing match",
-      "pattern": ["Gcd", "a_", "b_", "c_", "ws__"],
+      "pattern": [
+        "Gcd",
+        "a_",
+        "b_",
+        "c_",
+        "ws__"
+      ],
       "constraints": [],
-      "result": "a_"
+      "result": "a_",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.1-wildcard-forms.json"
+          }
+        ]
+      }
     },
     {
       "id": 3,
       "description": "A sequence wildcard binds the remaining arguments",
-      "pattern": ["Gcd", "a_", "ws__"],
+      "pattern": [
+        "Gcd",
+        "a_",
+        "ws__"
+      ],
       "constraints": [],
-      "result": "a_"
+      "result": "a_",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.1-wildcard-forms.json"
+          }
+        ]
+      }
     },
     {
       "id": 4,
       "description": "A typed blank only matches its declared domain",
-      "pattern": ["Pow", "x_", "m_integer"],
+      "pattern": [
+        "Pow",
+        "x_",
+        "m_integer"
+      ],
       "constraints": [],
-      "result": "m_integer"
+      "result": "m_integer",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/wildcards/1.1-wildcard-forms.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:wildcards/1.1-wildcard-forms"
 }

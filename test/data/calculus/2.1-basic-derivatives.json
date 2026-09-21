@@ -12,20 +12,71 @@
     {
       "id": 1,
       "description": "Derivative of a constant: d/dx(c) = 0",
-      "pattern": ["Derivative", "~c", "~x"],
-      "constraints": [
-        ["FreeQ", "~c", "~x"]
+      "pattern": [
+        "Derivative",
+        "~c",
+        "~x"
       ],
-      "result": 0
+      "constraints": [
+        [
+          "FreeQ",
+          "~c",
+          "~x"
+        ]
+      ],
+      "result": 0,
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/2.1-basic-derivatives.json"
+          }
+        ]
+      }
     },
     {
       "id": 2,
       "description": "Power rule: d/dx(x^n) = n*x^(n-1)",
-      "pattern": ["Derivative", ["Pow", "~x", "~n"], "~x"],
-      "constraints": [
-        ["FreeQ", "~n", "~x"]
+      "pattern": [
+        "Derivative",
+        [
+          "Pow",
+          "~x",
+          "~n"
+        ],
+        "~x"
       ],
-      "result": ["Mul", "~n", ["Pow", "~x", ["Add", "~n", -1]]]
+      "constraints": [
+        [
+          "FreeQ",
+          "~n",
+          "~x"
+        ]
+      ],
+      "result": [
+        "Mul",
+        "~n",
+        [
+          "Pow",
+          "~x",
+          [
+            "Add",
+            "~n",
+            -1
+          ]
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/calculus/2.1-basic-derivatives.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:calculus/2.1-basic-derivatives"
 }

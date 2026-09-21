@@ -7,7 +7,10 @@
 ## Phase 1: Rule Engine Foundation 🏗️ *(In Progress)*
 **Goal:** Establish a robust translation layer between OSR JSON patterns and Julia's `SymbolicUtils.jl`.
 
-- [ ] **Domain modules:** Split the public API into a small `Core` module and
+- [ ] **Domain modules:** (The single autodoc reference page has meanwhile
+  outgrown Documenter's default size threshold, which is raised in `docs/make.jl`
+  rather than papered over; splitting the reference by domain follows from this
+  item.) Split the public API into a small `Core` module and
   opt-in `Algebra`, `Calculus`, `Trigonometry`, `Integration`, and `Logic`
   modules. Each module shall export only its OpenMath heads, profile loader,
   and domain-specific operations. `Integration` covers indefinite and defined
@@ -28,9 +31,9 @@
   sort information.
 - [x] `@load_osr` macro for Ahead-Of-Time (AOT) rule compilation.
 - [x] Mapping of primitive constraints (e.g., `is_integer`) to Julia `where` clauses.
-- [x] **Advanced Predicates Mapping:** A standard library of Julia predicates for the OSR constraint vocabulary — comparison, integer-qualified, numeric-domain, structural, and polynomial predicates plus the `Not`/`And`/`Or` combinators — covering 97% of the constraint applications in the RUBI dataset.
+- [x] **Advanced Predicates Mapping:** A standard library of Julia predicates for the OSR constraint vocabulary — comparison, integer-qualified, numeric-domain, structural, and polynomial predicates plus the `Not`/`And`/`Or`/`If` combinators — covering 97% of the constraint applications in the RUBI dataset, and 92.6% of its rules use no other predicate.
 - [ ] **RUBI-specific Predicates:** Implement the remaining catalogue needed by the full 6000-rule dataset (`MatchQ` and the `*MatchQ` family, `BinomialQ`, `TrinomialQ`, `SumSimplerQ`, the `FunctionOf*` family, and the `Known*IntegrandQ` heuristics).
-- [ ] **Rule Precompilation:** Optimize the macro to handle thousands of rules (like RUBI) without blowing up Julia's compile time (e.g., splitting into sub-modules or using `PrecompileTools.jl`). A `PrecompileTools.jl` workload now covers the rewriting paths, roughly halving the time to a first `simplify`. What remains is the macro itself: `@load_osr` emits one `@rule` per rule, and expanding thousands of them in one module has not been measured against a real RUBI profile because the dataset does not load yet.
+- [~] **Rule Precompilation:** Optimize the macro to handle thousands of rules (like RUBI) without blowing up Julia's compile time (e.g., splitting into sub-modules or using `PrecompileTools.jl`). A `PrecompileTools.jl` workload now covers the rewriting paths, roughly halving the time to a first `simplify`. The macro itself has now been measured against the real corpus: one `@load_osr` per rule file is linear at about 62 ms per rule with flat memory, whereas one `@load_osr_profile` over the whole manifest did not finish in 50 minutes. Splitting the profile macro per manifest entry is the remaining work.
 
 ## Phase 2: Core Algebra & Expression Engine 🧮
 **Goal:** Build the CAS front-end and fundamental algebraic simplification engine.
@@ -39,17 +42,32 @@
 - [x] **Algebraic Simplifier:** Provide `simplify(expr, rules)` for rules loaded from the `OpenSymbolicRules/Algebra` repositories.
 - [x] **AC-Matching (Associative-Commutative):** Upgrade `@load_osr` to automatically generate `@acrule` for known AC operators (like `Add`, `Mul`), avoiding combinatoric explosion of rules.
 - [ ] **Remote Rule Syncing:** Implement an Artifact or Pkg based mechanism to automatically download the latest version of the OSR specifications from GitHub.
-- [ ] **Canonical expression form and rendering:** Define a deterministic
-  normalization and pretty-printing layer shared by OSR and Symbolics terms.
-  It must preserve required parentheses while removing redundant ones,
-  normalize rational unit values such as `1//1` to integer `1` where sound,
-  and eliminate superfluous unary-minus forms without changing precedence,
-  associativity, domains, or noncommutative factor order. Add round-trip and
-  regression tests for parsing, display, simplification, and proof traces.
-- [ ] **Operation result status:** Make high-level operations distinguish a
-  proved closed form, a conditional result, an unevaluated symbolic operation,
-  an inapplicable operation, and divergence. An unknown result must never be
-  rendered as a proved equality.
+- [~] **Canonical expression form and rendering:** `canonical` is the
+  normalization half. It folds a closed arithmetic subterm, writes `4//4` as
+  `1`, drops an identity operand, and orders the summands of a sum; it does not
+  reorder the factors of a product, an OSR expression carrying no shape
+  information, nor turn `x^0` into `1`, which holds only where `x` is nonzero.
+  `canonically_equal` compares through it, and the conformance report uses it —
+  over section 1.1.1 the verified count moves from 4 to 5, because an answer of
+  `x^(3-1)` had been reading as wrong against a recorded `x^2`.
+
+  What remains is the rendering half: a pretty-printer shared with Symbolics
+  terms that keeps required parentheses while dropping redundant ones and
+  eliminates superfluous unary-minus forms, with round-trip tests for parsing,
+  display, and proof traces.
+- [~] **Operation result status:** `OperationResult` distinguishes a proved
+  closed form, a conditional one with the assumptions it was reached under, an
+  unevaluated operation, an inapplicable one, and divergence; `status`, `value`
+  and `assumptions` read it, and printing it names the reading, so an unknown
+  result cannot be rendered as a proved equality. `differentiate` and `limit`
+  return one under `mode = :status`, following the `mode = :trace` convention
+  `simplify` already uses.
+
+  What remains is to give the other high-level operations the same reading:
+  `integrate`, `solve`, `prove`, and the normal-form operations still answer in
+  their own shapes. `:inapplicable` and `:divergent` are defined but nothing
+  raises them yet, because no operation in the package can currently establish
+  either.
 - [ ] **Ergonomic CAS API:** Provide high-level constructors such as
   `limit(expression, variable, point; direction)`, `differentiate`,
   `integrate`, and `solve` with an expression-first argument order. They must
@@ -107,16 +125,155 @@
 ## Phase 3: Calculus & The RUBI Integration Challenge 🚀
 **Goal:** Achieve state-of-the-art symbolic integration and calculus features.
 
-- [ ] **Limits & Derivatives:** Implement `Limit(expr, x, a)` and `Derivative(expr, x)` using the `OpenSymbolicRules/Calculus` specifications.
-- [ ] **The RUBI Milestone:** Successfully parse and load the 6000+ RUBI integration rules. Three blockers remain, measured against the converted dataset in the `Integration` repository:
-    - *Globally stable rule identities.* The Integration data currently has
-      119 duplicated `section:id` identities (for example, two leaf files share
-      section `1.1.2` and rule IDs `1`--`3`). The data must distinguish leaf
-      sections or IDs rather than weakening proof and trace identities.
-    - *Complete `semantics` declarations.* The rules use 146 distinct operators and declare 6. The schema's `openmath:<cd>#<symbol>` pattern also cannot express a RUBI-specific utility such as `Simp`, `Dist`, or `Rt`, so the specification needs a decision before the converter can emit a complete block.
-    - *Optional wildcards.* 36,485 operands are spelled `a.`, as in `(a_. + b_.*x_)^m_`. Matching one needs the identity element of the enclosing operation, which `SymbolicUtils` supplies only for the native `+`, `*`, and `^`. The loader currently rejects them with a diagnostic.
-- [x] **Heuristic Rule Dispatcher:** `SymbolicUtils.jl` evaluates rules sequentially. For 6000+ rules, a naive `Chain` is too slow. `OSRDispatch` indexes rules by the operation their pattern requires at the root of a term, selecting candidates with a single dictionary lookup. A deeper index, or `Metatheory.jl` e-graphs, remains an option if root dispatch stops being selective enough.
-- [ ] **Validation Suite:** Run the official RUBI test suite natively in Julia to guarantee correctness against Mathematica.
+- [x] **Limits & Derivatives:** `differentiate(expression, variable, rules)` and
+  `limit(expression, variable, point, rules; direction)` assemble the canonical
+  lambda-bound form the `OpenSymbolicRules/Calculus` profile is written against,
+  rewrite it, and return what the rule set reached. An operation the rules
+  cannot carry out stays a `Derivative` or `Limit` term rather than a closed
+  form nobody reached.
+
+  Completing this needed two things the profile was missing. The structural
+  rules embedded `Derivative(Lambda(x, f))` where an expression belongs, so the
+  base rules' lambdas stayed nested — `Lambda(x, Add(Lambda(x, Cos(x)), …))` —
+  and a sum could not be differentiated term by term. The OSR grammar requires a
+  head to be a name (OSR-X-004), so a lambda cannot stand in head position and
+  an application needs its own head: `Apply`, reduced by `beta_reduce` through
+  the existing capture-avoiding substitution. The `Calculus` rules now wrap each
+  nested derivative in `Apply(..., x)`, and `differentiate` alternates rewriting
+  with reduction to a fixed point, because neither can finish without the other.
+- [~] **The RUBI Milestone:** Successfully parse and load the 6000+ RUBI
+  integration rules. Measured against the 6257 rules in 188 rule files of the
+  `Integration` repository, the three blockers previously recorded here were
+  partly misdiagnosed; the current state is:
+    - *Optional wildcards.* **Resolved.** 36,485 operands are spelled `a.`, as
+      in `(a. + b.*x)^m.`. Every one of them sits under `Add`, `Multiply`, or
+      the exponent of `Power`, no node carries more than one, and none declares
+      an explicit default, so the enclosing operation always supplies the
+      identity element. The loader now emits a `SymbolicUtils` `DefSlot`, which
+      lifted rule compilation from 41 rules to all 6257.
+    - *Complete `semantics` declarations.* **Mostly resolved.** No operator in
+      any `pattern` or `result` is undeclared. What the validator was flagging
+      was the structural head `List`, the guarded-pattern head `Condition`,
+      wildcards in operator position, and constraint predicates reached through
+      `Condition` — none of which is domain vocabulary. Exempting them raised
+      semantic validation from 13 to 151 of the 188 files. The remaining 37
+      fail on RUBI utility heads (`Coeff`, `Expon`, `Simplify`, `Denominator`,
+      …) that the converter declares in some files and omits in others: an
+      `Integration` converter gap, not a specification gap. The `osr` Content
+      Dictionary namespace the converter already emits (`openmath:osr#Coeff`)
+      answers the question of how to name a RUBI-specific utility.
+    - *Globally stable rule identities.* **Not a data problem.** 116 `section:id`
+      pairs collide, but the file-level `identity` field distinguishes every one
+      of them, and both the loader and the identity validator already key on it.
+    - *Remaining.* Execution, not loading: the rules that call an unimplemented
+      RUBI predicate (`MatchQ`, `BinomialQ`, the `FunctionOf*` family) resolve
+      it in the loading module and fail when tried. 92.6% of rules use only
+      predicates this package already implements.
+- [x] **Heuristic Rule Dispatcher:** `SymbolicUtils.jl` evaluates rules sequentially. For 6000+ rules, a naive `Chain` is too slow. `OSRDispatch` indexes rules by the operation their pattern requires at the root of a term *and* at its first operand, selecting candidates with a single dictionary lookup. The deeper index became necessary once the Integration conversion restored RUBI's `Int[integrand, x]` wrapper: every rule of the corpus then shared the head `Int`, and the root alone selected all 186 rules of section 1.1.1 for every integral. With the operand key, 183 of those 186 rules are indexed and a power integrand tries 7. An associative-commutative rule keeps no operand key, because its matcher tries every operand order. `Metatheory.jl` e-graphs remain an option if two levels stop being selective enough.
+- [~] **Validation Suite:** Run the official RUBI test suite natively in Julia
+  to guarantee correctness against Mathematica. `scripts/rubi_conformance.jl`
+  (`just conformance <section>`) applies the rule set to every test problem of a
+  section and reports `verified`, `closed form`, `unevaluated`, `unchanged`, and
+  `error` separately, so coverage is never mistaken for correctness. The first
+  measurement, on section 1.1.1 (906 problems, 186 rules):
+
+  | | verified | closed form | unevaluated | unchanged | error |
+  | --- | --- | --- | --- | --- | --- |
+  | before the conversion fix | 0 | 903 | 0 | 1 | 2 |
+  | after | 4 | 19 | 118 | 748 | 17 |
+
+  The first measurement showed the rule set reaching a closed form for 99.7% of
+  the section and the recorded antiderivative for none of it. The cause was
+  upstream of this package: the conversion dropped RUBI's
+  `Int[integrand, x_Symbol]` wrapper and with it both the integration variable
+  and the restriction that binds it, so `x^m. => x^(m+1)/(m+1)` matched the
+  constant integrand `-2` and returned `(-2)^2/2`. With the wrapper restored in
+  the `Integration` repository and a `symbol` typed wildcard in the
+  specification, the rule set no longer answers a problem it cannot solve: what
+  it does not know it leaves unevaluated or unchanged. Those 903 closed forms
+  were wrong answers, not answers the fix lost.
+
+  Over the whole corpus — all 6257 rules, 11,289 test problems, 60 per file:
+
+  | | verified | closed form | unevaluated | unchanged | error |
+  | --- | --- | --- | --- | --- | --- |
+  | before unproved guards | 6 | 23 | 4 | 0 | 11,256 |
+  | after | 14 | 89 | 11,163 | 0 | 23 |
+
+  An unimplemented predicate used to raise, which was fatal rather than merely
+  incomplete: 459 of 6257 rules (7.3%) are gated by one of 43 such predicates,
+  they sit early in the load order and match broadly, and `1.1.3.3:54` alone —
+  pattern `Int(u^p. * v^q., x)`, guard `PseudoBinomialPairQ` — accounted for
+  9,056 failures. With an unresolvable predicate leaving its guard unproved the
+  corpus runs end to end, and the 23 remaining errors are residual.
+
+  Why so few problems find an applicable rule has since been measured, and it
+  splits in two. Of the 11,154 unsolved problems, **6,507 had only the
+  unconditional catch-all fire** — the rule set does not start — and **4,647
+  had a real rule fire and the chain then stall**.
+
+  For the second group the cause is specific. Of the 75 problems that stalled in
+  section 1.1.1, 33 stalled on `ExpandIntegrand`, 17 on `Simp`, and 6 on
+  `Subst`: RUBI's rules assume those utilities do their job, and while they stay
+  inert a result wrapped in one can never match the rule that should come next,
+  so the rewrite dies after a single step. `Simp` and `Dist` have since been
+  given the exact readings their algebra allows — `Simp(u, x)` is `u`, and
+  `Dist(u, v, x)` is `u*v` — which removes `Simp` from the blockers entirely.
+  `ExpandIntegrand` cannot be read the same way: it too denotes an expression
+  equal to its argument, but `Int(ExpandIntegrand(u, x), x)` would then become
+  the integral it came from and the rewrite would not terminate. Implementing it
+  and `Subst` properly is the remaining continuation work.
+
+  Three earlier hypotheses were tested and ruled out. Integrand shape is not the
+  problem: over section 1.1.1, 255 of 309 unsolved problems had a pattern match
+  and only 6 matched nothing. The predicate backlog is not the problem either:
+  fifteen predicates later, blocked problems fell by a fifth and the verified
+  count did not move. Nor is the reading of an undecided inequality — see
+  `neq_reading!` — which buys fifteen closed forms out of 11,289 and no verified
+  antiderivative, so there is no case for weakening the soundness guarantee to
+  chase it.
+
+  The report ranks the predicates with no implementation two ways, and the two
+  rankings disagree sharply. By **rules gated** the backlog looked shallow. By
+  **problems blocked** it is dominated by a few predicates that gate very broad
+  rules:
+
+  | predicate | rules gated | problems blocked |
+  | --- | --- | --- |
+  | `TrigSimplifyQ` | 1 | 10,876 |
+  | `FunctionOfQ` | 27 | 10,633 |
+  | `PseudoBinomialPairQ` | 2 | 9,924 |
+  | `TrinomialQ` | 6 | 4,175 |
+  | `LinearPairQ` | 10 | 3,223 |
+
+  `PseudoBinomialPairQ` gates two rules and blocks nearly ten thousand problems,
+  because one of them — `1.1.3.3:54`, pattern `Int(u^p. * v^q., x)` — matches
+  very nearly any product. Ranking the backlog by rules gated is therefore
+  misleading, and the measurement is what corrects it.
+
+  Fifteen predicates with settled definitions have since been implemented,
+  taking the rules held back from 459 of 6257 to 292 and the predicates still
+  missing from 43 to 28. Among them `TrinomialQ`, `GeneralizedTrinomialQ`, and
+  `GeneralizedBinomialQ` alone accounted for 8,329 blocked problems. What
+  remains is the heuristic tail — `TrigSimplifyQ`, `FunctionOfQ`,
+  `PseudoBinomialPairQ`, `SumSimplerQ`, `SimplerQ`, `IntBinomialQ`, `MatchQ`,
+  the `Known*IntegrandQ` family — where guessing a definition risks an unsound
+  or non-terminating rule set. `MatchQ` needs real pattern matching against an
+  OSR pattern at run time, which is a feature rather than a predicate.
+
+  What remains beyond that is coverage and canonical form. The comparison folds closed arithmetic exactly
+  — without that, a correct `x^(3+1)/(3+1)` reads as wrong against a recorded
+  `x^4/4` and `verified` can never leave zero — but it puts neither side in a
+  canonical form, so `verified` remains a lower bound and the 19 closed forms
+  include answers that are correct up to the ordering and grouping a canonical
+  form would settle. That is the **Canonical expression form and rendering**
+  item of Phase 2, and it is what would turn this number into a real one.
+- [ ] **Profile loading at scale:** `@load_osr_profile` expands a whole manifest
+  into a single expression. For the 6257-rule corpus that did not finish within
+  50 minutes at over 2 GiB, while compiling the same rules one file per
+  top-level expansion is linear at about 62 ms per rule, or roughly 6.5 minutes
+  in total. Split the macro per manifest entry, or cache compiled rules, before
+  a full profile can be loaded in one call.
 
 ## Phase 4: Formal Proof Engine & Step-by-Step Resolution 🎓
 **Goal:** Exploit the purely declarative nature of OSR to provide trackable, formal proofs of equivalence and step-by-step educational solutions.

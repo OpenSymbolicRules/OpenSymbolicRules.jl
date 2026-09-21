@@ -16,12 +16,47 @@
     {
       "id": 1,
       "description": "The principal square root of a square is the absolute value",
-      "pattern": ["Sqrt", ["Pow", "x_", 2]],
+      "pattern": [
+        "Sqrt",
+        [
+          "Pow",
+          "x_",
+          2
+        ]
+      ],
       "constraints": [],
-      "result": ["Piecewise", ["List",
-        ["Piece", "x_", ["IsPositive", "x_"]],
-        ["Otherwise", ["Multiply", -1, "x_"]]
-      ]]
+      "result": [
+        "Piecewise",
+        [
+          "List",
+          [
+            "Piece",
+            "x_",
+            [
+              "IsPositive",
+              "x_"
+            ]
+          ],
+          [
+            "Otherwise",
+            [
+              "Multiply",
+              -1,
+              "x_"
+            ]
+          ]
+        ]
+      ],
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/piecewise/1.1-absolute-value.json"
+          }
+        ]
+      }
     }
-  ]
+  ],
+  "identity": "test:piecewise/1.1-absolute-value"
 }

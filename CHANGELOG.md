@@ -7,6 +7,113 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- `OperationResult`, with `status`, `value` and `assumptions`, distinguishing a
+  proved closed form from a conditional one, an unevaluated operation, an
+  inapplicable one, and divergence. `differentiate` and `limit` return one under
+  `mode = :status`, so an unknown result is never rendered as a proved equality.
+- `canonical` and `canonically_equal`: a deterministic normal form that folds a
+  closed arithmetic subterm, writes a rational whose denominator is one as that
+  integer, drops an identity operand, and orders the summands of a sum. It does
+  not reorder the factors of a product, an OSR expression carrying no shape
+  information, nor turn `x^0` into `1`.
+- `differentiate(expression, variable, rules)` and
+  `limit(expression, variable, point, rules; direction)`, the expression-first
+  calculus constructors of the roadmap's Phase 3. They assemble the canonical
+  lambda-bound OSR form, rewrite it, and return what the rule set reached;
+  `evaluated_derivative` and `evaluated_limit` say whether the operation was
+  carried out or left standing.
+- `Apply` and `beta_reduce`. The OSR expression grammar requires a head to be a
+  name (OSR-X-004), so a lambda cannot stand in head position and an
+  application needs a head of its own. Reducing one is the capture-avoiding
+  substitution `osr_substitute` already performs.
+- The conformance report ranks the predicates that turned a matching rule away
+  only on problems nothing fired on. Elsewhere a predicate declining is the rule
+  set doing its job, and counting those buried the signal.
+- The conformance report resolves a `Subst` once its argument holds no
+  unevaluated integral, and splits an unsolved problem that never started by
+  whether a pattern matched and its guard declined, or no pattern matched at
+  all. The two call for entirely different work.
+- `Simp` and `Dist`, with the exact readings their algebra allows: `Simp(u, x)`
+  is `u` and `Dist(u, v, x)` is `u*v`. Left inert they stopped a rewrite chain
+  after a single step, which is how two thirds of the problems that stalled in
+  section 1.1.1 stalled.
+- The conformance report says how far an unsolved problem got: whether nothing
+  fired, only the corpus's unconditional catch-all fired, or a real rule fired
+  and the chain then stalled. That separates a rule set failing to start from
+  one failing to continue.
+- `neq_reading` and `neq_reading!`, selecting how `NeQ` answers an undecided
+  inequality. The default, `:proved_distinct`, is unchanged; `:not_proved_equal`
+  is RUBI's own reading, which admits rewrites conditional on an assumption
+  nobody recorded and is therefore off by default. The conformance report takes
+  `--neq` so the difference can be measured rather than argued.
+- `GeneralizedBinomialQ`, `GeneralizedBinomialMatchQ`, `GeneralizedTrinomialQ`,
+  `GeneralizedTrinomialMatchQ`, and `IntegralFreeQ`.
+- Twelve further RUBI constraint predicates with settled definitions:
+  `QuadraticMatchQ`, `TrinomialQ`, `TrinomialMatchQ`, `TrigQ`, `HyperbolicQ`,
+  `InertTrigQ`, `InverseFunctionFreeQ`, `ComplexFreeQ`, `TrueQ`, `IndependentQ`,
+  `OddQ`, and `PerfectSquareQ`. Together with the earlier three, the rules held
+  back by an unimplemented predicate fall from 459 of 6257 to 292, and the
+  predicates still missing from 43 to 28.
+- `EqQ` and `NeQ` decide a polynomial identity exactly, through the sparse
+  rational core: a difference that is the zero polynomial proves equality, one
+  that is a nonzero constant proves inequality, and one that still mentions a
+  symbol proves neither. Nothing leaves ℚ.
+- `BinomialQ` and `BinomialMatchQ`, recognising `a + b*x^n` with `a`, `b`, and
+  the exponent free of `x`, optionally of a given exponent. Both read the
+  written shape, so they decline some expressions RUBI would accept rather than
+  risk an invalid rewrite.
+- `LinearMatchQ`, which asks whether an expression is already written as
+  `a + b*x` rather than merely having degree one. RUBI's normalization rules are
+  guarded by the difference between the two.
+- The exact polynomial core reads the canonical OSR heads `Add`, `Multiply`,
+  `Subtract`, and `Power` alongside the native operators, and accepts a closed
+  arithmetic expression such as `Power(2, -1)` as a coefficient.
+- `record_withheld!`, `withheld_predicates_seen`, and `reset_withheld!`, which
+  record — on request — the predicates that decide a guard against its rule, so
+  a measurement can say which predicate held a rule back.
+- `unproved_predicates_seen` and `reset_unproved!`, which record the predicates
+  that abandoned a guard. A rule that does not fire says nothing about why on
+  its own, and this is what tells a guard that is false apart from one that
+  could not be decided.
+- The conformance report counts unsolved problems against the predicate that
+  blocked a rule covering them, so "implementing this predicate would unblock
+  these problems" becomes a measurement.
+- The conformance report now lists the constraint predicates with no
+  implementation, ranked by the number of rule guards each holds back. A rule
+  gated by one is loaded and never fires, so it is invisible in the outcome
+  counts.
+- `UnprovedConstraint`: a constraint predicate that neither this package nor the
+  loading module resolves abandons its guard instead of raising an
+  undefined-variable error, so the rule does not fire and the rule set keeps
+  going. Abandoning rather than answering `false` keeps `Not` honest, and the
+  short-circuit of `&&` and `||` keeps `Or(p, undecidable)` established when `p`
+  is.
+- Exact folding of closed arithmetic in the conformance report's comparison, so
+  a correct `x^(3+1)/(3+1)` is not reported as wrong against a recorded `x^4/4`.
+- A `symbol` typed wildcard (`x_symbol`) and its `is_symbol` predicate, matching
+  a variable and nothing else. A rule that binds a variable of the problem is
+  valid only when that operand really is a variable.
+- Uninterpreted heads: an operator a rule file declares an OpenMath symbol for
+  but this package does not implement is now declared as a symbolic function in
+  the loading module, so the rule produces an unevaluated term instead of
+  raising an undefined-variable error the moment it fires.
+- `scripts/rubi_conformance.jl` (`just conformance <section>`), which applies
+  the rule set to every RUBI test problem of a section and reports `verified`,
+  `closed form`, `unevaluated`, `unchanged`, and `error` separately, so coverage
+  is never reported as correctness.
+- Bare-name references to a rule's bindings: a pattern declares a wildcard as
+  `m_` or `m.`, and its result and constraints refer to it as `m`, which is how
+  the RUBI dataset is written. A name the pattern never bound stays a free
+  symbol.
+- Optional operand wildcards (`a.`, `m.3`): the enclosing operation supplies the
+  identity element an absent operand binds to, so a single rule covers every
+  degenerate shape of a RUBI pattern such as `(a. + b.*x)^m.`.
+- Pattern variables in operator position, so one rule matches a whole family of
+  heads; such a head names a binding and needs no OpenMath symbol.
+- `If` as a constraint combinator, compiling to Julia control flow over booleans
+  rather than to a symbolic term.
+- `Condition` as the guarded-pattern form of the rule language, pairing a
+  pattern with the test that admits it, as `MatchQ` uses it.
 - A structured SAT operation API with `SATProblem`, `solve`, selectable
   backends, and explicit satisfiable, unsatisfiable, or unknown results.
 - Integration with the lightweight MIT-licensed `CommonSolve.jl` interface, so
@@ -142,6 +249,35 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   roughly 470 times faster than a linear `Chain`.
 
 ### Changed
+- The conformance report applies the rule set first-match-wins, as an ordered
+  integration rule set is meant to be read: the rules after the one that fires
+  are alternatives for the same integral, not further steps. Continuing where a
+  rule reduces one integral to another stays the job of the recursion that
+  follows the remaining `Int`.
+- `OSRDispatch` now indexes a rule by the operation at the root of its pattern
+  *and* the one at its first operand. Restoring RUBI's `Int[integrand, x]`
+  wrapper made every rule of the corpus share the head `Int`, so the root alone
+  selected the whole set for every integral. Over section 1.1.1, 183 of 186
+  rules carry an operand key and a power integrand now tries 7 rules instead of
+  186. An associative-commutative rule keeps no operand key, since its matcher
+  tries every operand order.
+- An operator is never resolved to a Julia binding that cannot act as an
+  operation. `Int` names an indefinite integral in the RUBI corpus and a machine
+  integer in `Base`; a head that would resolve to a type is registered in
+  `OpenSymbolicRules.UninterpretedHeads` instead. Uninterpreted heads now live
+  there rather than in the loading module, so loading a rule file introduces no
+  name into the caller's scope.
+- Head dispatch stays selective when a pattern carries an optional operand
+  below its root. `SymbolicUtils` builds a default-valued matcher only where a
+  `DefSlot` is a direct argument, so `Int((a. + b.*x)^m., x)` still requires an
+  `Int`; treating any nested optional slot as head-dissolving would have put
+  the whole RUBI set into the always-try bucket.
+- Require an OpenMath declaration only for mathematical operators. A structural
+  head of the expression language (`List`, `Condition`) and a wildcard in
+  operator position carry no domain meaning, so a rule file no longer has to
+  rebind them. This raises the Integration dataset from 13 to 151 of its 188
+  rule files at semantic-validation time, without weakening the closure check
+  the domain repositories run.
 - Make `NotEqual` conservative for symbolic terms, preventing guarded rules
   from treating an unproved symbolic inequality as true.
 - Mapped bundled fixture operators to canonical OpenMath Content Dictionary identifiers.
@@ -173,6 +309,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   point.
 
 ### Fixed
+- `PolynomialQ`, `PolyQ`, `LinearQ`, and `QuadraticQ` now read a collection the
+  way `FreeQ` does: `LinearQ[{u, v}, x]` asks whether every element is linear
+  in `x`. Reading the list as a single expression made the guard decline a rule
+  that plainly applied; the RUBI corpus writes 41 guards that way.
 - Answer `FreeQ` correctly when either side is a collection.  A quantifier binds
   a list, and asking whether a body was free of that list compared the body to
   the list itself, so `FreeQ(Sin(x), [:x])` reported that `Sin(x)` is free of
