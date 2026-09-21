@@ -9,10 +9,25 @@
   "inferences": [
     {
       "id": 1,
-      "premises": ["p", ["Not", "p"]],
+      "premises": [
+        "p",
+        [
+          "Not",
+          "p"
+        ]
+      ],
       "constraints": [],
       "conclusion": "False",
-      "description": "Unit conflict."
+      "description": "Unit conflict.",
+      "provenance": {
+        "method": "authored",
+        "sources": [
+          {
+            "name": "OpenSymbolicRules.jl test fixtures",
+            "locator": "test/data/profiles/rules/inferences/unit.json"
+          }
+        ]
+      }
     }
   ]
 }
