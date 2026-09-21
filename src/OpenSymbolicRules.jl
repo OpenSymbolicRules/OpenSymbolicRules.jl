@@ -31,6 +31,7 @@ include("heads.jl")
 include("exact_radicals.jl")
 include("calculus.jl")
 include("canonical.jl")
+include("result_status.jl")
 
 export @load_osr, @load_osr_profile, rule_paths, load_inference_profile, OSRInference, OSRRule
 export FreeQ, is_integer, is_numeric, NotEqual

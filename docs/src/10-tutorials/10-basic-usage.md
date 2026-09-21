@@ -152,6 +152,34 @@ An operation the rule set cannot carry out stays a `Derivative` or a `Limit`
 term rather than becoming a closed form nobody reached, and
 `evaluated_derivative` and `evaluated_limit` say which came back.
 
+### Reading a result
+
+An expression on its own cannot say whether it was proved, assumed, or simply
+not carried out — and an unknown result read as a proved equality is the one
+mistake this package is built to avoid. `mode = :status` returns the reading
+beside the value, the way `simplify(...; mode = :trace)` returns the steps:
+
+```julia
+differentiate(Sin(x), x, rules)                  # Cos(x)
+differentiate(Sin(x), x, rules; mode = :status)  # differentiate: proved
+                                                 #   Cos(x)
+differentiate(Opaque(x), x, rules; mode = :status)
+# differentiate: unevaluated
+#   Derivative(Lambda(x, Opaque(x)))
+```
+
+| status | meaning |
+| --- | --- |
+| `:proved` | a closed form the rules established outright |
+| `:conditional` | a closed form, valid where the recorded assumptions hold |
+| `:unevaluated` | the operation is still standing in the value |
+| `:inapplicable` | the operation does not apply to this argument |
+| `:divergent` | the operation has no finite value here |
+
+A rewrite that fired under a hypothesis is `:conditional` on it, and
+`assumptions` returns the facts it was reached under. `status` and `value` read
+the other two fields.
+
 ### Applying a lambda
 
 The OSR expression grammar requires a head to be a name (OSR-X-004), so a lambda

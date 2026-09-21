@@ -16,6 +16,10 @@ An operation the rule set cannot carry out stays a `Derivative` term. That is an
 unevaluated expression rather than a closed form nobody reached, and
 [`evaluated_derivative`](@ref) says which one came back.
 
+`mode = :status` returns an [`OperationResult`](@ref) instead: the value beside
+the reading it should be given, so an unevaluated operation cannot be mistaken
+for a proved equality.
+
 ```jldoctest
 julia> using OpenSymbolicRules, SymbolicUtils
 
@@ -27,10 +31,28 @@ julia> differentiate(Sin(x), x, rules)
 Cos(x)
 ```
 """
-function differentiate(expression, variable, rules::AbstractVector; steps::Int=32)
+function differentiate(expression, variable, rules::AbstractVector;
+                       mode::Symbol=:fast, steps::Int=32)
     bound = _binder_variable(variable)
-    return _lambda_body(_rewrite_and_reduce(Derivative(Lambda(bound, expression)),
-                                            rules, steps), bound)
+    reached = _lambda_body(_rewrite_and_reduce(Derivative(Lambda(bound, expression)),
+                                               rules, steps), bound)
+    return _read_as(:differentiate, reached, evaluated_derivative(reached), mode)
+end
+
+"""
+    _read_as(operation, reached, evaluated, mode)
+
+Return what the caller asked for: the expression, or the expression beside the
+reading it should be given.
+
+`mode` follows `simplify`: `:fast` hands back the value alone, and `:status`
+hands back an [`OperationResult`](@ref), which is what keeps an unevaluated
+operation from being read as a proved equality.
+"""
+function _read_as(operation::Symbol, reached, evaluated::Bool, mode::Symbol)
+    mode === :fast && return reached
+    mode === :status && return _operation_result(operation, reached, !evaluated)
+    throw(ArgumentError("unknown mode: $(mode); expected :fast or :status"))
 end
 
 """
@@ -70,10 +92,11 @@ A limit the rule set does not cover stays a `Limit` term, which is the honest
 answer: no value was established.
 """
 function limit(expression, variable, point, rules::AbstractVector;
-               direction=BothSides, steps::Int=32)
+               direction=BothSides, mode::Symbol=:fast, steps::Int=32)
     bound = _binder_variable(variable)
-    return _rewrite_and_reduce(Limit(point, direction, Lambda(bound, expression)),
-                               rules, steps)
+    reached = _rewrite_and_reduce(Limit(point, direction, Lambda(bound, expression)),
+                                  rules, steps)
+    return _read_as(:limit, reached, evaluated_limit(reached), mode)
 end
 
 """

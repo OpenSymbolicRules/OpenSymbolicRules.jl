@@ -7,6 +7,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- `OperationResult`, with `status`, `value` and `assumptions`, distinguishing a
+  proved closed form from a conditional one, an unevaluated operation, an
+  inapplicable one, and divergence. `differentiate` and `limit` return one under
+  `mode = :status`, so an unknown result is never rendered as a proved equality.
 - `canonical` and `canonically_equal`: a deterministic normal form that folds a
   closed arithmetic subterm, writes a rational whose denominator is one as that
   integer, drops an identity operand, and orders the summands of a sum. It does

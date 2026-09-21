@@ -55,10 +55,19 @@
   terms that keeps required parentheses while dropping redundant ones and
   eliminates superfluous unary-minus forms, with round-trip tests for parsing,
   display, and proof traces.
-- [ ] **Operation result status:** Make high-level operations distinguish a
-  proved closed form, a conditional result, an unevaluated symbolic operation,
-  an inapplicable operation, and divergence. An unknown result must never be
-  rendered as a proved equality.
+- [~] **Operation result status:** `OperationResult` distinguishes a proved
+  closed form, a conditional one with the assumptions it was reached under, an
+  unevaluated operation, an inapplicable one, and divergence; `status`, `value`
+  and `assumptions` read it, and printing it names the reading, so an unknown
+  result cannot be rendered as a proved equality. `differentiate` and `limit`
+  return one under `mode = :status`, following the `mode = :trace` convention
+  `simplify` already uses.
+
+  What remains is to give the other high-level operations the same reading:
+  `integrate`, `solve`, `prove`, and the normal-form operations still answer in
+  their own shapes. `:inapplicable` and `:divergent` are defined but nothing
+  raises them yet, because no operation in the package can currently establish
+  either.
 - [ ] **Ergonomic CAS API:** Provide high-level constructors such as
   `limit(expression, variable, point; direction)`, `differentiate`,
   `integrate`, and `solve` with an expression-first argument order. They must
