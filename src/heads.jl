@@ -7,6 +7,10 @@ using SymbolicUtils
 @syms Derivative(::Any)::Number Integral(::Any, ::Any)::Number
 @syms Limit(::Any, ::Any, ::Any)::Number BothSides
 @syms Lambda(::Any, ::Any)::Number
+# The OSR expression grammar requires a head to be a name (OSR-X-004), so a
+# lambda cannot stand in head position and an application needs a head of its
+# own.  `beta_reduce` is what carries one out.
+@syms Apply(::Any, ::Any)::Number
 
 # Basic Arithmetic and Transcendentals (Uninterpreted to prevent implicit simplifications)
 @syms Add(a, b) Multiply(a, b) Power(a, b) Divide(a, b) Subtract(a, b)
@@ -28,7 +32,7 @@ using SymbolicUtils
 @syms Piecewise(::Any)::Number Piece(::Any, ::Any)::Any Otherwise(::Any)::Any
 
 # Export them so they are available in users' scopes
-export Derivative, Integral, Limit, BothSides, Lambda
+export Derivative, Integral, Limit, BothSides, Lambda, Apply
 export Add, Multiply, Power, Divide, Subtract
 export Sin, Cos, Tan, Cot, Sec, Csc, Sinh, Cosh, Tanh, Coth, Sech, Csch
 export Asin, Acos, Atan, Acot, Asec, Acsc, Asinh, Acosh, Atanh, Acoth, Asech, Acsch

@@ -7,6 +7,16 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- `differentiate(expression, variable, rules)` and
+  `limit(expression, variable, point, rules; direction)`, the expression-first
+  calculus constructors of the roadmap's Phase 3. They assemble the canonical
+  lambda-bound OSR form, rewrite it, and return what the rule set reached;
+  `evaluated_derivative` and `evaluated_limit` say whether the operation was
+  carried out or left standing.
+- `Apply` and `beta_reduce`. The OSR expression grammar requires a head to be a
+  name (OSR-X-004), so a lambda cannot stand in head position and an
+  application needs a head of its own. Reducing one is the capture-avoiding
+  substitution `osr_substitute` already performs.
 - The conformance report ranks the predicates that turned a matching rule away
   only on problems nothing fired on. Elsewhere a predicate declining is the rule
   set doing its job, and counting those buried the signal.

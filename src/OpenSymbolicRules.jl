@@ -29,6 +29,7 @@ include("bridge.jl")
 include("manifests.jl")
 include("heads.jl")
 include("exact_radicals.jl")
+include("calculus.jl")
 
 export @load_osr, @load_osr_profile, rule_paths, load_inference_profile, OSRInference, OSRRule
 export FreeQ, is_integer, is_numeric, NotEqual

@@ -105,6 +105,44 @@ conjunction with one false operand is false even when the other is unknown.
 A symbolic predicate answering `false` means "not proved", which is why an
 unproved condition leaves the piecewise intact rather than skipping the branch.
 
+## Differentiating and taking limits
+
+`differentiate` and `limit` take the expression first and assemble the canonical
+OSR form themselves. There is no second expression tree: what goes in and what
+comes out is the one representation the rules are written against.
+
+```julia
+@syms x
+rules = @load_osr_profile("path/to/Calculus")
+
+differentiate(Sin(x), x, rules)              # Cos(x)
+differentiate(Add(Sin(x), Cos(x)), x, rules) # Add(Cos(x), Multiply(-1, Sin(x)))
+limit(Divide(Sin(x), x), x, 0, rules)        # 1
+```
+
+`Derivative` binds its variable in a `Lambda`, as the OpenMath `fns1#lambda`
+symbol prescribes, so `differentiate(f, x, rules)` builds
+`Derivative(Lambda(x, f))`, rewrites it, and returns the body of the lambda it
+reaches. `Limit` carries its point, its approach and a lambda-bound expression.
+
+An operation the rule set cannot carry out stays a `Derivative` or a `Limit`
+term rather than becoming a closed form nobody reached, and
+`evaluated_derivative` and `evaluated_limit` say which came back.
+
+### Applying a lambda
+
+The OSR expression grammar requires a head to be a name (OSR-X-004), so a lambda
+cannot stand in head position and an application needs a head of its own:
+`Apply(Lambda(x, body), argument)`. `beta_reduce` carries one out, through the
+same capture-avoiding substitution `osr_substitute` performs.
+
+A rule set that differentiates term by term needs this. A structural rule such
+as the sum rule returns a lambda whose body applies the lambdas the base rules
+return, so rewriting and reduction have to alternate: reduction cannot run until
+rewriting has produced the lambdas, and rewriting cannot continue past an
+application until reduction has collapsed it. `differentiate` alternates them to
+a fixed point.
+
 ## Proving an equivalence
 
 `prove` searches for a rewrite path between two expressions and returns the

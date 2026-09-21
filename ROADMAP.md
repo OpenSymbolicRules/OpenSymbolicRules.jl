@@ -107,7 +107,22 @@
 ## Phase 3: Calculus & The RUBI Integration Challenge 🚀
 **Goal:** Achieve state-of-the-art symbolic integration and calculus features.
 
-- [ ] **Limits & Derivatives:** Implement `Limit(expr, x, a)` and `Derivative(expr, x)` using the `OpenSymbolicRules/Calculus` specifications.
+- [x] **Limits & Derivatives:** `differentiate(expression, variable, rules)` and
+  `limit(expression, variable, point, rules; direction)` assemble the canonical
+  lambda-bound form the `OpenSymbolicRules/Calculus` profile is written against,
+  rewrite it, and return what the rule set reached. An operation the rules
+  cannot carry out stays a `Derivative` or `Limit` term rather than a closed
+  form nobody reached.
+
+  Completing this needed two things the profile was missing. The structural
+  rules embedded `Derivative(Lambda(x, f))` where an expression belongs, so the
+  base rules' lambdas stayed nested — `Lambda(x, Add(Lambda(x, Cos(x)), …))` —
+  and a sum could not be differentiated term by term. The OSR grammar requires a
+  head to be a name (OSR-X-004), so a lambda cannot stand in head position and
+  an application needs its own head: `Apply`, reduced by `beta_reduce` through
+  the existing capture-avoiding substitution. The `Calculus` rules now wrap each
+  nested derivative in `Apply(..., x)`, and `differentiate` alternates rewriting
+  with reduction to a fixed point, because neither can finish without the other.
 - [~] **The RUBI Milestone:** Successfully parse and load the 6000+ RUBI
   integration rules. Measured against the 6257 rules in 188 rule files of the
   `Integration` repository, the three blockers previously recorded here were
