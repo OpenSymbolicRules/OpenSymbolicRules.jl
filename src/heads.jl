@@ -37,9 +37,12 @@ export And, Or, Not, Implies, Equivalent, Nand, Nor, Xor, Xnor, Forall, Exists
 export Piecewise, Piece, Otherwise
 
 """
+    Simp(u)
     Simp(u, x)
 
 Return `u`.
+
+The corpus writes both arities: `Simp[u]` 200 times and `Simp[u, x]` 518 times.
 
 RUBI writes `Simp[u, x]` for "`u`, tidied up with respect to `x`". Tidying is
 optional: the expression it names is `u` either way, so returning `u` is exact
@@ -54,6 +57,7 @@ that stalled in section 1.1.1 stalled on `Simp` or `ExpandIntegrand`.
 expression equal to its argument, but `Int(ExpandIntegrand(u, x), x)` would then
 become the integral it came from, and the rewrite would not terminate.
 """
+Simp(u) = u
 Simp(u, x) = u
 
 """

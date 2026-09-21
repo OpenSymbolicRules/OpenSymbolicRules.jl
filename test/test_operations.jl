@@ -85,6 +85,13 @@ end
     @test isequal(Simp(Multiply(a, x), x), Multiply(a, x))
     @test isequal(Simp(a, x), a)
 
+    # The corpus writes `Simp[u]` 200 times and `Simp[u, x]` 518 times. A
+    # method for only the second turns the first into a MethodError the moment
+    # the rule fires, which is what happened: two rules of section 1.3.4 alone
+    # raised on 2246 problems.
+    @test isequal(Simp(Multiply(a, x)), Multiply(a, x))
+    @test isequal(Simp(a), a)
+
     # `Dist[u, v, x]` distributes `u` over `v`, and means `u*v` whatever it
     # distributes over, so the product is exact rather than approximate.
     @test isequal(Dist(c, Integral(f, x), x), Multiply(c, Integral(f, x)))
