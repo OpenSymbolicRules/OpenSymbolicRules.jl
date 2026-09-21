@@ -24,8 +24,9 @@ did not reach.
 Outcomes, deliberately distinguished rather than collapsed into pass/fail:
 
   verified     the rewrite reached the antiderivative the corpus records,
-               compared structurally after folding closed arithmetic. Neither
-               side is put in a canonical form, so this is a lower bound
+               compared in the package's canonical form. That form deliberately
+               leaves some things alone — the order of a product, for one — so
+               this stays a lower bound
   resolved     the rewrite reached a form with no integral left, but not the
                recorded antiderivative. This is coverage, not correctness: the
                conversion drops RUBI's `x_Symbol` restriction, so a rule can
@@ -405,27 +406,6 @@ struct BlockedRule <: Exception
 end
 
 """
-    fold_constants(expression)
-
-Evaluate every closed arithmetic subterm of `expression` exactly.
-
-The OSR arithmetic heads are uninterpreted, so a rule that adds one to a matched
-exponent leaves `Add(3, 1)` standing. Comparing that against a recorded `4` would
-report every correct antiderivative as wrong. Folding is exact and introduces no
-floating-point value.
-"""
-function fold_constants(expression)
-    value = OpenSymbolicRules.osr_number(expression)
-    value === nothing || return value
-    iscall(expression) || return expression
-    head = operation(expression)
-    operands = arguments(expression)
-    folded = [fold_constants(operand) for operand in operands]
-    all(isequal.(folded, operands)) && return expression
-    return head(folded...)
-end
-
-"""
     classify(problem, rewriter, rules, expected)
 
 Say what the rule set reached, distinguishing an antiderivative from a rewrite
@@ -446,7 +426,8 @@ function classify(problem, rewriter, rules, expected)
         # A closed form is not yet a correct one. Only an exact structural match
         # with the recorded antiderivative is reported as verified, which
         # understates rather than overstates what the rule set achieved.
-        expected !== nothing && isequal(fold_constants(reached), fold_constants(expected)) &&
+        expected !== nothing &&
+            OpenSymbolicRules.canonically_equal(reached, expected) &&
             return Outcome(:verified, "")
         return Outcome(:resolved, "")
     end

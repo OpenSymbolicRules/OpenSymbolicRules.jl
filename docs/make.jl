@@ -63,7 +63,7 @@ makedocs(;
     authors = "Sébastien Celles",
     repo = Remotes.GitHub("OpenSymbolicRules", "OpenSymbolicRules.jl"),
     sitename = "OpenSymbolicRules.jl",
-    format = Documenter.HTML(; canonical = "https://OpenSymbolicRules.github.io/OpenSymbolicRules.jl", edit_link = "main", repolink = "https://github.com/OpenSymbolicRules/OpenSymbolicRules.jl", size_threshold_warn = 150 * 2^10),
+    format = Documenter.HTML(; canonical = "https://OpenSymbolicRules.github.io/OpenSymbolicRules.jl", edit_link = "main", repolink = "https://github.com/OpenSymbolicRules/OpenSymbolicRules.jl", size_threshold_warn = 150 * 2^10, size_threshold = 500 * 2^10),
     pages = list_pages(),
 )
 

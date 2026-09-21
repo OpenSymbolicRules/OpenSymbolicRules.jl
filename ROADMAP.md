@@ -7,7 +7,10 @@
 ## Phase 1: Rule Engine Foundation 🏗️ *(In Progress)*
 **Goal:** Establish a robust translation layer between OSR JSON patterns and Julia's `SymbolicUtils.jl`.
 
-- [ ] **Domain modules:** Split the public API into a small `Core` module and
+- [ ] **Domain modules:** (The single autodoc reference page has meanwhile
+  outgrown Documenter's default size threshold, which is raised in `docs/make.jl`
+  rather than papered over; splitting the reference by domain follows from this
+  item.) Split the public API into a small `Core` module and
   opt-in `Algebra`, `Calculus`, `Trigonometry`, `Integration`, and `Logic`
   modules. Each module shall export only its OpenMath heads, profile loader,
   and domain-specific operations. `Integration` covers indefinite and defined
@@ -39,13 +42,19 @@
 - [x] **Algebraic Simplifier:** Provide `simplify(expr, rules)` for rules loaded from the `OpenSymbolicRules/Algebra` repositories.
 - [x] **AC-Matching (Associative-Commutative):** Upgrade `@load_osr` to automatically generate `@acrule` for known AC operators (like `Add`, `Mul`), avoiding combinatoric explosion of rules.
 - [ ] **Remote Rule Syncing:** Implement an Artifact or Pkg based mechanism to automatically download the latest version of the OSR specifications from GitHub.
-- [ ] **Canonical expression form and rendering:** Define a deterministic
-  normalization and pretty-printing layer shared by OSR and Symbolics terms.
-  It must preserve required parentheses while removing redundant ones,
-  normalize rational unit values such as `1//1` to integer `1` where sound,
-  and eliminate superfluous unary-minus forms without changing precedence,
-  associativity, domains, or noncommutative factor order. Add round-trip and
-  regression tests for parsing, display, simplification, and proof traces.
+- [~] **Canonical expression form and rendering:** `canonical` is the
+  normalization half. It folds a closed arithmetic subterm, writes `4//4` as
+  `1`, drops an identity operand, and orders the summands of a sum; it does not
+  reorder the factors of a product, an OSR expression carrying no shape
+  information, nor turn `x^0` into `1`, which holds only where `x` is nonzero.
+  `canonically_equal` compares through it, and the conformance report uses it —
+  over section 1.1.1 the verified count moves from 4 to 5, because an answer of
+  `x^(3-1)` had been reading as wrong against a recorded `x^2`.
+
+  What remains is the rendering half: a pretty-printer shared with Symbolics
+  terms that keeps required parentheses while dropping redundant ones and
+  eliminates superfluous unary-minus forms, with round-trip tests for parsing,
+  display, and proof traces.
 - [ ] **Operation result status:** Make high-level operations distinguish a
   proved closed form, a conditional result, an unevaluated symbolic operation,
   an inapplicable operation, and divergence. An unknown result must never be

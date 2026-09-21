@@ -105,6 +105,29 @@ conjunction with one false operand is false even when the other is unknown.
 A symbolic predicate answering `false` means "not proved", which is why an
 unproved condition leaves the piecewise intact rather than skipping the branch.
 
+## Canonical form
+
+`canonical` puts an expression in a deterministic normal form, and
+`canonically_equal` compares two through it.
+
+```julia
+canonical(Power(x, Add(3, -1)))   # Power(x, 2)
+canonical(Add(x, 0))              # x
+canonically_equal(Add(x, y), Add(y, x))   # true
+```
+
+Normalizing is not evaluating. It folds what is already closed, writes a
+rational whose denominator is one as that integer, drops an identity operand,
+and orders the summands of a sum — addition commuting wherever it is defined. It
+never decides anything the expression left open, and a head the package does not
+evaluate keeps its place with its operands normalized.
+
+It deliberately leaves two things alone. The factors of a product are not
+reordered: an OSR expression carries no shape information, so a factor may be a
+matrix and the order is part of the meaning. And `x^0` is not turned into `1`,
+which holds only where `x` is nonzero. `canonically_equal` is therefore a
+structural test after normalization, not a proof of mathematical equality.
+
 ## Differentiating and taking limits
 
 `differentiate` and `limit` take the expression first and assemble the canonical

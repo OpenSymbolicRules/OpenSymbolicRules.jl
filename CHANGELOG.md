@@ -7,6 +7,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 ### Added
+- `canonical` and `canonically_equal`: a deterministic normal form that folds a
+  closed arithmetic subterm, writes a rational whose denominator is one as that
+  integer, drops an identity operand, and orders the summands of a sum. It does
+  not reorder the factors of a product, an OSR expression carrying no shape
+  information, nor turn `x^0` into `1`.
 - `differentiate(expression, variable, rules)` and
   `limit(expression, variable, point, rules; direction)`, the expression-first
   calculus constructors of the roadmap's Phase 3. They assemble the canonical
