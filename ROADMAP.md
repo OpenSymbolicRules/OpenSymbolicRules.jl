@@ -219,10 +219,12 @@
   so the rewrite dies after a single step. `Simp` and `Dist` have since been
   given the exact readings their algebra allows — `Simp(u, x)` is `u`, and
   `Dist(u, v, x)` is `u*v` — which removes `Simp` from the blockers entirely.
-  `ExpandIntegrand` cannot be read the same way: it too denotes an expression
-  equal to its argument, but `Int(ExpandIntegrand(u, x), x)` would then become
-  the integral it came from and the rewrite would not terminate. Implementing it
-  and `Subst` properly is the remaining continuation work.
+  `Subst(expr, x, u)` now has the OSR-E-012 reading and delegates to
+  capture-avoiding substitution, so a rule can continue with the substituted
+  expression without corrupting lexical binders. `ExpandIntegrand` cannot be
+  read as an identity: `Int(ExpandIntegrand(u, x), x)` would then become the
+  integral it came from and the rewrite would not terminate. A bounded,
+  domain-aware expansion strategy is the remaining continuation work.
 
   Three earlier hypotheses were tested and ruled out. Integrand shape is not the
   problem: over section 1.1.1, 255 of 309 unsolved problems had a pattern match
