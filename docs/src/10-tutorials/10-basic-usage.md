@@ -756,6 +756,23 @@ solve(x^2 - 3x + 2 ~ 0, x).roots
 # [(root = 1//1, multiplicity = 1), (root = 2//1, multiplicity = 1)]
 ```
 
+## Integration utility semantics
+
+Integration rule results may contain OSR utility heads. `Subst` is evaluated
+with the semantics mandated by OSR-E-012, including capture-avoiding treatment
+of lexical binders:
+
+```julia
+@syms x y
+
+Subst(Add(x, Power(x, 2)), x, y)
+# Add(y, Power(y, 2))
+```
+
+`ExpandIntegrand` remains deliberately unevaluated until a terminating,
+domain-aware expansion strategy is available: erasing it as an identity can
+recreate the integral that produced it and make an integration rewrite loop.
+
 spoly(p, q; ordering=:lex)              # y² + x
 normal_form(p, [q]; ordering=:grevlex)  # normal form modulo q
 g = groebner_basis([p, q]; ordering=:lex)

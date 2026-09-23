@@ -65,6 +65,19 @@ Simp(u) = u
 Simp(u, x) = u
 
 """
+    Subst(expression, variable, replacement)
+
+Substitute `variable` by `replacement` in `expression`.
+
+This is the operational reading required by OSR-E-012 for the `Subst` utility
+head emitted by integration rules.  It delegates to [`osr_substitute`](@ref),
+so lexical binders are respected and a replacement cannot be captured by a
+lambda, quantifier, or other OSR binder.
+"""
+Subst(expression, variable, replacement) =
+    osr_substitute(expression, variable => replacement)
+
+"""
     Dist(u, v, x)
 
 Return `u*v`.
@@ -76,4 +89,4 @@ that shape is what the rules downstream restore.
 """
 Dist(u, v, x) = Multiply(u, v)
 
-export Simp, Dist
+export Simp, Subst, Dist

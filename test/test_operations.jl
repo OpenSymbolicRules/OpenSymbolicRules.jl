@@ -102,3 +102,23 @@ end
     # the integral it came from, which does not terminate.
     @test !isdefined(OpenSymbolicRules, :ExpandIntegrand)
 end
+
+@testitem "Subst performs capture-avoiding RUBI substitution" begin
+    using OpenSymbolicRules
+    using SymbolicUtils
+
+    @syms x y
+
+    # OSR's `Subst[expression, variable, value]` has a specified, semantic
+    # meaning.  It must not remain an inert utility head after an integration
+    # rule introduces it: the subsequent rule needs to see the substituted
+    # expression.
+    @test isequal(Subst(Add(x, Power(x, 2)), x, y),
+                  Add(y, Power(y, 2)))
+
+    # Delegating to the binder-aware primitive preserves a free `y` from the
+    # substitution rather than accidentally capturing it under the lambda.
+    substituted = Subst(Lambda(y, Add(x, y)), x, y)
+    @test alpha_equivalent(substituted, Lambda(:fresh, Add(y, :fresh)))
+    @test :y in free_variables(substituted)
+end
