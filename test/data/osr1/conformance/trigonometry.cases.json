@@ -1,0 +1,2090 @@
+{"suite": "trigonometry.rewrite",
+ "source_digest":
+ "sha256:13f7a913cefe89361c83845e10a526b8e6fb9a8214ee8c43870c72f9dbcf04d3",
+ "semantics":
+ {"strategy":
+  "outermost-leftmost: at each step, try the root (rules in order), then the arguments left to right; one rewrite per step",
+  "rules": "the rules of the profile, unconditional only, in priority order",
+  "reference": "OSR.normalize in OpenSymbolicRules/Lean (OSR/Rewrite.lean)",
+  "matching":
+  "syntactic; a pattern variable occurring twice matches equal subterms; integers compare by value; input OMV are constants",
+  "fuel": 64,
+  "domain": "real"},
+ "ruleset": "trigonometry.osr.json",
+ "osr_format": "1.0.0-alpha.1",
+ "cases":
+ [{"trace": ["trigonometry.pythagorean"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "x", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "x", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/pattern.trigonometry.pythagorean",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace": ["trigonometry.angle_sum.sin_add"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "y", "kind": "OMV"}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "default/pattern.trigonometry.angle_sum.sin_add",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "x", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMA",
+        "arguments": [{"name": "y", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "x", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMA",
+        "arguments": [{"name": "y", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.angle_sum.cos_sub"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "y", "kind": "OMV"}],
+      "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+   "id": "default/pattern.trigonometry.angle_sum.cos_sub",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "x", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMA",
+        "arguments": [{"name": "y", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "x", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMA",
+        "arguments": [{"name": "y", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.double_angle.sin"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "default/pattern.trigonometry.double_angle.sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2},
+       {"kind": "OMA",
+        "arguments": [{"name": "x", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.double_angle.cos"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+   "id": "default/pattern.trigonometry.double_angle.cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "x", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "x", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/pattern.trigonometry.product_to_sum.sin_cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/pattern.trigonometry.product_to_sum.sin_sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/pattern.trigonometry.power_reduction.sin_sq",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/pattern.trigonometry.power_reduction.cos_sq",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/pattern.trigonometry.sum_to_product.sin_add_sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/pattern.trigonometry.sum_to_product.cos_add_cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/pattern.trigonometry.sum_to_product.cos_sub_cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.inverse.tan_arctan"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "z", "kind": "OMV"}],
+      "applicant": {"name": "arctan", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "tan", "kind": "OMS", "cd": "transc1"}},
+   "id": "default/pattern.trigonometry.inverse.tan_arctan",
+   "expected": {"name": "z", "kind": "OMV"}},
+  {"trace": ["trigonometry.pythagorean"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 2},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments": [{"name": "t", "kind": "OMV"}],
+          "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+         {"kind": "OMI", "integer": 2}],
+        "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+       {"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments": [{"name": "t", "kind": "OMV"}],
+          "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+         {"kind": "OMI", "integer": 2}],
+        "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/nested.pythagorean_in_product",
+   "expected":
+   {"kind": "OMA",
+    "arguments": [{"kind": "OMI", "integer": 2}, {"kind": "OMI", "integer": 1}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.pythagorean"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "t", "kind": "OMV"}, {"name": "u", "kind": "OMV"}],
+          "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "t", "kind": "OMV"}, {"name": "u", "kind": "OMV"}],
+          "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/nested.pythagorean_of_sum",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace":
+   ["trigonometry.angle_sum.sin_add",
+    "trigonometry.double_angle.sin",
+    "trigonometry.double_angle.cos"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMI", "integer": 2}, {"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+       {"name": "u", "kind": "OMV"}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "default/nested.sin_of_double_sum",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"kind": "OMI", "integer": 2},
+           {"kind": "OMA",
+            "arguments": [{"name": "t", "kind": "OMV"}],
+            "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+          "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+         {"kind": "OMA",
+          "arguments": [{"name": "t", "kind": "OMV"}],
+          "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+        "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+       {"kind": "OMA",
+        "arguments": [{"name": "u", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"kind": "OMA",
+            "arguments": [{"name": "t", "kind": "OMV"}],
+            "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+           {"kind": "OMI", "integer": 2}],
+          "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+         {"kind": "OMA",
+          "arguments":
+          [{"kind": "OMA",
+            "arguments": [{"name": "t", "kind": "OMV"}],
+            "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+           {"kind": "OMI", "integer": 2}],
+          "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}},
+       {"kind": "OMA",
+        "arguments": [{"name": "u", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.inverse.tan_arctan"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "arctan", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "tan", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "default/nested.tan_arctan_inside_sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments": [{"name": "t", "kind": "OMV"}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/literal.cube_is_not_square",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 3}, {"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "default/literal.three_is_not_two",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 3}, {"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/nonlinear.sin_add_sin_same",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input": {"name": "t", "kind": "OMV"},
+   "id": "default/normal.atom",
+   "expected": {"name": "t", "kind": "OMV"}},
+  {"trace": ["trigonometry.pythagorean"],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "x", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "x", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "product_to_sum/pattern.trigonometry.pythagorean",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace": [],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "y", "kind": "OMV"}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "product_to_sum/pattern.trigonometry.angle_sum.sin_add",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "y", "kind": "OMV"}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "y", "kind": "OMV"}],
+      "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+   "id": "product_to_sum/pattern.trigonometry.angle_sum.cos_sub",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "y", "kind": "OMV"}],
+      "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "product_to_sum/pattern.trigonometry.double_angle.sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+   "id": "product_to_sum/pattern.trigonometry.double_angle.cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": ["trigonometry.product_to_sum.sin_cos"],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+   "id": "product_to_sum/pattern.trigonometry.product_to_sum.sin_cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
+          "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
+          "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.product_to_sum.sin_sin"],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+   "id": "product_to_sum/pattern.trigonometry.product_to_sum.sin_sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
+          "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
+          "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+   "id": "product_to_sum/pattern.trigonometry.power_reduction.sin_sq",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+   "id": "product_to_sum/pattern.trigonometry.power_reduction.cos_sq",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "product_to_sum/pattern.trigonometry.sum_to_product.sin_add_sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "product_to_sum/pattern.trigonometry.sum_to_product.cos_add_cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}},
+   "id": "product_to_sum/pattern.trigonometry.sum_to_product.cos_sub_cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.inverse.tan_arctan"],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "z", "kind": "OMV"}],
+      "applicant": {"name": "arctan", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "tan", "kind": "OMS", "cd": "transc1"}},
+   "id": "product_to_sum/pattern.trigonometry.inverse.tan_arctan",
+   "expected": {"name": "z", "kind": "OMV"}},
+  {"trace": ["trigonometry.pythagorean"],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 2},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments": [{"name": "t", "kind": "OMV"}],
+          "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+         {"kind": "OMI", "integer": 2}],
+        "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+       {"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments": [{"name": "t", "kind": "OMV"}],
+          "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+         {"kind": "OMI", "integer": 2}],
+        "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+   "id": "product_to_sum/nested.pythagorean_in_product",
+   "expected":
+   {"kind": "OMA",
+    "arguments": [{"kind": "OMI", "integer": 2}, {"kind": "OMI", "integer": 1}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.pythagorean"],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "t", "kind": "OMV"}, {"name": "u", "kind": "OMV"}],
+          "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "t", "kind": "OMV"}, {"name": "u", "kind": "OMV"}],
+          "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "product_to_sum/nested.pythagorean_of_sum",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace": [],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMI", "integer": 2}, {"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+       {"name": "u", "kind": "OMV"}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "product_to_sum/nested.sin_of_double_sum",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMI", "integer": 2}, {"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+       {"name": "u", "kind": "OMV"}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": ["trigonometry.inverse.tan_arctan"],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "arctan", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "tan", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "product_to_sum/nested.tan_arctan_inside_sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments": [{"name": "t", "kind": "OMV"}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "product_to_sum/literal.cube_is_not_square",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 3}, {"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "product_to_sum/literal.three_is_not_two",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 3}, {"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "product_to_sum/nonlinear.sin_add_sin_same",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "product_to_sum",
+   "normal": true,
+   "input": {"name": "t", "kind": "OMV"},
+   "id": "product_to_sum/normal.atom",
+   "expected": {"name": "t", "kind": "OMV"}},
+  {"trace": ["trigonometry.pythagorean"],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "x", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "x", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "power_reduction/pattern.trigonometry.pythagorean",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace": [],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "y", "kind": "OMV"}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "power_reduction/pattern.trigonometry.angle_sum.sin_add",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "y", "kind": "OMV"}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "y", "kind": "OMV"}],
+      "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+   "id": "power_reduction/pattern.trigonometry.angle_sum.cos_sub",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "y", "kind": "OMV"}],
+      "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "power_reduction/pattern.trigonometry.double_angle.sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+   "id": "power_reduction/pattern.trigonometry.double_angle.cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+   "id": "power_reduction/pattern.trigonometry.product_to_sum.sin_cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+   "id": "power_reduction/pattern.trigonometry.product_to_sum.sin_sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.power_reduction.sin_sq"],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+   "id": "power_reduction/pattern.trigonometry.power_reduction.sin_sq",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 1},
+       {"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+          "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.power_reduction.cos_sq"],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+   "id": "power_reduction/pattern.trigonometry.power_reduction.cos_sq",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 1},
+       {"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+          "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "power_reduction/pattern.trigonometry.sum_to_product.sin_add_sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "power_reduction/pattern.trigonometry.sum_to_product.cos_add_cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}},
+   "id": "power_reduction/pattern.trigonometry.sum_to_product.cos_sub_cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.inverse.tan_arctan"],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "z", "kind": "OMV"}],
+      "applicant": {"name": "arctan", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "tan", "kind": "OMS", "cd": "transc1"}},
+   "id": "power_reduction/pattern.trigonometry.inverse.tan_arctan",
+   "expected": {"name": "z", "kind": "OMV"}},
+  {"trace": ["trigonometry.pythagorean"],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 2},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments": [{"name": "t", "kind": "OMV"}],
+          "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+         {"kind": "OMI", "integer": 2}],
+        "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+       {"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments": [{"name": "t", "kind": "OMV"}],
+          "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+         {"kind": "OMI", "integer": 2}],
+        "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+   "id": "power_reduction/nested.pythagorean_in_product",
+   "expected":
+   {"kind": "OMA",
+    "arguments": [{"kind": "OMI", "integer": 2}, {"kind": "OMI", "integer": 1}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.pythagorean"],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "t", "kind": "OMV"}, {"name": "u", "kind": "OMV"}],
+          "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "t", "kind": "OMV"}, {"name": "u", "kind": "OMV"}],
+          "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "power_reduction/nested.pythagorean_of_sum",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace": [],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMI", "integer": 2}, {"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+       {"name": "u", "kind": "OMV"}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "power_reduction/nested.sin_of_double_sum",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMI", "integer": 2}, {"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+       {"name": "u", "kind": "OMV"}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": ["trigonometry.inverse.tan_arctan"],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "arctan", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "tan", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "power_reduction/nested.tan_arctan_inside_sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments": [{"name": "t", "kind": "OMV"}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "power_reduction/literal.cube_is_not_square",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 3}, {"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "power_reduction/literal.three_is_not_two",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 3}, {"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "power_reduction",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "power_reduction/nonlinear.sin_add_sin_same",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "power_reduction",
+   "normal": true,
+   "input": {"name": "t", "kind": "OMV"},
+   "id": "power_reduction/normal.atom",
+   "expected": {"name": "t", "kind": "OMV"}},
+  {"trace": ["trigonometry.pythagorean"],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "x", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "x", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "sum_to_product/pattern.trigonometry.pythagorean",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace": [],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "y", "kind": "OMV"}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "sum_to_product/pattern.trigonometry.angle_sum.sin_add",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "y", "kind": "OMV"}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "y", "kind": "OMV"}],
+      "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+   "id": "sum_to_product/pattern.trigonometry.angle_sum.cos_sub",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "y", "kind": "OMV"}],
+      "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "sum_to_product/pattern.trigonometry.double_angle.sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+   "id": "sum_to_product/pattern.trigonometry.double_angle.cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2}, {"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+   "id": "sum_to_product/pattern.trigonometry.product_to_sum.sin_cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+   "id": "sum_to_product/pattern.trigonometry.product_to_sum.sin_sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+   "id": "sum_to_product/pattern.trigonometry.power_reduction.sin_sq",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+   "id": "sum_to_product/pattern.trigonometry.power_reduction.cos_sq",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.sum_to_product.sin_add_sin"],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "sum_to_product/pattern.trigonometry.sum_to_product.sin_add_sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2},
+       {"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"kind": "OMA",
+            "arguments":
+            [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
+            "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+           {"kind": "OMI", "integer": 2}],
+          "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
+          "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}},
+         {"kind": "OMI", "integer": 2}],
+        "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.sum_to_product.cos_add_cos"],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "sum_to_product/pattern.trigonometry.sum_to_product.cos_add_cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2},
+       {"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"kind": "OMA",
+            "arguments":
+            [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
+            "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+           {"kind": "OMI", "integer": 2}],
+          "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
+          "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}},
+         {"kind": "OMI", "integer": 2}],
+        "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.sum_to_product.cos_sub_cos"],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}},
+   "id": "sum_to_product/pattern.trigonometry.sum_to_product.cos_sub_cos",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": -2},
+       {"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"kind": "OMA",
+            "arguments":
+            [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
+            "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+           {"kind": "OMI", "integer": 2}],
+          "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
+          "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}},
+         {"kind": "OMI", "integer": 2}],
+        "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.inverse.tan_arctan"],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "z", "kind": "OMV"}],
+      "applicant": {"name": "arctan", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "tan", "kind": "OMS", "cd": "transc1"}},
+   "id": "sum_to_product/pattern.trigonometry.inverse.tan_arctan",
+   "expected": {"name": "z", "kind": "OMV"}},
+  {"trace": ["trigonometry.pythagorean"],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 2},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments": [{"name": "t", "kind": "OMV"}],
+          "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+         {"kind": "OMI", "integer": 2}],
+        "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+       {"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments": [{"name": "t", "kind": "OMV"}],
+          "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+         {"kind": "OMI", "integer": 2}],
+        "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+   "id": "sum_to_product/nested.pythagorean_in_product",
+   "expected":
+   {"kind": "OMA",
+    "arguments": [{"kind": "OMI", "integer": 2}, {"kind": "OMI", "integer": 1}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["trigonometry.pythagorean"],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "t", "kind": "OMV"}, {"name": "u", "kind": "OMV"}],
+          "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "t", "kind": "OMV"}, {"name": "u", "kind": "OMV"}],
+          "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 2}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "sum_to_product/nested.pythagorean_of_sum",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace": [],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMI", "integer": 2}, {"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+       {"name": "u", "kind": "OMV"}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "sum_to_product/nested.sin_of_double_sum",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMI", "integer": 2}, {"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+       {"name": "u", "kind": "OMV"}],
+      "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": ["trigonometry.inverse.tan_arctan"],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "arctan", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "tan", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "sum_to_product/nested.tan_arctan_inside_sin",
+   "expected":
+   {"kind": "OMA",
+    "arguments": [{"name": "t", "kind": "OMV"}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "sum_to_product/literal.cube_is_not_square",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments": [{"name": "t", "kind": "OMV"}],
+        "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+       {"kind": "OMI", "integer": 3}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 3}, {"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+   "id": "sum_to_product/literal.three_is_not_two",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 3}, {"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": ["trigonometry.sum_to_product.sin_add_sin"],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "t", "kind": "OMV"}],
+      "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+   "id": "sum_to_product/nonlinear.sin_add_sin_same",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments":
+      [{"kind": "OMI", "integer": 2},
+       {"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"kind": "OMA",
+            "arguments":
+            [{"name": "t", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+            "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+           {"kind": "OMI", "integer": 2}],
+          "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}}],
+        "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+      "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments":
+      [{"kind": "OMA",
+        "arguments":
+        [{"kind": "OMA",
+          "arguments":
+          [{"name": "t", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+          "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}},
+         {"kind": "OMI", "integer": 2}],
+        "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}}],
+      "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "sum_to_product",
+   "normal": true,
+   "input": {"name": "t", "kind": "OMV"},
+   "id": "sum_to_product/normal.atom",
+   "expected": {"name": "t", "kind": "OMV"}}]}

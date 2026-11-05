@@ -56,8 +56,22 @@ The strategy works as follows:
 
 - it is outermost-first and leftmost;
 - it tries rules in profile order;
-- it stops when no rule applies, or after `max_steps` steps
-  (`r.exhausted == true`).
+- it stops when no rule applies, or after `max_steps` steps.
+  `r.exhausted` is `true` when the budget is spent and a rule still applies.
+
+This is the strategy of the Lean reference rewriter `OSR.normalize`, whose
+soundness is proved in Lean. The Trigonometry rule set has four profiles
+(`default` for expansion, `product_to_sum`, `power_reduction` and
+`sum_to_product`), each checked for termination by the Lean exporter.
+
+## Conformance
+
+The Lean exporter also writes conformance cases: for each profile and input,
+the expected result and the sequence of rule ids applied. They are published
+in `OpenSymbolicRules/Conformance`, and `test/test_osr_v1.jl` checks that
+`rewrite` reproduces all of them (fixture in
+`test/data/osr1/conformance/trigonometry.cases.json`; set `OSR1_CONFORMANCE`
+to use another file).
 
 ## What the certificate covers
 
@@ -67,8 +81,9 @@ the result has the same value as the input.
 
 The certificate does **not** cover:
 
-- the matcher, the substitution and the strategy implemented here. These are
-  tested, not proved.
-- termination. For example, the `default` Trigonometry profile contains two
-  proved rules that rewrite `sin(x + y)` into an expression containing
-  `sin(x + y)` again.
+- the matcher, the substitution and the strategy implemented here. The Lean
+  reference rewriter is proved sound; this implementation is only tested
+  against its conformance cases.
+- termination. It is tested on the profile seeds, not proved. Each rule of the
+  v0.1 profiles was correct, but `sin(x + y)` was rewritten into an expression
+  containing `sin(x + y)` again; v1 profiles avoid such cycles.

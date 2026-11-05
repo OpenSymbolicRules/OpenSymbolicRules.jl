@@ -321,7 +321,9 @@ end
 
 Rewrite `expr` with the rules of `profile`, valid in `domain`.  The strategy is
 outermost-first, leftmost, trying rules in profile order, repeated until no
-rule applies or `max_steps` is reached (`exhausted = true`).
+rule applies or `max_steps` is reached.  `exhausted` is `true` when the budget
+is spent and a rule still applies.  This is the strategy of the Lean reference
+rewriter `OSR.normalize`; the Conformance cases check the two agree.
 
 Each rule is sound where its pattern is defined (`applicability =
 defined_pattern`): the result agrees with the input wherever the input is
@@ -339,7 +341,8 @@ function rewrite(expr::OMExpr, rs::RuleSet; profile::AbstractString, domain::Sym
         e = res[1]
         push!(steps, res[2])
     end
-    return RewriteResult(e, steps, true)
+    # The budget is exhausted only if another rule would still apply.
+    return RewriteResult(e, steps, _step(e, rules, domain) !== nothing)
 end
 
 end # module OSRv1
