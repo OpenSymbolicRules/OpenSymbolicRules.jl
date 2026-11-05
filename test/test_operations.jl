@@ -107,7 +107,9 @@ end
     using OpenSymbolicRules
     using SymbolicUtils
 
-    @syms x y
+    # `fresh` names the bound variable of the expected result; alpha
+    # equivalence ignores the name actually chosen.
+    @syms x y fresh
 
     # OSR's `Subst[expression, variable, value]` has a specified, semantic
     # meaning.  It must not remain an inert utility head after an integration
@@ -119,6 +121,6 @@ end
     # Delegating to the binder-aware primitive preserves a free `y` from the
     # substitution rather than accidentally capturing it under the lambda.
     substituted = Subst(Lambda(y, Add(x, y)), x, y)
-    @test alpha_equivalent(substituted, Lambda(:fresh, Add(y, :fresh)))
+    @test alpha_equivalent(substituted, Lambda(fresh, Add(y, fresh)))
     @test :y in free_variables(substituted)
 end
