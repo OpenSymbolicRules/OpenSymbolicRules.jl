@@ -72,7 +72,7 @@ proved in Lean.
 The Lean exporter also writes conformance cases: for each profile and input,
 the expected result and the sequence of rule ids applied. They are published
 in `OpenSymbolicRules/Conformance`, and `test/test_osr_v1.jl` checks that
-`rewrite` reproduces all of them, for Trigonometry, Algebra and Logic (fixtures in
+`rewrite` reproduces all of them, for Trigonometry, Algebra, Logic and Calculus (fixtures in
 `test/data/osr1/`; set `OSR1_DIR` to a Lean export directory to use fresh
 files instead).
 

@@ -174,7 +174,7 @@ end
     # Every rule set is checked against its suite.  `OSR1_DIR` replaces the
     # fixtures with a fresh export directory (`just export` in the Lean repo).
     dir = get(ENV, "OSR1_DIR", joinpath(@__DIR__, "data", "osr1"))
-    for name in ("trigonometry", "algebra", "logic")
+    for name in ("trigonometry", "algebra", "logic", "calculus")
         rspath = joinpath(dir, "$name.osr.json")
         suitepath = joinpath(dir, "conformance", "$name.cases.json")
         rs = load_ruleset(rspath)

@@ -18,7 +18,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
   rewriter. Domains are `:real`, `:complex` and `:boolean` (carrier
   `setname2#Boolean`, for propositional rule sets). Bindings (`OMBIND`, such
   as quantifiers) are parsed, matched (a pattern's bound variable binds the
-  input's) and rewritten inside their body only.
+  input's) and rewritten inside their body only. The conformance test covers the
+  Trigonometry, Algebra, Logic and Calculus suites.
 - `OperationResult`, with `status`, `value` and `assumptions`, distinguishing a
   proved closed form from a conditional one, an unevaluated operation, an
   inapplicable one, and divergence. `differentiate` and `limit` return one under

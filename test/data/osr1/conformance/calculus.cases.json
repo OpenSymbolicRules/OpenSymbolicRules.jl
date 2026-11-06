@@ -1,0 +1,744 @@
+{"suite": "calculus.rewrite",
+ "source_digest":
+ "sha256:e320b5833b7408f944c7d5c72411fddbaee2a02d4cbda009f124a180674903fe",
+ "semantics":
+ {"strategy":
+  "outermost-leftmost: at each step, try the root (rules in order), then the arguments left to right; one rewrite per step",
+  "rules": "the rules of the profile, in priority order",
+  "reference":
+  "OSR.Calculus.rewrite in OpenSymbolicRules/Lean (OSR/Calculus.lean)",
+  "matching":
+  "syntactic; a pattern's bound variable matches the input's bound variable; integers compare by value",
+  "fuel": 64,
+  "domain": "real"},
+ "ruleset": "calculus.osr.json",
+ "osr_format": "1.0.0-alpha.1",
+ "cases":
+ [{"trace": ["calculus.limit.sin_div"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 0},
+     {"name": "both_sides", "kind": "OMS", "cd": "limit1"},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+        {"name": "x", "kind": "OMV"}],
+       "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "limit", "kind": "OMS", "cd": "limit1"}},
+   "id": "default/pattern.calculus.limit.sin_div",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace": ["calculus.limit.tan_div"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 0},
+     {"name": "both_sides", "kind": "OMS", "cd": "limit1"},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant": {"name": "tan", "kind": "OMS", "cd": "transc1"}},
+        {"name": "x", "kind": "OMV"}],
+       "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "limit", "kind": "OMS", "cd": "limit1"}},
+   "id": "default/pattern.calculus.limit.tan_div",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace": ["calculus.limit.one_sub_cos_div_sq"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 0},
+     {"name": "both_sides", "kind": "OMS", "cd": "limit1"},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMI", "integer": 1},
+          {"kind": "OMA",
+           "arguments": [{"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+         "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "limit", "kind": "OMS", "cd": "limit1"}},
+   "id": "default/pattern.calculus.limit.one_sub_cos_div_sq",
+   "expected":
+   {"kind": "OMA",
+    "arguments": [{"kind": "OMI", "integer": 1}, {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["calculus.limit.exp_sub_one_div"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 0},
+     {"name": "both_sides", "kind": "OMS", "cd": "limit1"},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments": [{"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "exp", "kind": "OMS", "cd": "transc1"}},
+          {"kind": "OMI", "integer": 1}],
+         "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}},
+        {"name": "x", "kind": "OMV"}],
+       "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "limit", "kind": "OMS", "cd": "limit1"}},
+   "id": "default/pattern.calculus.limit.exp_sub_one_div",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace": ["calculus.limit.log_one_add_div"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 0},
+     {"name": "both_sides", "kind": "OMS", "cd": "limit1"},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMI", "integer": 1}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}},
+        {"name": "x", "kind": "OMV"}],
+       "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "limit", "kind": "OMS", "cd": "limit1"}},
+   "id": "default/pattern.calculus.limit.log_one_add_div",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace": ["calculus.derivative.id"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "x", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.calculus.derivative.id",
+   "expected":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object": {"kind": "OMI", "integer": 1},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
+  {"trace": ["calculus.derivative.sin"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments": [{"name": "x", "kind": "OMV"}],
+       "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.calculus.derivative.sin",
+   "expected":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments": [{"name": "x", "kind": "OMV"}],
+     "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
+  {"trace": ["calculus.derivative.cos"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments": [{"name": "x", "kind": "OMV"}],
+       "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.calculus.derivative.cos",
+   "expected":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMI", "integer": -1},
+      {"kind": "OMA",
+       "arguments": [{"name": "x", "kind": "OMV"}],
+       "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+     "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
+  {"trace": ["calculus.derivative.exp"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments": [{"name": "x", "kind": "OMV"}],
+       "applicant": {"name": "exp", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.calculus.derivative.exp",
+   "expected":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments": [{"name": "x", "kind": "OMV"}],
+     "applicant": {"name": "exp", "kind": "OMS", "cd": "transc1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
+  {"trace": ["calculus.derivative.ln"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments": [{"name": "x", "kind": "OMV"}],
+       "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.calculus.derivative.ln",
+   "expected":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments": [{"kind": "OMI", "integer": 1}, {"name": "x", "kind": "OMV"}],
+     "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
+  {"trace": ["calculus.derivative.tan"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments": [{"name": "x", "kind": "OMV"}],
+       "applicant": {"name": "tan", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.calculus.derivative.tan",
+   "expected":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMI", "integer": 1},
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+        {"kind": "OMI", "integer": 2}],
+       "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
+  {"trace": ["calculus.derivative.arctan"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments": [{"name": "x", "kind": "OMV"}],
+       "applicant": {"name": "arctan", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.calculus.derivative.arctan",
+   "expected":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMI", "integer": 1},
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMI", "integer": 1},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
+  {"trace": ["calculus.limit.sin_div"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 0},
+     {"name": "both_sides", "kind": "OMS", "cd": "limit1"},
+     {"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments": [{"name": "t", "kind": "OMV"}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+        {"name": "t", "kind": "OMV"}],
+       "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "limit", "kind": "OMS", "cd": "limit1"}},
+   "id": "default/renamed.calculus.limit.sin_div",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace": ["calculus.limit.tan_div"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 0},
+     {"name": "both_sides", "kind": "OMS", "cd": "limit1"},
+     {"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments": [{"name": "t", "kind": "OMV"}],
+         "applicant": {"name": "tan", "kind": "OMS", "cd": "transc1"}},
+        {"name": "t", "kind": "OMV"}],
+       "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "limit", "kind": "OMS", "cd": "limit1"}},
+   "id": "default/renamed.calculus.limit.tan_div",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace": ["calculus.limit.one_sub_cos_div_sq"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 0},
+     {"name": "both_sides", "kind": "OMS", "cd": "limit1"},
+     {"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMI", "integer": 1},
+          {"kind": "OMA",
+           "arguments": [{"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+         "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "limit", "kind": "OMS", "cd": "limit1"}},
+   "id": "default/renamed.calculus.limit.one_sub_cos_div_sq",
+   "expected":
+   {"kind": "OMA",
+    "arguments": [{"kind": "OMI", "integer": 1}, {"kind": "OMI", "integer": 2}],
+    "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["calculus.limit.exp_sub_one_div"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 0},
+     {"name": "both_sides", "kind": "OMS", "cd": "limit1"},
+     {"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments": [{"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "exp", "kind": "OMS", "cd": "transc1"}},
+          {"kind": "OMI", "integer": 1}],
+         "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}},
+        {"name": "t", "kind": "OMV"}],
+       "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "limit", "kind": "OMS", "cd": "limit1"}},
+   "id": "default/renamed.calculus.limit.exp_sub_one_div",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace": ["calculus.limit.log_one_add_div"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 0},
+     {"name": "both_sides", "kind": "OMS", "cd": "limit1"},
+     {"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMI", "integer": 1}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}},
+        {"name": "t", "kind": "OMV"}],
+       "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "limit", "kind": "OMS", "cd": "limit1"}},
+   "id": "default/renamed.calculus.limit.log_one_add_div",
+   "expected": {"kind": "OMI", "integer": 1}},
+  {"trace": ["calculus.derivative.id"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object": {"name": "t", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.calculus.derivative.id",
+   "expected":
+   {"variables": [{"name": "t", "kind": "OMV"}],
+    "object": {"kind": "OMI", "integer": 1},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
+  {"trace": ["calculus.derivative.sin"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments": [{"name": "t", "kind": "OMV"}],
+       "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.calculus.derivative.sin",
+   "expected":
+   {"variables": [{"name": "t", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments": [{"name": "t", "kind": "OMV"}],
+     "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
+  {"trace": ["calculus.derivative.cos"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments": [{"name": "t", "kind": "OMV"}],
+       "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.calculus.derivative.cos",
+   "expected":
+   {"variables": [{"name": "t", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMI", "integer": -1},
+      {"kind": "OMA",
+       "arguments": [{"name": "t", "kind": "OMV"}],
+       "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+     "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
+  {"trace": ["calculus.derivative.exp"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments": [{"name": "t", "kind": "OMV"}],
+       "applicant": {"name": "exp", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.calculus.derivative.exp",
+   "expected":
+   {"variables": [{"name": "t", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments": [{"name": "t", "kind": "OMV"}],
+     "applicant": {"name": "exp", "kind": "OMS", "cd": "transc1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
+  {"trace": ["calculus.derivative.ln"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments": [{"name": "t", "kind": "OMV"}],
+       "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.calculus.derivative.ln",
+   "expected":
+   {"variables": [{"name": "t", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments": [{"kind": "OMI", "integer": 1}, {"name": "t", "kind": "OMV"}],
+     "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
+  {"trace": ["calculus.derivative.tan"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments": [{"name": "t", "kind": "OMV"}],
+       "applicant": {"name": "tan", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.calculus.derivative.tan",
+   "expected":
+   {"variables": [{"name": "t", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMI", "integer": 1},
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments": [{"name": "t", "kind": "OMV"}],
+         "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+        {"kind": "OMI", "integer": 2}],
+       "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
+  {"trace": ["calculus.derivative.arctan"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments": [{"name": "t", "kind": "OMV"}],
+       "applicant": {"name": "arctan", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.calculus.derivative.arctan",
+   "expected":
+   {"variables": [{"name": "t", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMI", "integer": 1},
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMI", "integer": 1},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMI", "integer": 2}, {"name": "t", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/nomatch.sin_of_double",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMI", "integer": 2}, {"name": "t", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 1},
+     {"name": "both_sides", "kind": "OMS", "cd": "limit1"},
+     {"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments": [{"name": "t", "kind": "OMV"}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+        {"name": "t", "kind": "OMV"}],
+       "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "limit", "kind": "OMS", "cd": "limit1"}},
+   "id": "default/nomatch.limit_at_one",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMI", "integer": 1},
+     {"name": "both_sides", "kind": "OMS", "cd": "limit1"},
+     {"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments": [{"name": "t", "kind": "OMV"}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+        {"name": "t", "kind": "OMV"}],
+       "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "limit", "kind": "OMS", "cd": "limit1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+       "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/nomatch.square",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+       "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"variables": [{"name": "t", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments": [{"name": "t", "kind": "OMV"}],
+     "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}},
+   "id": "default/normal.lambda",
+   "expected":
+   {"variables": [{"name": "t", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments": [{"name": "t", "kind": "OMV"}],
+     "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}}]}
