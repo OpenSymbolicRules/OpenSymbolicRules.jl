@@ -40,6 +40,38 @@ end
     @test substitute(plus(x, y), Dict("x" => t, "y" => OMI(2))) == plus(t, OMI(2))
 end
 
+@testitem "OSRv1: bindings (OMBIND)" begin
+    using OpenSymbolicRules.OSRv1
+    using JSON
+
+    forall = OMS("quant1", "forall")
+    and_(a, b) = OMA(OMS("logic1", "and"), [a, b])
+    not_(a) = OMA(OMS("logic1", "not"), [a])
+    x, y, p, q = OMV("x"), OMV("y"), OMV("p"), OMV("q")
+
+    e = OMBIND(forall, [y], and_(y, q))
+    j = JSON.parse(JSON.json(to_omjson(e)))
+    @test j["kind"] == "OMBIND"
+    @test j["binder"] == Dict("kind" => "OMS", "cd" => "quant1", "name" => "forall")
+    @test j["variables"] == [Dict("kind" => "OMV", "name" => "y")]
+    @test parse_omjson(j) == e
+    @test hash(e) == hash(OMBIND(forall, [OMV("y")], and_(OMV("y"), q)))
+    @test_throws ArgumentError parse_omjson(Dict("kind" => "OMBIND", "binder" => Dict("kind" => "OMV", "name" => "f"),
+        "variables" => [Dict("kind" => "OMV", "name" => "x")], "object" => Dict("kind" => "OMV", "name" => "x")))
+
+    # The bound variable of a pattern is a pattern variable: it binds the
+    # input's bound variable, consistently across repeated binders.
+    vars = Set(["x", "p"])
+    b = match_pattern(not_(OMBIND(forall, [x], p)), not_(e), vars)
+    @test b == Dict("x" => y, "p" => and_(y, q))
+    @test substitute(OMBIND(OMS("quant1", "exists"), [x], not_(p)), b) ==
+        OMBIND(OMS("quant1", "exists"), [y], not_(and_(y, q)))
+    vars2 = Set(["x", "p", "q"])
+    merge = and_(OMBIND(forall, [x], p), OMBIND(forall, [x], q))
+    @test match_pattern(merge, and_(OMBIND(forall, [y], p), OMBIND(forall, [y], q)), vars2) !== nothing
+    @test match_pattern(merge, and_(OMBIND(forall, [y], p), OMBIND(forall, [OMV("z")], q)), vars2) === nothing
+end
+
 @testitem "OSRv1: load the Lean-exported Trigonometry rule set" begin
     using OpenSymbolicRules.OSRv1
 

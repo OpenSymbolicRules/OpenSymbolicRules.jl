@@ -1,6 +1,6 @@
 {"suite": "logic.rewrite",
  "source_digest":
- "sha256:306a1b65a6a083415dfc469a218fac8fd3004cc5c8c981320ccb02a838737304",
+ "sha256:7992c5b278b1af1117e2a36b3144a2221482abf8637b408d515ffea4c9cbf370",
  "semantics":
  {"strategy":
   "outermost-leftmost: at each step, try the root (rules in order), then the arguments left to right; one rewrite per step",
@@ -480,6 +480,94 @@
       "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
      {"name": "p", "kind": "OMV"}],
     "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": ["logic.quantifier.not_forall"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}},
+   "id": "default/pattern.logic.quantifier.not_forall",
+   "expected":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments": [{"name": "p", "kind": "OMV"}],
+     "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}}},
+  {"trace": ["logic.quantifier.not_exists"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}},
+   "id": "default/pattern.logic.quantifier.not_exists",
+   "expected":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments": [{"name": "p", "kind": "OMV"}],
+     "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}},
+  {"trace": ["logic.quantifier.forall_and"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+   "id": "default/pattern.logic.quantifier.forall_and",
+   "expected":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments": [{"name": "p", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+     "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}},
+  {"trace": ["logic.quantifier.exists_or"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+   "id": "default/pattern.logic.quantifier.exists_or",
+   "expected":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments": [{"name": "p", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+     "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}}},
   {"trace":
    ["logic.connective.implies",
     "logic.negation.not_or",
@@ -645,6 +733,104 @@
       "arguments": [{"name": "q", "kind": "OMV"}],
       "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}}],
     "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": ["logic.quantifier.not_forall", "logic.negation.not_and"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+       "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}},
+   "id": "default/quantifier.not_forall_body",
+   "expected":
+   {"variables": [{"name": "y", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments": [{"name": "y", "kind": "OMV"}],
+       "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}},
+      {"kind": "OMA",
+       "arguments": [{"name": "q", "kind": "OMV"}],
+       "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}}],
+     "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}}},
+  {"trace": ["logic.quantifier.forall_and"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "p", "kind": "OMV"}],
+       "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "y", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+       "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+   "id": "default/quantifier.merge_forall",
+   "expected":
+   {"variables": [{"name": "y", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "p", "kind": "OMV"}],
+       "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+       "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}}],
+     "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "z", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+   "id": "default/quantifier.different_binders",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "z", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}}},
   {"trace": [],
    "profile": "default",
    "normal": true,
@@ -1136,6 +1322,102 @@
       "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
      {"name": "p", "kind": "OMV"}],
     "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": [],
+   "profile": "to_cnf",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}},
+   "id": "to_cnf/pattern.logic.quantifier.not_forall",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": [],
+   "profile": "to_cnf",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}},
+   "id": "to_cnf/pattern.logic.quantifier.not_exists",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": [],
+   "profile": "to_cnf",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+   "id": "to_cnf/pattern.logic.quantifier.forall_and",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": [],
+   "profile": "to_cnf",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+   "id": "to_cnf/pattern.logic.quantifier.exists_or",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}}},
   {"trace":
    ["logic.connective.implies",
     "logic.negation.not_or",
@@ -1322,6 +1604,106 @@
       "arguments": [{"name": "q", "kind": "OMV"}],
       "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}}],
     "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": [],
+   "profile": "to_cnf",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+       "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}},
+   "id": "to_cnf/quantifier.not_forall_body",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+       "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": [],
+   "profile": "to_cnf",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "p", "kind": "OMV"}],
+       "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "y", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+       "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+   "id": "to_cnf/quantifier.merge_forall",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "p", "kind": "OMV"}],
+       "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "y", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+       "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": [],
+   "profile": "to_cnf",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "z", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+   "id": "to_cnf/quantifier.different_binders",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "z", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}}},
   {"trace": [],
    "profile": "to_cnf",
    "normal": true,
@@ -1828,6 +2210,102 @@
       "arguments": [{"name": "r", "kind": "OMV"}, {"name": "p", "kind": "OMV"}],
       "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}}],
     "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": [],
+   "profile": "to_dnf",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}},
+   "id": "to_dnf/pattern.logic.quantifier.not_forall",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": [],
+   "profile": "to_dnf",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}},
+   "id": "to_dnf/pattern.logic.quantifier.not_exists",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": [],
+   "profile": "to_dnf",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+   "id": "to_dnf/pattern.logic.quantifier.forall_and",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": [],
+   "profile": "to_dnf",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+   "id": "to_dnf/pattern.logic.quantifier.exists_or",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "exists", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}}},
   {"trace":
    ["logic.connective.implies",
     "logic.negation.not_or",
@@ -1995,6 +2473,106 @@
       "arguments": [{"name": "q", "kind": "OMV"}],
       "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}}],
     "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": [],
+   "profile": "to_dnf",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+       "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}},
+   "id": "to_dnf/quantifier.not_forall_body",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+       "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "not", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": [],
+   "profile": "to_dnf",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "p", "kind": "OMV"}],
+       "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "y", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+       "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+   "id": "to_dnf/quantifier.merge_forall",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "p", "kind": "OMV"}],
+       "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "y", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "y", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+       "applicant": {"name": "or", "kind": "OMS", "cd": "logic1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}}},
+  {"trace": [],
+   "profile": "to_dnf",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "z", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}},
+   "id": "to_dnf/quantifier.different_binders",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "y", "kind": "OMV"}],
+      "object": {"name": "p", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}},
+     {"variables": [{"name": "z", "kind": "OMV"}],
+      "object": {"name": "q", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "forall", "kind": "OMS", "cd": "quant1"}}],
+    "applicant": {"name": "and", "kind": "OMS", "cd": "logic1"}}},
   {"trace": [],
    "profile": "to_dnf",
    "normal": true,

@@ -18,7 +18,7 @@ module OSRv1
 
 using JSON
 
-export OMS, OMV, OMI, OMA, OMExpr, parse_omjson, to_omjson
+export OMS, OMV, OMI, OMA, OMBIND, OMExpr, parse_omjson, to_omjson
 export RuleSet, Rule, Verification, load_ruleset, verification
 export match_pattern, substitute, rewrite, RewriteStep, RewriteResult
 
@@ -55,14 +55,25 @@ end
 Base.:(==)(a::OMA, b::OMA) = a.head == b.head && a.args == b.args
 Base.hash(a::OMA, h::UInt) = hash(a.args, hash(a.head, hash(:OMA, h)))
 
+"""OpenMath binding `OMBIND(binder, variables, object)` (OpenMath 2.0, 3.3.11)."""
+struct OMBIND <: OMExpr
+    binder::OMS
+    vars::Vector{OMV}
+    body::OMExpr
+end
+
+Base.:(==)(a::OMBIND, b::OMBIND) = a.binder == b.binder && a.vars == b.vars && a.body == b.body
+Base.hash(a::OMBIND, h::UInt) = hash(a.body, hash(a.vars, hash(a.binder, hash(:OMBIND, h))))
+
 const _SUPPORTED_SETS = Dict(:real => OMS("setname1", "R"), :complex => OMS("setname1", "C"),
     :boolean => OMS("setname2", "Boolean"))
 
 """
     parse_omjson(json)
 
-Parse an OpenMath JSON object of the OSR fragment.  Anything else (floats,
-strings, binders, attributions, non-symbol applicants) is rejected.
+Parse an OpenMath JSON object of the OSR fragment: symbols, variables,
+integers, applications of a symbol and bindings by a symbol.  Anything else
+(floats, strings, attributions, non-symbol applicants or binders) is rejected.
 """
 function parse_omjson(j)
     j isa AbstractDict || throw(ArgumentError("OpenMath JSON object expected, got $(typeof(j))"))
@@ -80,6 +91,13 @@ function parse_omjson(j)
         args = OMExpr[parse_omjson(a) for a in j["arguments"]]
         isempty(args) && throw(ArgumentError("OMA without arguments"))
         return OMA(head, args)
+    elseif kind == "OMBIND"
+        binder = parse_omjson(j["binder"])
+        binder isa OMS || throw(ArgumentError("OMBIND binder must be an OMS in the OSR fragment"))
+        vars = OMExpr[parse_omjson(v) for v in j["variables"]]
+        (!isempty(vars) && all(v -> v isa OMV, vars)) ||
+            throw(ArgumentError("OMBIND variables must be a non-empty list of OMV"))
+        return OMBIND(binder, OMV[v for v in vars], parse_omjson(j["object"]))
     end
     throw(ArgumentError("unsupported OpenMath JSON kind: $(repr(kind))"))
 end
@@ -94,6 +112,8 @@ to_omjson(e::OMV) = Dict("kind" => "OMV", "name" => e.name)
 to_omjson(e::OMI) = Dict("kind" => "OMI", "integer" => e.value)
 to_omjson(e::OMA) = Dict("kind" => "OMA", "applicant" => to_omjson(e.head),
     "arguments" => [to_omjson(a) for a in e.args])
+to_omjson(e::OMBIND) = Dict("kind" => "OMBIND", "binder" => to_omjson(e.binder),
+    "variables" => [to_omjson(v) for v in e.vars], "object" => to_omjson(e.body))
 
 """Lean verification record of a rule in one domain."""
 struct Verification
@@ -158,11 +178,13 @@ _omsyms(e::OMS) = [e]
 _omsyms(::OMV) = OMS[]
 _omsyms(::OMI) = OMS[]
 _omsyms(e::OMA) = vcat([e.head], (_omsyms(a) for a in e.args)...)
+_omsyms(e::OMBIND) = vcat([e.binder], _omsyms(e.body))
 
 _vars(::OMS) = String[]
 _vars(e::OMV) = [e.name]
 _vars(::OMI) = String[]
 _vars(e::OMA) = vcat(String[], (_vars(a) for a in e.args)...)
+_vars(e::OMBIND) = vcat(String[v.name for v in e.vars], _vars(e.body))
 
 function _rule(j)
     vars = String[v["name"] for v in j["variables"]]
@@ -251,17 +273,31 @@ function _match!(b, p::OMA, e, variables)
     e isa OMA && e.head == p.head && length(e.args) == length(p.args) || return false
     all(_match!(b, pa, ea, variables) for (pa, ea) in zip(p.args, e.args))
 end
+# A bound variable of the pattern binds the input's bound variable, like any
+# pattern variable (so repeated binders must bind the same name).
+function _match!(b, p::OMBIND, e, variables)
+    e isa OMBIND && e.binder == p.binder && length(e.vars) == length(p.vars) || return false
+    all(_match!(b, pv, ev, variables) for (pv, ev) in zip(p.vars, e.vars)) &&
+        _match!(b, p.body, e.body, variables)
+end
 
 """
     substitute(expr, bindings)
 
-Replace every variable bound in `bindings`.  Rule replacements contain no
-binders, so substitution cannot capture variables.
+Replace every variable bound in `bindings`.  In a rule replacement, matched
+subterms only occur under the binders they were matched under (with the
+input's bound variable names), so substitution cannot capture variables; the
+Lean statement of such rules (`OSR.Logic.BRule.Holds`) proves this.
 """
 substitute(e::OMV, b) = get(b, e.name, e)
 substitute(e::OMS, b) = e
 substitute(e::OMI, b) = e
 substitute(e::OMA, b) = OMA(e.head, OMExpr[substitute(a, b) for a in e.args])
+function substitute(e::OMBIND, b)
+    vars = OMExpr[substitute(v, b) for v in e.vars]
+    all(v -> v isa OMV, vars) || throw(ArgumentError("a bound variable must be replaced by a variable"))
+    OMBIND(e.binder, OMV[v for v in vars], substitute(e.body, b))
+end
 
 """One applied rule."""
 struct RewriteStep
@@ -313,6 +349,10 @@ function _step(e::OMExpr, rules, domain)
                 return OMA(e.head, args), res[2]
             end
         end
+    elseif e isa OMBIND
+        # Rewrite inside the body, never the bound variables.
+        res = _step(e.body, rules, domain)
+        res !== nothing && return OMBIND(e.binder, e.vars, res[1]), res[2]
     end
     return nothing
 end
