@@ -1,6 +1,6 @@
 {"suite": "algebra.rewrite",
  "source_digest":
- "sha256:a6649bd5fb8c68ee90cee2b4d1b287b0d2ae2dde2ce6332a80d8fbbe1afc9013",
+ "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
  "semantics":
  {"strategy":
   "outermost-leftmost: at each step, try the root (rules in order), then the arguments left to right; one rewrite per step",
@@ -33,6 +33,18 @@
    "expected":
    {"kind": "OMA",
     "arguments": [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 0}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments": [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/pattern.algebra.power.neg_one",
+   "expected":
+   {"kind": "OMA",
+    "arguments": [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
     "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}},
   {"trace": [],
    "profile": "default",
@@ -443,6 +455,18 @@
    "expected":
    {"kind": "OMA",
     "arguments": [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 0}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "factor_polynomials",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments": [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+   "id": "factor_polynomials/pattern.algebra.power.neg_one",
+   "expected":
+   {"kind": "OMA",
+    "arguments": [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
     "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}},
   {"trace": [],
    "profile": "factor_polynomials",
