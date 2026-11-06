@@ -62,16 +62,17 @@ The strategy works as follows:
 This is the strategy of the Lean reference rewriter `OSR.normalize`, whose
 soundness is proved in Lean. The Trigonometry rule set has four profiles
 (`default` for expansion, `product_to_sum`, `power_reduction` and
-`sum_to_product`), each checked for termination by the Lean exporter.
+`sum_to_product`) and the Algebra rule set two (`default` and
+`factor_polynomials`); the termination of each profile is proved in Lean.
 
 ## Conformance
 
 The Lean exporter also writes conformance cases: for each profile and input,
 the expected result and the sequence of rule ids applied. They are published
 in `OpenSymbolicRules/Conformance`, and `test/test_osr_v1.jl` checks that
-`rewrite` reproduces all of them (fixture in
-`test/data/osr1/conformance/trigonometry.cases.json`; set `OSR1_CONFORMANCE`
-to use another file).
+`rewrite` reproduces all of them, for Trigonometry and Algebra (fixtures in
+`test/data/osr1/`; set `OSR1_DIR` to a Lean export directory to use fresh
+files instead).
 
 ## What the certificate covers
 
