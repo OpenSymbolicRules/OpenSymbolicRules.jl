@@ -1,6 +1,6 @@
 {"suite": "algebra.rewrite",
  "source_digest":
- "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+ "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
  "semantics":
  {"strategy":
   "outermost-leftmost: at each step, try the root (rules in order), then the arguments left to right; one rewrite per step",
@@ -13,7 +13,51 @@
  "ruleset": "algebra.osr.json",
  "osr_format": "1.0.0-alpha.1",
  "cases":
- [{"trace": ["algebra.power.one"],
+ [{"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "p", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"name": "q", "kind": "OMV"}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/pattern.algebra.power.pow_pow",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "p", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"name": "q", "kind": "OMV"}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "p", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/pattern.algebra.power.mul_pow",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "p", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["algebra.power.one"],
    "profile": "default",
    "normal": true,
    "input":
@@ -46,6 +90,15 @@
    {"kind": "OMA",
     "arguments": [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
     "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": ["algebra.power.one_pow"],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments": [{"kind": "OMI", "integer": 1}, {"name": "x", "kind": "OMV"}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+   "id": "default/pattern.algebra.power.one_pow",
+   "expected": {"kind": "OMI", "integer": 1}},
   {"trace": [],
    "profile": "default",
    "normal": true,
@@ -63,6 +116,24 @@
     [{"kind": "OMA",
       "arguments": [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}},
+   "id": "default/pattern.algebra.log.ln_pow",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
     "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}},
   {"trace": [],
    "profile": "default",
@@ -437,6 +508,50 @@
    "normal": true,
    "input":
    {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "p", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"name": "q", "kind": "OMV"}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+   "id": "factor_polynomials/pattern.algebra.power.pow_pow",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "p", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"name": "q", "kind": "OMV"}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "factor_polynomials",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "p", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+   "id": "factor_polynomials/pattern.algebra.power.mul_pow",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "p", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+     {"kind": "OMA",
+      "arguments": [{"name": "x", "kind": "OMV"}, {"name": "q", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "factor_polynomials",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
     "arguments": [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 1}],
     "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
    "id": "factor_polynomials/pattern.algebra.power.one",
@@ -473,6 +588,18 @@
    "normal": true,
    "input":
    {"kind": "OMA",
+    "arguments": [{"kind": "OMI", "integer": 1}, {"name": "x", "kind": "OMV"}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+   "id": "factor_polynomials/pattern.algebra.power.one_pow",
+   "expected":
+   {"kind": "OMA",
+    "arguments": [{"kind": "OMI", "integer": 1}, {"name": "x", "kind": "OMV"}],
+    "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}},
+  {"trace": [],
+   "profile": "factor_polynomials",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
     "arguments":
     [{"kind": "OMA",
       "arguments": [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
@@ -485,6 +612,24 @@
     [{"kind": "OMA",
       "arguments": [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}},
+  {"trace": [],
+   "profile": "factor_polynomials",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+    "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}},
+   "id": "factor_polynomials/pattern.algebra.log.ln_pow",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"kind": "OMA",
+      "arguments": [{"name": "a", "kind": "OMV"}, {"name": "b", "kind": "OMV"}],
+      "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
     "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}},
   {"trace": [],
    "profile": "factor_polynomials",

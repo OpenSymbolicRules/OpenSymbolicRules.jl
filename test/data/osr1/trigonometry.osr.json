@@ -38,34 +38,44 @@
    "interpretations":
    [{"unresolved": [],
      "obligations":
-     [{"theorem": "pow_zero",
+     [{"theorem": "zpow_zero",
        "note": "",
        "cmp": "if n is an integer then x^0 = 1"},
+      {"theorem": "OSR.Registry.zpow_cmp2",
+       "note":
+       "for x ≠ 0; at x = 0 the CMP would need 0^(-1), which is undefined",
+       "cmp": "if n is an integer then x^n = x * x^(n-1)"},
       {"theorem": "OSR.Registry.pow_cmp2",
-       "note": "stated for natural n as x^(n+1) = x * x^n",
+       "note": "for natural n, every x, as x^(n+1) = x * x^n",
        "cmp": "if n is an integer then x^n = x * x^(n-1)"}],
      "lean": "HPow.hPow",
      "justification":
-     "Monoid power by a natural number agrees with the integer-exponent recursion of CMP 2.",
+     "Group-with-zero power by an integer (zpow) agrees with the integer-exponent recursion of CMP 2.",
      "domain": "real",
-     "definedness": "everywhere (natural exponents; 0^0 = 1 as in CMP 2)",
+     "definedness":
+     "integer exponent, and nonzero base if the exponent is negative (0^0 = 1 as in CMP 2)",
      "assurance": "formally_related"},
     {"unresolved": [],
      "obligations":
-     [{"theorem": "pow_zero",
+     [{"theorem": "zpow_zero",
        "note": "",
        "cmp": "if n is an integer then x^0 = 1"},
+      {"theorem": "OSR.Registry.zpow_cmp2",
+       "note":
+       "for x ≠ 0; at x = 0 the CMP would need 0^(-1), which is undefined",
+       "cmp": "if n is an integer then x^n = x * x^(n-1)"},
       {"theorem": "OSR.Registry.pow_cmp2",
-       "note": "stated for natural n as x^(n+1) = x * x^n",
+       "note": "for natural n, every x, as x^(n+1) = x * x^n",
        "cmp": "if n is an integer then x^n = x * x^(n-1)"}],
      "lean": "HPow.hPow",
      "justification":
-     "Monoid power by a natural number agrees with the integer-exponent recursion of CMP 2.",
+     "Group-with-zero power by an integer (zpow) agrees with the integer-exponent recursion of CMP 2.",
      "domain": "complex",
-     "definedness": "everywhere (natural exponents; 0^0 = 1 as in CMP 2)",
+     "definedness":
+     "integer exponent, and nonzero base if the exponent is negative (0^0 = 1 as in CMP 2)",
      "assurance": "formally_related"}],
    "fragment":
-   "exponent restricted to a natural-number literal; general powers (CMP 1, exp/ln) are out of scope",
+   "interpreted for integer exponents only; general powers (CMP 1, exp/ln) are out of scope, so a power with a non-integer exponent is undefined in the fragment",
    "cd_version": 3,
    "cd_sha256":
    "8dab1c657db03b87da8ed3a139c2490df0e86076ab634c3804b757c5594f6d8a",
@@ -345,7 +355,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.pythagorean OSR.Domain.real",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -360,7 +370,7 @@
      "statement":
      "OSR.Rule.Holds OSR.Trigonometry.pythagorean OSR.Domain.complex",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -417,7 +427,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.sinAdd OSR.Domain.real",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -431,7 +441,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.sinAdd OSR.Domain.complex",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -498,7 +508,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.cosSub OSR.Domain.real",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -512,7 +522,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.cosSub OSR.Domain.complex",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -580,7 +590,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.sinTwoMul OSR.Domain.real",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -595,7 +605,7 @@
      "statement":
      "OSR.Rule.Holds OSR.Trigonometry.sinTwoMul OSR.Domain.complex",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -653,7 +663,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.cosTwoMul OSR.Domain.real",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -668,7 +678,7 @@
      "statement":
      "OSR.Rule.Holds OSR.Trigonometry.cosTwoMul OSR.Domain.complex",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -733,7 +743,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.sinMulCos OSR.Domain.real",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -748,7 +758,7 @@
      "statement":
      "OSR.Rule.Holds OSR.Trigonometry.sinMulCos OSR.Domain.complex",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -823,7 +833,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.sinMulSin OSR.Domain.real",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -838,7 +848,7 @@
      "statement":
      "OSR.Rule.Holds OSR.Trigonometry.sinMulSin OSR.Domain.complex",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -913,7 +923,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.sinSq OSR.Domain.real",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -927,7 +937,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.sinSq OSR.Domain.complex",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -994,7 +1004,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.cosSq OSR.Domain.real",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1008,7 +1018,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.cosSq OSR.Domain.complex",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1071,7 +1081,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.sinAddSin OSR.Domain.real",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1086,7 +1096,7 @@
      "statement":
      "OSR.Rule.Holds OSR.Trigonometry.sinAddSin OSR.Domain.complex",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1165,7 +1175,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.cosAddCos OSR.Domain.real",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1180,7 +1190,7 @@
      "statement":
      "OSR.Rule.Holds OSR.Trigonometry.cosAddCos OSR.Domain.complex",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1258,7 +1268,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.cosSubCos OSR.Domain.real",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1273,7 +1283,7 @@
      "statement":
      "OSR.Rule.Holds OSR.Trigonometry.cosSubCos OSR.Domain.complex",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1352,7 +1362,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Trigonometry.tanArctan OSR.Domain.real",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1367,7 +1377,7 @@
      "statement":
      "OSR.Rule.Holds OSR.Trigonometry.tanArctan OSR.Domain.complex",
      "source_digest":
-     "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+     "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
      "prover": "lean4",
      "module": "OSR.Trigonometry",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1445,7 +1455,7 @@
   "cdbase": "http://www.openmath.org/cd"},
  "build":
  {"source_digest":
-  "sha256:f495f360d39aa36ba650dac16d4de50ec550a121c0d9bef3b7213112f4ee1cbf",
+  "sha256:0dd4fefaab184e183edb107e7dd902b07d769a769ea8c20687e1872b49f6f5d8",
   "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "generator": "OpenSymbolicRules/Lean scripts/Export.lean"}}
