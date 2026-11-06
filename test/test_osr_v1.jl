@@ -142,17 +142,17 @@ end
     # Every rule set is checked against its suite.  `OSR1_DIR` replaces the
     # fixtures with a fresh export directory (`just export` in the Lean repo).
     dir = get(ENV, "OSR1_DIR", joinpath(@__DIR__, "data", "osr1"))
-    for name in ("trigonometry", "algebra")
+    for name in ("trigonometry", "algebra", "logic")
         rspath = joinpath(dir, "$name.osr.json")
         suitepath = joinpath(dir, "conformance", "$name.cases.json")
         rs = load_ruleset(rspath)
         suite = JSON.parsefile(suitepath; dicttype=Dict{String,Any})
         @test suite["source_digest"] == rs.build["source_digest"]
-        @test suite["semantics"]["domain"] == "real"
+        domain = Symbol(suite["semantics"]["domain"])
         fuel = suite["semantics"]["fuel"]
         @test length(suite["cases"]) > 0
         for c in suite["cases"]
-            res = rewrite(parse_omjson(c["input"]), rs; profile=c["profile"], domain=:real,
+            res = rewrite(parse_omjson(c["input"]), rs; profile=c["profile"], domain=domain,
                 max_steps=fuel)
             @testset "$(suite["suite"]) $(c["id"])" begin
                 @test res.expr == parse_omjson(c["expected"])

@@ -55,7 +55,8 @@ end
 Base.:(==)(a::OMA, b::OMA) = a.head == b.head && a.args == b.args
 Base.hash(a::OMA, h::UInt) = hash(a.args, hash(a.head, hash(:OMA, h)))
 
-const _SUPPORTED_SETS = Dict(:real => OMS("setname1", "R"), :complex => OMS("setname1", "C"))
+const _SUPPORTED_SETS = Dict(:real => OMS("setname1", "R"), :complex => OMS("setname1", "C"),
+    :boolean => OMS("setname2", "Boolean"))
 
 """
     parse_omjson(json)
@@ -216,7 +217,7 @@ end
 """
     verification(rule, domain)
 
-The verification record of `rule` for `domain` (`:real` or `:complex`).
+The verification record of `rule` for `domain` (`:real`, `:complex` or `:boolean`).
 """
 function verification(r::Rule, domain::Symbol)
     i = findfirst(v -> v.domain == domain, r.verification)

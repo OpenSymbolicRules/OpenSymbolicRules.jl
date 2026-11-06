@@ -35,7 +35,7 @@ jobs:
         # v1 schemas from OpenSymbolicRules/Specification, pinned by commit
         # (the `specification` submodule still pins a v0.1 revision).
         env:
-          SPEC: https://raw.githubusercontent.com/OpenSymbolicRules/Specification/c859fdfd4299ba8b06a0bf653bc315768bbfa936/schemas/v1
+          SPEC: https://raw.githubusercontent.com/OpenSymbolicRules/Specification/ba3ac13265c4e09c72d17a65771988803d4f337e/schemas/v1
         run: |
           curl -sSfL "$SPEC/ruleset.schema.json" -o /tmp/ruleset.schema.json
           curl -sSfL "$SPEC/conformance.schema.json" -o /tmp/conformance.schema.json
