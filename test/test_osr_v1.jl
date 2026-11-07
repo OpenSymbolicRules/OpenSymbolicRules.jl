@@ -72,6 +72,27 @@ end
     @test match_pattern(merge, and_(OMBIND(forall, [y], p), OMBIND(forall, [OMV("z")], q)), vars2) === nothing
 end
 
+@testitem "OSRv1: independence constraints (FreeQ)" begin
+    using OpenSymbolicRules.OSRv1
+
+    forall = OMS("quant1", "forall")
+    or_(a, b) = OMA(OMS("logic1", "or"), [a, b])
+    y, p, q = OMV("y"), OMV("p"), OMV("q")
+    @test OSRv1.freevars(OMBIND(forall, [y], or_(y, q))) == Set(["q"])
+
+    dir = joinpath(@__DIR__, "data", "osr1")
+    rs = load_ruleset(get(ENV, "OSR1_DIR", dir) * "/logic.osr.json")
+    vac = rs.rules["logic.quantifier.forall_vacuous"]
+    @test vac.independent == [("p", "x")]
+    # ∀y. (p ∨ q) is vacuous; ∀y. (y ∨ q) is not, and moves q out instead.
+    r1 = rewrite(OMBIND(forall, [y], or_(p, q)), rs; profile="default", domain=:boolean, max_steps=1)
+    @test r1.steps[1].rule == "logic.quantifier.forall_vacuous"
+    @test r1.expr == or_(p, q)
+    r2 = rewrite(OMBIND(forall, [y], or_(y, q)), rs; profile="default", domain=:boolean, max_steps=1)
+    @test r2.steps[1].rule == "logic.quantifier.forall_or_right"
+    @test r2.expr == or_(OMBIND(forall, [y], y), q)
+end
+
 @testitem "OSRv1: load the Lean-exported Trigonometry rule set" begin
     using OpenSymbolicRules.OSRv1
 

@@ -145,6 +145,8 @@ struct Rule
     provenance::Dict{String,Any}
     verification::Vector{Verification}
     findings::Vector{String}
+    "Matching constraints: `(v, x)` means the subterm matched by `v` must not mention the variable bound by `x`."
+    independent::Vector{Tuple{String,String}}
 end
 
 """A loaded rule set."""
@@ -202,7 +204,8 @@ function _rule(j)
     used == Set(symbols) || throw(ArgumentError("rule $(j["id"]): declared symbols differ from used symbols"))
     Rule(j["id"], get(j, "legacy_id", nothing), j["description"], vars, pattern, replacement,
         conditions, String.(j["profiles"]), j["priority"], symbols, j["provenance"],
-        Verification[_verification(v) for v in j["verification"]], String.(j["findings"]))
+        Verification[_verification(v) for v in j["verification"]], String.(j["findings"]),
+        Tuple{String,String}[(String(c["variable"]), String(c["of"])) for c in get(j, "independent", [])])
 end
 
 """
@@ -281,6 +284,23 @@ function _match!(b, p::OMBIND, e, variables)
         _match!(b, p.body, e.body, variables)
 end
 
+"""Free variables of an expression (bound variables of `OMBIND` excluded)."""
+freevars(e::OMV) = Set([e.name])
+freevars(::OMS) = Set{String}()
+freevars(::OMI) = Set{String}()
+freevars(e::OMA) = union(Set{String}(), (freevars(a) for a in e.args)...)
+freevars(e::OMBIND) = setdiff(freevars(e.body), Set(v.name for v in e.vars))
+
+# The independence constraints of a rule hold for a match.
+function _independent_ok(r, b)
+    for (v, x) in r.independent
+        y = get(b, x, nothing)
+        y isa OMV || return false
+        haskey(b, v) && y.name in freevars(b[v]) && return false
+    end
+    return true
+end
+
 """
     substitute(expr, bindings)
 
@@ -334,7 +354,7 @@ end
 function _step(e::OMExpr, rules, domain)
     for r in rules
         b = match_pattern(r.pattern, e, Set(r.variables))
-        if b !== nothing
+        if b !== nothing && _independent_ok(r, b)
             after = substitute(r.replacement, b)
             v = verification(r, domain)
             return after, RewriteStep(r.id, v.theorem, v.certified, e, after)
