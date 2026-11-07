@@ -80,6 +80,158 @@
    "cd_date": "2009-04-01",
    "cd": "fns1",
    "arity": 0},
+  {"uri": "http://www.openmath.org/cd/calculus1#diff",
+   "name": "diff",
+   "interpretations":
+   [{"unresolved": [],
+     "obligations": [],
+     "lean": "deriv",
+     "justification":
+     "Ordinary derivative of a unary function; rules state HasDerivAt, which implies deriv f t = f'(t). The CMPs (sum and product rules) hold for differentiable functions (deriv_add, deriv_mul).",
+     "domain": "real",
+     "definedness": "where the function is differentiable",
+     "assurance": "reviewed"},
+    {"unresolved": [],
+     "obligations": [],
+     "lean": "deriv",
+     "justification":
+     "Ordinary derivative of a unary function; rules state HasDerivAt, which implies deriv f t = f'(t). The CMPs (sum and product rules) hold for differentiable functions (deriv_add, deriv_mul).",
+     "domain": "complex",
+     "definedness": "where the function is differentiable",
+     "assurance": "reviewed"}],
+   "fragment":
+   "applied to a lambda term; a rule states HasDerivAt where the body is defined near the point",
+   "cd_version": 5,
+   "cd_sha256":
+   "bd61e71618800e50935bd4f8503ad3d7bd7f131456854cb5d7cb49fa3df780e7",
+   "cd_revision": 0,
+   "cd_date": "2009-04-01",
+   "cd": "calculus1",
+   "arity": 1},
+  {"uri": "http://www.openmath.org/cd/arith1#power",
+   "name": "power",
+   "interpretations":
+   [{"unresolved": [],
+     "obligations":
+     [{"theorem": "zpow_zero",
+       "note": "",
+       "cmp": "if n is an integer then x^0 = 1"},
+      {"theorem": "OSR.Registry.zpow_cmp2",
+       "note":
+       "for x ≠ 0; at x = 0 the CMP would need 0^(-1), which is undefined",
+       "cmp": "if n is an integer then x^n = x * x^(n-1)"},
+      {"theorem": "OSR.Registry.pow_cmp2",
+       "note": "for natural n, every x, as x^(n+1) = x * x^n",
+       "cmp": "if n is an integer then x^n = x * x^(n-1)"}],
+     "lean": "HPow.hPow",
+     "justification":
+     "Group-with-zero power by an integer (zpow) agrees with the integer-exponent recursion of CMP 2.",
+     "domain": "real",
+     "definedness":
+     "integer exponent, and nonzero base if the exponent is negative (0^0 = 1 as in CMP 2)",
+     "assurance": "formally_related"},
+    {"unresolved": [],
+     "obligations":
+     [{"theorem": "zpow_zero",
+       "note": "",
+       "cmp": "if n is an integer then x^0 = 1"},
+      {"theorem": "OSR.Registry.zpow_cmp2",
+       "note":
+       "for x ≠ 0; at x = 0 the CMP would need 0^(-1), which is undefined",
+       "cmp": "if n is an integer then x^n = x * x^(n-1)"},
+      {"theorem": "OSR.Registry.pow_cmp2",
+       "note": "for natural n, every x, as x^(n+1) = x * x^n",
+       "cmp": "if n is an integer then x^n = x * x^(n-1)"}],
+     "lean": "HPow.hPow",
+     "justification":
+     "Group-with-zero power by an integer (zpow) agrees with the integer-exponent recursion of CMP 2.",
+     "domain": "complex",
+     "definedness":
+     "integer exponent, and nonzero base if the exponent is negative (0^0 = 1 as in CMP 2)",
+     "assurance": "formally_related"}],
+   "fragment":
+   "interpreted for integer exponents only; general powers (CMP 1, exp/ln) are out of scope, so a power with a non-integer exponent is undefined in the fragment",
+   "cd_version": 3,
+   "cd_sha256":
+   "8dab1c657db03b87da8ed3a139c2490df0e86076ab634c3804b757c5594f6d8a",
+   "cd_revision": 1,
+   "cd_date": "2004-03-30",
+   "cd": "arith1",
+   "arity": 2},
+  {"uri": "http://www.openmath.org/cd/arith1#times",
+   "name": "times",
+   "interpretations":
+   [{"unresolved": [],
+     "obligations":
+     [{"theorem": "MulZeroClass.mul_zero",
+       "note": "first conjunct only",
+       "cmp": "for all a,b | a * 0 = 0 and a * b = a * (b - 1) + a"},
+      {"theorem": "mul_add",
+       "note": "",
+       "cmp": "for all a,b,c | a*(b+c) = a*b + a*c"}],
+     "lean": "HMul.hMul",
+     "justification":
+     "Field operation of the carrier; the CMPs listed hold in any field.",
+     "domain": "real",
+     "definedness": "everywhere",
+     "assurance": "formally_related"},
+    {"unresolved": [],
+     "obligations":
+     [{"theorem": "MulZeroClass.mul_zero",
+       "note": "first conjunct only",
+       "cmp": "for all a,b | a * 0 = 0 and a * b = a * (b - 1) + a"},
+      {"theorem": "mul_add",
+       "note": "",
+       "cmp": "for all a,b,c | a*(b+c) = a*b + a*c"}],
+     "lean": "HMul.hMul",
+     "justification":
+     "Field operation of the carrier; the CMPs listed hold in any field.",
+     "domain": "complex",
+     "definedness": "everywhere",
+     "assurance": "formally_related"}],
+   "fragment":
+   "binary only; the CD symbol is n-ary (an n-ary product is a left-nested chain)",
+   "cd_version": 3,
+   "cd_sha256":
+   "8dab1c657db03b87da8ed3a139c2490df0e86076ab634c3804b757c5594f6d8a",
+   "cd_revision": 1,
+   "cd_date": "2004-03-30",
+   "cd": "arith1",
+   "arity": 2},
+  {"uri": "http://www.openmath.org/cd/arith1#plus",
+   "name": "plus",
+   "interpretations":
+   [{"unresolved": [],
+     "obligations":
+     [{"theorem": "add_comm",
+       "note": "",
+       "cmp": "for all a,b | a + b = b + a"}],
+     "lean": "HAdd.hAdd",
+     "justification":
+     "Field operation of the carrier; the CMPs listed hold in any field.",
+     "domain": "real",
+     "definedness": "everywhere",
+     "assurance": "formally_related"},
+    {"unresolved": [],
+     "obligations":
+     [{"theorem": "add_comm",
+       "note": "",
+       "cmp": "for all a,b | a + b = b + a"}],
+     "lean": "HAdd.hAdd",
+     "justification":
+     "Field operation of the carrier; the CMPs listed hold in any field.",
+     "domain": "complex",
+     "definedness": "everywhere",
+     "assurance": "formally_related"}],
+   "fragment":
+   "binary only; the CD symbol is n-ary (an n-ary sum is a left-nested chain)",
+   "cd_version": 3,
+   "cd_sha256":
+   "8dab1c657db03b87da8ed3a139c2490df0e86076ab634c3804b757c5594f6d8a",
+   "cd_revision": 1,
+   "cd_date": "2004-03-30",
+   "cd": "arith1",
+   "arity": 2},
   {"uri": "http://www.openmath.org/cd/arith1#divide",
    "name": "divide",
    "interpretations":
@@ -270,56 +422,6 @@
    "cd_date": "2004-03-30",
    "cd": "transc1",
    "arity": 1},
-  {"uri": "http://www.openmath.org/cd/arith1#power",
-   "name": "power",
-   "interpretations":
-   [{"unresolved": [],
-     "obligations":
-     [{"theorem": "zpow_zero",
-       "note": "",
-       "cmp": "if n is an integer then x^0 = 1"},
-      {"theorem": "OSR.Registry.zpow_cmp2",
-       "note":
-       "for x ≠ 0; at x = 0 the CMP would need 0^(-1), which is undefined",
-       "cmp": "if n is an integer then x^n = x * x^(n-1)"},
-      {"theorem": "OSR.Registry.pow_cmp2",
-       "note": "for natural n, every x, as x^(n+1) = x * x^n",
-       "cmp": "if n is an integer then x^n = x * x^(n-1)"}],
-     "lean": "HPow.hPow",
-     "justification":
-     "Group-with-zero power by an integer (zpow) agrees with the integer-exponent recursion of CMP 2.",
-     "domain": "real",
-     "definedness":
-     "integer exponent, and nonzero base if the exponent is negative (0^0 = 1 as in CMP 2)",
-     "assurance": "formally_related"},
-    {"unresolved": [],
-     "obligations":
-     [{"theorem": "zpow_zero",
-       "note": "",
-       "cmp": "if n is an integer then x^0 = 1"},
-      {"theorem": "OSR.Registry.zpow_cmp2",
-       "note":
-       "for x ≠ 0; at x = 0 the CMP would need 0^(-1), which is undefined",
-       "cmp": "if n is an integer then x^n = x * x^(n-1)"},
-      {"theorem": "OSR.Registry.pow_cmp2",
-       "note": "for natural n, every x, as x^(n+1) = x * x^n",
-       "cmp": "if n is an integer then x^n = x * x^(n-1)"}],
-     "lean": "HPow.hPow",
-     "justification":
-     "Group-with-zero power by an integer (zpow) agrees with the integer-exponent recursion of CMP 2.",
-     "domain": "complex",
-     "definedness":
-     "integer exponent, and nonzero base if the exponent is negative (0^0 = 1 as in CMP 2)",
-     "assurance": "formally_related"}],
-   "fragment":
-   "interpreted for integer exponents only; general powers (CMP 1, exp/ln) are out of scope, so a power with a non-integer exponent is undefined in the fragment",
-   "cd_version": 3,
-   "cd_sha256":
-   "8dab1c657db03b87da8ed3a139c2490df0e86076ab634c3804b757c5594f6d8a",
-   "cd_revision": 1,
-   "cd_date": "2004-03-30",
-   "cd": "arith1",
-   "arity": 2},
   {"uri": "http://www.openmath.org/cd/transc1#exp",
    "name": "exp",
    "interpretations":
@@ -390,108 +492,6 @@
    "cd_date": "2004-03-30",
    "cd": "transc1",
    "arity": 1},
-  {"uri": "http://www.openmath.org/cd/arith1#plus",
-   "name": "plus",
-   "interpretations":
-   [{"unresolved": [],
-     "obligations":
-     [{"theorem": "add_comm",
-       "note": "",
-       "cmp": "for all a,b | a + b = b + a"}],
-     "lean": "HAdd.hAdd",
-     "justification":
-     "Field operation of the carrier; the CMPs listed hold in any field.",
-     "domain": "real",
-     "definedness": "everywhere",
-     "assurance": "formally_related"},
-    {"unresolved": [],
-     "obligations":
-     [{"theorem": "add_comm",
-       "note": "",
-       "cmp": "for all a,b | a + b = b + a"}],
-     "lean": "HAdd.hAdd",
-     "justification":
-     "Field operation of the carrier; the CMPs listed hold in any field.",
-     "domain": "complex",
-     "definedness": "everywhere",
-     "assurance": "formally_related"}],
-   "fragment":
-   "binary only; the CD symbol is n-ary (an n-ary sum is a left-nested chain)",
-   "cd_version": 3,
-   "cd_sha256":
-   "8dab1c657db03b87da8ed3a139c2490df0e86076ab634c3804b757c5594f6d8a",
-   "cd_revision": 1,
-   "cd_date": "2004-03-30",
-   "cd": "arith1",
-   "arity": 2},
-  {"uri": "http://www.openmath.org/cd/calculus1#diff",
-   "name": "diff",
-   "interpretations":
-   [{"unresolved": [],
-     "obligations": [],
-     "lean": "deriv",
-     "justification":
-     "Ordinary derivative of a unary function; rules state HasDerivAt, which implies deriv f t = f'(t). The CMPs (sum and product rules) hold for differentiable functions (deriv_add, deriv_mul).",
-     "domain": "real",
-     "definedness": "where the function is differentiable",
-     "assurance": "reviewed"},
-    {"unresolved": [],
-     "obligations": [],
-     "lean": "deriv",
-     "justification":
-     "Ordinary derivative of a unary function; rules state HasDerivAt, which implies deriv f t = f'(t). The CMPs (sum and product rules) hold for differentiable functions (deriv_add, deriv_mul).",
-     "domain": "complex",
-     "definedness": "where the function is differentiable",
-     "assurance": "reviewed"}],
-   "fragment":
-   "applied to a lambda term; a rule states HasDerivAt where the body is defined near the point",
-   "cd_version": 5,
-   "cd_sha256":
-   "bd61e71618800e50935bd4f8503ad3d7bd7f131456854cb5d7cb49fa3df780e7",
-   "cd_revision": 0,
-   "cd_date": "2009-04-01",
-   "cd": "calculus1",
-   "arity": 1},
-  {"uri": "http://www.openmath.org/cd/arith1#times",
-   "name": "times",
-   "interpretations":
-   [{"unresolved": [],
-     "obligations":
-     [{"theorem": "MulZeroClass.mul_zero",
-       "note": "first conjunct only",
-       "cmp": "for all a,b | a * 0 = 0 and a * b = a * (b - 1) + a"},
-      {"theorem": "mul_add",
-       "note": "",
-       "cmp": "for all a,b,c | a*(b+c) = a*b + a*c"}],
-     "lean": "HMul.hMul",
-     "justification":
-     "Field operation of the carrier; the CMPs listed hold in any field.",
-     "domain": "real",
-     "definedness": "everywhere",
-     "assurance": "formally_related"},
-    {"unresolved": [],
-     "obligations":
-     [{"theorem": "MulZeroClass.mul_zero",
-       "note": "first conjunct only",
-       "cmp": "for all a,b | a * 0 = 0 and a * b = a * (b - 1) + a"},
-      {"theorem": "mul_add",
-       "note": "",
-       "cmp": "for all a,b,c | a*(b+c) = a*b + a*c"}],
-     "lean": "HMul.hMul",
-     "justification":
-     "Field operation of the carrier; the CMPs listed hold in any field.",
-     "domain": "complex",
-     "definedness": "everywhere",
-     "assurance": "formally_related"}],
-   "fragment":
-   "binary only; the CD symbol is n-ary (an n-ary product is a left-nested chain)",
-   "cd_version": 3,
-   "cd_sha256":
-   "8dab1c657db03b87da8ed3a139c2490df0e86076ab634c3804b757c5594f6d8a",
-   "cd_revision": 1,
-   "cd_date": "2004-03-30",
-   "cd": "arith1",
-   "arity": 2},
   {"uri": "http://www.openmath.org/cd/transc1#arctan",
    "name": "arctan",
    "interpretations":
@@ -881,12 +881,226 @@
  "ruleset": "calculus",
  "rules":
  [{"verification":
+   [{"theorem": "OSR.Calculus.limitConst_real",
+     "status": "proved",
+     "statement":
+     "OSR.Calculus.CRule.Holds OSR.Calculus.limitConst OSR.Domain.real",
+     "source_digest":
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "real",
+     "certified": true,
+     "carrier": {"name": "R", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]},
+    {"theorem": "OSR.Calculus.limitConst_complex",
+     "status": "proved",
+     "statement":
+     "OSR.Calculus.CRule.Holds OSR.Calculus.limitConst OSR.Domain.complex",
+     "source_digest":
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "complex",
+     "certified": true,
+     "carrier": {"name": "C", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]}],
+   "variables":
+   [{"name": "x", "kind": "OMV"},
+    {"name": "c", "kind": "OMV"},
+    {"name": "a", "kind": "OMV"}],
+   "symbols":
+   ["http://www.openmath.org/cd/limit1#limit",
+    "http://www.openmath.org/cd/limit1#both_sides",
+    "http://www.openmath.org/cd/fns1#lambda"],
+   "replacement": {"name": "c", "kind": "OMV"},
+   "provenance":
+   {"sources":
+    [{"revision": "eb9eb87aa7ffcd6dd7da055fa6b6d87f35f840da",
+      "name": "OpenSymbolicRules/Calculus",
+      "locator": "calculus:1-limits/1.1-basic-limits:1",
+      "license": "MIT"}],
+    "method": "derived"},
+   "profiles": ["default"],
+   "priority": 10,
+   "pattern":
+   {"kind": "OMA",
+    "arguments":
+    [{"name": "a", "kind": "OMV"},
+     {"name": "both_sides", "kind": "OMS", "cd": "limit1"},
+     {"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "c", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "limit", "kind": "OMS", "cd": "limit1"}},
+   "orientation": "forward",
+   "legacy_id": "calculus:1-limits/1.1-basic-limits:1",
+   "independent": [{"variable": "c", "of": "x"}],
+   "id": "calculus.limit.const",
+   "findings": [],
+   "description": "Limit of a constant",
+   "conditions": [],
+   "applicability": "defined_pattern"},
+  {"verification":
+   [{"theorem": "OSR.Calculus.derivConst_real",
+     "status": "proved",
+     "statement":
+     "OSR.Calculus.CRule.Holds OSR.Calculus.derivConst OSR.Domain.real",
+     "source_digest":
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "real",
+     "certified": true,
+     "carrier": {"name": "R", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]},
+    {"theorem": "OSR.Calculus.derivConst_complex",
+     "status": "proved",
+     "statement":
+     "OSR.Calculus.CRule.Holds OSR.Calculus.derivConst OSR.Domain.complex",
+     "source_digest":
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "complex",
+     "certified": true,
+     "carrier": {"name": "C", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]}],
+   "variables": [{"name": "x", "kind": "OMV"}, {"name": "c", "kind": "OMV"}],
+   "symbols":
+   ["http://www.openmath.org/cd/calculus1#diff",
+    "http://www.openmath.org/cd/fns1#lambda"],
+   "replacement":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object": {"kind": "OMI", "integer": 0},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}},
+   "provenance":
+   {"sources":
+    [{"revision": "eb9eb87aa7ffcd6dd7da055fa6b6d87f35f840da",
+      "name": "OpenSymbolicRules/Calculus",
+      "locator": "calculus:2-derivatives/2.1-basic-derivatives:1",
+      "license": "MIT"}],
+    "method": "derived"},
+   "profiles": ["default"],
+   "priority": 70,
+   "pattern":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object": {"name": "c", "kind": "OMV"},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "orientation": "forward",
+   "legacy_id": "calculus:2-derivatives/2.1-basic-derivatives:1",
+   "independent": [{"variable": "c", "of": "x"}],
+   "id": "calculus.derivative.const",
+   "findings": [],
+   "description": "Derivative of a constant",
+   "conditions": [],
+   "applicability": "defined_pattern"},
+  {"verification":
+   [{"theorem": "OSR.Calculus.derivPow_counterexample",
+     "status": "counterexample",
+     "statement":
+     "¬ OSR.Calculus.CRule.Holds OSR.Calculus.derivPow OSR.Domain.real",
+     "source_digest":
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "real",
+     "certified": false,
+     "carrier": {"name": "R", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]},
+    {"status": "unproved",
+     "source_digest":
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "complex",
+     "certified": false,
+     "carrier": {"name": "C", "kind": "OMS", "cd": "setname1"},
+     "axioms": []}],
+   "variables": [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+   "symbols":
+   ["http://www.openmath.org/cd/calculus1#diff",
+    "http://www.openmath.org/cd/fns1#lambda",
+    "http://www.openmath.org/cd/arith1#power",
+    "http://www.openmath.org/cd/arith1#times",
+    "http://www.openmath.org/cd/arith1#plus"],
+   "replacement":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"name": "n", "kind": "OMV"},
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "x", "kind": "OMV"},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "n", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}},
+   "provenance":
+   {"sources":
+    [{"revision": "eb9eb87aa7ffcd6dd7da055fa6b6d87f35f840da",
+      "name": "OpenSymbolicRules/Calculus",
+      "locator": "calculus:2-derivatives/2.1-basic-derivatives:2",
+      "license": "MIT"}],
+    "method": "derived"},
+   "profiles": ["default"],
+   "priority": 80,
+   "pattern":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+       "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "orientation": "forward",
+   "legacy_id": "calculus:2-derivatives/2.1-basic-derivatives:2",
+   "independent": [{"variable": "n", "of": "x"}],
+   "id": "calculus.derivative.power",
+   "findings":
+   ["counterexample: at n = 0 and x = 0, x^0 is defined around 0 but n * x^(n - 1) = 0 * x^(-1) is undefined at 0, so the v0.1 rule, whose only condition is FreeQ, fails there (Lean theorem derivPow_counterexample). It would hold with the condition n ≠ 0."],
+   "description": "Power rule",
+   "conditions": [],
+   "applicability": "defined_pattern"},
+  {"verification":
    [{"theorem": "OSR.Calculus.limitSinDiv_real",
      "status": "proved",
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.limitSinDiv OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -901,7 +1115,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.limitSinDiv OSR.Domain.complex",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -958,7 +1172,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.limitTanDiv OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -973,7 +1187,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.limitTanDiv OSR.Domain.complex",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1030,7 +1244,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.limitOneSubCos OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1045,7 +1259,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.limitOneSubCos OSR.Domain.complex",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1114,7 +1328,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.limitExpSub OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1129,7 +1343,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.limitExpSub OSR.Domain.complex",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1191,7 +1405,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.limitLogAdd OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1206,7 +1420,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.limitLogAdd OSR.Domain.complex",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1268,7 +1482,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivId OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1283,7 +1497,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivId OSR.Domain.complex",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1332,7 +1546,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivSin OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1347,7 +1561,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivSin OSR.Domain.complex",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1404,7 +1618,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivCos OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1419,7 +1633,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivCos OSR.Domain.complex",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1481,7 +1695,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivExp OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1496,7 +1710,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivExp OSR.Domain.complex",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1552,7 +1766,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivLn OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1564,7 +1778,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unproved",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1622,7 +1836,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivTan OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1637,7 +1851,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivTan OSR.Domain.complex",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1704,7 +1918,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivArctan OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1716,7 +1930,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unproved",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1785,7 +1999,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivSinh OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1800,7 +2014,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivSinh OSR.Domain.complex",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1857,7 +2071,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivCosh OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1872,7 +2086,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivCosh OSR.Domain.complex",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1929,7 +2143,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivTanh OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1944,7 +2158,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivTanh OSR.Domain.complex",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2011,7 +2225,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivArctanh OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2023,7 +2237,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unsupported",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2092,7 +2306,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivArcsin OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2104,7 +2318,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unsupported",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2177,7 +2391,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivArccos OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2189,7 +2403,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unsupported",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2262,7 +2476,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivCot OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2277,7 +2491,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivCot OSR.Domain.complex",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2344,7 +2558,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivSec OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2356,7 +2570,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unsupported",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2420,7 +2634,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivCsc OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2432,7 +2646,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unsupported",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2500,7 +2714,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivCoth OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2512,7 +2726,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unsupported",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2579,7 +2793,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivSech OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2591,7 +2805,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unsupported",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2659,7 +2873,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivCsch OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2671,7 +2885,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unsupported",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2739,7 +2953,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivArcsinh OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2751,7 +2965,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unsupported",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2824,7 +3038,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Calculus.derivArccosh OSR.Domain.real",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2836,7 +3050,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unsupported",
      "source_digest":
-     "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+     "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2906,7 +3120,10 @@
  "profiles":
  {"default":
   {"rules":
-   ["calculus.limit.sin_div",
+   ["calculus.limit.const",
+    "calculus.derivative.const",
+    "calculus.derivative.power",
+    "calculus.limit.sin_div",
     "calculus.limit.tan_div",
     "calculus.limit.one_sub_cos_div_sq",
     "calculus.limit.exp_sub_one_div",
@@ -2938,7 +3155,7 @@
   "cdbase": "http://www.openmath.org/cd"},
  "build":
  {"source_digest":
-  "sha256:c4653df4c27f05847dbd5131f395c6d4ef23da3cb5432d90a094c2d697dcfe8b",
+  "sha256:2f26c4262ba992ada46a0c9d31d905dd271b0c4cc7e9b5c687d199c0e25837d2",
   "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "generator": "OpenSymbolicRules/Lean scripts/Export.lean"}}
