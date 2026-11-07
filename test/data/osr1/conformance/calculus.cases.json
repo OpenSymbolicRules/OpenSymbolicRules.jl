@@ -1,6 +1,6 @@
 {"suite": "calculus.rewrite",
  "source_digest":
- "sha256:b7a7ddbeb3f65e4ecbc990a8a6fff15477eb4278c7b5bf248623f8c853787d18",
+ "sha256:afe0d4a7805ddfdd0b6e9d2a2e9439867abad22ed540fe59bd2d345f5db9088e",
  "semantics":
  {"strategy":
   "outermost-leftmost: at each step, try the root (rules in order), then the arguments left to right; one rewrite per step",
@@ -396,7 +396,7 @@
      "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
     "kind": "OMBIND",
     "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
-  {"trace": [],
+  {"trace": ["calculus.derivative.arctanh"],
    "profile": "default",
    "normal": true,
    "input":
@@ -412,16 +412,22 @@
     "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
    "id": "default/pattern.calculus.derivative.arctanh",
    "expected":
-   {"kind": "OMA",
-    "arguments":
-    [{"variables": [{"name": "x", "kind": "OMV"}],
-      "object":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMI", "integer": 1},
       {"kind": "OMA",
-       "arguments": [{"name": "x", "kind": "OMV"}],
-       "applicant": {"name": "arctanh", "kind": "OMS", "cd": "transc1"}},
-      "kind": "OMBIND",
-      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
-    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}}},
+       "arguments":
+       [{"kind": "OMI", "integer": 1},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
   {"trace": ["calculus.derivative.arcsin"],
    "profile": "default",
    "normal": true,
@@ -1137,7 +1143,7 @@
      "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
     "kind": "OMBIND",
     "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
-  {"trace": [],
+  {"trace": ["calculus.derivative.arctanh"],
    "profile": "default",
    "normal": true,
    "input":
@@ -1153,16 +1159,22 @@
     "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
    "id": "default/renamed.calculus.derivative.arctanh",
    "expected":
-   {"kind": "OMA",
-    "arguments":
-    [{"variables": [{"name": "t", "kind": "OMV"}],
-      "object":
+   {"variables": [{"name": "t", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMI", "integer": 1},
       {"kind": "OMA",
-       "arguments": [{"name": "t", "kind": "OMV"}],
-       "applicant": {"name": "arctanh", "kind": "OMS", "cd": "transc1"}},
-      "kind": "OMBIND",
-      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
-    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}}},
+       "arguments":
+       [{"kind": "OMI", "integer": 1},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "minus", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "divide", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
   {"trace": ["calculus.derivative.arcsin"],
    "profile": "default",
    "normal": true,
