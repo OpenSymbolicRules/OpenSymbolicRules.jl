@@ -81,7 +81,11 @@ The Integration rule set holds antiderivative rules: `int(λx. F)`
 the certificate states that `G` is an antiderivative of `F` wherever `F` is
 defined on a neighbourhood. Rules refuted in Lean carry the status
 `counterexample`; `rewrite` never applies them in that domain, even with
-`certified_only=false`.
+`certified_only=false`. Some rules have *residual integrals* in their result,
+`int(λx. H)(x)` (an `OMApply`): the result is an antiderivative for every
+choice of antiderivatives of the residual integrands. `rewrite` does not
+apply them, since it does not continue inside residual integrals; they are
+available as certified data.
 
 ## What the certificate covers
 

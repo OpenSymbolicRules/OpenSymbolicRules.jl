@@ -129,6 +129,34 @@ end
         certified_only=false).steps)
 end
 
+@testitem "OSRv1: residual integrals (V1-E-002b)" begin
+    using OpenSymbolicRules.OSRv1
+
+    lam(y, body) = OMBIND(OMS("fns1", "lambda"), [y], body)
+    int_(y, body) = OMA(OMS("calculus1", "int"), [lam(y, body)])
+    x, t, c = OMV("x"), OMV("t"), OMV("c")
+    sin_(a) = OMA(OMS("transc1", "sin"), [a])
+    # int(λx. sin x)(x) round-trips through JSON.
+    r = OMApply(int_(x, sin_(x)), [x])
+    @test parse_omjson(to_omjson(r)) == r
+    # Only calculus1#int applied to a lambda, at one variable, is an applicant.
+    bad = Dict("kind" => "OMA", "applicant" => to_omjson(sin_(x)), "arguments" => [to_omjson(x)])
+    @test_throws ArgumentError parse_omjson(bad)
+
+    dir = get(ENV, "OSR1_DIR", joinpath(@__DIR__, "data", "osr1"))
+    rs = load_ruleset(joinpath(dir, "integration.osr.json"))
+    rec = rs.rules["integration.sin_add_square"]
+    @test verification(rec, :real).certified
+    @test OSRv1.has_residual_integral(rec.replacement)
+    # A rule with residual integrals is never applied (V1-R-005c).
+    plus(a, b) = OMA(OMS("arith1", "plus"), [a, b])
+    times(a, b) = OMA(OMS("arith1", "times"), [a, b])
+    sq(a) = OMA(OMS("arith1", "power"), [a, OMI(2)])
+    input = int_(t, sin_(plus(c, times(OMV("d"), sq(plus(OMV("e"), times(OMV("f"), t)))))))
+    @test isempty(rewrite(input, rs; profile="default", domain=:real).steps)
+    @test isempty(rewrite(input, rs; profile="default", domain=:real, certified_only=false).steps)
+end
+
 @testitem "OSRv1: load the Lean-exported Trigonometry rule set" begin
     using OpenSymbolicRules.OSRv1
 

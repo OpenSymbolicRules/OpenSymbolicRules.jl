@@ -18,7 +18,7 @@ module OSRv1
 
 using JSON
 
-export OMS, OMV, OMI, OMA, OMBIND, OMExpr, parse_omjson, to_omjson
+export OMS, OMV, OMI, OMA, OMBIND, OMApply, OMExpr, parse_omjson, to_omjson
 export RuleSet, Rule, Verification, load_ruleset, verification
 export match_pattern, substitute, rewrite, RewriteStep, RewriteResult
 
@@ -65,6 +65,27 @@ end
 Base.:(==)(a::OMBIND, b::OMBIND) = a.binder == b.binder && a.vars == b.vars && a.body == b.body
 Base.hash(a::OMBIND, h::UInt) = hash(a.body, hash(a.vars, hash(a.binder, hash(:OMBIND, h))))
 
+"""
+Residual integral `int(λx. H)(x)` (V1-E-002b): an application whose applicant
+is `calculus1#int` applied to a lambda, the form of the `calculus1#int` FMP.
+It only occurs in the replacements of antiderivative rules.
+"""
+struct OMApply <: OMExpr
+    f::OMA
+    args::Vector{OMExpr}
+    function OMApply(f::OMA, args::Vector{<:OMExpr})
+        f.head == OMS("calculus1", "int") && length(f.args) == 1 && f.args[1] isa OMBIND &&
+            f.args[1].binder == OMS("fns1", "lambda") ||
+            throw(ArgumentError("an OMA applicant must be calculus1#int applied to a lambda"))
+        length(args) == 1 && args[1] isa OMV ||
+            throw(ArgumentError("a residual integral is applied to one variable"))
+        new(f, OMExpr[args...])
+    end
+end
+
+Base.:(==)(a::OMApply, b::OMApply) = a.f == b.f && a.args == b.args
+Base.hash(a::OMApply, h::UInt) = hash(a.args, hash(a.f, hash(:OMApply, h)))
+
 const _SUPPORTED_SETS = Dict(:real => OMS("setname1", "R"), :complex => OMS("setname1", "C"),
     :boolean => OMS("setname2", "Boolean"))
 
@@ -72,8 +93,9 @@ const _SUPPORTED_SETS = Dict(:real => OMS("setname1", "R"), :complex => OMS("set
     parse_omjson(json)
 
 Parse an OpenMath JSON object of the OSR fragment: symbols, variables,
-integers, applications of a symbol and bindings by a symbol.  Anything else
-(floats, strings, attributions, non-symbol applicants or binders) is rejected.
+integers, applications of a symbol, bindings by a symbol, and residual
+integrals `int(λx. H)(x)` (`OMApply`).  Anything else (floats, strings,
+attributions, other non-symbol applicants, non-symbol binders) is rejected.
 """
 function parse_omjson(j)
     j isa AbstractDict || throw(ArgumentError("OpenMath JSON object expected, got $(typeof(j))"))
@@ -87,9 +109,11 @@ function parse_omjson(j)
         return OMI(j["integer"])
     elseif kind == "OMA"
         head = parse_omjson(j["applicant"])
-        head isa OMS || throw(ArgumentError("OMA applicant must be an OMS in the OSR fragment"))
         args = OMExpr[parse_omjson(a) for a in j["arguments"]]
         isempty(args) && throw(ArgumentError("OMA without arguments"))
+        # V1-E-002b: the only non-symbol applicant is a residual integral's.
+        head isa OMA && return OMApply(head, args)
+        head isa OMS || throw(ArgumentError("OMA applicant must be an OMS in the OSR fragment"))
         return OMA(head, args)
     elseif kind == "OMBIND"
         binder = parse_omjson(j["binder"])
@@ -111,6 +135,8 @@ to_omjson(e::OMS) = Dict("kind" => "OMS", "cd" => e.cd, "name" => e.name)
 to_omjson(e::OMV) = Dict("kind" => "OMV", "name" => e.name)
 to_omjson(e::OMI) = Dict("kind" => "OMI", "integer" => e.value)
 to_omjson(e::OMA) = Dict("kind" => "OMA", "applicant" => to_omjson(e.head),
+    "arguments" => [to_omjson(a) for a in e.args])
+to_omjson(e::OMApply) = Dict("kind" => "OMA", "applicant" => to_omjson(e.f),
     "arguments" => [to_omjson(a) for a in e.args])
 to_omjson(e::OMBIND) = Dict("kind" => "OMBIND", "binder" => to_omjson(e.binder),
     "variables" => [to_omjson(v) for v in e.vars], "object" => to_omjson(e.body))
@@ -181,12 +207,20 @@ _omsyms(::OMV) = OMS[]
 _omsyms(::OMI) = OMS[]
 _omsyms(e::OMA) = vcat([e.head], (_omsyms(a) for a in e.args)...)
 _omsyms(e::OMBIND) = vcat([e.binder], _omsyms(e.body))
+_omsyms(e::OMApply) = vcat(_omsyms(e.f), (_omsyms(a) for a in e.args)...)
 
 _vars(::OMS) = String[]
 _vars(e::OMV) = [e.name]
 _vars(::OMI) = String[]
 _vars(e::OMA) = vcat(String[], (_vars(a) for a in e.args)...)
 _vars(e::OMBIND) = vcat(String[v.name for v in e.vars], _vars(e.body))
+_vars(e::OMApply) = vcat(_vars(e.f), (_vars(a) for a in e.args)...)
+
+"""Whether an expression contains a residual integral (V1-E-002b)."""
+has_residual_integral(::Union{OMS,OMV,OMI}) = false
+has_residual_integral(e::OMA) = any(has_residual_integral, e.args)
+has_residual_integral(e::OMBIND) = has_residual_integral(e.body)
+has_residual_integral(::OMApply) = true
 
 function _rule(j)
     vars = String[v["name"] for v in j["variables"]]
@@ -272,6 +306,7 @@ function _match!(b, p::OMV, e, variables)
 end
 _match!(b, p::OMS, e, variables) = e == p
 _match!(b, p::OMI, e, variables) = e == p
+_match!(b, p::OMApply, e, variables) = e == p
 function _match!(b, p::OMA, e, variables)
     e isa OMA && e.head == p.head && length(e.args) == length(p.args) || return false
     all(_match!(b, pa, ea, variables) for (pa, ea) in zip(p.args, e.args))
@@ -290,6 +325,7 @@ freevars(::OMS) = Set{String}()
 freevars(::OMI) = Set{String}()
 freevars(e::OMA) = union(Set{String}(), (freevars(a) for a in e.args)...)
 freevars(e::OMBIND) = setdiff(freevars(e.body), Set(v.name for v in e.vars))
+freevars(e::OMApply) = union(freevars(e.f), (freevars(a) for a in e.args)...)
 
 # The independence constraints of a rule hold for a match.
 function _independent_ok(r, b)
@@ -318,6 +354,7 @@ function substitute(e::OMBIND, b)
     all(v -> v isa OMV, vars) || throw(ArgumentError("a bound variable must be replaced by a variable"))
     OMBIND(e.binder, OMV[v for v in vars], substitute(e.body, b))
 end
+substitute(e::OMApply, b) = OMApply(substitute(e.f, b), OMExpr[substitute(a, b) for a in e.args])
 
 """One applied rule."""
 struct RewriteStep
@@ -348,6 +385,9 @@ function _eligible(rs::RuleSet, profile, domain, certified_only)
         # Conditions need a decision procedure; this engine applies only
         # unconditional rules rather than guessing.
         isempty(r.conditions) || continue
+        # Rewriting does not continue inside residual integrals, so a rule
+        # producing them is not applied (V1-R-005c).
+        has_residual_integral(r.replacement) && continue
         push!(out, r)
     end
     return out
@@ -393,7 +433,8 @@ defined_pattern`): the result agrees with the input wherever the input is
 defined, and may be defined at more points.  With `certified_only`, only rules
 certified in `domain` are used.  A rule whose status in `domain` is
 `counterexample` is never used, even with `certified_only=false`: Lean proves
-it false there.
+it false there.  Neither is a conditional rule, nor a rule whose replacement
+contains residual integrals (V1-R-005c).
 """
 function rewrite(expr::OMExpr, rs::RuleSet; profile::AbstractString, domain::Symbol,
         certified_only::Bool=true, max_steps::Integer=100)
