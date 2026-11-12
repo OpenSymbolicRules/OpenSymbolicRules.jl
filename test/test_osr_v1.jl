@@ -115,6 +115,18 @@ end
     # A refuted rule is not certified: int(λt. 1 t^(-1)) stays.
     reciprocal = int_(t, times(OMI(1), power(t, OMI(-1))))
     @test isempty(rewrite(reciprocal, rs; profile="default", domain=:real).steps)
+    # Even with certified_only=false, a rule refuted in the domain is never applied.
+    @test isempty(rewrite(reciprocal, rs; profile="default", domain=:real,
+        certified_only=false).steps)
+    # A conditional rule, even certified (the power rule, m ≠ -1), is not applied.
+    power_rule = rs.rules["integration.power"]
+    @test verification(power_rule, :real).certified
+    @test !isempty(power_rule.conditions)
+    @test isempty(rewrite(int_(t, power(t, OMV("m"))), rs; profile="default",
+        domain=:real).steps)
+    linear = int_(t, times(u, OMA(OMS("arith1", "plus"), [u, times(u, t)])))
+    @test isempty(rewrite(linear, rs; profile="default", domain=:complex,
+        certified_only=false).steps)
 end
 
 @testitem "OSRv1: load the Lean-exported Trigonometry rule set" begin

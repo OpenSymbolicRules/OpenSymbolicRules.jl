@@ -342,6 +342,8 @@ function _eligible(rs::RuleSet, profile, domain, certified_only)
     for id in rs.profiles[profile]
         r = rs.rules[id]
         v = verification(r, domain)
+        # A rule refuted in `domain` is false there: never apply it.
+        v.status == "counterexample" && continue
         certified_only && !v.certified && continue
         # Conditions need a decision procedure; this engine applies only
         # unconditional rules rather than guessing.
@@ -389,7 +391,9 @@ rewriter `OSR.normalize`; the Conformance cases check the two agree.
 Each rule is sound where its pattern is defined (`applicability =
 defined_pattern`): the result agrees with the input wherever the input is
 defined, and may be defined at more points.  With `certified_only`, only rules
-certified in `domain` are used.
+certified in `domain` are used.  A rule whose status in `domain` is
+`counterexample` is never used, even with `certified_only=false`: Lean proves
+it false there.
 """
 function rewrite(expr::OMExpr, rs::RuleSet; profile::AbstractString, domain::Symbol,
         certified_only::Bool=true, max_steps::Integer=100)

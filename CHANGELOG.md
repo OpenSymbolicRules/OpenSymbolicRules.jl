@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- `OSRv1.rewrite` never applies a rule whose status in the requested domain
+  is `counterexample`, even with `certified_only=false`; Lean proves such a
+  rule false there.
+- Refresh the OSRv1 fixtures from Lean source digest `be6f672a…` (Integration
+  rules with `NeQ` conditions, which `rewrite` does not apply).
 - Refresh the OSRv1 fixtures from Lean source digest `68dfb6f0…` and add the
   Integration rule set (RUBI antiderivatives, `calculus1#int`) with its
   conformance suite; the OSRv1 tests cover antiderivative rewriting and the

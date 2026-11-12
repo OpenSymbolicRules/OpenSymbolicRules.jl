@@ -80,7 +80,8 @@ The Integration rule set holds antiderivative rules: `int(λx. F)`
 (`calculus1#int` applied to an `OMBIND fns1#lambda`) rewrites to `λx. G`, and
 the certificate states that `G` is an antiderivative of `F` wherever `F` is
 defined on a neighbourhood. Rules refuted in Lean carry the status
-`counterexample` and are never certified, so `rewrite` skips them by default.
+`counterexample`; `rewrite` never applies them in that domain, even with
+`certified_only=false`.
 
 ## What the certificate covers
 
