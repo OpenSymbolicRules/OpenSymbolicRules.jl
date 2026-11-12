@@ -11,7 +11,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `OSRv1.OMApply`: residual integrals `int(λx. H)(x)` (Specification
   V1-E-002b), parsed and serialized; `rewrite` never applies a rule whose
   replacement contains one (V1-R-005c). Fixtures refreshed from Lean source
-  digest `aca727e3…`; the schema check uses Specification `791742d`.
+  digest `a6036490…`; the schema check uses Specification `791742d`.
 
 ### Changed
 - `OSRv1.rewrite` never applies a rule whose status in the requested domain
