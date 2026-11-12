@@ -379,7 +379,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.powPow OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -393,7 +393,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.powPow OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -460,7 +460,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.powMulPow OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -474,7 +474,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.powMulPow OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -544,7 +544,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.powOne OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -558,7 +558,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.powOne OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -596,7 +596,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.powZero OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -610,7 +610,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.powZero OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -654,7 +654,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.powNegOne OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -668,7 +668,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.powNegOne OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -716,7 +716,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.onePow OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -730,7 +730,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.onePow OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -769,7 +769,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.lnMul OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -781,7 +781,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unsupported",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -842,7 +842,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.lnPow OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -854,7 +854,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unsupported",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -911,7 +911,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.expLn OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -925,7 +925,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.expLn OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -977,7 +977,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.distribute OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -991,7 +991,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.distribute OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1047,7 +1047,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.factorLeftAdd OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1061,7 +1061,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.factorLeftAdd OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1117,7 +1117,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.factorRightAdd OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1132,7 +1132,7 @@
      "statement":
      "OSR.Rule.Holds OSR.Algebra.factorRightAdd OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1188,7 +1188,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.factorLeftSub OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1202,7 +1202,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.factorLeftSub OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1258,7 +1258,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.factorRightSub OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1273,7 +1273,7 @@
      "statement":
      "OSR.Rule.Holds OSR.Algebra.factorRightSub OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1329,7 +1329,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.addZero OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1343,7 +1343,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.addZero OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1381,7 +1381,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.zeroAdd OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1395,7 +1395,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.zeroAdd OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1433,7 +1433,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.mulOne OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1447,7 +1447,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.mulOne OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1485,7 +1485,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.oneMul OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1499,7 +1499,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.oneMul OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1537,7 +1537,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.mulZero OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1551,7 +1551,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.mulZero OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1590,7 +1590,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.zeroMul OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1604,7 +1604,7 @@
      "status": "proved",
      "statement": "OSR.Rule.Holds OSR.Algebra.zeroMul OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Algebra",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1675,7 +1675,7 @@
   "cdbase": "http://www.openmath.org/cd"},
  "build":
  {"source_digest":
-  "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+  "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
   "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "generator": "OpenSymbolicRules/Lean scripts/Export.lean"}}

@@ -424,7 +424,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.Integration.reciprocal OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -436,7 +436,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unproved",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -508,7 +508,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Integration.logMonomial OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -520,7 +520,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unproved",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -621,7 +621,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.Integration.logLinearOverX OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -636,7 +636,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.Integration.logLinearOverX OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -771,7 +771,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.Integration.logLogOverX OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -786,7 +786,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.Integration.logLogOverX OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -975,7 +975,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Integration.constant OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -990,7 +990,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Integration.constant OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1048,7 +1048,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.Integration.constTimesLinear OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1063,7 +1063,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.Integration.constTimesLinear OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1168,7 +1168,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Integration.power OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1183,7 +1183,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Integration.power OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1274,7 +1274,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.Integration.linearPower OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1289,7 +1289,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.Integration.linearPower OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1406,7 +1406,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.Integration.powerLogLinear OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1421,7 +1421,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.Integration.powerLogLinear OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1625,7 +1625,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Integration.sinLog OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1637,7 +1637,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unproved",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1918,7 +1918,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.Integration.cosLog OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1930,7 +1930,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unproved",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2207,7 +2207,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.Integration.powSinLog OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2222,7 +2222,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.Integration.powSinLog OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2588,7 +2588,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.Integration.powCosLog OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2603,7 +2603,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.Integration.powCosLog OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2965,7 +2965,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.IntegrationRec.sinAddSq OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2980,7 +2980,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.IntegrationRec.sinAddSq OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -3158,7 +3158,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.IntegrationRec.cosAddSq OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -3173,7 +3173,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.IntegrationRec.cosAddSq OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -3355,7 +3355,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.IntegrationRec.sinAddPowOverX OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -3370,7 +3370,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.IntegrationRec.sinAddPowOverX OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -3539,7 +3539,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.IntegrationRec.cosAddPowOverX OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -3554,7 +3554,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.IntegrationRec.cosAddPowOverX OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -3727,7 +3727,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.IntegrationRec.powSinSq OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -3742,7 +3742,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.IntegrationRec.powSinSq OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -3934,7 +3934,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.IntegrationRec.powCosSq OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -3949,7 +3949,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.IntegrationRec.powCosSq OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -4137,7 +4137,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.logPowLog OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -4152,7 +4152,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.logPowLog OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -4319,7 +4319,7 @@
      "statement":
      "OSR.Calculus.CRule.Holds OSR.IntegrationRec.logLinPow OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -4331,7 +4331,7 @@
      "axioms": ["Classical.choice", "Quot.sound", "propext"]},
     {"status": "unproved",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -4536,7 +4536,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.sinXLog OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -4551,7 +4551,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.sinXLog OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -4711,7 +4711,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.cosXLog OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -4726,7 +4726,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.cosXLog OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -4881,7 +4881,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.linearQuadPow OSR.Domain.real",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -4896,7 +4896,7 @@
      "statement":
      "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.linearQuadPow OSR.Domain.complex",
      "source_digest":
-     "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
      "prover": "lean4",
      "module": "OSR.Calculus",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -5074,6 +5074,2880 @@
      "arguments":
      [{"name": "p", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
      "applicant": {"name": "neq", "kind": "OMS", "cd": "relation1"}}],
+   "applicability": "defined_pattern"},
+  {"verification":
+   [{"theorem": "OSR.IntegrationRec.pfLinear_real",
+     "status": "proved",
+     "statement":
+     "OSR.Calculus.CRule.Holds OSR.IntegrationRec.pfLinear OSR.Domain.real",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "real",
+     "certified": true,
+     "carrier": {"name": "R", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]},
+    {"theorem": "OSR.IntegrationRec.pfLinear_complex",
+     "status": "proved",
+     "statement":
+     "OSR.Calculus.CRule.Holds OSR.IntegrationRec.pfLinear OSR.Domain.complex",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "complex",
+     "certified": true,
+     "carrier": {"name": "C", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]}],
+   "variables":
+   [{"name": "x", "kind": "OMV"},
+    {"name": "a", "kind": "OMV"},
+    {"name": "b", "kind": "OMV"},
+    {"name": "c", "kind": "OMV"},
+    {"name": "d", "kind": "OMV"}],
+   "symbols":
+   ["http://www.openmath.org/cd/calculus1#int",
+    "http://www.openmath.org/cd/fns1#lambda",
+    "http://www.openmath.org/cd/arith1#times",
+    "http://www.openmath.org/cd/arith1#power",
+    "http://www.openmath.org/cd/arith1#plus",
+    "http://www.openmath.org/cd/relation1#neq"],
+   "replacement":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "b", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "c", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMI", "integer": -1}, {"name": "a", "kind": "OMV"}],
+                 "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                {"name": "d", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMI", "integer": -1}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMI", "integer": 1},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "a", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"kind": "OMI", "integer": -1}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMI", "integer": -1}, {"name": "d", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "c", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMI", "integer": -1}, {"name": "a", "kind": "OMV"}],
+                 "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                {"name": "d", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMI", "integer": -1}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMI", "integer": 1},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "c", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "d", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"kind": "OMI", "integer": -1}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}},
+   "provenance":
+   {"sources":
+    [{"revision": "f84ed2a81702836c019e647e0a586b8d576ae7c6",
+      "name": "OpenSymbolicRules/Integration",
+      "locator":
+      "rubi:1 Algebraic functions/1.1 Binomial products/1.1.1 Linear/1.1.1.2 (a+b x)^m (c+d x)^n:3",
+      "license": "MIT"},
+     {"revision": "4.16.1",
+      "name": "Rubi",
+      "locator":
+      "1 Algebraic functions/1.1 Binomial products/1.1.1 Linear/1.1.1.2 (a+b x)^m (c+d x)^n.m#3",
+      "license": "MIT"}],
+    "method": "derived"},
+   "profiles": ["default"],
+   "priority": 250,
+   "pattern":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMI", "integer": 1},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "d", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "orientation": "forward",
+   "legacy_id":
+   "rubi:1 Algebraic functions/1.1 Binomial products/1.1.1 Linear/1.1.1.2 (a+b x)^m (c+d x)^n:3",
+   "independent":
+   [{"variable": "a", "of": "x"},
+    {"variable": "b", "of": "x"},
+    {"variable": "c", "of": "x"},
+    {"variable": "d", "of": "x"}],
+   "id": "integration.partial_fractions_linear",
+   "findings":
+   ["conditions: RUBI's NeQ[b c - a d, 0] becomes a relation1#neq condition, read semantically (both sides defined, values different); Mathematica's NeQ tests that the difference is not possibly zero. The reference rewriter does not apply conditional rules.",
+    "residual integrals: the result contains Int[…], exported as int(λx. H)(x) (the calculus1#int FMP form); the statement holds for every choice of antiderivatives of the residual integrands. The reference rewriter does not apply this rule.",
+    "matching: the optional wildcards a., b., c. and d. of the v0.1 pattern are ordinary metavariables; the v1 rule does not match the instances with RUBI's default values."],
+   "description": "Partial fractions of 1/((a + b x) (c + d x))",
+   "conditions":
+   [{"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "b", "kind": "OMV"}, {"name": "c", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMI", "integer": -1}, {"name": "a", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "d", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMI", "integer": 0}],
+     "applicant": {"name": "neq", "kind": "OMS", "cd": "relation1"}}],
+   "applicability": "defined_pattern"},
+  {"verification":
+   [{"theorem": "OSR.IntegrationRec.pfPower_real",
+     "status": "proved",
+     "statement":
+     "OSR.Calculus.CRule.Holds OSR.IntegrationRec.pfPower OSR.Domain.real",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "real",
+     "certified": true,
+     "carrier": {"name": "R", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]},
+    {"theorem": "OSR.IntegrationRec.pfPower_complex",
+     "status": "proved",
+     "statement":
+     "OSR.Calculus.CRule.Holds OSR.IntegrationRec.pfPower OSR.Domain.complex",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "complex",
+     "certified": true,
+     "carrier": {"name": "C", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]}],
+   "variables":
+   [{"name": "x", "kind": "OMV"},
+    {"name": "a", "kind": "OMV"},
+    {"name": "b", "kind": "OMV"},
+    {"name": "n", "kind": "OMV"},
+    {"name": "c", "kind": "OMV"},
+    {"name": "d", "kind": "OMV"}],
+   "symbols":
+   ["http://www.openmath.org/cd/calculus1#int",
+    "http://www.openmath.org/cd/fns1#lambda",
+    "http://www.openmath.org/cd/arith1#times",
+    "http://www.openmath.org/cd/arith1#power",
+    "http://www.openmath.org/cd/arith1#plus",
+    "http://www.openmath.org/cd/relation1#neq"],
+   "replacement":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "b", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "c", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMI", "integer": -1}, {"name": "a", "kind": "OMV"}],
+                 "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                {"name": "d", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMI", "integer": -1}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMI", "integer": 1},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "a", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "b", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"kind": "OMI", "integer": -1}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMI", "integer": -1}, {"name": "d", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "c", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMI", "integer": -1}, {"name": "a", "kind": "OMV"}],
+                 "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                {"name": "d", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMI", "integer": -1}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMI", "integer": 1},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "c", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "d", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"kind": "OMI", "integer": -1}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}},
+   "provenance":
+   {"sources":
+    [{"revision": "f84ed2a81702836c019e647e0a586b8d576ae7c6",
+      "name": "OpenSymbolicRules/Integration",
+      "locator":
+      "rubi:1 Algebraic functions/1.1 Binomial products/1.1.3 General/1.1.3.3 (a+b x^n)^p (c+d x^n)^q:19",
+      "license": "MIT"},
+     {"revision": "4.16.1",
+      "name": "Rubi",
+      "locator":
+      "1 Algebraic functions/1.1 Binomial products/1.1.3 General/1.1.3.3 (a+b x^n)^p (c+d x^n)^q.m#19",
+      "license": "MIT"}],
+    "method": "derived"},
+   "profiles": ["default"],
+   "priority": 260,
+   "pattern":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMI", "integer": 1},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "d", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "orientation": "forward",
+   "legacy_id":
+   "rubi:1 Algebraic functions/1.1 Binomial products/1.1.3 General/1.1.3.3 (a+b x^n)^p (c+d x^n)^q:19",
+   "independent":
+   [{"variable": "a", "of": "x"},
+    {"variable": "b", "of": "x"},
+    {"variable": "c", "of": "x"},
+    {"variable": "d", "of": "x"},
+    {"variable": "n", "of": "x"}],
+   "id": "integration.partial_fractions_power",
+   "findings":
+   ["conditions: RUBI's NeQ[b c - a d, 0] becomes a relation1#neq condition, read semantically (both sides defined, values different); Mathematica's NeQ tests that the difference is not possibly zero. The reference rewriter does not apply conditional rules.",
+    "exponent: the fragment interprets arith1#power for integer exponents only, so the statement covers the integer values of n; for other values the integrand is undefined.",
+    "residual integrals: the result contains Int[…], exported as int(λx. H)(x) (the calculus1#int FMP form); the statement holds for every choice of antiderivatives of the residual integrands. The reference rewriter does not apply this rule.",
+    "matching: the optional wildcards b. and d. of the v0.1 pattern are ordinary metavariables; the v1 rule does not match the instances with RUBI's default values."],
+   "description": "Partial fractions of 1/((a + b x^n) (c + d x^n))",
+   "conditions":
+   [{"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "b", "kind": "OMV"}, {"name": "c", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMI", "integer": -1}, {"name": "a", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "d", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMI", "integer": 0}],
+     "applicant": {"name": "neq", "kind": "OMS", "cd": "relation1"}}],
+   "applicability": "defined_pattern"},
+  {"verification":
+   [{"theorem": "OSR.IntegrationRec.splitBinomial_real",
+     "status": "proved",
+     "statement":
+     "OSR.Calculus.CRule.Holds OSR.IntegrationRec.splitBinomial OSR.Domain.real",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "real",
+     "certified": true,
+     "carrier": {"name": "R", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]},
+    {"theorem": "OSR.IntegrationRec.splitBinomial_complex",
+     "status": "proved",
+     "statement":
+     "OSR.Calculus.CRule.Holds OSR.IntegrationRec.splitBinomial OSR.Domain.complex",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "complex",
+     "certified": true,
+     "carrier": {"name": "C", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]}],
+   "variables":
+   [{"name": "x", "kind": "OMV"},
+    {"name": "a", "kind": "OMV"},
+    {"name": "b", "kind": "OMV"},
+    {"name": "n", "kind": "OMV"},
+    {"name": "p", "kind": "OMV"},
+    {"name": "c", "kind": "OMV"},
+    {"name": "d", "kind": "OMV"},
+    {"name": "q", "kind": "OMV"},
+    {"name": "e", "kind": "OMV"},
+    {"name": "f", "kind": "OMV"}],
+   "symbols":
+   ["http://www.openmath.org/cd/calculus1#int",
+    "http://www.openmath.org/cd/fns1#lambda",
+    "http://www.openmath.org/cd/arith1#times",
+    "http://www.openmath.org/cd/arith1#power",
+    "http://www.openmath.org/cd/arith1#plus"],
+   "replacement":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"name": "e", "kind": "OMV"},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "a", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "b", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"name": "p", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "c", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "d", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"name": "q", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "f", "kind": "OMV"},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMA",
+                   "arguments":
+                   [{"name": "a", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "b", "kind": "OMV"},
+                      {"kind": "OMA",
+                       "arguments":
+                       [{"name": "x", "kind": "OMV"},
+                        {"name": "n", "kind": "OMV"}],
+                       "applicant":
+                       {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                     "applicant":
+                     {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                  {"name": "p", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "c", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "d", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"name": "q", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}},
+   "provenance":
+   {"sources":
+    [{"revision": "f84ed2a81702836c019e647e0a586b8d576ae7c6",
+      "name": "OpenSymbolicRules/Integration",
+      "locator":
+      "rubi:1 Algebraic functions/1.1 Binomial products/1.1.3 General/1.1.3.5 (a+b x^n)^p (c+d x^n)^q (e+f x^n)^r:11",
+      "license": "MIT"},
+     {"revision": "4.16.1",
+      "name": "Rubi",
+      "locator":
+      "1 Algebraic functions/1.1 Binomial products/1.1.3 General/1.1.3.5 (a+b x^n)^p (c+d x^n)^q (e+f x^n)^r.m#11",
+      "license": "MIT"}],
+    "method": "derived"},
+   "profiles": ["default"],
+   "priority": 270,
+   "pattern":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"name": "p", "kind": "OMV"}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "d", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"name": "q", "kind": "OMV"}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "e", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "f", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "orientation": "forward",
+   "legacy_id":
+   "rubi:1 Algebraic functions/1.1 Binomial products/1.1.3 General/1.1.3.5 (a+b x^n)^p (c+d x^n)^q (e+f x^n)^r:11",
+   "independent":
+   [{"variable": "a", "of": "x"},
+    {"variable": "b", "of": "x"},
+    {"variable": "c", "of": "x"},
+    {"variable": "d", "of": "x"},
+    {"variable": "e", "of": "x"},
+    {"variable": "f", "of": "x"},
+    {"variable": "n", "of": "x"},
+    {"variable": "p", "of": "x"},
+    {"variable": "q", "of": "x"}],
+   "id": "integration.split_linear_factor_binomial",
+   "findings":
+   ["exponent: the fragment interprets arith1#power for integer exponents only, so the statement covers the integer values of n, p and q; for other values the integrand is undefined.",
+    "residual integrals: the result contains Int[…], exported as int(λx. H)(x) (the calculus1#int FMP form); the statement holds for every choice of antiderivatives of the residual integrands. The reference rewriter does not apply this rule.",
+    "matching: the optional wildcards b., d., f., p. and q. of the v0.1 pattern are ordinary metavariables; the v1 rule does not match the instances with RUBI's default values."],
+   "description": "Split the factor e + f x^n under the integral",
+   "conditions": [],
+   "applicability": "defined_pattern"},
+  {"verification":
+   [{"theorem": "OSR.IntegrationRec.splitQuadratic_real",
+     "status": "proved",
+     "statement":
+     "OSR.Calculus.CRule.Holds OSR.IntegrationRec.splitQuadratic OSR.Domain.real",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "real",
+     "certified": true,
+     "carrier": {"name": "R", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]},
+    {"theorem": "OSR.IntegrationRec.splitQuadratic_complex",
+     "status": "proved",
+     "statement":
+     "OSR.Calculus.CRule.Holds OSR.IntegrationRec.splitQuadratic OSR.Domain.complex",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "complex",
+     "certified": true,
+     "carrier": {"name": "C", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]}],
+   "variables":
+   [{"name": "x", "kind": "OMV"},
+    {"name": "g", "kind": "OMV"},
+    {"name": "h", "kind": "OMV"},
+    {"name": "a", "kind": "OMV"},
+    {"name": "c", "kind": "OMV"},
+    {"name": "p", "kind": "OMV"},
+    {"name": "d", "kind": "OMV"},
+    {"name": "f", "kind": "OMV"},
+    {"name": "q", "kind": "OMV"}],
+   "symbols":
+   ["http://www.openmath.org/cd/calculus1#int",
+    "http://www.openmath.org/cd/fns1#lambda",
+    "http://www.openmath.org/cd/arith1#times",
+    "http://www.openmath.org/cd/arith1#plus",
+    "http://www.openmath.org/cd/arith1#power"],
+   "replacement":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"name": "g", "kind": "OMV"},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "a", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "c", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"kind": "OMI", "integer": 2}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"name": "p", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "d", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "f", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"kind": "OMI", "integer": 2}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"name": "q", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "h", "kind": "OMV"},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMA",
+                   "arguments":
+                   [{"name": "a", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "c", "kind": "OMV"},
+                      {"kind": "OMA",
+                       "arguments":
+                       [{"name": "x", "kind": "OMV"},
+                        {"kind": "OMI", "integer": 2}],
+                       "applicant":
+                       {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                     "applicant":
+                     {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                  {"name": "p", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "d", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "f", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"kind": "OMI", "integer": 2}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"name": "q", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}},
+   "provenance":
+   {"sources":
+    [{"revision": "f84ed2a81702836c019e647e0a586b8d576ae7c6",
+      "name": "OpenSymbolicRules/Integration",
+      "locator":
+      "rubi:1 Algebraic functions/1.2 Trinomial products/1.2.1 Quadratic/1.2.1.6 (g+h x)^m (a+b x+c x^2)^p (d+e x+f x^2)^q:13",
+      "license": "MIT"},
+     {"revision": "4.16.1",
+      "name": "Rubi",
+      "locator":
+      "1 Algebraic functions/1.2 Trinomial products/1.2.1 Quadratic/1.2.1.6 (g+h x)^m (a+b x+c x^2)^p (d+e x+f x^2)^q.m#13",
+      "license": "MIT"}],
+    "method": "derived"},
+   "profiles": ["default"],
+   "priority": 280,
+   "pattern":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "g", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "h", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"name": "p", "kind": "OMV"}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "f", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"name": "q", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "orientation": "forward",
+   "legacy_id":
+   "rubi:1 Algebraic functions/1.2 Trinomial products/1.2.1 Quadratic/1.2.1.6 (g+h x)^m (a+b x+c x^2)^p (d+e x+f x^2)^q:13",
+   "independent":
+   [{"variable": "a", "of": "x"},
+    {"variable": "c", "of": "x"},
+    {"variable": "d", "of": "x"},
+    {"variable": "f", "of": "x"},
+    {"variable": "g", "of": "x"},
+    {"variable": "h", "of": "x"},
+    {"variable": "p", "of": "x"},
+    {"variable": "q", "of": "x"}],
+   "id": "integration.split_linear_factor_quadratic",
+   "findings":
+   ["exponent: the fragment interprets arith1#power for integer exponents only, so the statement covers the integer values of p and q; for other values the integrand is undefined.",
+    "residual integrals: the result contains Int[…], exported as int(λx. H)(x) (the calculus1#int FMP form); the statement holds for every choice of antiderivatives of the residual integrands. The reference rewriter does not apply this rule.",
+    "matching: the optional wildcards c., f. and h. of the v0.1 pattern are ordinary metavariables; the v1 rule does not match the instances with RUBI's default values."],
+   "description": "Split the factor g + h x under the integral",
+   "conditions": [],
+   "applicability": "defined_pattern"},
+  {"verification":
+   [{"theorem": "OSR.IntegrationRec.linSinQuad_counterexample_real",
+     "status": "counterexample",
+     "statement":
+     "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.linSinQuad OSR.Domain.real",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "real",
+     "certified": false,
+     "carrier": {"name": "R", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]},
+    {"theorem": "OSR.IntegrationRec.linSinQuad_counterexample_complex",
+     "status": "counterexample",
+     "statement":
+     "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.linSinQuad OSR.Domain.complex",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "complex",
+     "certified": false,
+     "carrier": {"name": "C", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]}],
+   "variables":
+   [{"name": "x", "kind": "OMV"},
+    {"name": "d", "kind": "OMV"},
+    {"name": "e", "kind": "OMV"},
+    {"name": "a", "kind": "OMV"},
+    {"name": "b", "kind": "OMV"},
+    {"name": "c", "kind": "OMV"}],
+   "symbols":
+   ["http://www.openmath.org/cd/calculus1#int",
+    "http://www.openmath.org/cd/fns1#lambda",
+    "http://www.openmath.org/cd/arith1#times",
+    "http://www.openmath.org/cd/arith1#plus",
+    "http://www.openmath.org/cd/transc1#sin",
+    "http://www.openmath.org/cd/arith1#power",
+    "http://www.openmath.org/cd/transc1#cos",
+    "http://www.openmath.org/cd/relation1#neq"],
+   "replacement":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMI", "integer": -1}, {"name": "e", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "a", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMI", "integer": 2}, {"name": "c", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMI", "integer": 2}, {"name": "c", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+              {"name": "d", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMI", "integer": -1}, {"name": "b", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+              {"name": "e", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMI", "integer": 2}, {"name": "c", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMI", "integer": -1}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "a", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "c", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "x", "kind": "OMV"},
+                    {"kind": "OMI", "integer": 2}],
+                   "applicant":
+                   {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}},
+   "provenance":
+   {"sources":
+    [{"revision": "f84ed2a81702836c019e647e0a586b8d576ae7c6",
+      "name": "OpenSymbolicRules/Integration",
+      "locator":
+      "rubi:4 Trig functions/4.1 Sine/4.1.13 (d+e x)^m sin(a+b x+c x^2)^n:17",
+      "license": "MIT"},
+     {"revision": "4.16.1",
+      "name": "Rubi",
+      "locator":
+      "4 Trig functions/4.1 Sine/4.1.13 (d+e x)^m sin(a+b x+c x^2)^n.m#17",
+      "license": "MIT"}],
+    "method": "derived"},
+   "profiles": ["default"],
+   "priority": 290,
+   "pattern":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "orientation": "forward",
+   "legacy_id":
+   "rubi:4 Trig functions/4.1 Sine/4.1.13 (d+e x)^m sin(a+b x+c x^2)^n:17",
+   "independent":
+   [{"variable": "a", "of": "x"},
+    {"variable": "b", "of": "x"},
+    {"variable": "c", "of": "x"},
+    {"variable": "d", "of": "x"},
+    {"variable": "e", "of": "x"}],
+   "id": "integration.linear_sin_trinomial",
+   "findings":
+   ["counterexample: at b = e = 1 and the other metavariables 0 the condition 2 c d - b e ≠ 0 holds and the integrand is defined everywhere, but (2 c)^(-1) is not (Lean theorems linSinQuad_counterexample_real and linSinQuad_counterexample_complex). The rule needs c ≠ 0, which this migration does not add.",
+    "conditions: RUBI's NeQ[2 c d - b e, 0] becomes a relation1#neq condition, read semantically (both sides defined, values different); Mathematica's NeQ tests that the difference is not possibly zero. The reference rewriter does not apply conditional rules.",
+    "residual integrals: the result contains Int[…], exported as int(λx. H)(x) (the calculus1#int FMP form); the statement holds for every choice of antiderivatives of the residual integrands. The reference rewriter does not apply this rule.",
+    "matching: the optional wildcards a., b., c., d. and e. of the v0.1 pattern are ordinary metavariables; the v1 rule does not match the instances with RUBI's default values."],
+   "description": "Antiderivative of (d + e x) sin(a + b x + c x^2)",
+   "conditions":
+   [{"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMI", "integer": 2}, {"name": "c", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "d", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMI", "integer": -1}, {"name": "b", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "e", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMI", "integer": 0}],
+     "applicant": {"name": "neq", "kind": "OMS", "cd": "relation1"}}],
+   "applicability": "defined_pattern"},
+  {"verification":
+   [{"theorem": "OSR.IntegrationRec.linCosQuad_counterexample_real",
+     "status": "counterexample",
+     "statement":
+     "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.linCosQuad OSR.Domain.real",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "real",
+     "certified": false,
+     "carrier": {"name": "R", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]},
+    {"theorem": "OSR.IntegrationRec.linCosQuad_counterexample_complex",
+     "status": "counterexample",
+     "statement":
+     "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.linCosQuad OSR.Domain.complex",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "complex",
+     "certified": false,
+     "carrier": {"name": "C", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]}],
+   "variables":
+   [{"name": "x", "kind": "OMV"},
+    {"name": "d", "kind": "OMV"},
+    {"name": "e", "kind": "OMV"},
+    {"name": "a", "kind": "OMV"},
+    {"name": "b", "kind": "OMV"},
+    {"name": "c", "kind": "OMV"}],
+   "symbols":
+   ["http://www.openmath.org/cd/calculus1#int",
+    "http://www.openmath.org/cd/fns1#lambda",
+    "http://www.openmath.org/cd/arith1#times",
+    "http://www.openmath.org/cd/arith1#plus",
+    "http://www.openmath.org/cd/transc1#cos",
+    "http://www.openmath.org/cd/arith1#power",
+    "http://www.openmath.org/cd/transc1#sin",
+    "http://www.openmath.org/cd/relation1#neq"],
+   "replacement":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "e", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "a", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMI", "integer": 2}, {"name": "c", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMI", "integer": 2}, {"name": "c", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+              {"name": "d", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMI", "integer": -1}, {"name": "b", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+              {"name": "e", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMI", "integer": 2}, {"name": "c", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMI", "integer": -1}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "a", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "c", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "x", "kind": "OMV"},
+                    {"kind": "OMI", "integer": 2}],
+                   "applicant":
+                   {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}},
+   "provenance":
+   {"sources":
+    [{"revision": "f84ed2a81702836c019e647e0a586b8d576ae7c6",
+      "name": "OpenSymbolicRules/Integration",
+      "locator":
+      "rubi:4 Trig functions/4.1 Sine/4.1.13 (d+e x)^m sin(a+b x+c x^2)^n:18",
+      "license": "MIT"},
+     {"revision": "4.16.1",
+      "name": "Rubi",
+      "locator":
+      "4 Trig functions/4.1 Sine/4.1.13 (d+e x)^m sin(a+b x+c x^2)^n.m#18",
+      "license": "MIT"}],
+    "method": "derived"},
+   "profiles": ["default"],
+   "priority": 300,
+   "pattern":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "orientation": "forward",
+   "legacy_id":
+   "rubi:4 Trig functions/4.1 Sine/4.1.13 (d+e x)^m sin(a+b x+c x^2)^n:18",
+   "independent":
+   [{"variable": "a", "of": "x"},
+    {"variable": "b", "of": "x"},
+    {"variable": "c", "of": "x"},
+    {"variable": "d", "of": "x"},
+    {"variable": "e", "of": "x"}],
+   "id": "integration.linear_cos_trinomial",
+   "findings":
+   ["counterexample: at b = e = 1 and the other metavariables 0 the condition 2 c d - b e ≠ 0 holds and the integrand is defined everywhere, but (2 c)^(-1) is not (Lean theorems linCosQuad_counterexample_real and linCosQuad_counterexample_complex). The rule needs c ≠ 0, which this migration does not add.",
+    "conditions: RUBI's NeQ[2 c d - b e, 0] becomes a relation1#neq condition, read semantically (both sides defined, values different); Mathematica's NeQ tests that the difference is not possibly zero. The reference rewriter does not apply conditional rules.",
+    "residual integrals: the result contains Int[…], exported as int(λx. H)(x) (the calculus1#int FMP form); the statement holds for every choice of antiderivatives of the residual integrands. The reference rewriter does not apply this rule.",
+    "matching: the optional wildcards a., b., c., d. and e. of the v0.1 pattern are ordinary metavariables; the v1 rule does not match the instances with RUBI's default values."],
+   "description": "Antiderivative of (d + e x) cos(a + b x + c x^2)",
+   "conditions":
+   [{"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMI", "integer": 2}, {"name": "c", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "d", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMI", "integer": -1}, {"name": "b", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "e", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMI", "integer": 0}],
+     "applicant": {"name": "neq", "kind": "OMS", "cd": "relation1"}}],
+   "applicability": "defined_pattern"},
+  {"verification":
+   [{"theorem": "OSR.IntegrationRec.linTrinomPow_counterexample_real",
+     "status": "counterexample",
+     "statement":
+     "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.linTrinomPow OSR.Domain.real",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "real",
+     "certified": false,
+     "carrier": {"name": "R", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]},
+    {"theorem": "OSR.IntegrationRec.linTrinomPow_counterexample_complex",
+     "status": "counterexample",
+     "statement":
+     "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.linTrinomPow OSR.Domain.complex",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "complex",
+     "certified": false,
+     "carrier": {"name": "C", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]}],
+   "variables":
+   [{"name": "x", "kind": "OMV"},
+    {"name": "d", "kind": "OMV"},
+    {"name": "e", "kind": "OMV"},
+    {"name": "a", "kind": "OMV"},
+    {"name": "b", "kind": "OMV"},
+    {"name": "c", "kind": "OMV"},
+    {"name": "p", "kind": "OMV"}],
+   "symbols":
+   ["http://www.openmath.org/cd/calculus1#int",
+    "http://www.openmath.org/cd/fns1#lambda",
+    "http://www.openmath.org/cd/arith1#times",
+    "http://www.openmath.org/cd/arith1#plus",
+    "http://www.openmath.org/cd/arith1#power",
+    "http://www.openmath.org/cd/relation1#neq"],
+   "replacement":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "e", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "a", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "p", "kind": "OMV"}, {"kind": "OMI", "integer": 1}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMI", "integer": 2}, {"name": "c", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "p", "kind": "OMV"}, {"kind": "OMI", "integer": 1}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMI", "integer": 2}, {"name": "c", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+              {"name": "d", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMI", "integer": -1}, {"name": "b", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+              {"name": "e", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMI", "integer": 2}, {"name": "c", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMI", "integer": -1}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "a", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "c", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "x", "kind": "OMV"},
+                    {"kind": "OMI", "integer": 2}],
+                   "applicant":
+                   {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"name": "p", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}},
+   "provenance":
+   {"sources":
+    [{"revision": "f84ed2a81702836c019e647e0a586b8d576ae7c6",
+      "name": "OpenSymbolicRules/Integration",
+      "locator":
+      "rubi:1 Algebraic functions/1.2 Trinomial products/1.2.1 Quadratic/1.2.1.2 (d+e x)^m (a+b x+c x^2)^p:13",
+      "license": "MIT"},
+     {"revision": "4.16.1",
+      "name": "Rubi",
+      "locator":
+      "1 Algebraic functions/1.2 Trinomial products/1.2.1 Quadratic/1.2.1.2 (d+e x)^m (a+b x+c x^2)^p.m#13",
+      "license": "MIT"}],
+    "method": "derived"},
+   "profiles": ["default"],
+   "priority": 310,
+   "pattern":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"name": "p", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "orientation": "forward",
+   "legacy_id":
+   "rubi:1 Algebraic functions/1.2 Trinomial products/1.2.1 Quadratic/1.2.1.2 (d+e x)^m (a+b x+c x^2)^p:13",
+   "independent":
+   [{"variable": "a", "of": "x"},
+    {"variable": "b", "of": "x"},
+    {"variable": "c", "of": "x"},
+    {"variable": "d", "of": "x"},
+    {"variable": "e", "of": "x"},
+    {"variable": "p", "of": "x"}],
+   "id": "integration.linear_times_trinomial_power",
+   "findings":
+   ["counterexample: at b = e = 1 and the other metavariables 0 the conditions 2 c d - b e ≠ 0 and p ≠ -1 hold and the integrand is defined everywhere, but (2 c (p + 1))^(-1) is not (Lean theorems linTrinomPow_counterexample_real and linTrinomPow_counterexample_complex). The rule needs c ≠ 0, which this migration does not add.",
+    "conditions: RUBI's NeQ[2 c d - b e, 0] and NeQ[p, -1] becomes a relation1#neq condition, read semantically (both sides defined, values different); Mathematica's NeQ tests that the difference is not possibly zero. The reference rewriter does not apply conditional rules.",
+    "residual integrals: the result contains Int[…], exported as int(λx. H)(x) (the calculus1#int FMP form); the statement holds for every choice of antiderivatives of the residual integrands. The reference rewriter does not apply this rule.",
+    "matching: the optional wildcards a., b., c., d. and e. of the v0.1 pattern are ordinary metavariables; the v1 rule does not match the instances with RUBI's default values."],
+   "description": "Antiderivative of (d + e x) (a + b x + c x^2)^p",
+   "conditions":
+   [{"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMI", "integer": 2}, {"name": "c", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "d", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMI", "integer": -1}, {"name": "b", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "e", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMI", "integer": 0}],
+     "applicant": {"name": "neq", "kind": "OMS", "cd": "relation1"}},
+    {"kind": "OMA",
+     "arguments":
+     [{"name": "p", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
+     "applicant": {"name": "neq", "kind": "OMS", "cd": "relation1"}}],
+   "applicability": "defined_pattern"},
+  {"verification":
+   [{"theorem": "OSR.IntegrationRec.prodOverTrinom_counterexample_real",
+     "status": "counterexample",
+     "statement":
+     "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.prodOverTrinom OSR.Domain.real",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "real",
+     "certified": false,
+     "carrier": {"name": "R", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]},
+    {"theorem": "OSR.IntegrationRec.prodOverTrinom_counterexample_complex",
+     "status": "counterexample",
+     "statement":
+     "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.prodOverTrinom OSR.Domain.complex",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "complex",
+     "certified": false,
+     "carrier": {"name": "C", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]}],
+   "variables":
+   [{"name": "x", "kind": "OMV"},
+    {"name": "d", "kind": "OMV"},
+    {"name": "e", "kind": "OMV"},
+    {"name": "f", "kind": "OMV"},
+    {"name": "g", "kind": "OMV"},
+    {"name": "a", "kind": "OMV"},
+    {"name": "b", "kind": "OMV"},
+    {"name": "c", "kind": "OMV"}],
+   "symbols":
+   ["http://www.openmath.org/cd/calculus1#int",
+    "http://www.openmath.org/cd/fns1#lambda",
+    "http://www.openmath.org/cd/arith1#times",
+    "http://www.openmath.org/cd/arith1#plus",
+    "http://www.openmath.org/cd/arith1#power",
+    "http://www.openmath.org/cd/relation1#neq"],
+   "replacement":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "g", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "x", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "c", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMI", "integer": 1},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMA",
+                   "arguments":
+                   [{"kind": "OMA",
+                     "arguments":
+                     [{"name": "c", "kind": "OMV"},
+                      {"name": "d", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                    {"name": "f", "kind": "OMV"}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"kind": "OMA",
+                     "arguments":
+                     [{"kind": "OMA",
+                       "arguments":
+                       [{"kind": "OMI", "integer": -1},
+                        {"name": "a", "kind": "OMV"}],
+                       "applicant":
+                       {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                      {"name": "e", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                    {"name": "g", "kind": "OMV"}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMA",
+                   "arguments":
+                   [{"kind": "OMA",
+                     "arguments":
+                     [{"kind": "OMA",
+                       "arguments":
+                       [{"kind": "OMA",
+                         "arguments":
+                         [{"name": "c", "kind": "OMV"},
+                          {"name": "e", "kind": "OMV"}],
+                         "applicant":
+                         {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                        {"name": "f", "kind": "OMV"}],
+                       "applicant":
+                       {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                      {"kind": "OMA",
+                       "arguments":
+                       [{"kind": "OMA",
+                         "arguments":
+                         [{"name": "c", "kind": "OMV"},
+                          {"name": "d", "kind": "OMV"}],
+                         "applicant":
+                         {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                        {"name": "g", "kind": "OMV"}],
+                       "applicant":
+                       {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                     "applicant":
+                     {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"kind": "OMA",
+                       "arguments":
+                       [{"kind": "OMA",
+                         "arguments":
+                         [{"kind": "OMI", "integer": -1},
+                          {"name": "b", "kind": "OMV"}],
+                         "applicant":
+                         {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                        {"name": "e", "kind": "OMV"}],
+                       "applicant":
+                       {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                      {"name": "g", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                  {"name": "x", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMA",
+                   "arguments":
+                   [{"name": "a", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "b", "kind": "OMV"},
+                      {"name": "x", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "c", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"kind": "OMI", "integer": 2}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"kind": "OMI", "integer": -1}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}},
+   "provenance":
+   {"sources":
+    [{"revision": "f84ed2a81702836c019e647e0a586b8d576ae7c6",
+      "name": "OpenSymbolicRules/Integration",
+      "locator":
+      "rubi:1 Algebraic functions/1.2 Trinomial products/1.2.1 Quadratic/1.2.1.3 (d+e x)^m (f+g x) (a+b x+c x^2)^p:11",
+      "license": "MIT"},
+     {"revision": "4.16.1",
+      "name": "Rubi",
+      "locator":
+      "1 Algebraic functions/1.2 Trinomial products/1.2.1 Quadratic/1.2.1.3 (d+e x)^m (f+g x) (a+b x+c x^2)^p.m#11",
+      "license": "MIT"}],
+    "method": "derived"},
+   "profiles": ["default"],
+   "priority": 320,
+   "pattern":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "f", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "g", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "orientation": "forward",
+   "legacy_id":
+   "rubi:1 Algebraic functions/1.2 Trinomial products/1.2.1 Quadratic/1.2.1.3 (d+e x)^m (f+g x) (a+b x+c x^2)^p:11",
+   "independent":
+   [{"variable": "a", "of": "x"},
+    {"variable": "b", "of": "x"},
+    {"variable": "c", "of": "x"},
+    {"variable": "d", "of": "x"},
+    {"variable": "e", "of": "x"},
+    {"variable": "f", "of": "x"},
+    {"variable": "g", "of": "x"}],
+   "id": "integration.product_over_trinomial",
+   "findings":
+   ["counterexample: at a = b = 1 and the other metavariables 0 the condition b^2 - 4 a c ≠ 0 holds and the integrand is defined near x = 0, but c^(-1) is not (Lean theorems prodOverTrinom_counterexample_real and prodOverTrinom_counterexample_complex). The rule needs c ≠ 0, which this migration does not add.",
+    "conditions: RUBI's NeQ[b^2 - 4 a c, 0] becomes a relation1#neq condition, read semantically (both sides defined, values different); Mathematica's NeQ tests that the difference is not possibly zero. The reference rewriter does not apply conditional rules.",
+    "residual integrals: the result contains Int[…], exported as int(λx. H)(x) (the calculus1#int FMP form); the statement holds for every choice of antiderivatives of the residual integrands. The reference rewriter does not apply this rule.",
+    "matching: the optional wildcards a., b., c., d., e. and g. of the v0.1 pattern are ordinary metavariables; the v1 rule does not match the instances with RUBI's default values."],
+   "description": "Antiderivative of (d + e x) (f + g x)/(a + b x + c x^2)",
+   "conditions":
+   [{"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "b", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMI", "integer": -1}, {"kind": "OMI", "integer": 4}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"name": "a", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "c", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMI", "integer": 0}],
+     "applicant": {"name": "neq", "kind": "OMS", "cd": "relation1"}}],
+   "applicability": "defined_pattern"},
+  {"verification":
+   [{"theorem": "OSR.IntegrationRec.prodOverQuad_counterexample_real",
+     "status": "counterexample",
+     "statement":
+     "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.prodOverQuad OSR.Domain.real",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "real",
+     "certified": false,
+     "carrier": {"name": "R", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]},
+    {"theorem": "OSR.IntegrationRec.prodOverQuad_counterexample_complex",
+     "status": "counterexample",
+     "statement":
+     "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.prodOverQuad OSR.Domain.complex",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "complex",
+     "certified": false,
+     "carrier": {"name": "C", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]}],
+   "variables":
+   [{"name": "x", "kind": "OMV"},
+    {"name": "d", "kind": "OMV"},
+    {"name": "e", "kind": "OMV"},
+    {"name": "f", "kind": "OMV"},
+    {"name": "g", "kind": "OMV"},
+    {"name": "a", "kind": "OMV"},
+    {"name": "c", "kind": "OMV"}],
+   "symbols":
+   ["http://www.openmath.org/cd/calculus1#int",
+    "http://www.openmath.org/cd/fns1#lambda",
+    "http://www.openmath.org/cd/arith1#times",
+    "http://www.openmath.org/cd/arith1#plus",
+    "http://www.openmath.org/cd/arith1#power"],
+   "replacement":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "g", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "x", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "c", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMI", "integer": 1},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMA",
+                   "arguments":
+                   [{"kind": "OMA",
+                     "arguments":
+                     [{"name": "c", "kind": "OMV"},
+                      {"name": "d", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                    {"name": "f", "kind": "OMV"}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"kind": "OMA",
+                     "arguments":
+                     [{"kind": "OMA",
+                       "arguments":
+                       [{"kind": "OMI", "integer": -1},
+                        {"name": "a", "kind": "OMV"}],
+                       "applicant":
+                       {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                      {"name": "e", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                    {"name": "g", "kind": "OMV"}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMA",
+                   "arguments":
+                   [{"name": "c", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"kind": "OMA",
+                       "arguments":
+                       [{"name": "e", "kind": "OMV"},
+                        {"name": "f", "kind": "OMV"}],
+                       "applicant":
+                       {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                      {"kind": "OMA",
+                       "arguments":
+                       [{"name": "d", "kind": "OMV"},
+                        {"name": "g", "kind": "OMV"}],
+                       "applicant":
+                       {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                     "applicant":
+                     {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}},
+                  {"name": "x", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "a", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "c", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"kind": "OMI", "integer": 2}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"kind": "OMI", "integer": -1}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}},
+   "provenance":
+   {"sources":
+    [{"revision": "f84ed2a81702836c019e647e0a586b8d576ae7c6",
+      "name": "OpenSymbolicRules/Integration",
+      "locator":
+      "rubi:1 Algebraic functions/1.2 Trinomial products/1.2.1 Quadratic/1.2.1.3 (d+e x)^m (f+g x) (a+b x+c x^2)^p:12",
+      "license": "MIT"},
+     {"revision": "4.16.1",
+      "name": "Rubi",
+      "locator":
+      "1 Algebraic functions/1.2 Trinomial products/1.2.1 Quadratic/1.2.1.3 (d+e x)^m (f+g x) (a+b x+c x^2)^p.m#12",
+      "license": "MIT"}],
+    "method": "derived"},
+   "profiles": ["default"],
+   "priority": 330,
+   "pattern":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "f", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "g", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "orientation": "forward",
+   "legacy_id":
+   "rubi:1 Algebraic functions/1.2 Trinomial products/1.2.1 Quadratic/1.2.1.3 (d+e x)^m (f+g x) (a+b x+c x^2)^p:12",
+   "independent":
+   [{"variable": "a", "of": "x"},
+    {"variable": "c", "of": "x"},
+    {"variable": "d", "of": "x"},
+    {"variable": "e", "of": "x"},
+    {"variable": "f", "of": "x"},
+    {"variable": "g", "of": "x"}],
+   "id": "integration.product_over_quadratic",
+   "findings":
+   ["counterexample: at a = 1 and the other metavariables 0 the integrand is defined everywhere, but c^(-1) is not (Lean theorems prodOverQuad_counterexample_real and prodOverQuad_counterexample_complex). The rule needs c ≠ 0, which this migration does not add.",
+    "residual integrals: the result contains Int[…], exported as int(λx. H)(x) (the calculus1#int FMP form); the statement holds for every choice of antiderivatives of the residual integrands. The reference rewriter does not apply this rule.",
+    "matching: the optional wildcards c., d., e. and g. of the v0.1 pattern are ordinary metavariables; the v1 rule does not match the instances with RUBI's default values."],
+   "description": "Antiderivative of (d + e x) (f + g x)/(a + c x^2)",
+   "conditions": [],
+   "applicability": "defined_pattern"},
+  {"verification":
+   [{"theorem": "OSR.IntegrationRec.powerRatio_counterexample_real",
+     "status": "counterexample",
+     "statement":
+     "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.powerRatio OSR.Domain.real",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "real",
+     "certified": false,
+     "carrier": {"name": "R", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]},
+    {"theorem": "OSR.IntegrationRec.powerRatio_counterexample_complex",
+     "status": "counterexample",
+     "statement":
+     "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.powerRatio OSR.Domain.complex",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "complex",
+     "certified": false,
+     "carrier": {"name": "C", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]}],
+   "variables":
+   [{"name": "x", "kind": "OMV"},
+    {"name": "a", "kind": "OMV"},
+    {"name": "b", "kind": "OMV"},
+    {"name": "n", "kind": "OMV"},
+    {"name": "p", "kind": "OMV"},
+    {"name": "e", "kind": "OMV"},
+    {"name": "f", "kind": "OMV"},
+    {"name": "c", "kind": "OMV"},
+    {"name": "d", "kind": "OMV"}],
+   "symbols":
+   ["http://www.openmath.org/cd/calculus1#int",
+    "http://www.openmath.org/cd/fns1#lambda",
+    "http://www.openmath.org/cd/arith1#times",
+    "http://www.openmath.org/cd/arith1#power",
+    "http://www.openmath.org/cd/arith1#plus"],
+   "replacement":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "f", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "a", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "b", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                   "applicant":
+                   {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"name": "p", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "d", "kind": "OMV"}, {"name": "e", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMI", "integer": -1}, {"name": "c", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+              {"name": "f", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "a", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "b", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"name": "p", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "c", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "d", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"kind": "OMI", "integer": -1}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}},
+   "provenance":
+   {"sources":
+    [{"revision": "f84ed2a81702836c019e647e0a586b8d576ae7c6",
+      "name": "OpenSymbolicRules/Integration",
+      "locator":
+      "rubi:1 Algebraic functions/1.1 Binomial products/1.1.3 General/1.1.3.5 (a+b x^n)^p (c+d x^n)^q (e+f x^n)^r:10",
+      "license": "MIT"},
+     {"revision": "4.16.1",
+      "name": "Rubi",
+      "locator":
+      "1 Algebraic functions/1.1 Binomial products/1.1.3 General/1.1.3.5 (a+b x^n)^p (c+d x^n)^q (e+f x^n)^r.m#10",
+      "license": "MIT"}],
+    "method": "derived"},
+   "profiles": ["default"],
+   "priority": 340,
+   "pattern":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"name": "p", "kind": "OMV"}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "f", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "d", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "orientation": "forward",
+   "legacy_id":
+   "rubi:1 Algebraic functions/1.1 Binomial products/1.1.3 General/1.1.3.5 (a+b x^n)^p (c+d x^n)^q (e+f x^n)^r:10",
+   "independent":
+   [{"variable": "a", "of": "x"},
+    {"variable": "b", "of": "x"},
+    {"variable": "c", "of": "x"},
+    {"variable": "d", "of": "x"},
+    {"variable": "e", "of": "x"},
+    {"variable": "f", "of": "x"},
+    {"variable": "p", "of": "x"},
+    {"variable": "n", "of": "x"}],
+   "id": "integration.power_ratio_split",
+   "findings":
+   ["counterexample: at c = 1 and the other metavariables 0 the integrand is defined everywhere, but d^(-1) is not (Lean theorems powerRatio_counterexample_real and powerRatio_counterexample_complex). The rule needs d ≠ 0, which this migration does not add.",
+    "residual integrals: the result contains Int[…], exported as int(λx. H)(x) (the calculus1#int FMP form); the statement holds for every choice of antiderivatives of the residual integrands. The reference rewriter does not apply this rule.",
+    "matching: the optional wildcards b., d. and f. of the v0.1 pattern are ordinary metavariables; the v1 rule does not match the instances with RUBI's default values."],
+   "description": "Split (a + b x^n)^p (e + f x^n)/(c + d x^n)",
+   "conditions": [],
+   "applicability": "defined_pattern"},
+  {"verification":
+   [{"theorem": "OSR.IntegrationRec.logPowBinom_counterexample_real",
+     "status": "counterexample",
+     "statement":
+     "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.logPowBinom OSR.Domain.real",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "real",
+     "certified": false,
+     "carrier": {"name": "R", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]},
+    {"theorem": "OSR.IntegrationRec.logPowBinom_counterexample_complex",
+     "status": "counterexample",
+     "statement":
+     "¬ OSR.Calculus.CRule.Holds OSR.IntegrationRec.logPowBinom OSR.Domain.complex",
+     "source_digest":
+     "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
+     "prover": "lean4",
+     "module": "OSR.Calculus",
+     "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+     "mapping_assurance": "reviewed",
+     "lean_toolchain": "leanprover/lean4:v4.35.0",
+     "domain": "complex",
+     "certified": false,
+     "carrier": {"name": "C", "kind": "OMS", "cd": "setname1"},
+     "axioms": ["Classical.choice", "Quot.sound", "propext"]}],
+   "variables":
+   [{"name": "x", "kind": "OMV"},
+    {"name": "c", "kind": "OMV"},
+    {"name": "d", "kind": "OMV"},
+    {"name": "e", "kind": "OMV"},
+    {"name": "n", "kind": "OMV"},
+    {"name": "p", "kind": "OMV"}],
+   "symbols":
+   ["http://www.openmath.org/cd/calculus1#int",
+    "http://www.openmath.org/cd/fns1#lambda",
+    "http://www.openmath.org/cd/transc1#ln",
+    "http://www.openmath.org/cd/arith1#times",
+    "http://www.openmath.org/cd/arith1#power",
+    "http://www.openmath.org/cd/arith1#plus"],
+   "replacement":
+   {"variables": [{"name": "x", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMA",
+       "arguments":
+       [{"name": "x", "kind": "OMV"},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "d", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "e", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                   "applicant":
+                   {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"name": "p", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMI", "integer": -1}, {"name": "e", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"name": "n", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "p", "kind": "OMV"}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments": [{"name": "x", "kind": "OMV"}],
+         "applicant":
+         {"kind": "OMA",
+          "arguments":
+          [{"variables": [{"name": "x", "kind": "OMV"}],
+            "object":
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+              {"kind": "OMA",
+               "arguments":
+               [{"kind": "OMA",
+                 "arguments":
+                 [{"name": "d", "kind": "OMV"},
+                  {"kind": "OMA",
+                   "arguments":
+                   [{"name": "e", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+                {"kind": "OMI", "integer": -1}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            "kind": "OMBIND",
+            "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+          "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}},
+   "provenance":
+   {"sources":
+    [{"revision": "f84ed2a81702836c019e647e0a586b8d576ae7c6",
+      "name": "OpenSymbolicRules/Integration",
+      "locator": "rubi:3 Logarithms/3.4 u (a+b log(c (d+e x^m)^n))^p:1",
+      "license": "MIT"},
+     {"revision": "4.16.1",
+      "name": "Rubi",
+      "locator": "3 Logarithms/3.4 u (a+b log(c (d+e x^m)^n))^p.m#1",
+      "license": "MIT"}],
+    "method": "derived"},
+   "profiles": ["default"],
+   "priority": 350,
+   "pattern":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "c", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "d", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "e", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"name": "p", "kind": "OMV"}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "orientation": "forward",
+   "legacy_id": "rubi:3 Logarithms/3.4 u (a+b log(c (d+e x^m)^n))^p:1",
+   "independent":
+   [{"variable": "c", "of": "x"},
+    {"variable": "d", "of": "x"},
+    {"variable": "e", "of": "x"},
+    {"variable": "n", "of": "x"},
+    {"variable": "p", "of": "x"}],
+   "id": "integration.log_power_binomial",
+   "findings":
+   ["counterexample: at c = 1 and d = e = n = p = 0 the integrand log 1 is defined everywhere, but the residual integrand x^n/(d + e x^n) is not; its coefficient -e n p vanishes there (Lean theorems logPowBinom_counterexample_real and logPowBinom_counterexample_complex). The rule needs d + e x^n ≠ 0 wherever the integrand is defined, which p ≠ 0 ensures, which this migration does not add.",
+    "residual integrals: the result contains Int[…], exported as int(λx. H)(x) (the calculus1#int FMP form); the statement holds for every choice of antiderivatives of the residual integrands. The reference rewriter does not apply this rule.",
+    "matching: the optional wildcards c., e. and p. of the v0.1 pattern are ordinary metavariables; the v1 rule does not match the instances with RUBI's default values."],
+   "description": "Integration by parts of log(c (d + e x^n)^p)",
+   "conditions": [],
    "applicability": "defined_pattern"}],
  "profiles":
  {"default":
@@ -5101,14 +7975,25 @@
     "integration.log_linear_power",
     "integration.sin_x_log_times_log",
     "integration.cos_x_log_times_log",
-    "integration.linear_times_quadratic_power"]}},
+    "integration.linear_times_quadratic_power",
+    "integration.partial_fractions_linear",
+    "integration.partial_fractions_power",
+    "integration.split_linear_factor_binomial",
+    "integration.split_linear_factor_quadratic",
+    "integration.linear_sin_trinomial",
+    "integration.linear_cos_trinomial",
+    "integration.linear_times_trinomial_power",
+    "integration.product_over_trinomial",
+    "integration.product_over_quadratic",
+    "integration.power_ratio_split",
+    "integration.log_power_binomial"]}},
  "osr_format": "1.0.0-alpha.1",
  "expression_encoding":
  {"standard": "OpenMath 2.0 JSON encoding (2019 revision, section 3.3)",
   "cdbase": "http://www.openmath.org/cd"},
  "build":
  {"source_digest":
-  "sha256:4efb181a8bc4e1b597614866c7ef883e08460f11856a72e9b71e84124e8bfa8f",
+  "sha256:aca727e39f95464e56a013aa10576560f9e7c7e3aa6ca26cd1c6d88ca2a6877c",
   "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "generator": "OpenSymbolicRules/Lean scripts/Export.lean"}}
