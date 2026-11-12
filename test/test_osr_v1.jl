@@ -93,6 +93,30 @@ end
     @test r2.expr == or_(OMBIND(forall, [y], y), q)
 end
 
+@testitem "OSRv1: antiderivatives (calculus1#int)" begin
+    using OpenSymbolicRules.OSRv1
+
+    dir = get(ENV, "OSR1_DIR", joinpath(@__DIR__, "data", "osr1"))
+    rs = load_ruleset(joinpath(dir, "integration.osr.json"))
+    int_(y, body) = OMA(OMS("calculus1", "int"), [OMBIND(OMS("fns1", "lambda"), [y], body)])
+    lam(y, body) = OMBIND(OMS("fns1", "lambda"), [y], body)
+    times(a, b) = OMA(OMS("arith1", "times"), [a, b])
+    power(a, b) = OMA(OMS("arith1", "power"), [a, b])
+    t, u = OMV("t"), OMV("u")
+
+    @test verification(rs.rules["integration.constant"], :complex).status == "proved"
+    @test verification(rs.rules["integration.reciprocal"], :real).status == "counterexample"
+    # int(λt. u) = λt. u t; the input's bound variable is kept.
+    r = rewrite(int_(t, u), rs; profile="default", domain=:real)
+    @test [s.rule for s in r.steps] == ["integration.constant"]
+    @test r.expr == lam(t, times(u, t))
+    # FreeQ: int(λt. t) is not a constant.
+    @test isempty(rewrite(int_(t, t), rs; profile="default", domain=:real).steps)
+    # A refuted rule is not certified: int(λt. 1 t^(-1)) stays.
+    reciprocal = int_(t, times(OMI(1), power(t, OMI(-1))))
+    @test isempty(rewrite(reciprocal, rs; profile="default", domain=:real).steps)
+end
+
 @testitem "OSRv1: load the Lean-exported Trigonometry rule set" begin
     using OpenSymbolicRules.OSRv1
 
@@ -195,7 +219,7 @@ end
     # Every rule set is checked against its suite.  `OSR1_DIR` replaces the
     # fixtures with a fresh export directory (`just export` in the Lean repo).
     dir = get(ENV, "OSR1_DIR", joinpath(@__DIR__, "data", "osr1"))
-    for name in ("trigonometry", "algebra", "logic", "calculus")
+    for name in ("trigonometry", "algebra", "logic", "calculus", "integration")
         rspath = joinpath(dir, "$name.osr.json")
         suitepath = joinpath(dir, "conformance", "$name.cases.json")
         rs = load_ruleset(rspath)

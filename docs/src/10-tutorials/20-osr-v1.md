@@ -72,9 +72,15 @@ proved in Lean.
 The Lean exporter also writes conformance cases: for each profile and input,
 the expected result and the sequence of rule ids applied. They are published
 in `OpenSymbolicRules/Conformance`, and `test/test_osr_v1.jl` checks that
-`rewrite` reproduces all of them, for Trigonometry, Algebra, Logic and Calculus (fixtures in
+`rewrite` reproduces all of them, for Trigonometry, Algebra, Logic, Calculus and Integration (fixtures in
 `test/data/osr1/`; set `OSR1_DIR` to a Lean export directory to use fresh
 files instead).
+
+The Integration rule set holds antiderivative rules: `int(λx. F)`
+(`calculus1#int` applied to an `OMBIND fns1#lambda`) rewrites to `λx. G`, and
+the certificate states that `G` is an antiderivative of `F` wherever `F` is
+defined on a neighbourhood. Rules refuted in Lean carry the status
+`counterexample` and are never certified, so `rewrite` skips them by default.
 
 ## What the certificate covers
 

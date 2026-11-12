@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Changed
+- Refresh the OSRv1 fixtures from Lean source digest `68dfb6f0…` and add the
+  Integration rule set (RUBI antiderivatives, `calculus1#int`) with its
+  conformance suite; the OSRv1 tests cover antiderivative rewriting and the
+  refuted rules.
 - Refresh the OSRv1 fixtures from Lean source digest `4032322e…`, whose
   report diagnoses the missing structural Calculus differentiability premises.
 
