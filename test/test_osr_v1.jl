@@ -129,6 +129,32 @@ end
         certified_only=false).steps)
 end
 
+@testitem "OSRv1: decided conditions (V1-R-005d)" begin
+    using OpenSymbolicRules.OSRv1
+
+    dir = get(ENV, "OSR1_DIR", joinpath(@__DIR__, "data", "osr1"))
+    rs = load_ruleset(joinpath(dir, "integration.osr.json"))
+    lam(y, body) = OMBIND(OMS("fns1", "lambda"), [y], body)
+    int_(y, body) = OMA(OMS("calculus1", "int"), [lam(y, body)])
+    power(a, b) = OMA(OMS("arith1", "power"), [a, b])
+    plus(a, b) = OMA(OMS("arith1", "plus"), [a, b])
+    times(a, b) = OMA(OMS("arith1", "times"), [a, b])
+    t = OMV("t")
+    # Exact decisions on closed conditions.
+    neq(a, b) = OMA(OMS("relation1", "neq"), [a, b])
+    @test OSRv1.decide_condition(neq(OMI(3), OMI(-1))) === true
+    @test OSRv1.decide_condition(neq(OMI(-1), OMI(-1))) === false
+    @test OSRv1.decide_condition(neq(OMV("m"), OMI(-1))) === nothing
+    @test OSRv1.decide_condition(neq(power(OMI(0), OMI(-1)), OMI(1))) === nothing
+    # m ≠ -1 decided true: the power rule applies to t^3 …
+    r = rewrite(int_(t, power(t, OMI(3))), rs; profile="default", domain=:real)
+    @test [s.rule for s in r.steps] == ["integration.power"]
+    @test r.expr == lam(t, times(power(t, plus(OMI(3), OMI(1))), power(plus(OMI(3), OMI(1)), OMI(-1))))
+    # … but not to t^(-1) (decided false) nor to t^m (undecided).
+    @test isempty(rewrite(int_(t, power(t, OMI(-1))), rs; profile="default", domain=:real).steps)
+    @test isempty(rewrite(int_(t, power(t, OMV("m"))), rs; profile="default", domain=:real).steps)
+end
+
 @testitem "OSRv1: residual integrals (V1-E-002b)" begin
     using OpenSymbolicRules.OSRv1
 

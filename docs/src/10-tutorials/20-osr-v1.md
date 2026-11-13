@@ -81,7 +81,10 @@ The Integration rule set holds antiderivative rules: `int(λx. F)`
 the certificate states that `G` is an antiderivative of `F` wherever `F` is
 defined on a neighbourhood. Rules refuted in Lean carry the status
 `counterexample`; `rewrite` never applies them in that domain, even with
-`certified_only=false`. Some rules have *residual integrals* in their result,
+`certified_only=false`. A conditional calculus rule is applied when each of its conditions,
+with the match substituted, is a closed rational expression decided true
+(`OSRv1.decide_condition`): the power rule rewrites `∫ t³` because `3 ≠ -1`,
+but leaves `∫ t⁻¹` and `∫ tᵐ` alone. Some rules have *residual integrals* in their result,
 `int(λx. H)(x)` (an `OMApply`): the result is an antiderivative for every
 choice of antiderivatives of the residual integrands. `rewrite` does not
 apply them, since it does not continue inside residual integrals; they are

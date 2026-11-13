@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `OSRv1.decide_condition`: exact rational decision of closed conditions
+  (Specification V1-R-005d, Lean `OSR.Cond.decide?`). `rewrite` applies a
+  conditional calculus rule (derivative, limit, antiderivative) when every
+  substituted condition is decided true, e.g. the power rule on `∫ t³`;
+  other conditional rules are still not applied.
 - `OSRv1.OMApply`: residual integrals `int(λx. H)(x)` (Specification
   V1-E-002b), parsed and serialized; `rewrite` never applies a rule whose
   replacement contains one (V1-R-005c). Fixtures refreshed from Lean source

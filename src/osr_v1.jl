@@ -372,6 +372,70 @@ struct RewriteResult
     exhausted::Bool
 end
 
+# Exact decision of closed conditions (Specification V1-R-005d, Lean
+# `OSR.Cond.decide?`): integers, +, -, *, /, unary minus and integer powers
+# evaluate to a rational number; anything else, or an undefined operation,
+# leaves the condition undecided (`nothing`).
+_ratval(e::OMI) = Rational{BigInt}(e.value)
+_ratval(::OMExpr) = nothing
+function _ratval(e::OMA)
+    h = e.head
+    vals = [_ratval(a) for a in e.args]
+    any(isnothing, vals) && return nothing
+    h.cd == "arith1" || return nothing
+    if h.name == "plus" && length(vals) == 2
+        return vals[1] + vals[2]
+    elseif h.name == "minus" && length(vals) == 2
+        return vals[1] - vals[2]
+    elseif h.name == "times" && length(vals) == 2
+        return vals[1] * vals[2]
+    elseif h.name == "divide" && length(vals) == 2
+        iszero(vals[2]) && return nothing
+        return vals[1] / vals[2]
+    elseif h.name == "unary_minus" && length(vals) == 1
+        return -vals[1]
+    elseif h.name == "power" && length(vals) == 2
+        k = vals[2]
+        denominator(k) == 1 || return nothing
+        n = numerator(k)
+        n < 0 && iszero(vals[1]) && return nothing
+        return vals[1]^n
+    end
+    return nothing
+end
+
+"""
+    decide_condition(condition)
+
+Decide a condition whose operands are closed rational expressions: `true` or
+`false`, or `nothing` when it cannot be decided (a variable, a symbol outside
+integer arithmetic, a division by zero).  This mirrors the Lean
+`OSR.Cond.decide?`, proved sound in OpenSymbolicRules/Lean.
+"""
+function decide_condition(c::OMExpr)
+    c isa OMA || return nothing
+    if c.head == OMS("relation1", "neq") && length(c.args) == 2
+        a, b = _ratval(c.args[1]), _ratval(c.args[2])
+        (a === nothing || b === nothing) && return nothing
+        return a != b
+    elseif c.head == OMS("relation1", "gt") && length(c.args) == 2
+        a, b = _ratval(c.args[1]), _ratval(c.args[2])
+        (a === nothing || b === nothing) && return nothing
+        return a > b
+    elseif c.head == OMS("set1", "in") && length(c.args) == 2 && c.args[2] == OMS("setname1", "Z")
+        a = _ratval(c.args[1])
+        a === nothing && return nothing
+        return denominator(a) == 1
+    end
+    return nothing
+end
+
+# Calculus rules (derivative, limit, antiderivative patterns) are applied with
+# their conditions decided, as by the Lean calculus rewriter; field rules with
+# conditions are not, as by the Lean field-rule rewriter.
+const _CALCULUS_HEADS = (OMS("calculus1", "int"), OMS("calculus1", "diff"), OMS("limit1", "limit"))
+_calculus_rule(r) = r.pattern isa OMA && r.pattern.head in _CALCULUS_HEADS
+
 function _eligible(rs::RuleSet, profile, domain, certified_only)
     haskey(rs.profiles, profile) || throw(ArgumentError("unknown profile $(profile)"))
     haskey(_SUPPORTED_SETS, domain) || throw(ArgumentError("unknown domain $(domain)"))
@@ -382,9 +446,9 @@ function _eligible(rs::RuleSet, profile, domain, certified_only)
         # A rule refuted in `domain` is false there: never apply it.
         v.status == "counterexample" && continue
         certified_only && !v.certified && continue
-        # Conditions need a decision procedure; this engine applies only
-        # unconditional rules rather than guessing.
-        isempty(r.conditions) || continue
+        # Conditions are decided after matching, for calculus rules only;
+        # other conditional rules are not applied (V1-R-005).
+        isempty(r.conditions) || _calculus_rule(r) || continue
         # Rewriting does not continue inside residual integrals, so a rule
         # producing them is not applied (V1-R-005c).
         has_residual_integral(r.replacement) && continue
@@ -396,7 +460,8 @@ end
 function _step(e::OMExpr, rules, domain)
     for r in rules
         b = match_pattern(r.pattern, e, Set(r.variables))
-        if b !== nothing && _independent_ok(r, b)
+        if b !== nothing && _independent_ok(r, b) &&
+           all(c -> decide_condition(substitute(c, b)) === true, r.conditions)
             after = substitute(r.replacement, b)
             v = verification(r, domain)
             return after, RewriteStep(r.id, v.theorem, v.certified, e, after)
@@ -433,8 +498,11 @@ defined_pattern`): the result agrees with the input wherever the input is
 defined, and may be defined at more points.  With `certified_only`, only rules
 certified in `domain` are used.  A rule whose status in `domain` is
 `counterexample` is never used, even with `certified_only=false`: Lean proves
-it false there.  Neither is a conditional rule, nor a rule whose replacement
-contains residual integrals (V1-R-005c).
+it false there.  Nor is a rule whose replacement contains residual integrals
+(V1-R-005c).  A conditional calculus rule (derivative, limit, antiderivative)
+is applied only when every condition, with the match substituted, is decided
+true by exact rational arithmetic (`decide_condition`, V1-R-005d); other
+conditional rules are not applied.
 """
 function rewrite(expr::OMExpr, rs::RuleSet; profile::AbstractString, domain::Symbol,
         certified_only::Bool=true, max_steps::Integer=100)
