@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- OSRv1 test fixtures refreshed from Lean source digest `29465fa3…`
+  (165 Integration rules).
 - OSRv1 test fixtures refreshed from Lean source digest `577cca61…`
   (156 Integration rules).
 - `OSRv1.decide_condition`: exact rational decision of closed conditions
