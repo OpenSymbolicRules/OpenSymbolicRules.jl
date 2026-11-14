@@ -146,6 +146,10 @@ end
     @test OSRv1.decide_condition(neq(OMI(-1), OMI(-1))) === false
     @test OSRv1.decide_condition(neq(OMV("m"), OMI(-1))) === nothing
     @test OSRv1.decide_condition(neq(power(OMI(0), OMI(-1)), OMI(1))) === nothing
+    eq_(a, b) = OMA(OMS("relation1", "eq"), [a, b])
+    @test OSRv1.decide_condition(eq_(times(OMI(2), OMI(3)), OMI(6))) === true
+    @test OSRv1.decide_condition(eq_(OMI(1), OMI(2))) === false
+    @test OSRv1.decide_condition(eq_(OMV("a"), OMI(0))) === nothing
     # m ≠ -1 decided true: the power rule applies to t^3 …
     r = rewrite(int_(t, power(t, OMI(3))), rs; profile="default", domain=:real)
     @test [s.rule for s in r.steps] == ["integration.power"]
