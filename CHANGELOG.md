@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- OSRv1 test fixtures refreshed from Lean source digest `0a089a2f…`
+  (291 Integration rules; registry with `relation1#eq`).
 - `OSRv1.decide_condition` decides `relation1#eq` conditions (Specification
   V1-R-005, Lean `OSR.Cond.eq`).
 - OSRv1 test fixtures refreshed from Lean source digest `5bddaed2…`
