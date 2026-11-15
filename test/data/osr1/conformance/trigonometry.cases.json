@@ -1,6 +1,6 @@
 {"suite": "trigonometry.rewrite",
  "source_digest":
- "sha256:0a089a2ffb0c876e74e3f77f9cacf155666c9fa85cdee29be0a7116363b8976b",
+ "sha256:c6220e09fc8123266190cdb1683d0bdf4e3ecede97f715df4296161ff15d8d83",
  "semantics":
  {"strategy":
   "outermost-leftmost: at each step, try the root (rules in order), then the arguments left to right; one rewrite per step",
