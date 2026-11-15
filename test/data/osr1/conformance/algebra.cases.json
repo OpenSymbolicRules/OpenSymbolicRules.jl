@@ -1,6 +1,6 @@
 {"suite": "algebra.rewrite",
  "source_digest":
- "sha256:621dc8cf5100623032d909a2bfdb2d7c2089051ce9f2d949045a534d600885d0",
+ "sha256:d5681743e960832f30101e74494adbbbdfe0ae3df1471aa2e8bc978699f257ad",
  "semantics":
  {"strategy":
   "outermost-leftmost: at each step, try the root (rules in order), then the arguments left to right; one rewrite per step",
