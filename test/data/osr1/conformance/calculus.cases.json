@@ -1,6 +1,6 @@
 {"suite": "calculus.rewrite",
  "source_digest":
- "sha256:99ef810376d6ebee578bc2efd95d4707e1ef830d2434d4905f24c1d32123ac49",
+ "sha256:93cdf5336d9e4e194694cbe3248f4aa269dc03b8b91b3c5cea97af84e6d5a5b6",
  "semantics":
  {"strategy":
   "outermost-leftmost: at each step, try the root (rules in order), then the arguments left to right; one rewrite per step",
