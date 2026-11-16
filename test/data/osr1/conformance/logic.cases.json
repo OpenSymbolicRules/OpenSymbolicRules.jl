@@ -1,6 +1,6 @@
 {"suite": "logic.rewrite",
  "source_digest":
- "sha256:c508b1ac2e45fe2be6728a6bf42eb1767170317a91c3eda8e9e31aea6a5cbbea",
+ "sha256:13c7663e3b954ab689aa6812e3dcac6279869ace64f330663a82b3790b30b6bb",
  "semantics":
  {"strategy":
   "outermost-leftmost: at each step, try the root (rules in order), then the arguments left to right; one rewrite per step",
