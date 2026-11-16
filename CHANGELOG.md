@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- OSRv1 test fixtures refreshed from Lean source digest `37b59f6e…`
+  (408 Integration rules, twenty-seven of them strengthened variants).
 - OSRv1 test fixtures refreshed from Lean source digest `86e9259d…`
   (401 Integration rules, twenty of them strengthened variants).
 - OSRv1 test fixtures refreshed from Lean source digest `4a53a417…`
