@@ -1,6 +1,6 @@
 {"suite": "integration.rewrite",
  "source_digest":
- "sha256:f47572376ca95bf9797c425dfbdd4cf2b2bbf0c218e5ea49d3d3ea7d276658ef",
+ "sha256:76ee6db2ef970a67fa76149e5397568b1587a7407073d914cb26528b04899c97",
  "semantics":
  {"strategy":
   "outermost-leftmost: at each step, try the root (rules in order), then the arguments left to right; one rewrite per step",
@@ -57142,6 +57142,1727 @@
    "input":
    {"kind": "OMA",
     "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "d", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"name": "n", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "e", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "f", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"name": "p", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "g", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "h", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.linear_factor_over_linear_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "d", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"name": "n", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "e", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "f", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"name": "p", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "g", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "h", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"name": "p", "kind": "OMV"}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "f", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "d", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.power_ratio_split_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"name": "p", "kind": "OMV"}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "f", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "d", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "e", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "f", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "d", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.partial_fractions_general_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "e", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "f", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "d", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "f", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "g", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.product_over_trinomial_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "f", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "g", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "f", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "g", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.product_over_quadratic_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "f", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "g", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "d", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"name": "n", "kind": "OMV"}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "f", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"name": "p", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.linear_times_two_powers_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "d", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"name": "n", "kind": "OMV"}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "f", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"name": "p", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"name": "p", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id":
+   "default/pattern.integration.linear_times_trinomial_power_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"name": "p", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "c", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id":
+   "default/pattern.integration.binomial_ratio_negative_power_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "c", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"name": "p", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id":
+   "default/pattern.integration.linear_times_quadratic_power_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"name": "p", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.linear_sin_trinomial_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.linear_cos_trinomial_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.sin_trinomial_square_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.cos_trinomial_square_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "a", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.log_linear_over_x_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "a", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "x", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "m", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "a", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.power_log_linear_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "m", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "a", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "m", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMA",
+                   "arguments":
+                   [{"name": "c", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.power_sin_log_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "m", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMA",
+                   "arguments":
+                   [{"name": "c", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "m", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMA",
+                   "arguments":
+                   [{"name": "c", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.power_cos_log_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "m", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMA",
+                   "arguments":
+                   [{"name": "c", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "x", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.sin_x_log_times_log_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.integration.cos_x_log_times_log_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"}, {"name": "x", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
     [{"variables": [{"name": "t", "kind": "OMV"}],
       "object":
       {"kind": "OMA",
@@ -114251,6 +115972,1727 @@
              "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
            "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
          "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "d", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"name": "n", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "e", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "f", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"name": "p", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "g", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "h", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.linear_factor_over_linear_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "d", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"name": "n", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "e", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "f", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+              {"name": "p", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "g", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "h", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"name": "p", "kind": "OMV"}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "f", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "d", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.power_ratio_split_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"name": "p", "kind": "OMV"}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "f", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "d", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "e", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "f", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "d", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.partial_fractions_general_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "e", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "f", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "d", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "f", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "g", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.product_over_trinomial_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "f", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "g", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "f", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "g", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.product_over_quadratic_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "f", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "g", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "d", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"name": "n", "kind": "OMV"}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "f", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"name": "p", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.linear_times_two_powers_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "d", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"name": "n", "kind": "OMV"}],
+           "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "f", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"name": "p", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"name": "p", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id":
+   "default/renamed.integration.linear_times_trinomial_power_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"name": "p", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "c", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id":
+   "default/renamed.integration.binomial_ratio_negative_power_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "c", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"name": "p", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id":
+   "default/renamed.integration.linear_times_quadratic_power_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"name": "p", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.linear_sin_trinomial_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.linear_cos_trinomial_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "d", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "c", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+               "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.sin_trinomial_square_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.cos_trinomial_square_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "a", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "c", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
+             "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "a", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.log_linear_over_x_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"name": "a", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "m", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "a", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.power_log_linear_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "m", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"name": "a", "kind": "OMV"},
+          {"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "c", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+                 "applicant":
+                 {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "m", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMA",
+                   "arguments":
+                   [{"name": "c", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "t", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.power_sin_log_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "m", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMA",
+                   "arguments":
+                   [{"name": "c", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "t", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "m", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMA",
+                   "arguments":
+                   [{"name": "c", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "t", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.power_cos_log_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "e", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+          {"name": "m", "kind": "OMV"}],
+         "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "d", "kind": "OMV"},
+            {"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"},
+              {"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"},
+                {"kind": "OMA",
+                 "arguments":
+                 [{"kind": "OMA",
+                   "arguments":
+                   [{"name": "c", "kind": "OMV"},
+                    {"kind": "OMA",
+                     "arguments":
+                     [{"name": "t", "kind": "OMV"},
+                      {"name": "n", "kind": "OMV"}],
+                     "applicant":
+                     {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+                   "applicant":
+                   {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+                 "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.sin_x_log_times_log_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "sin", "kind": "OMS", "cd": "transc1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+       "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "int", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.integration.cos_x_log_times_log_nondegenerate",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"kind": "OMA",
+             "arguments":
+             [{"name": "a", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+             "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+            {"kind": "OMA",
+             "arguments":
+             [{"kind": "OMA",
+               "arguments":
+               [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+               "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+             "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "cos", "kind": "OMS", "cd": "transc1"}},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMA",
+           "arguments":
+           [{"name": "b", "kind": "OMV"}, {"name": "t", "kind": "OMV"}],
+           "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}}],
+         "applicant": {"name": "ln", "kind": "OMS", "cd": "transc1"}}],
        "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
       "kind": "OMBIND",
       "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
