@@ -8,6 +8,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- OSRv1 test fixtures refreshed from Lean source digest `e79b3e32…` (989
+  Integration rules; 21 more RUBI rules migrated, 19 proved and two refuted).
 - OSRv1 test fixtures refreshed from Lean source digest `0c1101a8…` (968
   Integration rules; 48 more RUBI rules migrated and proved).
 - OSRv1 test fixtures refreshed from Lean source digest `d285fa25…` (920
