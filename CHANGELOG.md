@@ -8,6 +8,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `OSRv1.decide_condition` decides `relation1#geq` and binary `logic1#or`
+  (true when one side is decided true, false when both are decided false),
+  the condition forms added to OSR v1 (V1-R-005, V1-R-005d), mirroring the
+  Lean `Cond.decide?`.
 - OSRv1 test fixtures refreshed from Lean source digest `091039ab…` (1075
   Integration rules, 320 reported as not migrated).
 - OSRv1 test fixtures refreshed from Lean source digest `cea7b8c1…` (1074

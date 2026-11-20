@@ -426,6 +426,16 @@ function decide_condition(c::OMExpr)
         a, b = _ratval(c.args[1]), _ratval(c.args[2])
         (a === nothing || b === nothing) && return nothing
         return a > b
+    elseif c.head == OMS("relation1", "geq") && length(c.args) == 2
+        a, b = _ratval(c.args[1]), _ratval(c.args[2])
+        (a === nothing || b === nothing) && return nothing
+        return a >= b
+    elseif c.head == OMS("logic1", "or") && length(c.args) == 2
+        # true as soon as one side is decided true; false only when both are decided false.
+        p, q = decide_condition(c.args[1]), decide_condition(c.args[2])
+        (p === true || q === true) && return true
+        (p === false && q === false) && return false
+        return nothing
     elseif c.head == OMS("set1", "in") && length(c.args) == 2 && c.args[2] == OMS("setname1", "Z")
         a = _ratval(c.args[1])
         a === nothing && return nothing

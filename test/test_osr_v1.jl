@@ -150,6 +150,16 @@ end
     @test OSRv1.decide_condition(eq_(times(OMI(2), OMI(3)), OMI(6))) === true
     @test OSRv1.decide_condition(eq_(OMI(1), OMI(2))) === false
     @test OSRv1.decide_condition(eq_(OMV("a"), OMI(0))) === nothing
+    # relation1#geq and logic1#or, as the Lean Cond.decide?.
+    geq(a, b) = OMA(OMS("relation1", "geq"), [a, b])
+    or_(a, b) = OMA(OMS("logic1", "or"), [a, b])
+    @test OSRv1.decide_condition(geq(OMI(1), OMI(1))) === true
+    @test OSRv1.decide_condition(geq(OMI(0), OMI(1))) === false
+    @test OSRv1.decide_condition(geq(OMV("a"), OMI(1))) === nothing
+    @test OSRv1.decide_condition(or_(eq_(OMI(1), OMI(2)), geq(OMI(3), OMI(2)))) === true
+    @test OSRv1.decide_condition(or_(eq_(OMV("a"), OMI(2)), geq(OMI(3), OMI(2)))) === true
+    @test OSRv1.decide_condition(or_(eq_(OMI(1), OMI(2)), geq(OMI(1), OMI(2)))) === false
+    @test OSRv1.decide_condition(or_(eq_(OMV("a"), OMI(2)), geq(OMI(1), OMI(2)))) === nothing
     # m ≠ -1 decided true: the power rule applies to t^3 …
     r = rewrite(int_(t, power(t, OMI(3))), rs; profile="default", domain=:real)
     @test [s.rule for s in r.steps] == ["integration.power"]
