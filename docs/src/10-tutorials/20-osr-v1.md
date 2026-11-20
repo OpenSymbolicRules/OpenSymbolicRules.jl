@@ -87,7 +87,8 @@ with the match substituted, is a closed rational expression decided true
 but leaves `∫ t⁻¹` and `∫ tᵐ` alone. The decided conditions are `relation1#neq`,
 `relation1#eq`, `relation1#gt`, `relation1#geq`, `set1#in` with `setname1#Z`, and
 `logic1#or`, which is decided true as soon as one side is, and false only when both are. Some rules have *residual integrals* in their result,
-`int(λx. H)(x)` (an `OMApply`): the result is an antiderivative for every
+`int(λx. H)(x)` (an `OMApply`), or `int(λx. H)(g)` for an antiderivative of `H`
+read at an expression `g` of `x` (v0.1 `Subst`): the result is an antiderivative for every
 choice of antiderivatives of the residual integrands. `rewrite` does not
 apply them, since it does not continue inside residual integrals; they are
 available as certified data.

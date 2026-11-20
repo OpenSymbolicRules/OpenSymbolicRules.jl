@@ -179,6 +179,11 @@ end
     # int(λx. sin x)(x) round-trips through JSON.
     r = OMApply(int_(x, sin_(x)), [x])
     @test parse_omjson(to_omjson(r)) == r
+    # … and evaluated at an expression of x (v0.1 Subst, V1-E-002b): int(λx. sin x)(x²).
+    xsq = OMA(OMS("arith1", "power"), [x, OMI(2)])
+    rs_ = OMApply(int_(x, sin_(x)), [xsq])
+    @test parse_omjson(to_omjson(rs_)) == rs_
+    @test_throws ArgumentError OMApply(int_(x, sin_(x)), [x, x])
     # Only calculus1#int applied to a lambda, at one variable, is an applicant.
     bad = Dict("kind" => "OMA", "applicant" => to_omjson(sin_(x)), "arguments" => [to_omjson(x)])
     @test_throws ArgumentError parse_omjson(bad)

@@ -8,6 +8,9 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- `OMApply` accepts a residual integral evaluated at an expression of the
+  bound variable, `int(λx. H)(g)` (V1-E-002b, v0.1 `Subst`), as well as at the
+  variable itself.
 - `OSRv1.decide_condition` decides `relation1#geq` and binary `logic1#or`
   (true when one side is decided true, false when both are decided false),
   the condition forms added to OSR v1 (V1-R-005, V1-R-005d), mirroring the

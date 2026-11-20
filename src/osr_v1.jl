@@ -66,8 +66,10 @@ Base.:(==)(a::OMBIND, b::OMBIND) = a.binder == b.binder && a.vars == b.vars && a
 Base.hash(a::OMBIND, h::UInt) = hash(a.body, hash(a.vars, hash(a.binder, hash(:OMBIND, h))))
 
 """
-Residual integral `int(λx. H)(x)` (V1-E-002b): an application whose applicant
-is `calculus1#int` applied to a lambda, the form of the `calculus1#int` FMP.
+Residual integral `int(λx. H)(x)` or `int(λx. H)(g)` (V1-E-002b): an
+application whose applicant is `calculus1#int` applied to a lambda, the form of
+the `calculus1#int` FMP, at the bound variable or at an expression `g` of it
+(v0.1 `Subst`).
 It only occurs in the replacements of antiderivative rules.
 """
 struct OMApply <: OMExpr
@@ -77,8 +79,9 @@ struct OMApply <: OMExpr
         f.head == OMS("calculus1", "int") && length(f.args) == 1 && f.args[1] isa OMBIND &&
             f.args[1].binder == OMS("fns1", "lambda") ||
             throw(ArgumentError("an OMA applicant must be calculus1#int applied to a lambda"))
-        length(args) == 1 && args[1] isa OMV ||
-            throw(ArgumentError("a residual integral is applied to one variable"))
+        # evaluated at the bound variable, or at an expression of it (v0.1 Subst)
+        length(args) == 1 ||
+            throw(ArgumentError("a residual integral is applied to one argument"))
         new(f, OMExpr[args...])
     end
 end
