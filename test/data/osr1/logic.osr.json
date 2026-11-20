@@ -344,7 +344,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.orFalse",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -386,7 +386,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.andTrue",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -428,7 +428,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.andFalse",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -470,7 +470,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.orSelf",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -508,7 +508,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.andSelf",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -546,7 +546,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.falseOr",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -588,7 +588,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.trueAnd",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -630,7 +630,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.orTrue",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -672,7 +672,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.trueOr",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -714,7 +714,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.falseAnd",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -756,7 +756,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.notNot",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -797,7 +797,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.orNotSelf",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -843,7 +843,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.andNotSelf",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -889,7 +889,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.notAnd",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -942,7 +942,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.notOr",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -995,7 +995,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.notTrue",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1036,7 +1036,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.notFalse",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1077,7 +1077,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.orAndLeft",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1122,7 +1122,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.orAndRight",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1167,7 +1167,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.andOrLeft",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1212,7 +1212,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.andOrRight",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1257,7 +1257,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.impliesElim",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1305,7 +1305,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.equivalentElim",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1365,7 +1365,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.nandElim",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1412,7 +1412,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.norElim",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1459,7 +1459,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.xorElim",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1519,7 +1519,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.xnorElim",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1579,7 +1579,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.cnfLeft",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1635,7 +1635,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.cnfRight",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1691,7 +1691,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.dnfLeft",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1747,7 +1747,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.dnfRight",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1803,7 +1803,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.notForall",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1857,7 +1857,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.notExists",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1911,7 +1911,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.forallAnd",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -1971,7 +1971,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.existsOr",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2031,7 +2031,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.forallVacuous",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2072,7 +2072,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.existsVacuous",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2113,7 +2113,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.existsAndRight",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2170,7 +2170,7 @@
      "status": "proved",
      "statement": "OSR.Logic.BRule.Holds OSR.Logic.forallOrRight",
      "source_digest":
-     "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+     "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
      "prover": "lean4",
      "module": "OSR.Logic",
      "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
@@ -2328,7 +2328,7 @@
   "cdbase": "http://www.openmath.org/cd"},
  "build":
  {"source_digest":
-  "sha256:aba9a1af9446f09ab33182d259ed86fe25c266c1db371cf216869c787f15b0ee",
+  "sha256:8fd3f445f98c6f47abe08260ebcb01f8407640fe16eec4afd4ae34352613d2bc",
   "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
   "lean_toolchain": "leanprover/lean4:v4.35.0",
   "generator": "OpenSymbolicRules/Lean scripts/Export.lean"}}
