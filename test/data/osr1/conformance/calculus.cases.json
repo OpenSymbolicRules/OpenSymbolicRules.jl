@@ -1,6 +1,6 @@
 {"suite": "calculus.rewrite",
  "source_digest":
- "sha256:0300f8401db18c4f224a7650460de9f1f2d3cfe0f17fcd776a2d9015fe910714",
+ "sha256:71235dd0f2b3ab0162ab8e30c59a6b4115a3b3693b18036dc5abb1d3945fdd6b",
  "semantics":
  {"strategy":
   "outermost-leftmost: at each step, try the root (rules in order), then the arguments left to right; one rewrite per step",
@@ -65,6 +65,34 @@
       "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
     "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
    "id": "default/pattern.calculus.derivative.power",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+       "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "x", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "x", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+       "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/pattern.calculus.derivative.power_nonzero",
    "expected":
    {"kind": "OMA",
     "arguments":
@@ -872,6 +900,34 @@
       "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
     "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
    "id": "default/renamed.calculus.derivative.power",
+   "expected":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+       "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}}},
+  {"trace": [],
+   "profile": "default",
+   "normal": true,
+   "input":
+   {"kind": "OMA",
+    "arguments":
+    [{"variables": [{"name": "t", "kind": "OMV"}],
+      "object":
+      {"kind": "OMA",
+       "arguments":
+       [{"name": "t", "kind": "OMV"}, {"name": "n", "kind": "OMV"}],
+       "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
+      "kind": "OMBIND",
+      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
+    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
+   "id": "default/renamed.calculus.derivative.power_nonzero",
    "expected":
    {"kind": "OMA",
     "arguments":
@@ -1772,7 +1828,7 @@
       "kind": "OMBIND",
       "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
     "applicant": {"name": "limit", "kind": "OMS", "cd": "limit1"}}},
-  {"trace": [],
+  {"trace": ["calculus.derivative.power_nonzero"],
    "profile": "default",
    "normal": true,
    "input":
@@ -1789,17 +1845,22 @@
     "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}},
    "id": "default/nomatch.square",
    "expected":
-   {"kind": "OMA",
-    "arguments":
-    [{"variables": [{"name": "t", "kind": "OMV"}],
-      "object":
+   {"variables": [{"name": "t", "kind": "OMV"}],
+    "object":
+    {"kind": "OMA",
+     "arguments":
+     [{"kind": "OMI", "integer": 2},
       {"kind": "OMA",
        "arguments":
-       [{"name": "t", "kind": "OMV"}, {"kind": "OMI", "integer": 2}],
-       "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}},
-      "kind": "OMBIND",
-      "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}],
-    "applicant": {"name": "diff", "kind": "OMS", "cd": "calculus1"}}},
+       [{"name": "t", "kind": "OMV"},
+        {"kind": "OMA",
+         "arguments":
+         [{"kind": "OMI", "integer": 2}, {"kind": "OMI", "integer": -1}],
+         "applicant": {"name": "plus", "kind": "OMS", "cd": "arith1"}}],
+       "applicant": {"name": "power", "kind": "OMS", "cd": "arith1"}}],
+     "applicant": {"name": "times", "kind": "OMS", "cd": "arith1"}},
+    "kind": "OMBIND",
+    "binder": {"name": "lambda", "kind": "OMS", "cd": "fns1"}}},
   {"trace": [],
    "profile": "default",
    "normal": true,
